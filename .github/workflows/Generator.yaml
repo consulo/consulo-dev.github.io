@@ -32,12 +32,8 @@ jobs:
         cd site/
         git init -b gh-pages
         git remote add origin git@github.com:consulo/consulo-dev.github.io.git
-    - uses: EndBug/add-and-commit@v5
-      with:
-        add: 'site'
-        cwd: 'site'
-        author_name: Consulo Bot
-        author_email: consulo.bot@gmail.com
-        branch: gh-pages
+        git add --all
+        git commit "Update static files"
+        git push --force
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
