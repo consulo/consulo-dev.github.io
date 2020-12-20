@@ -142,8 +142,8 @@ nav:
       - Build System:
           - Overview: reference_guide/project_model/build_system.md
           - External Builder API and Plugins: reference_guide/frameworks_and_external_apis/external_builder_api.md
-  - Testing:
-      - Overview:  not_documented_yet.md
+#  - Testing:
+#      - Overview:  not_documented_yet.md
   - Custom Languages:
       - Custom Language Support:
           - Overview: reference_guide/custom_language_support.md
