@@ -21,6 +21,22 @@ jobs:
         python -m pip install --upgrade pip
         pip install mkdocs
         pip install mkdocs-material
+    - name: Cleanup files
+      run: |
+        rm -rf site
     - name: Build static files
       run: |
         mkdocs build
+    - name: Pushing to gh-pages
+      run: |
+        cd site/
+        git init -b gh-pages
+        git remote add origin git@github.com:consulo/consulo-dev.github.io.git
+    - uses: EndBug/add-and-commit@v5
+      with:
+        add: 'site'
+        author_name: Consulo Bot
+        author_email: consulo.bot@gmail.com
+        branch: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
