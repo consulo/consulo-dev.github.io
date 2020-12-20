@@ -1,7 +1,10 @@
 site_name: consulo.dev
+repo_url: https://github.com/consulo/consulo-dev.github.io
 theme:
   name: material
   favicon: art/icon16.svg
+  icon:
+    repo: fontawesome/brands/github
   logo: art/icon16.svg
   palette:
     primary: green
