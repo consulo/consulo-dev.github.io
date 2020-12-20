@@ -1,8 +1,9 @@
 # Requirements
-    * Python 3+
-    * Also required mkdocs, and mkdocs-material. Installed by:
-       * > pip install mkdocs
-       * > pip install mkdocs-material
+
+   * Python 3+
+   * Also required mkdocs, and mkdocs-material. Installed by:
+     * > pip install mkdocs
+     * > pip install mkdocs-material
 # For testing
 
 Call from terminal
