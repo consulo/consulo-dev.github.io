@@ -27,7 +27,12 @@ jobs:
     - name: Build static files
       run: |
         mkdocs build
-    - name: Pushing to gh-pages
+    - name: Creating CNAME
+    - uses: "finnp/create-file-action@master"
+          env:
+            FILE_NAME: "site/CNAME"
+            FILE_DATA: "consulo.app"
+    - name: Initialize gh-pages repo
       run: |
         cd site/
         git init -b gh-pages
