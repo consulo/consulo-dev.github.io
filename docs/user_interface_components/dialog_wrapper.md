@@ -32,7 +32,6 @@ When using the [`DialogWrapper`](upsource:///platform/platform-api/src/com/intel
 
 The [`DialogWrapper`](upsource:///platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) class is often used together with [GUI Designer forms](https://www.jetbrains.com/help/idea/gui-designer-basics.html).
 In this case, bind a GUI Designer form to the class extending `DialogWrapper`, bind the top-level panel of the form to a field and return that field from the `createCenterPanel()` method.
-When using Kotlin, use [Kotlin UI DSL](kotlin_ui_dsl.md) to provide the dialog's contents.
 
 > **TIP** Existing dialogs can be inspected at runtime using [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md), e.g., to locate the underlying implementation of UI components.
 
