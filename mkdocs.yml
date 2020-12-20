@@ -97,6 +97,7 @@ nav:
           - Icons and Images: reference_guide/work_with_icons_and_images.md
           - Color Scheme Management: reference_guide/color_scheme_management.md
     - Update Channels: platform/update_channels.md
+    - Internal Libraries: platform/internal_libraries.md
   - Plugins:
     - Quick Start Guide:
       - Overview: basics/basics.md
