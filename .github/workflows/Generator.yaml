@@ -22,14 +22,10 @@ jobs:
     - name: Build static files
       run: |
         mkdocs build
-    - name: Creating CNAME
-      uses: "finnp/create-file-action@master"
-        env:
-          FILE_NAME: "site/CNAME"
-          FILE_DATA: "consulo.app"
     - name: Initialize gh-pages repo
       run: |
         cd site/
+        echo 'consulo.app' > CNAME
         git init -b gh-pages
         git remote add origin git@github.com:consulo/consulo-dev.github.io.git
         git config --global user.email "consulo.bot@gmail.com"
