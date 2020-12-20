@@ -28,7 +28,7 @@ jobs:
       run: |
         mkdocs build
     - name: Creating CNAME
-    - uses: "finnp/create-file-action@master"
+      uses: "finnp/create-file-action@master"
           env:
             FILE_NAME: "site/CNAME"
             FILE_DATA: "consulo.app"
