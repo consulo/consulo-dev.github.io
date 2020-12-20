@@ -38,7 +38,7 @@ jobs:
         git init -b gh-pages
         git remote add origin git@github.com:consulo/consulo-dev.github.io.git
         git config --global user.email "consulo.bot@gmail.com"
-        git config --global user.name "Consulo BOt"
+        git config --global user.name "Consulo Bot"
         git add --all
         git commit -m "Update static files"
     - name: Push static files
