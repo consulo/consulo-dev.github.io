@@ -22,17 +22,17 @@ jobs:
     - name: Build static files
       run: |
         mkdocs build
-    - name: Initialize gh-pages repo
+    - name: Building gh-pages repo
       run: |
         cd site/
-        echo 'consulo.app' > CNAME
+        echo 'consulo.dev' > CNAME
         git init -b gh-pages
         git remote add origin git@github.com:consulo/consulo-dev.github.io.git
         git config --global user.email "consulo.bot@gmail.com"
         git config --global user.name "Consulo Bot"
         git add --all
         git commit -m "Update static files"
-    - name: Push static files
+    - name: Pushing static files
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
