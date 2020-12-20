@@ -33,7 +33,7 @@ jobs:
         git init -b gh-pages
         git remote add origin git@github.com:consulo/consulo-dev.github.io.git
         git add --all
-        git commit "Update static files"
+        git commit -m "Update static files"
         git push --force
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
