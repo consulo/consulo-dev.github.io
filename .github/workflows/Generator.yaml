@@ -38,5 +38,5 @@ jobs:
         author_name: Consulo Bot
         author_email: consulo.bot@gmail.com
         branch: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
