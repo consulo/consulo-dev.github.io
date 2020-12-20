@@ -8,36 +8,19 @@ theme:
     - navigation.tabs
 #strict: true
 nav:
-  - Platform:
+  - Organization:
+    - Overview: organization/overview.md
+    - Repositories: organization/repository_list.md
+  - Consulo IDE:
     - Fundamentals:
         - Overview: platform/fundamentals.md
-        - Component Model: not_documented_yet.md
+#        - Component Model: not_documented_yet.md
         - Disposer and Disposable: basics/disposers.md
         - Threading:
             - Overview: basics/architectural_overview/general_threading_rules.md
             - Background Tasks: not_documented_yet.md
         - Messaging Infrastructure: reference_guide/messaging_infrastructure.md
         - Queries and Query Executors: not_documented_yet.md
-    - User Interface Components:
-        - Overview: user_interface_components/user_interface_components.md
-        - Tool Windows: user_interface_components/tool_windows.md
-        - Dialogs: user_interface_components/dialog_wrapper.md
-        - Popups: user_interface_components/popups.md
-        - Notifications: user_interface_components/notifications.md
-        - File and Class Choosers: user_interface_components/file_and_class_choosers.md
-        - Editor Components: user_interface_components/editor_components.md
-        - List and Tree Controls: user_interface_components/lists_and_trees.md
-        - Miscellaneous Swing Components: user_interface_components/misc_swing_components.md
-        - Icons and Images: reference_guide/work_with_icons_and_images.md
-        - Color Scheme Management: reference_guide/color_scheme_management.md
-        - Kotlin UI DSL: user_interface_components/kotlin_ui_dsl.md
-    - JCEF: reference_guide/jcef.md
-    - UI Themes:
-        - Overview:  reference_guide/ui_themes/themes_intro.md
-        - Creating UI Themes: reference_guide/ui_themes/themes.md
-        - Customizing a UI Theme: reference_guide/ui_themes/themes_customize.md
-        - Adding Schemes and Images: reference_guide/ui_themes/themes_extras.md
-        - Exposing Theme Metadata: reference_guide/ui_themes/themes_metadata.md
     - Actions:
         - Overview: basics/action_system.md
         - Actions Tutorial:
@@ -73,11 +56,25 @@ nav:
         - Run Configurations Tutorial: tutorials/run_configurations.md
     - Version Control Systems:
         - Overview: reference_guide/vcs_integration_for_plugins.md
-        - Diff: not_documented_yet.md
-        - Local History: not_documented_yet.md
-    - Tasks and Contexts: not_documented_yet.md
+#        - Diff: not_documented_yet.md
+#        - Local History: not_documented_yet.md
+#    - Tasks and Contexts: not_documented_yet.md
     - Localization Guide: reference_guide/localization_guide.md
-    - Diagrams: not_documented_yet.md
+#    - Diagrams: not_documented_yet.md
+    - User Interface Components:
+      - Overview: user_interface_components_new/overview.md
+      - Swing (Desktop Only):
+          - Overview: user_interface_components/user_interface_components.md
+          - Tool Windows: user_interface_components/tool_windows.md
+          - Dialogs: user_interface_components/dialog_wrapper.md
+          - Popups: user_interface_components/popups.md
+          - Notifications: user_interface_components/notifications.md
+          - File and Class Choosers: user_interface_components/file_and_class_choosers.md
+          - Editor Components: user_interface_components/editor_components.md
+          - List and Tree Controls: user_interface_components/lists_and_trees.md
+          - Miscellaneous Swing Components: user_interface_components/misc_swing_components.md
+          - Icons and Images: reference_guide/work_with_icons_and_images.md
+          - Color Scheme Management: reference_guide/color_scheme_management.md
   - Plugins:
     - Quick Start Guide:
       - Overview: basics/basics.md
