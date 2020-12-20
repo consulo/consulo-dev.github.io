@@ -1,6 +1,8 @@
 site_name: consulo.dev
 theme:
   name: material
+  favicon: art/icon16.svg
+  logo: art/icon16.svg
   palette:
     primary: green
   features:
