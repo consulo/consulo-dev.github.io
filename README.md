@@ -1,7 +1,12 @@
+# Requirements
+    * Python 3+
+    * Also required mkdocs, and mkdocs-material. Installed by:
+       * > pip install mkdocs
+       * > pip install mkdocs-material
 # For testing
 
-> pip install mkdocs
-> pip install mkdocs-material
+Call from terminal
+
 > mkdocs serve
 
 # For build static files
