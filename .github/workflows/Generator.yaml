@@ -36,6 +36,10 @@ jobs:
         git config --global user.name "Consulo BOt"
         git add --all
         git commit -m "Update static files"
-        git push --force --set-upstream origin gh-pages
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Push static files
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
+        directory: site
+        force: true
