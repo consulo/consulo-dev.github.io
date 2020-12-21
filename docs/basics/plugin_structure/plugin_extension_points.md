@@ -121,22 +121,3 @@ public class MyExtensionUsingService {
 ```
 
 A gutter icon for the `ExtensionPointName` declaration allows navigating to the corresponding `<extensionPoint>` declaration in `plugin.xml`.
-
-## Dynamic Extension Points
-To support [Dynamic Plugins](dynamic_plugins.md) (2020.1 and later), an extension point must adhere to specific usage rules:
-
-- extensions are enumerated on every use and extensions instances are not stored anywhere
-- alternatively, an [`ExtensionPointListener`](upsource:///platform/extensions/src/com/intellij/openapi/extensions/ExtensionPointListener.java) can perform necessary updates of data structures (register via `ExtensionPointName.addExtensionPointListener()`)
-
-Extension points matching these conditions can then be marked as _dynamic_ by adding `dynamic="true"` in their declaration:
-
-```xml
-  <extensionPoints>
-    <extensionPoint name="myDynamicExtensionPoint"
-                    beanClass="com.myplugin.MyBeanClass"
-                    dynamic="true" />
-  </extensionPoints>
-```
-
-> **NOTE** All non-dynamic extension points are highlighted via _Plugin DevKit \| Plugin descriptor \| Plugin.xml dynamic plugin verification_ inspection available in IntelliJ IDEA 2020.1 or later.
-> Previous versions also highlight the `dynamic` attribute as "experimental".

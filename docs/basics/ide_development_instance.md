@@ -44,14 +44,6 @@ The [Run Configuration](https://www.jetbrains.com/help/idea/run-debug-configurat
 The default Run Configuration uses the same JDK for building the plugin project and running the plugin in a Development Instance.
 To change the runtime for the Development Instance, set the _JRE_ field in the Run Configuration edit dialog to download a JetBrains Runtime.
 
-
-## Enabling Auto-Reload
-
-Starting in 2020.1, this is available for compatible [dynamic plugins](/basics/plugin_structure/dynamic_plugins.md).
-This allows a much faster development cycle by avoiding a full restart of the development instance after detecting code changes (when JARs are modified).
-
-Please note that any unloading problems in a production environment will ask the user to restart the IDE.
-
 ### Gradle plugin 0.4.22 and Later
 Enabled by default for target platform 2020.2 or later.
 Set `autoReloadPlugins = true` in [**runIde**](/tutorials/build_system/prerequisites.md#running-a-simple-gradle-based-intellij-platform-plugin) task to enable it for earlier platform versions or `autoReloadPlugins = false` to disable it explicitly.

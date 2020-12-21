@@ -12,4 +12,3 @@ It will familiarize you with the working environment, project structure, and fre
 * [Creating Your First Plugin](getting_started.md)
 * [Plugin Structure](plugin_structure.md)
 * [IDE Development Instances](ide_development_instance.md)
-* [Plugin development FAQ](faq.md)
