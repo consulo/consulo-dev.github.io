@@ -12,7 +12,7 @@ Consulo has four public update channels, and one internal (in parentheses iterat
 
 You can always change channel in settings
 
-![](http://klikr.org/d5c515063fe6bb59e70afdefbf1e.png)
+![](images/update_channels.png)
 
 And then click **About -> Check for updates**
 
