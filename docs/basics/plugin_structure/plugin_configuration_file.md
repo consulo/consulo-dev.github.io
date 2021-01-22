@@ -57,7 +57,7 @@ When using Gradle, a number of metadata elements will be provided at build time 
 
   <!-- Mandatory dependencies on plugins or modules.
        The FQN module names in <depends> elements are used to determine IDE compatibility for the plugin.
-       Include at least the module shown below to indicate compatibility with IntelliJ Platform-based products.
+       Include at least the module shown below to indicate compatibility with Consulo-based products.
        Also, include dependencies on other plugins as needed.
        See "Compatibility with Multiple Products" and "Plugin Dependencies" for more information.  -->
   <depends>com.intellij.modules.platform</depends>
@@ -134,11 +134,11 @@ When using Gradle, a number of metadata elements will be provided at build time 
   </extensionPoints>
 
   <!-- Extensions which the plugin adds to extension points
-       defined by the IntelliJ Platform or by other plugins.
+       defined by the Consulo or by other plugins.
        The "defaultExtensionNs" attribute must be set to the
        ID of the plugin defining the extension point, or to
        "com.intellij" if the extension point is defined by the
-       IntelliJ Platform. The name of the tag within the <extensions>
+       Consulo. The name of the tag within the <extensions>
        tag matches the name of the extension point, and the
        "implementation" class specifies the name of the class
        added to the extension point. -->

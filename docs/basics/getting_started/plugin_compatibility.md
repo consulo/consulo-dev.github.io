@@ -1,5 +1,5 @@
 ---
-title: Plugin Compatibility with IntelliJ Platform Products
+title: Plugin Compatibility with Consulo Products
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
@@ -13,10 +13,10 @@ title: Plugin Compatibility with IntelliJ Platform Products
 </style>
 
 ## Introduction
-All products based on the _IntelliJ Platform_ are built on the same underlying API.
+All products based on the _Consulo_ are built on the same underlying API.
 Some of these products share features built on top of the platform, such as Java support in IntelliJ IDEA and Android Studio.
 Underlying those shared features are shared components.
-When authoring a plugin for the IntelliJ Platform, it is important to understand and declare dependencies on these components. 
+When authoring a plugin for the Consulo, it is important to understand and declare dependencies on these components.
 Otherwise, it may not be possible to load or run the plugin in a product because the components on which it depends aren't available.
 
 > **TIP** Qualifying Open Source projects can [apply for free licenses](https://www.jetbrains.com/community/opensource/) of JetBrains products.
@@ -26,16 +26,16 @@ Otherwise, it may not be possible to load or run the plugin in a product because
 
 ## Declaring Plugin Dependencies
 For the purposes of dependencies, a _module_ can be thought of like a built-in plugin that ships as a non-removable part of a product.
-A working definition of a dependency is that a plugin project cannot be run without the module present in an IntelliJ Platform-based product.
-Declaring a dependency on a module also expresses a plugin's compatibility with a product in that the IntelliJ Platform determines whether a product contains the correct modules to support a plugin before loading it.
+A working definition of a dependency is that a plugin project cannot be run without the module present in an Consulo-based product.
+Declaring a dependency on a module also expresses a plugin's compatibility with a product in that the Consulo determines whether a product contains the correct modules to support a plugin before loading it.
 
 [Part I](/basics/plugin_structure/plugin_dependencies.md) of this document describes the syntax for declaring plugin dependencies and optional plugin dependencies.
-Part II of this document (below) describes the IntelliJ Platform modules' functionality to aid in determining the dependencies of a plugin.
+Part II of this document (below) describes the Consulo modules' functionality to aid in determining the dependencies of a plugin.
 
-The way dependency declarations are handled by the Intellij Platform is determined by the contents of the `plugin.xml` file:
+The way dependency declarations are handled by the Consulo is determined by the contents of the `plugin.xml` file:
 * If a plugin does not declare any dependencies in its `plugin.xml` file, or if it declares dependencies only on other plugins but not modules, it's assumed to be a legacy plugin and is loaded only in IntelliJ IDEA.
   This configuration of the dependency declaration is deprecated; do not use it for new plugin projects.
-* If a plugin declares at least _one_ module dependency in its `plugin.xml` file, the plugin is loaded if an IntelliJ Platform-based product contains _all the modules and plugins_ on which the plugin has declared a dependency.
+* If a plugin declares at least _one_ module dependency in its `plugin.xml` file, the plugin is loaded if an Consulo-based product contains _all the modules and plugins_ on which the plugin has declared a dependency.
 
 ## Modules
 A _module_ represents a built-in plugin that is a non-removable part of a product.
@@ -46,7 +46,7 @@ This section identifies and discusses modules of both types.
 Starting in 2020.2, a plugin can declare incompatibility with an arbitrary module by specifying `<incompatible-with>` containing module ID in its `plugin.xml`.
 
 ### Modules Available in All Products
-A core set of modules are available in all products based on the IntelliJ Platform.
+A core set of modules are available in all products based on the Consulo.
 These modules provide a set of shared functionality.
 The following table lists modules that are currently available in all products.
 
@@ -60,10 +60,10 @@ The following table lists modules that are currently available in all products.
 | `com.intellij.modules.vcs`                                         | VCS Revision Numbers, File Status, Change Lists, File History, Annotations                                       |
 | `com.intellij.modules.xdebugger`                                   | Debug Session, Stack Frames, Break Points, Source Positions, Memory Views, Tracked Instances                     |
 
-As of this writing, if a plugin: **A)** is dependent _only_ on one or more of the modules in the table above, **and B)** declares those module dependencies in `plugin.xml`, then any product developed by JetBrains based on the IntelliJ Platform will load it.
+As of this writing, if a plugin: **A)** is dependent _only_ on one or more of the modules in the table above, **and B)** declares those module dependencies in `plugin.xml`, then any product developed by JetBrains based on the Consulo will load it.
 
 ### Modules Specific to Functionality
-More specialized functionality is also delivered via modules and plugins in IntelliJ Platform-based products.
+More specialized functionality is also delivered via modules and plugins in Consulo-based products.
 For example, the `com.intellij.modules.python` module supports the Python language-specific functionality.
 If a plugin uses this module's functionality, such as Python-specific inspections and refactoring, it must declare a dependency on this module.
 
@@ -73,7 +73,7 @@ A plugin project is compatible with PHP functionality if it declares a dependenc
 
 The following table lists **(1)** modules or built-in plugins that provide specific functionality, and the products currently shipping with them.
 
-| Module or Plugin for `<depends>` Element<br>Declaration in `plugin.xml` File | <br>Functionality                                                                                                                                  | IntelliJ Platform-Based<br>Product Compatibility                                                                                                                           |
+| Module or Plugin for `<depends>` Element<br>Declaration in `plugin.xml` File | <br>Functionality                                                                                                                                  | Consulo-Based<br>Product Compatibility                                                                                                                           |
 | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `com.intellij.modules.java` See **(2)** below. <br>`com.intellij.java`           | **Java** language PSI Model, Inspections, Intentions, Completion, Refactoring, Test Framework                                                      | IntelliJ IDEA, Android Studio                                                                                                                                              |
 | `com.intellij.modules.androidstudio`                                         | Android SDK Platform, Build Tools, Platform Tools, SDK Tools                                                                                       | Android Studio                                                                                                                                                             |
@@ -92,12 +92,12 @@ The following table lists **(1)** modules or built-in plugins that provide speci
 
 **Notes about Module and Plugin Dependency:**
 
-**(1)** This table is not exhaustive; other modules are currently available in JetBrains' IntelliJ Platform-based IDEs.
+**(1)** This table is not exhaustive; other modules are currently available in JetBrains' Consulo-based IDEs.
 To see a list of modules, invoke the [code completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#4eac28ba) feature for the `<depends>` element contents while editing the `plugin.xml` file.
 
-**(2)** The [Java language functionality](https://blog.jetbrains.com/platform/2019/06/java-functionality-extracted-as-a-plugin/) was extracted as a plugin in version 2019.2 of the IntelliJ Platform.
+**(2)** The [Java language functionality](https://blog.jetbrains.com/platform/2019/06/java-functionality-extracted-as-a-plugin/) was extracted as a plugin in version 2019.2 of the Consulo.
 This refactoring separated the Java implementation from the other, non-language portions of the platform.
-Consequently, [dependencies](/basics/plugin_structure/plugin_dependencies.md) on Java functionality are expressed differently in `plugin.xml` depending on the version of the IntelliJ Platform being targeted:
+Consequently, [dependencies](/basics/plugin_structure/plugin_dependencies.md) on Java functionality are expressed differently in `plugin.xml` depending on the version of the Consulo being targeted:
 
 * Syntax for 2019.2 and later releases:
   * `plugin.xml` _allowable alternative_ add `<depends>com.intellij.java</depends>`
@@ -132,7 +132,7 @@ To browse the opportunities for extension, start by placing the cursor on the co
 Use the [Go to Declaration](https://www.jetbrains.com/help/idea/navigating-through-the-source-code.html#go_to_declaration) IDE feature to navigate to the `plugin.xml` file for the plugin on which the project depends.
 
 For example, performing this procedure on the `<depends>com.jetbrains.php</depends>` declaration in a project's `plugin.xml` file will navigate to the `plugin.xml` file for the `com.jetbrains.php` (PHP) project.
-A common, but not universal, pattern in the IntelliJ platform is for a plugin (like PHP) to declare `<extensionPoints>` and then implement each one as `<extensions>`.
+A common, but not universal, pattern in the Consulo is for a plugin (like PHP) to declare `<extensionPoints>` and then implement each one as `<extensions>`.
 Continuing the example, search the PHP plugin's `plugin.xml` file for:
 * `<extensionPoints>` to find the opportunities for extending the PHP plugin's functionality.
 * `<extensions defaultExtensionNs="com.jetbrains.php">` to find where the PHP plugin extends functionality.
@@ -144,12 +144,12 @@ Before marking a plugin project as _dependent only on modules in a target produc
 
 For [Gradle-based](/tutorials/build_system.md) projects, [Plugin Verifier](/reference_guide/api_changes_list.md#plugin-verifier) can be used to ensure compatibility with all specified target IDEs.
 
-For [DevKit-based](/basics/getting_started/using_dev_kit.md) projects, create an SDK pointing to an installation of the intended target IntelliJ Platform-based product, e.g., PhpStorm, rather than IntelliJ IDEA.
-Use the same development version of the IntelliJ platform as the targeted product.
+For [DevKit-based](/basics/getting_started/using_dev_kit.md) projects, create an SDK pointing to an installation of the intended target Consulo-based product, e.g., PhpStorm, rather than IntelliJ IDEA.
+Use the same development version of the Consulo as the targeted product.
 
 Based on the tables above, the [JetBrains Plugins Repository](https://plugins.jetbrains.com/) automatically detects the JetBrains products with which a plugin is compatible, and makes the compatibility information available to plugin authors.
 The compatibility information determines if plugins are available at the plugin repository to users of a particular JetBrains product.
 
 ## Platform API Version Compatibility
-The API of _IntelliJ Platform_ and bundled plugins may change between releases.
-The significant changes that may break plugins are listed on [Incompatible Changes in IntelliJ Platform and Plugins API](/reference_guide/api_changes_list.md) page.
+The API of _Consulo_ and bundled plugins may change between releases.
+The significant changes that may break plugins are listed on [Incompatible Changes in Consulo and Plugins API](/reference_guide/api_changes_list.md) page.

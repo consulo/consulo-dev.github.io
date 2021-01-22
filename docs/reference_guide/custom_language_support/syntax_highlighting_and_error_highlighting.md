@@ -52,7 +52,7 @@ When the file is changed, the annotator is called incrementally to process only 
 > **NOTE** See also [Code Inspections](code_inspections_and_intentions.md) which offer a more fine-grained control and some additional features.
 
 ### Errors/Warning
-See [Inspections](https://jetbrains.design/intellij/text/inspections/) topic in _IntelliJ Platform UI Guidelines_ on how to write message texts for highlighting/quick fixes.
+See [Inspections](https://jetbrains.design/intellij/text/inspections/) topic in _Consulo UI Guidelines_ on how to write message texts for highlighting/quick fixes.
 
 To highlight a region of text as a warning or error (2020.1 and later):
 ```java

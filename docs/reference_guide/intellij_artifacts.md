@@ -1,31 +1,31 @@
 ---
-title: IntelliJ Platform Artifacts Repositories
+title: Consulo Artifacts Repositories
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 > **WARNING** When using additional repositories, make sure to use HTTPS always.
 
-JetBrains maintains public repositories that host artifacts related to the IntelliJ Platform, such as binaries and source code.
+JetBrains maintains public repositories that host artifacts related to the Consulo, such as binaries and source code.
 These repositories make artifacts more accessible for plugin developers.
 
-The IntelliJ Platform artifacts repositories are:
+The Consulo artifacts repositories are:
 * [Releases repository](https://www.jetbrains.com/intellij-repository/releases/) for release versions by [build number](/basics/getting_started/build_number_ranges.md).
 * [Snapshots repository](https://www.jetbrains.com/intellij-repository/snapshots/) for _BRANCH#-EAP-SNAPSHOT_, _EAP-CANDIDATE-SNAPSHOT_, _LATEST-EAP-SNAPSHOT_, and the _EAP-SNAPSHOT_.
 
 See the [Maven coordinates](#specify-the-maven-coordinates-for-the-artifact) section for details about specifying these artifacts.
 
 Both the Releases and Snapshots repositories have two types of content:
-* Binary and source code artifacts for cross-platform, ZIP distributions of IntelliJ Platform-based IDEs, such as IntelliJ IDEA, CLion, Rider, and MPS.
+* Binary and source code artifacts for cross-platform, ZIP distributions of Consulo-based IDEs, such as IntelliJ IDEA, CLion, Rider, and MPS.
   These artifacts are _not intended_ to be accessed directly from a plugin project's `build.gradle` file.
   The `gradle-intellij-plugin` will access them as-needed for a plugin project.
-* Artifacts for individual modules from the IntelliJ Platform.
+* Artifacts for individual modules from the Consulo.
 These may be downloaded, or accessed directly from a `build.gradle` file, as explained below.
 
-Artifacts for IntelliJ Platform third-party dependencies are hosted at the [Bintray repository](https://jetbrains.bintray.com/intellij-third-party-dependencies).
-A link to this repository should be added to `pom.xml`/`build.gradle` files when individual modules from an IntelliJ Platform artifacts repository are used.
+Artifacts for Consulo third-party dependencies are hosted at the [Bintray repository](https://jetbrains.bintray.com/intellij-third-party-dependencies).
+A link to this repository should be added to `pom.xml`/`build.gradle` files when individual modules from an Consulo artifacts repository are used.
 
-## Using IntelliJ Platform Module Artifacts
-IntelliJ Platform module artifacts are utilized by adding information to a project's `build.gradle` file.
+## Using Consulo Module Artifacts
+Consulo module artifacts are utilized by adding information to a project's `build.gradle` file.
 More information about [Gradle support](https://www.jetbrains.com/help/idea/gradle.html) is available in the IntelliJ IDEA Help documentation.
 
 To setup dependencies on a module there are two types of information needed:
@@ -36,10 +36,10 @@ To setup dependencies on a module there are two types of information needed:
 The URL for the desired artifact needs to be added to a Maven or Gradle script:
 * For release versions, use `https://www.jetbrains.com/intellij-repository/releases`
 * For EAP snapshots, use `https://www.jetbrains.com/intellij-repository/snapshots`
-* For dependencies on individual modules from the IntelliJ Platform, also use `https://jetbrains.bintray.com/intellij-third-party-dependencies`
+* For dependencies on individual modules from the Consulo, also use `https://jetbrains.bintray.com/intellij-third-party-dependencies`
 
 ### Specify the Maven Coordinates for the Artifact
-Describing a desired IntelliJ Platform module artifact is done with Maven coordinates: _groupId_, _artifactId_, and _version_.
+Describing a desired Consulo module artifact is done with Maven coordinates: _groupId_, _artifactId_, and _version_.
 The Maven coordinates are based on the names of modules.
 
 The _groupId_ for a module is the prefix `com.jetbrains.` concatenated with the first two parts of the module name.
@@ -81,13 +81,13 @@ For example, to specify the `jps-model-serialization` module:
   * _classifier_ = `""`
   * _packaging_ = `jar`
 
-## Gradle Example for an Individual Module from the IntelliJ Platform
-This section presents an example of using a Gradle script to incorporate an IntelliJ Platform module and repository in a `build.gradle` file.
+## Gradle Example for an Individual Module from the Consulo
+This section presents an example of using a Gradle script to incorporate an Consulo module and repository in a `build.gradle` file.
 The example illustrates declaring the artifact URL, Maven coordinates, and version for the `jps-model-serialization` module artifact.
 There are two parts to the example: the repository and the dependency sections.
 
 ### Repositories Section
-This code snippet selects the release repository with the first URL, and repository of IntelliJ Platform dependencies with the second URL.
+This code snippet selects the release repository with the first URL, and repository of Consulo dependencies with the second URL.
 The second URL is needed because this example selects individual modules.
 
 ```groovy

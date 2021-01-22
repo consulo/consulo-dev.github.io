@@ -54,7 +54,7 @@ equalsCall.getArgumentList().getExpressions()[0].replace(rExpr);
 PsiExpression result = (PsiExpression) binaryExpression.replace(equalsCall);
 ```
 
-Just as everywhere else in the IntelliJ Platform API, the text passed to `createFileFromText()` and other `createFromText()` methods must use only `\n` as line separators.
+Just as everywhere else in the Consulo API, the text passed to `createFileFromText()` and other `createFromText()` methods must use only `\n` as line separators.
 
 
 ## Maintaining Tree Structure Consistency

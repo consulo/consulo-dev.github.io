@@ -25,7 +25,7 @@ The _UI Inspector_ displays that the icon has the internal path `AllIcons.Action
 ![Internal Icon Info](img/internal_uii_icon_info.png)
 
 ## Additional Properties
-Various components used in the IntelliJ Platform expose additional properties.
+Various components used in the Consulo expose additional properties.
 These can be useful to locate the underlying implementation, related Action, etc.
 
 | Type                                            | Place                      | Properties                                                                                                                   |

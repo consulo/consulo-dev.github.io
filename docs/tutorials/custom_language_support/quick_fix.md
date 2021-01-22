@@ -3,7 +3,7 @@ title: 18. Quick Fix
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-A quick fix for a custom language supports the IntelliJ Platform-based IDE feature [Intention Actions](https://www.jetbrains.com/help/idea/intention-actions.html#apply-intention-actions).
+A quick fix for a custom language supports the Consulo-based IDE feature [Intention Actions](https://www.jetbrains.com/help/idea/intention-actions.html#apply-intention-actions).
 For the Simple Language, this tutorial adds a quick fix that helps to define an unresolved property from its usage.
 
 **Reference**: [Code Inspections and Intentions](/reference_guide/custom_language_support/code_inspections_and_intentions.md)
@@ -31,7 +31,7 @@ For a more in-depth example of an Intention Action, see [`conditional_operator_i
 
 ## 18.3. Update the Annotator
 When a `badProperty` annotation is created, the `badProperty.registerFix()` method is called.
-This method call registers the `SimpleCreatePropertyQuickFix` as the Intention Action for the Intellij Platform to use to correct the problem.
+This method call registers the `SimpleCreatePropertyQuickFix` as the Intention Action for the Consulo to use to correct the problem.
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleAnnotator.java %}

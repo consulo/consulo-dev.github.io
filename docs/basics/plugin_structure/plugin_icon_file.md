@@ -3,7 +3,7 @@ title: Plugin Logo
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-Beginning in version 2019.1, the IntelliJ Platform supports representing a plugin with a logo.
+Beginning in version 2019.1, the Consulo supports representing a plugin with a logo.
 A _Plugin Logo_ is intended to be a unique representation of a plugin's functionality, technology, or company.
 Previously this page referred to Plugin Logos as _Plugin Icons_.
 
@@ -15,7 +15,7 @@ See [Working with Icons and Images](/reference_guide/work_with_icons_and_images.
 
 ## Introduction
 Plugin Logos are shown in the [JetBrains Plugins Repository](https://plugins.jetbrains.com).
-They also appear in the Settings/Preferences [Plugin Manager](https://www.jetbrains.com/help/idea/managing-plugins.html) UI in IntelliJ Platform-based IDEs.
+They also appear in the Settings/Preferences [Plugin Manager](https://www.jetbrains.com/help/idea/managing-plugins.html) UI in Consulo-based IDEs.
 Whether online or in the product UI, a Plugin Logo helps users to identify a plugin more quickly in a list, as shown below:
 
 ![Example Product Plugin Preferences Dialog](img/plugin_prefs.png){:width="800px"}
@@ -23,7 +23,7 @@ Whether online or in the product UI, a Plugin Logo helps users to identify a plu
 > **NOTE** When browsing [custom plugin repositories](/basics/getting_started/update_plugins_format.md), there is no support for showing logos for plugins hosted there but not yet installed.
 
 ## Plugin Logo Requirements
-For a Plugin Logo to be displayed correctly within an IntelliJ Platform-based IDE, it must:
+For a Plugin Logo to be displayed correctly within an Consulo-based IDE, it must:
 * Follow the best practices design guidelines,
 * Be in the correct file format,
 * Conform to file name conventions,
@@ -45,7 +45,7 @@ Plugin Logo designs should leave at least 2px transparent padding around the per
 
 Make sure Plugin Logos have the same visual weight as the logos in the examples below.
 The more filled a Plugin Logo design is, the less actual space it needs.
-See more examples of [visual weight compensation](https://jetbrains.design/intellij/principles/icons/#08) in the IntelliJ Platform UI Guidelines for Icons.
+See more examples of [visual weight compensation](https://jetbrains.design/intellij/principles/icons/#08) in the Consulo UI Guidelines for Icons.
 
 For basic shapes, use the following sizes.
 Note the different areas of transparent padding used for each shape:
@@ -61,7 +61,7 @@ Note the different areas of transparent padding used for each shape:
 ### Plugin Logo Colors
 If the plugin's technology already has a logo, use its colors.
 Check the license terms before using the logo.
-If there is no existing logo, or its use is prohibited, create a custom logo based on the [Action Colors Palette](https://jetbrains.design/intellij/principles/icons/#action-icons) in the IntelliJ Platform UI Guidelines for Icons.
+If there is no existing logo, or its use is prohibited, create a custom logo based on the [Action Colors Palette](https://jetbrains.design/intellij/principles/icons/#action-icons) in the Consulo UI Guidelines for Icons.
 
 | ![The YouTrack Plugin Logo uses the YouTrack product logo ](img/yt_logo.png){:height="200px" width="200px"} | ![The Keymap Plugin Logo uses a color from the Action Colors Palette](img/keymap_logo.png){:height="200px" width="200px"} |
 |:---:|:---:|

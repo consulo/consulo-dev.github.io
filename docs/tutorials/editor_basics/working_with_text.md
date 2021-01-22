@@ -14,8 +14,8 @@ The tutorial presents the following sections:
 The approach in this tutorial relies heavily on creating and registering actions.
 To review the fundamentals of creating and registering actions, refer to the [Actions Tutorial](/tutorials/action_system.md).
 
-Multiple examples are used from the [editor_basics](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/editor_basics) plugin code sample from the IntelliJ Platform SDK.
-It may be helpful to open that project in an IntelliJ Platform-based IDE, build the project, run it, select some text in the editor, and invoke the **Editor Replace Text** menu item on the editor context menu.
+Multiple examples are used from the [editor_basics](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/editor_basics) plugin code sample from the Consulo SDK.
+It may be helpful to open that project in an Consulo-based IDE, build the project, run it, select some text in the editor, and invoke the **Editor Replace Text** menu item on the editor context menu.
 
 ![Editor Basics Menu](img/basics.png){:width="600px"}
 
@@ -109,7 +109,7 @@ As explained below, this will require the `EditorIllustrationAction.actionPerfor
 * Safely replace the contents of the selection.
 
 Modifying the selected text requires an instance of the [`Document`](upsource:///platform/core-api/src/com/intellij/openapi/editor/Document.java) object, which is accessed from the `Editor` object.
-The [Document](/basics/architectural_overview/documents.md) represents the contents of a text file loaded into memory and opened in an IntelliJ Platform-based IDE editor.
+The [Document](/basics/architectural_overview/documents.md) represents the contents of a text file loaded into memory and opened in an Consulo-based IDE editor.
 An instance of the `Document` will be used later when a text replacement is performed.
 
 The text replacement will also require information about where the selection is in the document, which is provided by the primary `Caret` object, obtained from the `CaretModel`.
@@ -117,7 +117,7 @@ Selection information is measured in terms of [Offset](coordinates_system.md#car
 
 Text replacement could be done by calling the `Document` object's `replaceString()` method.
 However, safely replacing the text requires the `Document` to be locked and any changes performed in a write action.
-See the [Threading Issues](/basics/architectural_overview/general_threading_rules.md) section to learn more about synchronization issues and changes safety on the IntelliJ Platform.
+See the [Threading Issues](/basics/architectural_overview/general_threading_rules.md) section to learn more about synchronization issues and changes safety on the Consulo.
 This example changes the document within a [`WriteCommandAction`](upsource:///platform/core-api/src/com/intellij/openapi/command/WriteCommandAction.java).
 
 The complete `EditorIllustrationAction.actionPerformed()` method is shown below:

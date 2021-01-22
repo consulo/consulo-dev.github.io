@@ -13,7 +13,7 @@ Creating a structure view factory allows showing the structure of any file in a 
 
 ## 14.1. Define a Structure View Factory
 The structure view factory implements [`PsiStructureViewFactory`](upsource:///platform/editor-ui-api/src/com/intellij/lang/PsiStructureViewFactory.java).
-The `getStructureViewBuilder()` implementation reuses the IntelliJ Platform class [`TreeBasedStructureViewBuilder`](upsource:///platform/editor-ui-api/src/com/intellij/ide/structureView/TreeBasedStructureViewBuilder.java).
+The `getStructureViewBuilder()` implementation reuses the Consulo class [`TreeBasedStructureViewBuilder`](upsource:///platform/editor-ui-api/src/com/intellij/ide/structureView/TreeBasedStructureViewBuilder.java).
 At this point the project will not compile until `SimpleStructureViewModel` is [implemented below](#define-a-structure-view-model).
 
 ```java
@@ -38,7 +38,7 @@ The `SortableTreeElement` represents an item in a smart tree that allows using t
 ```
 
 ## 14.4. Register the Structure View Factory
-The `SimpleStructureViewFactory` implementation is registered with the IntelliJ Platform in the plugin configuration file using the `com.intellij.lang.psiStructureViewFactory` extension point.
+The `SimpleStructureViewFactory` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.lang.psiStructureViewFactory` extension point.
 
 ```xml
   <extensions defaultExtensionNs="com.intellij">

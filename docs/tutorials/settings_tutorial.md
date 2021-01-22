@@ -4,7 +4,7 @@ title: Settings Tutorial
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 ## Introduction
-As discussed in the [_Settings_ Guide](/reference_guide/settings_guide.md), plugins can add Settings to IntelliJ Platform-based IDEs.
+As discussed in the [_Settings_ Guide](/reference_guide/settings_guide.md), plugins can add Settings to Consulo-based IDEs.
 The IDE displays the Settings in response to a user choosing **Settings/Preferences**.
 Custom Settings are displayed and function just like those native to the IDE.
 
@@ -13,8 +13,8 @@ Custom Settings are displayed and function just like those native to the IDE.
 
 ## Overview of a Custom Settings Implementation
 Using the SDK code sample [`settings`](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/settings), this tutorial illustrates the steps to create custom Application-level Settings.
-Many IntelliJ Platform Settings implementations use fewer classes, but the `settings` code sample factors the functionality into three classes for clarity:
-* The [`AppSettingsConfigurable`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/settings/src/main/java/org/intellij/sdk/settings/AppSettingsConfigurable.java) is analogous to a Controller in the MVC model - it interacts with the other two Settings classes and the IntelliJ Platform,
+Many Consulo Settings implementations use fewer classes, but the `settings` code sample factors the functionality into three classes for clarity:
+* The [`AppSettingsConfigurable`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/settings/src/main/java/org/intellij/sdk/settings/AppSettingsConfigurable.java) is analogous to a Controller in the MVC model - it interacts with the other two Settings classes and the Consulo,
 * The [`AppSettingsState`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/settings/src/main/java/org/intellij/sdk/settings/AppSettingsState.java) is like a Model because it stores the Settings persistently,
 * The [`AppSettingsComponent`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/settings/src/main/java/org/intellij/sdk/settings/AppSettingsComponent.java) is similar to a View because it displays and captures edits to the values of the Settings.
 
@@ -22,7 +22,7 @@ The structure of the implementation is the same for Project Settings, but there 
 
 ## The AppSettingsState Class
 The `AppSettingsState` class persistently stores the custom Settings.
-It is based on the [IntelliJ Platform Persistence Model](/basics/persisting_state_of_components.md#using-persistentstatecomponent).
+It is based on the [Consulo Persistence Model](/basics/persisting_state_of_components.md#using-persistentstatecomponent).
 
 ### Declaring AppSettingsState
 Given a [Light Service](/basics/plugin_structure/plugin_services.md#light-services) is not used, the persistent data class must be declared as a [Service](/basics/plugin_structure/plugin_services.md#declaring-a-service) EP in the `plugin.xml` file.
@@ -57,7 +57,7 @@ See [Implementing the State Class](/basics/persisting_state_of_components.md#imp
 
 #### AppSettingState Methods
 The fields are so limited and straightforward for this class that encapsulation is not used for simplicity.
-All that's needed for functionality is to override the two methods called by the IntelliJ Platform when a new component state is loaded (`PersistentStateComponent.loadState()`), and when a state is saved (`PersistentStateComponent.getState()`).
+All that's needed for functionality is to override the two methods called by the Consulo when a new component state is loaded (`PersistentStateComponent.loadState()`), and when a state is saved (`PersistentStateComponent.getState()`).
 See [`PersistentStateComponent`](upsource:///platform/projectModel-api/src/com/intellij/openapi/components/PersistentStateComponent.java) for more information about these methods.
 
 One static convenience method has been added - `AppSettingState.getInstance()` - which allows `AppSettingsConfigurable` to easily acquire a reference to `AppSettingState`.
@@ -80,7 +80,7 @@ The rest of the class are simple accessors and mutators to encapsulate the UI co
 
 
 ## The AppSettingsConfigurable Class
-The methods of [`AppSettingsConfigurable`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/settings/src/main/java/org/intellij/sdk/settings/AppSettingsConfigurable.java) are called by the IntelliJ Platform, and `AppSettingsConfigurable` in turn interacts with `AppSettingsComponent` and `AppSettingState`.
+The methods of [`AppSettingsConfigurable`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/settings/src/main/java/org/intellij/sdk/settings/AppSettingsConfigurable.java) are called by the Consulo, and `AppSettingsConfigurable` in turn interacts with `AppSettingsComponent` and `AppSettingState`.
 
 ### Declaring the AppSettingsConfigurable
 As described in [Declaring Application Settings](/reference_guide/settings_guide.md#declaring-application-settings), the `com.intellij.applicationConfigurable` is used as the EP.
@@ -106,7 +106,7 @@ The class has one field to hold a reference to the `AppSettingsComponent`.
 #### AppSettingsConfigurable Methods
 All the methods in this class are overrides of the methods in the `Configurable` interface.
 Readers are encouraged to review the Javadoc comments for the `Configurable` methods.
-Also review notes about [IntelliJ Platform Interactions](/reference_guide/settings_guide.md#intellij-platform-interactions-with-configurable) with `Configurable` methods.
+Also review notes about [Consulo Interactions](/reference_guide/settings_guide.md#intellij-platform-interactions-with-configurable) with `Configurable` methods.
 
 ## Testing the Custom Settings Plugin
 After performing the steps described above, compile and run the plugin in a Development Instance to see the custom Settings available in the Settings Dialog.

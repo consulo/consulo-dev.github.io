@@ -5,7 +5,7 @@ title: General Threading Rules
 
 ## Read/Write Lock
 
-In general, code-related data structures in the *IntelliJ Platform* are covered by a single reader/writer lock.
+In general, code-related data structures in the *Consulo* are covered by a single reader/writer lock.
 
 You must not access the model outside a read or write action for the following subsystems:
 - [Program Structure Interface](/basics/architectural_overview/psi.md) (PSI)

@@ -3,24 +3,24 @@ title: Getting Started with Gradle
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-Gradle is the preferred solution for creating IntelliJ Platform plugins.
+Gradle is the preferred solution for creating Consulo plugins.
 The IntelliJ IDEA Ultimate and Community editions bundle the necessary plugins to support Gradle-based development.
 These IntelliJ IDEA plugins are _Gradle_ and _Plugin DevKit_, which are enabled by default.
 To verify these plugins are installed and enabled, see the help section about [Managing Plugins](https://www.jetbrains.com/help/idea/managing-plugins.html).
 
-> **TIP** [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template) makes it easier to create and maintain your IDE plugins, having the Gradle plugin already integrated and CI covered with GitHub Actions.
+> **TIP** [Consulo Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template) makes it easier to create and maintain your IDE plugins, having the Gradle plugin already integrated and CI covered with GitHub Actions.
 
 > **WARNING** When adding additional repositories to your Gradle build script, always use HTTPS protocol.
 
 * bullet list
 {:toc}
 
-## Creating a Gradle-Based IntelliJ Platform Plugin with New Project Wizard
-Creating new Gradle-based IntelliJ Platform plugin projects is performed using the [New Project Wizard](https://www.jetbrains.com/help/idea/gradle.html#project_create_gradle).
+## Creating a Gradle-Based Consulo Plugin with New Project Wizard
+Creating new Gradle-based Consulo plugin projects is performed using the [New Project Wizard](https://www.jetbrains.com/help/idea/gradle.html#project_create_gradle).
 The Wizard creates all the necessary project files based on a few template inputs.
 
 Before creating a new Gradle project, familiarize yourself with the help topic [Creating a new Gradle project](https://www.jetbrains.com/help/idea/getting-started-with-gradle.html#create_gradle_project), which is a tutorial for creating general Gradle projects in IntelliJ IDEA.
-This page emphasizes the steps in the process of creating IntelliJ Platform plugin projects that are Gradle-based.
+This page emphasizes the steps in the process of creating Consulo plugin projects that are Gradle-based.
 
 > **WARNING** Please note that Gradle 6.1 has a [known bug](https://github.com/gradle/gradle/issues/11966) that prevents using it for developing plugins, please upgrade to 6.1.1 or later.
 
@@ -35,7 +35,7 @@ On the first screen, the type of project is configured:
 
 > **NOTE** When targeting 2020.3 and later only, using Java 11 is now required, please see [blog post](https://blog.jetbrains.com/platform/2020/09/intellij-project-migrates-to-java-11/)  
 
-* In the _Additional Libraries and Frameworks_ panel, select _Java_ and _IntelliJ Platform Plugin_.
+* In the _Additional Libraries and Frameworks_ panel, select _Java_ and _Consulo Plugin_.
   These settings will be used for the remainder of this tutorial.
 
 Optionally:
@@ -62,7 +62,7 @@ The _Name_ field is synced automatically with the specified _ArtifactId_.
 Specify the path for the new project in _Location_ and click _Finish_ to continue and generate the project.
 
 
-### Components of a Wizard-Generated Gradle IntelliJ Platform Plugin
+### Components of a Wizard-Generated Gradle Consulo Plugin
 For the [example](#creating-a-gradle-based-intellij-platform-plugin-with-new-project-wizard) `my_gradle_plugin`, the New Project Wizard creates the following directory content:
 
 ```text
@@ -86,7 +86,7 @@ my_gradle_plugin
         └── resources
 ```
 
-* The default IntelliJ Platform `build.gradle` file (see next paragraph).
+* The default Consulo `build.gradle` file (see next paragraph).
 * The Gradle Wrapper files, and in particular the `gradle-wrapper.properties` file, which specifies the version of the Gradle to be used to build the plugin.
   If needed, the IntelliJ IDEA Gradle plugin downloads the version of the Gradle specified in this file.
 * The `settings.gradle` file, containing a definition of the `rootProject.name`.
@@ -130,7 +130,7 @@ The generated `my_gradle_plugin` project `build.gradle` file:
 * The _Version_ from the Wizard [Project Naming/Artifact Coordinates Screen](#project-namingartifact-coordinates-screen) is the `project.version` value.
 * The `sourceCompatibility` line is injected to enforce using Java 8 JDK to compile Java sources.
 * The only comment in the file is a link to the [README.md](https://github.com/JetBrains/gradle-intellij-plugin/blob/master/README.md) for the gradle-intellij-plugin, which is a reference for its configuration DSL.
-* The value of the Setup DSL attribute `intellij.version` specifies the version of the IntelliJ Platform to be used to build the plugin.
+* The value of the Setup DSL attribute `intellij.version` specifies the version of the Consulo to be used to build the plugin.
   It defaults to the version of IntelliJ IDEA that was used to run the New Project Wizard.
 * The value of the Patching DSL attribute `patchPluginXml.changeNotes` is set to a place holder text.
 
@@ -138,16 +138,16 @@ The generated `my_gradle_plugin` project `build.gradle` file:
 
 #### Plugin Gradle Properties and Plugin Configuration File Elements
 The Gradle properties `rootProject.name` and `project.group` will not, in general, match the respective [plugin configuration file](/basics/plugin_structure/plugin_configuration_file.md) `plugin.xml` elements `<name>` and `<id>`.
-There is no IntelliJ Platform-related reason they should as they serve different functions.
+There is no Consulo-related reason they should as they serve different functions.
 
 The `<name>` element (used as the plugin's display name) is often the same as `rootProject.name`, but it can be more explanatory.
 
 The `<id>` value must be a unique identifier over all plugins, typically a concatenation of the specified _GroupId_ and _ArtifactId_.
 Please note that it is impossible to change the `<id>` of a published plugin without losing automatic updates for existing installations.
 
-## Adding Gradle Support to an Existing DevKit-Based IntelliJ Platform Plugin
+## Adding Gradle Support to an Existing DevKit-Based Consulo Plugin
 Converting a [DevKit-based](/basics/getting_started/using_dev_kit.md) plugin project to a Gradle-based plugin project can be done using the New Project Wizard to create a Gradle-based project around the existing DevKit-based project:
-* Ensure the directory containing the DevKit-based IntelliJ Platform plugin project can be fully recovered if necessary.
+* Ensure the directory containing the DevKit-based Consulo plugin project can be fully recovered if necessary.
 * Delete all the artifacts of the DevKit-based project:
   * `.idea` directory
   * `[modulename].iml` file
@@ -165,7 +165,7 @@ Converting a [DevKit-based](/basics/getting_started/using_dev_kit.md) plugin pro
 * [Add more modules](https://www.jetbrains.com/help/idea/gradle.html#gradle_add_module) using Gradle [_Source Sets_](https://www.jetbrains.com/help/idea/gradle.html#gradle_source_sets) as needed.
 
 
-## Running a Simple Gradle-Based IntelliJ Platform Plugin
+## Running a Simple Gradle-Based Consulo Plugin
 Gradle projects are run from the IDE's Gradle Tool window.
 
 ### Adding Code to the Project

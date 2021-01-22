@@ -5,7 +5,7 @@ title: Plugin Dependencies
 
 A plugin may depend on classes from other plugins, either bundled, third-party, or by the same author.
 This document describes the syntax for declaring plugin dependencies and optional plugin dependencies.
-For more information about dependencies on the IntelliJ Platform modules, see Part II of this document: [Plugin Compatibility with IntelliJ Platform Products](/basics/getting_started/plugin_compatibility.md).
+For more information about dependencies on the Consulo modules, see Part II of this document: [Plugin Compatibility with Consulo Products](/basics/getting_started/plugin_compatibility.md).
 
 > **NOTE** It is impossible to specify the minimum/maximum version for the dependent plugin. ([Issue](https://youtrack.jetbrains.com/issue/IDEABKL-7906))
 
@@ -50,21 +50,21 @@ intellij {
 ### 2.2 DevKit
 > **TIP** Existing DevKit-based projects can be converted to use [Gradle setup](/tutorials/build_system/prerequisites.md#adding-gradle-support-to-an-existing-devkit-based-intellij-platform-plugin) where managing dependencies is fully automated.
 
-If the project uses [DevKit](/basics/getting_started/using_dev_kit.md), add the JARs of the plugin on which the project depends to the **classpath** of the *IntelliJ Platform SDK*.
+If the project uses [DevKit](/basics/getting_started/using_dev_kit.md), add the JARs of the plugin on which the project depends to the **classpath** of the *Consulo SDK*.
 
-> **WARNING** Do not add the plugin JARs as a library: this will fail at runtime because the IntelliJ Platform will load two separate copies of the dependency plugin classes.
+> **WARNING** Do not add the plugin JARs as a library: this will fail at runtime because the Consulo will load two separate copies of the dependency plugin classes.
 
 To do that, open the Project Structure dialog, select the SDK used in the project, press the <kbd>+</kbd> button in the Classpath tab, and select the plugin JAR file or files:
 * For bundled plugins, the plugin JAR files are located in `plugins/<pluginname>` or `plugins/<pluginname>/lib` under the main installation directory.
   If you're not sure which JAR to add, you can add all of them.
-* For non-bundled plugins, the plugin JAR files are located in `config/plugins/<pluginname>` or `config/plugins/<pluginname>/lib` under the directory specified as "Sandbox Home" in the IntelliJ Platform Plugin SDK settings.
+* For non-bundled plugins, the plugin JAR files are located in `config/plugins/<pluginname>` or `config/plugins/<pluginname>/lib` under the directory specified as "Sandbox Home" in the Consulo Plugin SDK settings.
 
 ## 3. Dependency Declaration in plugin.xml
 Regardless of whether a plugin project uses [Modules Available in All Products](/basics/getting_started/plugin_compatibility.md#modules-available-in-all-products), or [Modules Specific to Functionality](/basics/getting_started/plugin_compatibility.md#modules-specific-to-functionality), the correct module must be listed as a dependency in `plugin.xml`.
 If a project depends on another plugin, the dependency must be declared like a module.
-If only general IntelliJ Platform features (APIs) are used, then a default dependency on `com.intellij.modules.platform` must be declared.
+If only general Consulo features (APIs) are used, then a default dependency on `com.intellij.modules.platform` must be declared.
 
-To display a list of available IntelliJ Platform modules, invoke the [code completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#4eac28ba) feature for the `<depends>` element contents while editing the plugin project's `plugin.xml` file.
+To display a list of available Consulo modules, invoke the [code completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#4eac28ba) feature for the `<depends>` element contents while editing the plugin project's `plugin.xml` file.
 
 ### 3.1 Configuring plugin.xml
 In the `plugin.xml`, add a `<depends>` tag with the dependency plugin's ID as its content.

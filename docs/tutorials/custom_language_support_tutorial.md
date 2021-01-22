@@ -5,7 +5,7 @@ title: Custom Language Support Tutorial
 
 In this tutorial we will add support for a [.properties](https://en.wikipedia.org/wiki/.properties) language and its usages within Java code.
 
-> **TIP** IntelliJ Platform support for custom languages is discussed in more depth in the [Custom Language Support](/reference_guide/custom_language_support.md) section.
+> **TIP** Consulo support for custom languages is discussed in more depth in the [Custom Language Support](/reference_guide/custom_language_support.md) section.
 > Corresponding parts are linked under "Reference" on top of each page in this tutorial.
 
 The example plugin used in this tutorial is the [`simple_language_plugin`](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/simple_language_plugin) code sample.

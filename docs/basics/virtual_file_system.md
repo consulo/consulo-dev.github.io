@@ -3,7 +3,7 @@ title: Virtual File System
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-The virtual file system (VFS) is a component of the *IntelliJ Platform* that encapsulates most of its activity for working with files represented as [Virtual File](/basics/architectural_overview/virtual_file.md).
+The virtual file system (VFS) is a component of the *Consulo* that encapsulates most of its activity for working with files represented as [Virtual File](/basics/architectural_overview/virtual_file.md).
 
 It serves the following main purposes:
 
@@ -23,26 +23,26 @@ If the information is available in the snapshot, the snapshot data is returned.
 The contents of files and the lists of files in directories are stored in the snapshot only if that specific information was accessed.
 Otherwise, only file metadata like name, length, timestamp, attributes are stored.
 
-> **NOTE** This means that the state of the file system and the file contents displayed in the IntelliJ Platform UI comes from the snapshot, which may not always match the disk's actual contents.
-> For example, in some cases, deleted files can still be visible in the UI for some time before the deletion is picked up by the IntelliJ Platform.
+> **NOTE** This means that the state of the file system and the file contents displayed in the Consulo UI comes from the snapshot, which may not always match the disk's actual contents.
+> For example, in some cases, deleted files can still be visible in the UI for some time before the deletion is picked up by the Consulo.
 
 The snapshot is updated from disk during _refresh operations_, which generally happen asynchronously.
 All write operations made through the VFS are synchronous - i.e., the contents are saved to disk immediately.
 
 A refresh operation synchronizes the state of a part of the VFS with the actual disk contents.
-Refresh operations are explicitly invoked by the *IntelliJ Platform* or plugin code - i.e., when a file is changed on disk while the IDE is running, the change will not be immediately picked up by the VFS.
+Refresh operations are explicitly invoked by the *Consulo* or plugin code - i.e., when a file is changed on disk while the IDE is running, the change will not be immediately picked up by the VFS.
 The VFS will be updated during the next refresh operation, which includes the file in its scope.
 
-*IntelliJ Platform* refreshes the entire project contents asynchronously on startup.
+*Consulo* refreshes the entire project contents asynchronously on startup.
 By default, it performs a refresh operation when the user switches to it from another app.
 Still, users can turn this off via **Settings \| Appearance & Behavior \| System Settings \| Synchronize external changes \[...]**.
 
-On Windows, Mac, and Linux, a native file watcher process is started that receives file change notifications from the file system and reports them to the *IntelliJ Platform*.
+On Windows, Mac, and Linux, a native file watcher process is started that receives file change notifications from the file system and reports them to the *Consulo*.
 If a file watcher is available, a refresh operation looks only at the files that have been reported as changed by the file watcher.
 If no file watcher is present, a refresh operation walks through all directories and files in the refresh scope.
 
 Refresh operations are based on file timestamps.
-If a file's contents were changed, but its timestamp remained the same, the *IntelliJ Platform* will not pick up the updated contents.
+If a file's contents were changed, but its timestamp remained the same, the *Consulo* will not pick up the updated contents.
 
 There is currently no facility for removing files from the snapshot.
 If a file was loaded there once, it remains there forever unless it was deleted from the disk, and a refresh operation was called on one of its parent directories.
@@ -51,7 +51,7 @@ The VFS itself does not honor ignored files listed in **Settings \| Editor \| Fi
 If the application code accesses them, the VFS will load and return their contents.
 In most cases, the ignored files and excluded folders must be skipped from processing by higher-level code.
 
-During the lifetime of a running instance of an IntelliJ Platform IDE, multiple `VirtualFile` instances may correspond to the same disk file.
+During the lifetime of a running instance of an Consulo IDE, multiple `VirtualFile` instances may correspond to the same disk file.
 They are equal, have the same `hashCode`, and share the user data.
 
 ## Synchronous and Asynchronous Refreshes
@@ -62,7 +62,7 @@ The synchronous flag simply means that the calling thread will be blocked until 
 
 Both synchronous and asynchronous refreshes can be initiated from any thread.
 If a refresh is initiated from a background thread, the calling thread must not hold a read action, because otherwise, a deadlock would occur.
-See [IntelliJ Platform Architectural Overview](/basics/architectural_overview/general_threading_rules.md) for more details on the threading model and read/write actions.
+See [Consulo Architectural Overview](/basics/architectural_overview/general_threading_rules.md) for more details on the threading model and read/write actions.
 
 The same threading requirements also apply to functions like [`LocalFileSystem.refreshAndFindFileByPath()`](upsource:///platform/analysis-api/src/com/intellij/openapi/vfs/LocalFileSystem.java), which perform a partial refresh if the file with the specified path is not found in the snapshot.
 

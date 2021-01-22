@@ -5,7 +5,7 @@ redirect_from:
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-A JetBrains feature for developing plugins is running or debugging a plugin project from within an IntelliJ Platform-based IDE such as IntelliJ IDEA.
+A JetBrains feature for developing plugins is running or debugging a plugin project from within an Consulo-based IDE such as IntelliJ IDEA.
 Selecting the [**runIde**](/tutorials/build_system/prerequisites.md#running-a-simple-gradle-based-intellij-platform-plugin) task for a Gradle-based project (or [**Run**](getting_started/running_and_debugging_a_plugin.md) menu for a DevKit-based project) will launch a _Development Instance_ of the IDE with the plugin enabled.
 This page describes how to control some of the settings for the Development Instance.
 
@@ -15,9 +15,9 @@ This page describes how to control some of the settings for the Development Inst
 An everyday use case is to develop (build) a plugin project against a JDK, e.g., Java 8, and then run or debug the plugin in a Development Instance of the IDE.
 In such a situation, Development Instance must use a JetBrains Runtime (JBR) rather than the JDK used to build the plugin project.
 
-The JetBrains Runtime is an environment for running IntelliJ Platform-based IDEs on Windows, macOS, and Linux.
+The JetBrains Runtime is an environment for running Consulo-based IDEs on Windows, macOS, and Linux.
 It has some modifications by JetBrains, such as fixes for native crashes not present in official JDK builds.
-A version of the JetBrains Runtime is bundled with all IntelliJ Platform-based IDEs.
+A version of the JetBrains Runtime is bundled with all Consulo-based IDEs.
 To produce accurate results while running or debugging a plugin project in a Development Instance, follow the procedures below to ensure the Development Instance uses a JetBrains Runtime.
 
 ### Determining a JetBrains Runtime Version
@@ -36,7 +36,7 @@ For example, if a plugin is developed against the Java 8 SE Development Kit 8 fo
     For example, the file is `jbrx-8u252-osx-x64-b1649.2.tar.gz`, meaning build 1649.2 for this JetBrains Runtime matching Java 8 JDK build 252.
 
 ### Setting a JetBrains Runtime for Gradle-Based Plugin Projects
-By default, the Gradle plugin will fetch and use the version of the JetBrains Runtime for the Development Instance corresponding to the version of the IntelliJ Platform used for building the plugin project.
+By default, the Gradle plugin will fetch and use the version of the JetBrains Runtime for the Development Instance corresponding to the version of the Consulo used for building the plugin project.
 If required, an alternative version can be specified using `jbrVersion` attribute of `runIde` [task](https://github.com/JetBrains/gradle-intellij-plugin/#running-dsl).
 
 ### Setting a JetBrains Runtime for DevKit-Based Plugin Projects
@@ -60,14 +60,14 @@ The _Sandbox Home_ directory contains the [settings, caches, logs, and plugins](
 This information is stored in a different location than for the [installed IDE itself](https://intellij-support.jetbrains.com/hc/en-us/articles/206544519-Directories-used-by-the-IDE-to-store-settings-caches-plugins-and-logs).
 
 ### Sandbox Home Location for Gradle-Based Plugin Projects
-For Gradle-based plugins, the default Sandbox Home location is defined by the IntelliJ Platform `gradle-intellij-plugin`.
+For Gradle-based plugins, the default Sandbox Home location is defined by the Consulo `gradle-intellij-plugin`.
 See [Configuring a Gradle Plugin Project](/tutorials/build_system/prerequisites.md) for more information about specifying a Sandbox Home location.
 The default Sandbox Home location for Gradle-based plugin projects is:
 * **Windows** `<Project Dir>\build\idea-sandbox`
 * **Linux or macOS** `<Project Dir>/build/idea-sandbox`
 
 ### Sandbox Home Location for DevKit-Based Plugin Projects
-For DevKit-based plugins, the default Sandbox Home location is defined in the IntelliJ Platform Plugin SDK.
+For DevKit-based plugins, the default Sandbox Home location is defined in the Consulo Plugin SDK.
 See specifying the [Sandbox Home for DevKit Projects](/basics/getting_started/setting_up_environment.md) for more information.
 The default Sandbox Home directory location for DevKit-based plugin projects is:
 * **Windows:** `<User home>\.<product_system_name><product_version>\system\plugins-sandbox\`

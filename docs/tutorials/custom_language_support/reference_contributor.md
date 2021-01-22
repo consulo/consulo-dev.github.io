@@ -121,7 +121,7 @@ Contribute a reference to each usage of a property:
 ```
 
 ## 10.7. Register the Reference Contributor
-The `SimpleReferenceContributor` implementation is registered with the IntelliJ Platform using the `com.intellij.psi.referenceContributor` extension point.
+The `SimpleReferenceContributor` implementation is registered with the Consulo using the `com.intellij.psi.referenceContributor` extension point.
 
 ```xml
   <extensions defaultExtensionNs="com.intellij">
@@ -149,7 +149,7 @@ As long as an element is a `SimpleProperty` it is allowed to be refactored:
 ```
 
 ## 10.10. Register the Refactoring Support Provider
-The `SimpleRefactoringSupportProvider` implementation is registered with the IntelliJ Platform in the plugin configuration file using the `com.intellij.lang.refactoringSupport` extension point.
+The `SimpleRefactoringSupportProvider` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.lang.refactoringSupport` extension point.
 
 ```xml
   <extensions defaultExtensionNs="com.intellij">

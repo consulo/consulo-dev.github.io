@@ -5,7 +5,7 @@ title: Plugin Services
 
 A _service_ is a plugin component loaded on demand when your plugin calls the `getService()` method of [`ServiceManager`](upsource:///platform/core-api/src/com/intellij/openapi/components/ServiceManager.java).
 
-The *IntelliJ Platform* ensures that only one instance of a service is loaded even though it is called several times.
+The *Consulo* ensures that only one instance of a service is loaded even though it is called several times.
 
 A service must have an implementation class that is used for service instantiation.
 A service may also have an interface class used to obtain the service instance and provide the service's API.
@@ -13,7 +13,7 @@ A service may also have an interface class used to obtain the service instance a
 A service needing a shutdown hook/cleanup routine can implement [`Disposable`](upsource:///platform/util/src/com/intellij/openapi/Disposable.java) and perform necessary work in `dispose()` (see [Automatically Disposed Objects](/basics/disposers.md#automatically-disposed-objects)).
 
 #### Types
-The *IntelliJ Platform* offers three types of services: _application level_ services (global singleton), _project level_ services, and _module level_ services.
+The *Consulo* offers three types of services: _application level_ services (global singleton), _project level_ services, and _module level_ services.
 For the latter two, a separate instance of the service is created for each instance of its corresponding scope, see [Project Model Introduction](/basics/project_structure.md).
 
 > **NOTE** Please consider not using module-level services because it can increase memory usage for projects with many modules.
@@ -27,7 +27,7 @@ To improve startup performance, avoid any heavy initializations in the construct
 
 ## Light Services
 
-> **NOTE** Light Services are available since IntelliJ Platform 2019.3.
+> **NOTE** Light Services are available since Consulo 2019.3.
 
 A service not going to be overridden does not need to be registered in `plugin.xml` (see [Declaring a Service](#declaring-a-service)).
 Instead, annotate service class with [`@Service`](upsource:///platform/core-api/src/com/intellij/openapi/components/Service.java).

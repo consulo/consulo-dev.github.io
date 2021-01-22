@@ -3,7 +3,7 @@ title: Implementing a Parser and PSI
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-Parsing files in IntelliJ Platform is a two-step process.
+Parsing files in Consulo is a two-step process.
 First, an abstract syntax tree (AST) is built, defining the structure of the program.
 AST nodes are created internally by the IDE and are represented by instances of the [`ASTNode`](upsource:///platform/core-api/src/com/intellij/lang/ASTNode.java) class.
 Each AST node has an associated element type [`IElementType`](upsource:///platform/core-api/src/com/intellij/psi/tree/IElementType.java) instance, and the element types are defined by the language plugin.
@@ -22,7 +22,7 @@ The top-level node of the PSI tree for a file needs to implement the [`PsiFile`]
 
 The PSI's lifecycle is described in more detail in [Fundamentals](/platform/fundamentals.md).
 
-The base classes for the PSI implementation, including [`PsiFileBase`](upsource:///platform/core-impl/src/com/intellij/extapi/psi/PsiFileBase.java), the base implementation of [`PsiFile`](upsource:///platform/core-api/src/com/intellij/psi/PsiFile.java), and [`ASTWrapperPsiElement`](upsource:///platform/core-impl/src/com/intellij/extapi/psi/ASTWrapperPsiElement.java), the base implementation of [`PsiElement`](upsource:///platform/core-api/src/com/intellij/psi/PsiElement.java), are provided by *IntelliJ Platform*.
+The base classes for the PSI implementation, including [`PsiFileBase`](upsource:///platform/core-impl/src/com/intellij/extapi/psi/PsiFileBase.java), the base implementation of [`PsiFile`](upsource:///platform/core-api/src/com/intellij/psi/PsiFile.java), and [`ASTWrapperPsiElement`](upsource:///platform/core-impl/src/com/intellij/extapi/psi/ASTWrapperPsiElement.java), the base implementation of [`PsiElement`](upsource:///platform/core-api/src/com/intellij/psi/PsiElement.java), are provided by *Consulo*.
 
 While coding parser manually is quite possible, we highly recommend generating parser and corresponding PSI classes from grammars using [Grammar-Kit](https://plugins.jetbrains.com/plugin/6606-grammar-kit) plugin.
 Besides code generation, it provides various features for editing grammar files: syntax highlighting, quick navigation, refactorings, etc.

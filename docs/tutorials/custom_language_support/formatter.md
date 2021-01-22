@@ -3,7 +3,7 @@ title: 15. Formatter
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-The IntelliJ Platform includes a powerful framework for implementing formatting for custom languages.
+The Consulo includes a powerful framework for implementing formatting for custom languages.
 A formatter enables reformatting code automatically based on code style settings.
 The formatter controls spaces, indents, wrap, and alignment.
 
@@ -33,7 +33,7 @@ Create `SimpleFormattingModelBuilder` by subclassing [`FormattingModelBuilder`](
 ```
 
 ## 15.3. Register the Formatter
-The `SimpleFormattingModelBuilder` implementation is registered with the IntelliJ Platform in the plugin configuration file using the `com.intellij.lang.formatter` extension point.
+The `SimpleFormattingModelBuilder` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.lang.formatter` extension point.
 
 ```xml
  <extensions defaultExtensionNs="com.intellij">

@@ -14,11 +14,11 @@ Some content in this tutorial assumes the reader is familiar with the tutorial f
 
 ## Simple Action Groups
 In this first example, the action group will be available as a top-level menu item, and actions are represented as drop-down menu items.
-The group is based on a default IntelliJ Platform implementation.
+The group is based on a default Consulo implementation.
 
 ### Creating Simple Groups
 Grouping can be registered by adding a `<group>` element to the `<actions>` section of a plugin's `plugin.xml` file.
-This example has no `class` attribute in the `<group>` element because the IntelliJ Platform framework will supply a default implementation class for the group.
+This example has no `class` attribute in the `<group>` element because the Consulo framework will supply a default implementation class for the group.
 This default implementation is used if a set of actions belonging to the group is static, i.e., does not change at runtime, which is the majority of cases.
 The `id` attribute must be unique, so incorporating the plugin ID or package name is the best practice.
 
@@ -98,7 +98,7 @@ For demonstration purposes, this implementation will use localization.
 
 The `<group>` element declaration below shows:
 * An optional resource bundle declaration outside of the `<actions>` section for localizing actions.
-* The presence of the `class` attribute in the `<group>` element tells the IntelliJ Platform framework to use `CustomDefaultActionGroup` rather than the default implementation.
+* The presence of the `class` attribute in the `<group>` element tells the Consulo framework to use `CustomDefaultActionGroup` rather than the default implementation.
 * Setting the group's `popup` attribute to allow submenus.
 * The `text` and `description` attributes are omitted in the `<group>` declaration in favor of using the localization resource bundle to define them.
 * There is no `icon` attribute for the group; the `CustomDefaultActionGroup` implementation will [add an icon for the group](#providing-specific-behavior-for-the-custom-group).

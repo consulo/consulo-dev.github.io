@@ -3,11 +3,11 @@ title: Configuring Gradle Projects
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-This page serves as a guide to the Gradle-based plugin configuration for _IntelliJ Platform_ projects.
+This page serves as a guide to the Gradle-based plugin configuration for _Consulo_ projects.
 The IntelliJ IDEA Ultimate and Community editions bundle the _Gradle_ and _Plugin DevKit_ plugins to support Gradle-based development.
 
-The [Getting Started with Gradle](prerequisites.md) page provides a tutorial for creating Gradle-based IntelliJ Platform plugins.
-It may be useful to review the IntelliJ Platform page, particularly the description of versioning in the [Open Source](/intro/intellij_platform.md#open-source) section.
+The [Getting Started with Gradle](prerequisites.md) page provides a tutorial for creating Gradle-based Consulo plugins.
+It may be useful to review the Consulo page, particularly the description of versioning in the [Open Source](/intro/intellij_platform.md#open-source) section.
 
 > **WARNING** When adding additional repositories to your Gradle build script, always use HTTPS protocol.
 
@@ -16,7 +16,7 @@ It may be useful to review the IntelliJ Platform page, particularly the descript
 
 ## Overview of the Gradle Plugin
 The Gradle plugin is built from the open-source project [gradle-intellij-plugin](https://github.com/JetBrains/gradle-intellij-plugin).
-This plugin adds Gradle tasks that enable developing IntelliJ Platform plugins.
+This plugin adds Gradle tasks that enable developing Consulo plugins.
 The [README](https://github.com/JetBrains/gradle-intellij-plugin/blob/master/README.md) file has a reference for configuring these tasks.
 
 When getting started, there are several items to note on the README page:
@@ -29,49 +29,49 @@ When getting started, there are several items to note on the README page:
   * [Running DSL](https://github.com/JetBrains/gradle-intellij-plugin#running-dsl) - `runIde { ... }`
   * [Patching DSL](https://github.com/JetBrains/gradle-intellij-plugin#patching-dsl) - `patchPluginXml { ... }`
   * [Publishing DSL](https://github.com/JetBrains/gradle-intellij-plugin#publishing-dsl) - `publishPlugin { ... }`
-* Examples are always a helpful resource, and at the bottom of the page are links to [example](https://github.com/JetBrains/gradle-intellij-plugin#examples) open-source IntelliJ Platform plugin projects based on Gradle.
-* Almost every Gradle plugin attribute has a default value that will work to get started on a Gradle-based IntelliJ Platform plugin project.
+* Examples are always a helpful resource, and at the bottom of the page are links to [example](https://github.com/JetBrains/gradle-intellij-plugin#examples) open-source Consulo plugin projects based on Gradle.
+* Almost every Gradle plugin attribute has a default value that will work to get started on a Gradle-based Consulo plugin project.
 
 
 ## Guide to Configuring Gradle Plugin Functionality
 This section presents a guided tour of Gradle plugin attributes to achieve the commonly desired functionality.
 
-### Configuring the Gradle Plugin for Building IntelliJ Platform Plugin Projects
-By default, the Gradle plugin will build a plugin project against the IntelliJ Platform defined by the latest EAP snapshot of the IntelliJ IDEA Community Edition.
+### Configuring the Gradle Plugin for Building Consulo Plugin Projects
+By default, the Gradle plugin will build a plugin project against the Consulo defined by the latest EAP snapshot of the IntelliJ IDEA Community Edition.
 
-> **NOTE** Using EAP versions of the IntelliJ Platform requires adding the _Snapshots repository_ to the `build.gradle` file (see [IntelliJ Platform Artifacts Repositories](/reference_guide/intellij_artifacts.md)).
+> **NOTE** Using EAP versions of the Consulo requires adding the _Snapshots repository_ to the `build.gradle` file (see [Consulo Artifacts Repositories](/reference_guide/intellij_artifacts.md)).
 
-If a matching version of the specified IntelliJ Platform is not available on the local machine, the Gradle plugin downloads the correct version and type.
+If a matching version of the specified Consulo is not available on the local machine, the Gradle plugin downloads the correct version and type.
 IntelliJ IDEA then indexes the build and any associated source code and JetBrains Java Runtime.
 
-#### IntelliJ Platform Configuration
-Explicitly setting the [Setup DSL](https://github.com/JetBrains/gradle-intellij-plugin#setup-dsl) attributes `intellij.version` and `intellij.type` tells the Gradle plugin to use that configuration of the IntelliJ Platform to create the plugin project.
+#### Consulo Configuration
+Explicitly setting the [Setup DSL](https://github.com/JetBrains/gradle-intellij-plugin#setup-dsl) attributes `intellij.version` and `intellij.type` tells the Gradle plugin to use that configuration of the Consulo to create the plugin project.
 
-All available platform versions can be browsed in the [IntelliJ Platform Artifacts Repositories](/reference_guide/intellij_artifacts.md).
+All available platform versions can be browsed in the [Consulo Artifacts Repositories](/reference_guide/intellij_artifacts.md).
 
-If the chosen platform version is not available in the repositories, or a local installation of the target IDE is the desired type and version of the IntelliJ Platform, use `intellij.localPath` to point to that installation.
+If the chosen platform version is not available in the repositories, or a local installation of the target IDE is the desired type and version of the Consulo, use `intellij.localPath` to point to that installation.
 If the `intellij.localPath` attribute is set, do not set the `intellij.version` and `intellij.type` attributes as this could result in undefined behavior.
 
 #### Plugin Dependencies
-IntelliJ Platform plugin projects may depend on either bundled or third-party plugins.
-In that case, a project should build against a version of those plugins that match the IntelliJ Platform version used to build the plugin project.
+Consulo plugin projects may depend on either bundled or third-party plugins.
+In that case, a project should build against a version of those plugins that match the Consulo version used to build the plugin project.
 The Gradle plugin will fetch any plugins in the list defined by `intellij.plugins`.
 See the Gradle plugin [README](https://github.com/JetBrains/gradle-intellij-plugin#setup-dsl) for information about specifying the plugin and version.
 
 Note that this attribute describes a dependency so that the Gradle plugin can fetch the required artifacts.
 The runtime dependency must be added in the [Plugin Configuration](/basics/plugin_structure/plugin_configuration_file.md) (`plugin.xml`) file as described in [Plugin Dependencies](/basics/plugin_structure/plugin_dependencies.md#3-dependency-declaration-in-pluginxml).
 
-### Configuring the Gradle Plugin for Running IntelliJ Platform Plugin Projects
-By default, the Gradle plugin will use the same version of the IntelliJ Platform for the IDE Development Instance, as was used for building the plugin.
+### Configuring the Gradle Plugin for Running Consulo Plugin Projects
+By default, the Gradle plugin will use the same version of the Consulo for the IDE Development Instance, as was used for building the plugin.
 Using the corresponding JetBrains Runtime is also the default, so for this use case, no further configuration is required.
 
-#### Running Against Alternate Versions and Types of IntelliJ Platform-Based IDEs
-The IntelliJ Platform IDE used for the Development Instance can be different from that used to build the plugin project.
+#### Running Against Alternate Versions and Types of Consulo-Based IDEs
+The Consulo IDE used for the Development Instance can be different from that used to build the plugin project.
 Setting the [Running DSL](https://github.com/JetBrains/gradle-intellij-plugin#running-dsl) attribute `runIde.ideDirectory` will define an IDE to be used for the Development Instance.
-This attribute is commonly used when running or debugging a plugin in an [alternate IntelliJ Platform-based IDE](/intro/intellij_platform.md#ides-based-on-the-intellij-platform).
+This attribute is commonly used when running or debugging a plugin in an [alternate Consulo-based IDE](/intro/intellij_platform.md#ides-based-on-the-intellij-platform).
 
 #### Running Against Alternate Versions of the JetBrains Runtime
-Every version of the IntelliJ Platform has a corresponding version of the [JetBrains Runtime](/basics/ide_development_instance.md#using-a-jetbrains-runtime-for-the-development-instance).
+Every version of the Consulo has a corresponding version of the [JetBrains Runtime](/basics/ide_development_instance.md#using-a-jetbrains-runtime-for-the-development-instance).
 A different version of the runtime can be used by specifying the `runIde.jbrVersion` attribute, describing a version of the JetBrains Runtime that should be used by the IDE Development Instance.
 The Gradle plugin will fetch the specified JetBrains Runtime as needed.
 
@@ -87,7 +87,7 @@ The storage location of downloaded IDE versions and components defaults to the G
 However, it can be controlled by setting the `intellij.ideaDependencyCachePath` attribute.
 
 ### Controlling Downloads by the Gradle Plugin
-As mentioned in the section about [configuring the IntelliJ Platform](#configuring-the-gradle-plugin-for-building-intellij-platform-plugin-projects) used for building plugin projects, the Gradle plugin will fetch the version of the IntelliJ Platform specified by the default or by the `intellij` attributes.
+As mentioned in the section about [configuring the Consulo](#configuring-the-gradle-plugin-for-building-intellij-platform-plugin-projects) used for building plugin projects, the Gradle plugin will fetch the version of the Consulo specified by the default or by the `intellij` attributes.
 Standardizing the versions of the Gradle plugin and the Gradle system across projects will minimize the time spent downloading versions.
 
 There are controls for managing the `gradle-intellij-plugin` version, and the version of the Gradle itself.
@@ -114,7 +114,7 @@ For those `patchPluginXml` attributes that contain descriptions such as `changeN
 
 > **TIP** To maintain and generate an up-to-date changelog, try using [Gradle Changelog Plugin](https://github.com/JetBrains/gradle-changelog-plugin).
 
-As discussed in [Components of a Wizard-Generated Gradle IntelliJ Platform Plugin](prerequisites.md#components-of-a-wizard-generated-gradle-intellij-platform-plugin), the Gradle properties `project.version`, `project.group`, and `rootProject.name` are all generated based on the input to the Wizard.
+As discussed in [Components of a Wizard-Generated Gradle Consulo Plugin](prerequisites.md#components-of-a-wizard-generated-gradle-intellij-platform-plugin), the Gradle properties `project.version`, `project.group`, and `rootProject.name` are all generated based on the input to the Wizard.
 However, the `gradle-intellij-plugin` does not combine and substitute those Gradle properties for the default `<id>` and `<name>` elements in the `plugin.xml` file.
 
 The best practice is to keep `project.version` current.
@@ -139,17 +139,17 @@ Different combinations of Gradle plugin attributes are needed to create the desi
 This section reviews some of the more common configurations.
 
 ### Plugins Targeting IntelliJ IDEA
-IntelliJ Platform plugins targeting IntelliJ IDEA have the most straightforward Gradle plugin configuration.
-* Determine the version of [IntelliJ IDEA to use for building the plugin project](#configuring-the-gradle-plugin-for-building-intellij-platform-plugin-projects); this is the desired version of the IntelliJ Platform.
+Consulo plugins targeting IntelliJ IDEA have the most straightforward Gradle plugin configuration.
+* Determine the version of [IntelliJ IDEA to use for building the plugin project](#configuring-the-gradle-plugin-for-building-intellij-platform-plugin-projects); this is the desired version of the Consulo.
   This can be EAP (default) or determined from the [build number ranges](/basics/getting_started/build_number_ranges.md).
   * If a production version of IntelliJ IDEA is the desired target, set the `intellij` [version attributes](#intellij-platform-configuration) accordingly.
   * Set the necessary [plugin dependencies](#plugin-dependencies), if any.
 * If the plugin project should be run or debugged in an IDE Development Instance based on the same IntelliJ IDEA version, no further attributes need to be set for the IDE Development Instance.
   This is the default behavior and is the most common use case.
-  * If the plugin project should be run or debugged in an IDE Development Instance based on an alternate version of the IntelliJ Platform, set the [Running](#running-against-alternate-versions-and-types-of-intellij-platform-based-ides) DSL attribute accordingly.
+  * If the plugin project should be run or debugged in an IDE Development Instance based on an alternate version of the Consulo, set the [Running](#running-against-alternate-versions-and-types-of-intellij-platform-based-ides) DSL attribute accordingly.
   * If the plugin project should be run using a JetBrains Runtime other than the default for the IDE Development Instance, specify the [JetBrains Runtime version](#running-against-alternate-versions-of-the-jetbrains-runtime).
 * Set the appropriate attributes for [patching the `plugin.xml` file](#patching-the-plugin-configuration-file).
 
-### Plugins Targeting Alternate IntelliJ Platform-Based IDEs
-Gradle also supports developing plugins to run in IDEs that are based on the IntelliJ Platform.
+### Plugins Targeting Alternate Consulo-Based IDEs
+Gradle also supports developing plugins to run in IDEs that are based on the Consulo.
 For more information, see the [Developing for Multiple Products](/products/dev_alternate_products.md) page of this guide.

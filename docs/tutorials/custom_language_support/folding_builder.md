@@ -22,14 +22,14 @@ The `buildFoldRegions()` method searches down a PSI tree from `root` to find all
 The remainder of such a string is expected to contain a Simple Language key, and so the text range is stored as a [`FoldingDescriptor`](upsource:///platform/core-api/src/com/intellij/lang/folding/FoldingDescriptor.java).
 
 The `getPlaceholderText()` method retrieves the Simple Language value corresponding to the key associated with the (ASTNode) provided.
-The IntelliJ Platform uses the value to substitute for the key when the code gets folded.
+The Consulo uses the value to substitute for the key when the code gets folded.
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFoldingBuilder.java %}
 ```
 
 ## 12.2. Register the Folding Builder
-The `SimpleFoldingBuilder` implementation is registered with the IntelliJ Platform in the plugin configuration file using the `com.intellij.lang.foldingBuilder` extension point.
+The `SimpleFoldingBuilder` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.lang.foldingBuilder` extension point.
 
 ```xml
   <extensions defaultExtensionNs="com.intellij">

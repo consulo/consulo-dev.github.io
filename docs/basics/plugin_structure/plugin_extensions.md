@@ -5,7 +5,7 @@ redirect_from:
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-_Extensions_ are the most common way for a plugin to extend the IntelliJ Platform's functionality in a way that is not as straightforward as adding an action to a menu or toolbar.
+_Extensions_ are the most common way for a plugin to extend the Consulo's functionality in a way that is not as straightforward as adding an action to a menu or toolbar.
 
 The following are some of the most common tasks accomplished using extensions:
 
@@ -24,7 +24,7 @@ There are [more than 1000 extension](#how-to-get-the-extension-points-list) poin
 
 1. Add an `<extensions>` element to your `plugin.xml` if it's not yet present there.
    Set the `defaultExtensionNs` attribute to one of the following values:
-    * `com.intellij`, if your plugin extends the IntelliJ Platform core functionality.
+    * `com.intellij`, if your plugin extends the Consulo core functionality.
     * `{ID of a plugin}`, if your plugin extends the functionality of another plugin (must configure [Plugin Dependencies](plugin_dependencies.md)).
 2. Add a new child element to the `<extensions>` element.
    The child element name must match the name of the extension point you want the extension to access.
@@ -33,10 +33,10 @@ There are [more than 1000 extension](#how-to-get-the-extension-points-list) poin
     * If the extension point was declared using the `beanClass` attribute, for newly added child element, set all attributes annotated with the [`@Attribute`](upsource:///platform/util/src/com/intellij/util/xmlb/annotations/Attribute.java) annotations in the specified bean class.
 
 
-To clarify this procedure, consider the following sample section of the `plugin.xml` file that defines two extensions designed to access the `com.intellij.appStarter` and `com.intellij.projectTemplatesFactory` extension points in the *IntelliJ Platform* and one extension to access the `another.plugin.myExtensionPoint` extension point in another plugin `another.plugin`:
+To clarify this procedure, consider the following sample section of the `plugin.xml` file that defines two extensions designed to access the `com.intellij.appStarter` and `com.intellij.projectTemplatesFactory` extension points in the *Consulo* and one extension to access the `another.plugin.myExtensionPoint` extension point in another plugin `another.plugin`:
 
 ```xml
-<!-- Declare extensions to access extension points in the IntelliJ Platform.
+<!-- Declare extensions to access extension points in the Consulo.
      These extension points have been declared using "interface".
  -->
   <extensions defaultExtensionNs="com.intellij">
@@ -93,7 +93,7 @@ Attributes with `Enum` type support code insight with _lowerSnakeCased_ notation
 
 ## How to get the extension points list?
 
-[Extension Point List](/appendix/resources/extension_point_list.md) contains all available in *IntelliJ Platform* and from bundled plugins in IntelliJ IDEA.
+[Extension Point List](/appendix/resources/extension_point_list.md) contains all available in *Consulo* and from bundled plugins in IntelliJ IDEA.
 
 Alternatively (or when using 3rd party extension points), all available extension points for the specified namespace can be listed using auto-completion inside the `<extensions>` block.
 Use **View \| Quick Documentation** in the lookup list to access more information about the extension point and implementation (if applicable).

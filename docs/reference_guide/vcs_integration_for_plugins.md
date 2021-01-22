@@ -82,7 +82,7 @@ This section describes the different components which comprise a VCS integration
 
 ### AbstractVcs
 
-This is the main entry point for a VCS plugin, which is used by the IntelliJ Platform to retrieve all other services provided by the plugin.
+This is the main entry point for a VCS plugin, which is used by the Consulo to retrieve all other services provided by the plugin.
 The recommended way to register an AbstractVcs implementation is to add an extension declaration to plugin.xml, as shown in the following example:
 
 ```xml
@@ -98,10 +98,10 @@ Here `name` is the unique name of the VCS (this must match the string returned b
 
 ### ChangeProvider
 
-This component is responsible for tracking user changes to the working copy, and reporting these changes to the IntelliJ Platform core.
+This component is responsible for tracking user changes to the working copy, and reporting these changes to the Consulo core.
 An implementation of this class is returned from [`AbstractVcs.getChangeProvider()`](upsource:///platform/vcs-api/src/com/intellij/openapi/vcs/AbstractVcs.java).
 
-The ChangeProvider works in tandem with [`VcsDirtyScopeManager`](upsource:///platform/vcs-api/src/com/intellij/openapi/vcs/changes/VcsDirtyScopeManager.java), which is a component in IntelliJ Platform core. [`VcsDirtyScopeManager`](upsource:///platform/vcs-api/src/com/intellij/openapi/vcs/changes/VcsDirtyScopeManager.java) keeps track of the 'dirty scope' - the set of files for which the VCS file status may be out of date.
+The ChangeProvider works in tandem with [`VcsDirtyScopeManager`](upsource:///platform/vcs-api/src/com/intellij/openapi/vcs/changes/VcsDirtyScopeManager.java), which is a component in Consulo core. [`VcsDirtyScopeManager`](upsource:///platform/vcs-api/src/com/intellij/openapi/vcs/changes/VcsDirtyScopeManager.java) keeps track of the 'dirty scope' - the set of files for which the VCS file status may be out of date.
 Files are added to the dirty scope either when they are modified on disk, or when their VCS status is invalidated by an explicit call to [`VcsDirtyScopeManager.fileDirty()`](upsource:///platform/vcs-api/src/com/intellij/openapi/vcs/changes/VcsDirtyScopeManager.java) or [`VcsDirtyScopeManager.dirDirtyRecursively()`](upsource:///platform/vcs-api/src/com/intellij/openapi/vcs/changes/VcsDirtyScopeManager.java).
 
 After some files have been added to the dirty scope, the dirty scope is passed to [`ChangeProvider.getChanges()`](upsource:///platform/vcs-api/src/com/intellij/openapi/vcs/changes/ChangeProvider.java), along with a [`ChangelistBuilder`](upsource:///platform/vcs-api/src/com/intellij/openapi/vcs/changes/ChangelistBuilder.java) instance, which serves as a sink to which the [`ChangeProvider`](upsource:///platform/vcs-api/src/com/intellij/openapi/vcs/changes/ChangeProvider.java) feeds the data about the changed files.

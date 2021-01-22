@@ -20,7 +20,7 @@ Define a code style settings for Simple Language by subclassing [`CustomCodeStyl
 ```
 
 ## 16.2. Define Code Style Settings Provider
-The code style settings provider gives the IntelliJ Platform a standard way to instantiate `CustomCodeStyleSettings` for the Simple Language.
+The code style settings provider gives the Consulo a standard way to instantiate `CustomCodeStyleSettings` for the Simple Language.
 Define a code style settings provider for Simple Language by subclassing [`CodeStyleSettingsProvider`](upsource:///platform/lang-api/src/com/intellij/psi/codeStyle/CodeStyleSettingsProvider.java).
 
 ```java
@@ -28,7 +28,7 @@ Define a code style settings provider for Simple Language by subclassing [`CodeS
 ```
 
 ## 16.3. Register the Code Style Settings Provider
-The `SimpleCodeStyleSettingsProvider` implementation is registered with the IntelliJ Platform in the plugin configuration file using the `com.intellij.codeStyleSettingsProvider` extension point.
+The `SimpleCodeStyleSettingsProvider` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.codeStyleSettingsProvider` extension point.
 
 ```xml
   <extensions defaultExtensionNs="com.intellij">
@@ -44,7 +44,7 @@ Define a code style settings provider for Simple Language by subclassing [`Langu
 ```
 
 ## 16.5. Register the Language Code Style Settings Provider
-The `SimpleLanguageCodeStyleSettingsProvider` implementation is registered with the IntelliJ Platform in the plugin configuration file using the `com.intellij.langCodeStyleSettingsProvider` extension point.
+The `SimpleLanguageCodeStyleSettingsProvider` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.langCodeStyleSettingsProvider` extension point.
 
 ```xml
  <extensions defaultExtensionNs="com.intellij">

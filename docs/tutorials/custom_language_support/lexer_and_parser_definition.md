@@ -42,10 +42,10 @@ After that, the IDE generates the lexer under the `gen` directory, for example i
 
 > **TIP** Gradle plugin [gradle-grammarkit-plugin](https://github.com/JetBrains/gradle-grammar-kit-plugin) can be used alternatively.
 
-See [Implementing Lexer](/reference_guide/custom_language_support/implementing_lexer.md) for more information about using _JFlex_ with the IntelliJ Platform.
+See [Implementing Lexer](/reference_guide/custom_language_support/implementing_lexer.md) for more information about using _JFlex_ with the Consulo.
 
 ## 4.3. Define a Lexer Adapter
-The JFlex lexer needs to be adapted to the IntelliJ Platform Lexer API.
+The JFlex lexer needs to be adapted to the Consulo Lexer API.
 This is done by subclassing [`FlexAdapter`](upsource:///platform/core-api/src/com/intellij/lexer/FlexAdapter.java).
 
 ```java
@@ -67,7 +67,7 @@ The Simple Language parser is defined by subclassing [`ParserDefinition`](upsour
 ```
 
 ## 4.6. Register the Parser Definition
-Registering the parser definition in the `plugin.xml` file makes it available to the IntelliJ Platform.
+Registering the parser definition in the `plugin.xml` file makes it available to the Consulo.
 Use the `com.intellij.lang.parserDefinition` extension point for registration.
 For example, see `simple_language_plugin/src/main/resources/META-INF/plugin.xml`.
 

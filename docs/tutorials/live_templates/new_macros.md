@@ -6,7 +6,7 @@ title: Creating New Functions for Live Templates
 The [Predefined Functions](https://www.jetbrains.com/help/idea/template-variables.html?s=quick#predefined_functions) are the building blocks for creating [Parameterized Templates and Surround Templates](https://www.jetbrains.com/help/idea/using-live-templates.html?s=quick#live_templates_types).
 However, sometimes the Predefined Functions are not enough.
 
-This tutorial illustrates how to add custom functions to an IntelliJ Platform plugin and make them available for use by Live Templates.
+This tutorial illustrates how to add custom functions to an Consulo plugin and make them available for use by Live Templates.
 As an example, a function is created to convert a selection to Title Case.
 Refer to the SDK code sample [`live_templates`](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/live_templates).
 
@@ -33,7 +33,7 @@ The XML representation of an example Live Template using the new `titleCase` fun
 
 There is only one variable, `TITLE`.
 The expression for `TITLE` evaluates to the `titleCase` function provided by the plugin.
-The argument to the `titleCase` function is `SELECTION`, which tells the IntelliJ Platform to operate on the current selection.
+The argument to the `titleCase` function is `SELECTION`, which tells the Consulo to operate on the current selection.
 
 ```xml
 <template name="mc"
@@ -49,7 +49,7 @@ The argument to the `titleCase` function is `SELECTION`, which tells the Intelli
 ```
 
 ## Register Extension Point
-Using the `com.intellij.liveTemplateMacro` extension point, register the implementation with the IntelliJ Platform.
+Using the `com.intellij.liveTemplateMacro` extension point, register the implementation with the Consulo.
 
 ```xml
   <extensions defaultExtensionNs="com.intellij">

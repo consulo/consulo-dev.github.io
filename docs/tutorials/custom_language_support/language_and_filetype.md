@@ -3,9 +3,9 @@ title: 2. Language and File Type
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-The IntelliJ Platform determines file type by examining the name of a file.
+The Consulo determines file type by examining the name of a file.
 Each language has [Language](upsource:///platform/core-api/src/com/intellij/lang/Language.java) and [LanguageFileType](upsource:///platform/core-api/src/com/intellij/openapi/fileTypes/LanguageFileType.java) objects defining the language.
-Register the `LanguageFileType` with the IntelliJ Platform in the plugin configuration file.
+Register the `LanguageFileType` with the Consulo in the plugin configuration file.
 
 **Reference**: [Registering a File Type](/reference_guide/custom_language_support/registering_file_type.md)
 
@@ -37,7 +37,7 @@ The Simple Language file type is defined by subclassing [`LanguageFileType`](ups
 ```
 
 ## 2.4. Register the FileType Directly
-Direct registration is possible when targeting version 2019.2 (and later) of the IntelliJ Platform - no `FileTypeFactory` is required.
+Direct registration is possible when targeting version 2019.2 (and later) of the Consulo - no `FileTypeFactory` is required.
 
 Instead, the file type is registered via the `com.intellij.fileType` extension point in `plugin.xml`:
 
@@ -51,7 +51,7 @@ Instead, the file type is registered via the `com.intellij.fileType` extension p
 Skip to [section 2.6](#26-run-the-project).
 
 ## 2.5. Register the FileType Using a Factory
-This pattern is necessary when targeting versions of the IntelliJ Platform prior to 2019.2
+This pattern is necessary when targeting versions of the Consulo prior to 2019.2
 
 ### 2.5.1 Define a FileType Factory
 First, define `SimpleFileTypeFactory` as a subclass of [`FileTypeFactory`](upsource:///platform/platform-api/src/com/intellij/openapi/fileTypes/FileTypeFactory.java).

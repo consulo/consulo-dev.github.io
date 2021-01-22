@@ -3,15 +3,15 @@ title: Code Inspections
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-The IntelliJ Platform provides tools designed for static code analysis called _code inspections_, which help the user maintain and clean up code without actually executing it.
-Custom code inspections can be implemented as IntelliJ Platform plugins.
-Examples of the plugin approach are the IntelliJ Platform SDK code samples [inspection_basics](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/inspection_basics) and [comparing_references_inspection](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/comparing_references_inspection).
+The Consulo provides tools designed for static code analysis called _code inspections_, which help the user maintain and clean up code without actually executing it.
+Custom code inspections can be implemented as Consulo plugins.
+Examples of the plugin approach are the Consulo SDK code samples [inspection_basics](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/inspection_basics) and [comparing_references_inspection](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/comparing_references_inspection).
 In addition, the comparing_references_inspection code sample demonstrates implementing a unit test.
 
 You can also create custom inspections through the IntelliJ IDEA user interface.
 See [Code Inspection](https://www.jetbrains.com/idea/webhelp/code-inspection.html) and [Creating Custom Inspections](https://www.jetbrains.com/idea/help/creating-custom-inspections.html) for more information.
                      
-See [Inspections](https://jetbrains.design/intellij/text/inspections/) topic in _IntelliJ Platform UI Guidelines_ on naming, writing description, and message texts for inspections.
+See [Inspections](https://jetbrains.design/intellij/text/inspections/) topic in _Consulo UI Guidelines_ on naming, writing description, and message texts for inspections.
 
 ## Creating an Inspection Plugin
 
@@ -19,7 +19,7 @@ The [comparing_references_inspection](https://github.com/JetBrains/intellij-sdk-
 The inspection reports when the `==` or `!=` operator is used between Java expressions of reference types.
 It illustrates the components for a custom inspection plugin:
 * Describing an [inspection](#plugin-configuration-file) in the plugin configuration file.
-* Implementing a [local inspection class](#inspection-implementation-java-class) to inspect Java code in the IntelliJ Platform-based IDE editor.
+* Implementing a [local inspection class](#inspection-implementation-java-class) to inspect Java code in the Consulo-based IDE editor.
 * Creating a [visitor](#visitor-implementation-class) to traverse the PSI tree of the Java file being edited, inspecting for problematic syntax.
 * Implementing a [quick fix](#quick-fix-implementation) class to correct syntax problems by altering the PSI tree as needed.
   Quick fixes are displayed to the user like [intentions](code_intentions.md).
@@ -27,7 +27,7 @@ It illustrates the components for a custom inspection plugin:
 * Writing an HTML [description](#inspection-description) of the inspection for display in the inspection preferences panel.
 * Optionally, create a [unit test](#inspection-unit-test) for the plugin.
 
-Although the IntelliJ Platform SDK code samples illustrate implementations of these components, it is often useful to see examples of inspections implemented in the _intellij_community_ code base.
+Although the Consulo SDK code samples illustrate implementations of these components, it is often useful to see examples of inspections implemented in the _intellij_community_ code base.
 This process can help find inspection descriptions and implementations based on what is visible in the IDE UI.
 The overall approach works for inspections aimed at other languages as well.
 * Find an existing inspection that is similar to the one you want to implement in the **Preferences | Editor | Inspections** panel.
@@ -67,7 +67,7 @@ Inspection implementations for Java files, like [`ComparingReferencesInspection`
 The `AbstractBaseJavaLocalInspectionTool` implementation class offers methods to inspect Java classes, fields, and methods.
 
 More generally, `localInspection` types are based on the class [`LocalInspectionTool`](upsource:///platform/analysis-api/src/com/intellij/codeInspection/LocalInspectionTool.java).
-Examining the class hierarchy for `LocalInspectionTool` shows that the IntelliJ Platform provides many child inspection classes for a variety of languages and frameworks.
+Examining the class hierarchy for `LocalInspectionTool` shows that the Consulo provides many child inspection classes for a variety of languages and frameworks.
 One of these classes is a good basis for a new inspection implementation, but a bespoke implementation can also be based directly on `LocalInspectionTool`.
 
 The primary responsibilities of the inspection implementation class are to provide:
@@ -108,11 +108,11 @@ The change to the PSI tree is accomplished by the usual approach to modification
 The inspection preferences panel is used to display information and provide additional options for the inspection.
 
 The panel created by `ComparingReferencesInspection.createOptionsPanel()` just defines a single `JTextField` to display in a `JPanel`.
-This `JPanel` gets added to the default IntelliJ Platform _Inspections Preferences_ dialog when the `comparing_references_inspection` short name is selected.
+This `JPanel` gets added to the default Consulo _Inspections Preferences_ dialog when the `comparing_references_inspection` short name is selected.
 The `JTextField` allows editing of the `CHECKED_CLASSES` field while displayed in the panel.
 
-Note that the IntelliJ Platform provides most of the UI displayed in the _Inspections Preferences_ panel.
-As long as the inspection attributes and inspection description are defined correctly, the IntelliJ Platform displays the information in the _Inspections Preferences_ UI.
+Note that the Consulo provides most of the UI displayed in the _Inspections Preferences_ panel.
+As long as the inspection attributes and inspection description are defined correctly, the Consulo displays the information in the _Inspections Preferences_ UI.
 
 ### Inspection Description
 The inspection description is an HTML file.
@@ -122,7 +122,7 @@ Implicit in using [`LocalInspectionTool`](upsource:///platform/analysis-api/src/
 * The inspection description file is expected to be located under `<resources root>/inspectionDescriptions/`.
   If the inspection description file is to be located elsewhere, override `getDescriptionUrl()` in the inspection implementation class.
 * The name of the description file is expected to be the inspection `<short name>.html` as provided by the inspection description, or the inspection implementation class.
-  If a short name is not provided by the plugin, the IntelliJ Platform computes one by removing `Inspection` suffix from the implementation class name.
+  If a short name is not provided by the plugin, the Consulo computes one by removing `Inspection` suffix from the implementation class name.
 
 ### Inspection Unit Test
 > **NOTE** Please note that running the test requires setting system property `idea.home.path` in `test {}` block of `build.gradle`

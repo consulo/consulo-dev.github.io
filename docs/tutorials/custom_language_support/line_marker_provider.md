@@ -43,7 +43,7 @@ public class MyWrongLineMarkerProvider implements LineMarkerProvider {
 }
 ```
 
-The consequences of the `MyWrongLineMarkerProvider()` implementation have to do with how the IntelliJ Platform performs inspections.
+The consequences of the `MyWrongLineMarkerProvider()` implementation have to do with how the Consulo performs inspections.
 For performance reasons, inspection, and specifically the [`LineMarkersPass`](upsource:///platform/lang-impl/src/com/intellij/codeInsight/daemon/impl/LineMarkersPass.java) queries all [`LineMarkerProviders`](upsource:///platform/lang-api/src/com/intellij/codeInsight/daemon/LineMarkerProviders.java) in two phases:
 * The first pass is for all elements visible in the Editor window,
 * The second pass is for the rest of the elements in the file.
@@ -66,7 +66,7 @@ public class MyCorrectLineMarkerProvider implements LineMarkerProvider {
 ```
 
 ## 8.3. Register the Line Marker Provider
-The `SimpleLineMarkerProvider` implementation is registered with the IntelliJ Platform in the plugin configuration file using the `com.intellij.codeInsight.lineMarkerProvider` extension point.
+The `SimpleLineMarkerProvider` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.codeInsight.lineMarkerProvider` extension point.
 
 ```xml
   <extensions defaultExtensionNs="com.intellij">

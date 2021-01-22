@@ -7,7 +7,7 @@ The previous tutorial [Editor Coordinate Systems](coordinates_system.md) describ
 Caret position was discussed in terms of Logical Position, Visual Position, and Offset.
 This tutorial introduces the Editor Action system, which handles actions activated by keystroke events in the editor.
 Two classes from the [editor_basics](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/editor_basics) code sample are used to illustrate:
-* Using an IntelliJ Platform [`EditorActionHandler`](upsource:///platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorActionHandler.java) to manipulate a caret.
+* Using an Consulo [`EditorActionHandler`](upsource:///platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorActionHandler.java) to manipulate a caret.
 * Creating and registering a custom [`TypedActionHandler`](upsource:///platform/platform-api/src/com/intellij/openapi/editor/actionSystem/TypedActionHandler.java) to intercept keystrokes and change the document.
 
 The tutorial presents the following sections:
@@ -15,7 +15,7 @@ The tutorial presents the following sections:
 * bullet list
 {:toc}
 
-## Using an IntelliJ Platform EditorActionHandler
+## Using an Consulo EditorActionHandler
 In this portion of the tutorial, the [editor_basics](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/editor_basics) code sample is used to demonstrate cloning an existing caret.
 A custom action class will use `EditorActionManager` to access a specific `EditorActionHandler` for caret cloning.
 The `editor_basics` code sample adds an **Editor Add Caret** menu item to the editor context menu:
@@ -69,7 +69,7 @@ public class EditorHandlerIllustration extends AnAction {
 ```
 
 ### Acquiring the Correct EditorActionHandler
-When the `EditorHandlerIllustration.actionPerformed()` method clones the caret, it should use the appropriate IntelliJ Platform [`EditorActionHandler`](upsource:///platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorActionHandler.java).
+When the `EditorHandlerIllustration.actionPerformed()` method clones the caret, it should use the appropriate Consulo [`EditorActionHandler`](upsource:///platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorActionHandler.java).
 An instance of [`EditorActionManager`](upsource:///platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorActionManager.java) is required to obtain the correct `EditorActionHandler`.
 The `EditorActionManager` class provides a static method to do this.
 

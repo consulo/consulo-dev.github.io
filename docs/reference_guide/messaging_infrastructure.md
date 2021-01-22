@@ -5,12 +5,12 @@ title: Messaging Infrastructure
 
 ## Purpose
 
-The purpose of this document is to introduce the messaging infrastructure available in the IntelliJ Platform to developers and plugin writers.
+The purpose of this document is to introduce the messaging infrastructure available in the Consulo to developers and plugin writers.
 It is intended to answer why, when and how to use it.
 
 ## Rationale
 
-So, what is messaging in the IntelliJ Platform and why do we need it? Basically, its implementation of [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern) that provides additional features like _broadcasting on hierarchy_ and special _nested events_ processing (_nested event_ here is a situation when new event is fired (directly or indirectly) from the callback of another event).
+So, what is messaging in the Consulo and why do we need it? Basically, its implementation of [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern) that provides additional features like _broadcasting on hierarchy_ and special _nested events_ processing (_nested event_ here is a situation when new event is fired (directly or indirectly) from the callback of another event).
 
 ## Design
 
@@ -107,13 +107,13 @@ public void doChange(Context context) {
 
 * *MessageBus* instances are available via [`ComponentManager.getMessageBus()`](upsource:///platform/extensions/src/com/intellij/openapi/components/ComponentManager.java)
   Many standard interfaces implement a message bus, e.g., [`Application`](upsource:///platform/core-api/src/com/intellij/openapi/application/Application.java) and [`Project`](upsource:///platform/core-api/src/com/intellij/openapi/project/Project.java).
-* A number of public topics are used by the *IntelliJ Platform*, e.g., [`AppTopics`](upsource:///platform/platform-api/src/com/intellij/AppTopics.java), [`ProjectTopics`](upsource:///platform/projectModel-api/src/com/intellij/ProjectTopics.java), etc.
+* A number of public topics are used by the *Consulo*, e.g., [`AppTopics`](upsource:///platform/platform-api/src/com/intellij/AppTopics.java), [`ProjectTopics`](upsource:///platform/projectModel-api/src/com/intellij/ProjectTopics.java), etc.
   So, it's possible to subscribe to them in order to receive information about the processing;
 
 ## Broadcasting
 
 Message buses can be organised into hierarchies.
-Moreover, the *IntelliJ Platform* has them already:
+Moreover, the *Consulo* has them already:
 
 ![Standard hierarchy](img/standard_hierarchy.svg)
 
@@ -150,7 +150,7 @@ The following options are available:
 ## Nested Messages
 
 _Nested message_ is a message sent (directly or indirectly) during another message processing.
-The IntelliJ Platform's Messaging infrastructure guarantees that all messages sent to particular topic will be delivered at the sending order.
+The Consulo's Messaging infrastructure guarantees that all messages sent to particular topic will be delivered at the sending order.
 
 *Example:*
 

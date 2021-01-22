@@ -4,13 +4,13 @@ title: Action System
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 ## Introduction
-The actions system is an extension point that allows plugins to add their items to IntelliJ Platform-based IDE menus and toolbars.
+The actions system is an extension point that allows plugins to add their items to Consulo-based IDE menus and toolbars.
 For example, one of the action classes is responsible for the **File \| Open File...** menu item and the **Open File** toolbar button.
 
-Actions in the IntelliJ Platform require a [code implementation](#action-implementation) and must be [registered](#registering-actions).
+Actions in the Consulo require a [code implementation](#action-implementation) and must be [registered](#registering-actions).
 The action implementation determines the contexts in which an action is available, and its functionality when selected in the UI.
 Registration determines where an action appears in the IDE UI.
-Once implemented and registered, an action receives callbacks from the IntelliJ Platform in response to user gestures.
+Once implemented and registered, an action receives callbacks from the Consulo in response to user gestures.
 
 The [Creating Actions](/tutorials/action_system/working_with_custom_actions.md) tutorial describes the process of adding a custom action to a plugin.
 The [Grouping Actions](/tutorials/action_system/grouping_action.md) tutorial demonstrates three types of groups that can contain actions.
@@ -21,7 +21,7 @@ The rest of this page is an overview of actions as an extension point.
 
 ## Action Implementation
 An action is a class derived from the abstract class [`AnAction`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java).
-The IntelliJ Platform calls methods of an action when a user interacts with a menu item or toolbar button.
+The Consulo calls methods of an action when a user interacts with a menu item or toolbar button.
 
 > **WARNING** Classes based on `AnAction` do not have class fields of any kind.
 > This is because an instance of `AnAction` class exists for the entire lifetime of the application.
@@ -29,13 +29,13 @@ The IntelliJ Platform calls methods of an action when a user interacts with a me
 > For example, any `AnAction` data that exists only within the context of a `Project` causes the `Project` to be kept in memory after the user has closed it.
 
 ### Principal Implementation Overrides
-Every IntelliJ Platform action should override `AnAction.update()` and must override `AnAction.actionPerformed()`.
-* An action's method `AnAction.update()` is called by the IntelliJ Platform framework to update an action state.
+Every Consulo action should override `AnAction.update()` and must override `AnAction.actionPerformed()`.
+* An action's method `AnAction.update()` is called by the Consulo framework to update an action state.
   The state (enabled, visible) of an action determines whether the action is available in the UI of an IDE.
   An object of the [`AnActionEvent`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnActionEvent.java) type is passed to this method and contains information about the current context for the action.
   Actions are made available by changing state in the [Presentation](upsource:///platform/platform-api/src/com/intellij/ide/presentation/Presentation.java) object associated with the event context.
-  As explained in [Overriding the `AnAction.update()`  Method](#overriding-the-anactionupdate-method), it is vital `update()` methods _execute quickly_ and return execution to the IntelliJ Platform.
-* An action's method `AnAction.actionPerformed()` is called by the IntelliJ Platform if available and selected by the user.
+  As explained in [Overriding the `AnAction.update()`  Method](#overriding-the-anactionupdate-method), it is vital `update()` methods _execute quickly_ and return execution to the Consulo.
+* An action's method `AnAction.actionPerformed()` is called by the Consulo if available and selected by the user.
   This method does the heavy lifting for the action - it contains the code executed when the action gets invoked.
   The `actionPerformed()` method also receives `AnActionEvent` as a parameter, which is used to access projects, files, selection, etc.
   See [Overriding the `AnAction.actionPerformed()` Method](#overriding-the-anactionactionperformed-method) for more information.
@@ -45,7 +45,7 @@ There is also a use case for overriding action constructors when registering the
 However, the `update()` and `actionPerformed()` methods are essential to basic operation.
 
 ### Overriding the AnAction.update Method
-The method `AnAction.update()` is periodically called by the IntelliJ Platform in response to user gestures.
+The method `AnAction.update()` is periodically called by the Consulo in response to user gestures.
 The `update()` method gives an action to evaluate the current context and enable or disable its functionality.
 
 > **WARNING** The `AnAction.update()` method can be called frequently and on a UI thread.
@@ -103,7 +103,7 @@ Every action and action group has a unique identifier.
 Basing the identifier for a custom action on the FQN of the implementation is the best practice, assuming the package incorporates the `<id>` of the plugin.
 An action must have a unique identifier for each place.
 It is used in the IDE UI, even though the FQN of the implementation is the same.
-Definitions of identifiers for the standard IntelliJ Platform actions are in [`IdeActions`](upsource:///platform/platform-api/src/com/intellij/openapi/actionSystem/IdeActions.java).
+Definitions of identifiers for the standard Consulo actions are in [`IdeActions`](upsource:///platform/platform-api/src/com/intellij/openapi/actionSystem/IdeActions.java).
 
 ### Grouping Actions
 Groups organize actions into logical UI structures, which in turn can contain other groups.
@@ -224,7 +224,7 @@ See [Extending DefaultActionGroup](/tutorials/action_system/grouping_action.md#e
 
 #### Action Declaration Reference
 The places where actions can appear are defined by constants in [`ActionPlaces`](upsource:///platform/platform-api/src/com/intellij/openapi/actionSystem/ActionPlaces.java).
-Group IDs for the IntelliJ Platform are defined in [`PlatformActions.xml`](upsource:///platform/platform-resources/src/idea/PlatformActions.xml).
+Group IDs for the Consulo are defined in [`PlatformActions.xml`](upsource:///platform/platform-resources/src/idea/PlatformActions.xml).
 
 This, and additional information can also be found by using the [Code Completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#invoke-basic-completion), [Quick Definition](https://www.jetbrains.com/help/idea/viewing-reference-information.html#view-definition-symbols) and [Quick Documentation](https://www.jetbrains.com/help/idea/viewing-reference-information.html#inline-quick-documentation) features.
 
@@ -361,4 +361,4 @@ To get a Swing component from such an object, call the respective `getComponent(
 If an action toolbar is attached to a specific component (for example, a panel in a tool window), call `ActionToolbar.setTargetComponent()` and pass the related component's instance as a parameter.
 Setting the target ensures that the toolbar buttons' state depends on the state of the related component, not on the current focus location within the IDE frame.
 
-See [Toolbar](https://jetbrains.design/intellij/controls/toolbar/) in _IntelliJ Platform UI Guidelines_ for an overview.
+See [Toolbar](https://jetbrains.design/intellij/controls/toolbar/) in _Consulo UI Guidelines_ for an overview.

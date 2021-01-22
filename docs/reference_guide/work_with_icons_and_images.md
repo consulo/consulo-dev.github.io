@@ -3,7 +3,7 @@ title: Working with Icons and Images
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-Icons and images are used widely by IntelliJ Platform plugins.
+Icons and images are used widely by Consulo plugins.
 Plugins need icons mostly for actions, custom components renderers, tool windows, and so on.
 
 > **NOTE** Plugin Icons, which represent a plugin itself, have different requirements than icons and images used within a plugin.
@@ -64,7 +64,7 @@ Note that the package name `icons` will be automatically prefixed and must not b
 
 ## Image Formats
 
-IntelliJ Platform supports Retina displays and has dark theme called Darcula.
+Consulo supports Retina displays and has dark theme called Darcula.
 Thus, every icon should have a dedicated variant for Retina devices and Darcula theme.
 In some cases, you can skip dark variants if the original icon looks good under Darcula.
 

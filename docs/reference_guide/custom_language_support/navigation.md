@@ -18,8 +18,8 @@ To provide `PsiElement` for direct navigation, implement and register
 
 ## Symbol Navigation
 
-If there is no Direct navigation available under the caret, then the IntelliJ Platform proceeds with `Symbol` navigation.
-In this step the IntelliJ Platform computes the navigation targets based on target symbols, 
+If there is no Direct navigation available under the caret, then the Consulo proceeds with `Symbol` navigation.
+In this step the Consulo computes the navigation targets based on target symbols,
 which it obtains by resolving a [reference](declarations_and_references.md#references). 
 If there are several target symbols or several navigation targets defined for a symbol, 
 then the IDE shows the navigation popup to ask the user to choose where to go.
@@ -39,6 +39,6 @@ To provide navigation targets by a `Symbol`, either:
 
 ## Showing Usages
 
-If there are no navigation targets available, then the IntelliJ Platform starts finding usages of the target symbol 
+If there are no navigation targets available, then the Consulo starts finding usages of the target symbol
 obtained by resolving a [reference](declarations_and_references.md#references) 
 or from a [declaration](declarations_and_references.md#declarations). 

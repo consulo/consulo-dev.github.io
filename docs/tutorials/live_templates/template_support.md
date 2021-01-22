@@ -3,7 +3,7 @@ title: Adding Live Templates to a Plugin
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-This tutorial illustrates how to add default Custom Live Templates to an IntelliJ Platform plugin, and assign valid contexts for these templates based on the surrounding code and file type.
+This tutorial illustrates how to add default Custom Live Templates to an Consulo plugin, and assign valid contexts for these templates based on the surrounding code and file type.
 In addition, the tutorial discusses how to export existing Live Templates, and bundle them within a plugin.
 Any Live Template that can be created and exported can be added to a plugin by following the Template Creation, Export, and Extension Point Registration processes.
 
@@ -13,7 +13,7 @@ This tutorial uses the SDK code sample [`live_templates`](https://github.com/Jet
 {:toc}
 
 ## Template Creation
-Get started by [creating a new Live Template](https://www.jetbrains.com/idea/help/creating-and-editing-live-templates.html) within the IntelliJ Platform-based IDE:
+Get started by [creating a new Live Template](https://www.jetbrains.com/idea/help/creating-and-editing-live-templates.html) within the Consulo-based IDE:
 * Add a new Template Group, "Markdown" and create a new Live Template under this group.
 * Assign the template the abbreviation "**{**".
 * Assign the description "**SDK: New link reference**".
@@ -52,7 +52,7 @@ The display `name` can also provide localized variants by specifying `key` and `
 Copy this file into the [plugin's resources folder](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/live_templates/src/main/resources/liveTemplates).
 
 ## Implement TemplateContextType
-A [`TemplateContextType`](upsource:///platform/analysis-api/src/com/intellij/codeInsight/template/TemplateContextType.java) tells the IntelliJ Platform where the Live Template is applicable: Markdown files.
+A [`TemplateContextType`](upsource:///platform/analysis-api/src/com/intellij/codeInsight/template/TemplateContextType.java) tells the Consulo where the Live Template is applicable: Markdown files.
 Every context must have a unique `TemplateContextType` defined for it, and many context types are defined by the Platform.
 The `MarkdownContext` class defines it for Markdown files.
 Ultimately, a file's extension determines the applicable Markdown context.
@@ -73,17 +73,17 @@ Within the `<template>...</template>` elements in the `Markdown.xml` [Live Templ
   </template>
 ```
 
-It is not always necessary to define your own `TemplateContextType`, as there are many existing template contexts already defined in the IntelliJ Platform.
+It is not always necessary to define your own `TemplateContextType`, as there are many existing template contexts already defined in the Consulo.
 Consider reusing one of the many existing template context types that inherit from `TemplateContextType` if you are augmenting language support to an existing area.
 
 ## Completing the Live Template Implementation
-Depending on the version of the IntelliJ Platform, different steps are used to complete the implementation of the feature.
+Depending on the version of the Consulo, different steps are used to complete the implementation of the feature.
 
 ### Versions 2020.1 and Later
 For 2020.1 and later, follow this section to register the extension points and then proceed to the [Check Plugin](#check-plugin) section.
 
 #### Register Extension Points
-Using the `com.intellij.defaultLiveTemplates` and `com.intellij.liveTemplateContext` extension points, register the implementations with the IntelliJ Platform.
+Using the `com.intellij.defaultLiveTemplates` and `com.intellij.liveTemplateContext` extension points, register the implementations with the Consulo.
 The `file` attribute in the `defaultLiveTemplates` element specifies `path/filename` under the `src/main/resources` folder.
 
 ```xml
@@ -96,7 +96,7 @@ The `file` attribute in the `defaultLiveTemplates` element specifies `path/filen
 Now go to the [Check Plugin](#check-plugin) section to test the template.
 
 ### Versions 2019.3 and Earlier
-For older versions of the IntelliJ Platform follow this section to complete the implementation and register the extension points.
+For older versions of the Consulo follow this section to complete the implementation and register the extension points.
 Then proceed to the [Check Plugin](#check-plugin) section.
 
 #### Implement DefaultLiveTemplatesProvider
@@ -124,7 +124,7 @@ public class MarkdownTemplateProvider implements DefaultLiveTemplatesProvider {
 ```
 
 #### Register Extension Points
-Using the `com.intellij.defaultLiveTemplatesProvider` and `com.intellij.liveTemplateContext` extension points, register the implementations with the IntelliJ Platform.
+Using the `com.intellij.defaultLiveTemplatesProvider` and `com.intellij.liveTemplateContext` extension points, register the implementations with the Consulo.
 
 ```xml
   <extensions defaultExtensionNs="com.intellij">

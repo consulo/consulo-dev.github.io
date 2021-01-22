@@ -4,10 +4,10 @@ title: Settings Guide
 
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-_Settings_ persistently store states that control the behavior and appearance of IntelliJ Platform-based IDEs.
+_Settings_ persistently store states that control the behavior and appearance of Consulo-based IDEs.
 On this page, the term "Settings" means the same as "Preferences" on some platforms.
 
-Plugins can create and store Settings to capture their configuration in a way that uses the IntelliJ Platform [Persistence Model](/basics/persisting_state_of_components.md).
+Plugins can create and store Settings to capture their configuration in a way that uses the Consulo [Persistence Model](/basics/persisting_state_of_components.md).
 The User Interface (UI) for these custom Settings can be added to the [IDE Settings dialog](https://www.jetbrains.com/help/idea/settings-preferences-dialog.html).
 
 Settings can [affect different levels](https://www.jetbrains.com/help/idea/configuring-project-and-ide-settings.html) of scope.
@@ -91,9 +91,9 @@ See the [previous section](#table-of-attributes) for all supported attributes.
 |`editor` | Editor | Child group containing Settings to personalize source code appearance, such as fonts, highlighting styles, indents, etc. It also contains Settings to customize the editor's appearance, such as line numbers, caret placement, tabs, source code inspections, setting up templates, and file encodings.  | |
 |`language` | Languages and Frameworks | Child group containing Settings related to specific language frameworks and technologies used in the project. |
 |`tools` | 3rd Party Settings | Child group containing Settings to configure integration with third-party applications, specify the SSH Terminal connection Settings, manage server certificates and tasks, configure diagrams layout, etc. |
-|`root` | Super Parent | The invisible parent of all existing groups. Not used except for IDEs built on top of the IntelliJ Platform, or extensive suites of Settings. You should not place settings in this group. |
-|`other` | Catch-all | The IntelliJ Platform no longer uses this group. Do not use this group. Use the `tools` group instead.  |
-|`project` | Project-related Settings | The IntelliJ Platform no longer uses this group. It was intended to store some project-related settings. Do not use this group. |
+|`root` | Super Parent | The invisible parent of all existing groups. Not used except for IDEs built on top of the Consulo, or extensive suites of Settings. You should not place settings in this group. |
+|`other` | Catch-all | The Consulo no longer uses this group. Do not use this group. Use the `tools` group instead.  |
+|`project` | Project-related Settings | The Consulo no longer uses this group. It was intended to store some project-related settings. Do not use this group. |
 
 
 ## Implementations for Settings Extension Points
@@ -112,11 +112,11 @@ Implementations must meet several requirements for constructors.
 * Project Settings implementations, declared using the [`projectSettings` EP](#declaring-project-settings), must declare a constructor with a single argument of type [`Project`](upsource:///platform/core-api/src/com/intellij/openapi/project/Project.java).
 * Beginning in 2020.2, constructor injection (other than for `Project`) is not allowed.
 
-For a `Configurable` implementation correctly declared using an EP, the implementation's constructor is not invoked by the IntelliJ Platform until a user chooses the corresponding Settings `displayName` in the Settings Dialog menu.
+For a `Configurable` implementation correctly declared using an EP, the implementation's constructor is not invoked by the Consulo until a user chooses the corresponding Settings `displayName` in the Settings Dialog menu.
 
-> **WARNING** The IntelliJ Platform may instantiate a `Configurable` implementation on a background thread, so creating Swing components in a constructor can degrade UI responsiveness.
+> **WARNING** The Consulo may instantiate a `Configurable` implementation on a background thread, so creating Swing components in a constructor can degrade UI responsiveness.
 
-#### IntelliJ Platform Interactions with Configurable
+#### Consulo Interactions with Configurable
 The instantiation of a generic `Configurable` implementation is documented in the interface file.
 A few high-level points are reviewed here:
 * The `Configurable.reset()` method is invoked immediately after `Configurable.createComponent()`.
@@ -131,7 +131,7 @@ To open Settings dialog or show specific `Configurable`, see [`ShowSettingsUtil`
 #### Configurable Marker Interfaces
 Implementations based on `Configurable` can implement marker interfaces, which provide additional flexibility in the implementation.
 
-The following nested interfaces are markers, which convey information about the form to the IntelliJ Platform:
+The following nested interfaces are markers, which convey information about the form to the Consulo:
   * `Configurable.NoScroll` - Notifies the Settings dialog not to add scroll bars to the form.
     By default, a plugin's Settings component is put into a scrollable pane.
     However, a Settings panel can have a `JTree`, which requires its own `JScrollPane`.
@@ -140,15 +140,15 @@ The following nested interfaces are markers, which convey information about the 
     By default, an empty border is added for a plugin's Settings component.
 
 #### Additional Interfaces Based on Configurable
-There are classes in the IntelliJ Platform specialized for particular types of Settings.
+There are classes in the Consulo specialized for particular types of Settings.
 These subtypes are based on `com.intellij.openapi.options.ConfigurableEP`.
 For example, **Settings/Preferences \| Editor \| General \|Appearance** allows adding Settings via [`EditorSmartKeysConfigurableEP`](upsource:///platform/lang-impl/src/com/intellij/application/options/editor/EditorSmartKeysConfigurableEP.java) and `com.intellij.editorSmartKeysConfigurable` EP.
 
 ### The ConfigurableProvider Class
 The [`ConfigurableProvider`](upsource:///platform/platform-api/src/com/intellij/openapi/options/ConfigurableProvider.java) class only provides a `Configurable` implementation if its runtime conditions are met.
-The IntelliJ Platform first calls the `ConfigurableProvider.canCreateConfigurable()`, which evaluates runtime conditions to determine if Settings changes make sense in the current context.
+The Consulo first calls the `ConfigurableProvider.canCreateConfigurable()`, which evaluates runtime conditions to determine if Settings changes make sense in the current context.
 If the Settings make sense to display, `canCreateConfigurable()` returns `true`.
-In that case the IntelliJ Platform calls `ConfigurableProvider.createConfigurable()`, which returns the `Configurable` object for its Settings implementation.
+In that case the Consulo calls `ConfigurableProvider.createConfigurable()`, which returns the `Configurable` object for its Settings implementation.
 
 By choosing not to provide a `Configuration` implementation in some circumstances, the `ConfigurableProvider` opts out of the Settings display and modification process.
 The use of `ConfigurableProvider` as a basis for a Settings implementation is declared using [attributes](#table-of-attributes) in the EP declaration.

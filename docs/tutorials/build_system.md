@@ -6,7 +6,7 @@ title: Building Plugins with Gradle
 The [gradle-intellij-plugin](https://github.com/JetBrains/gradle-intellij-plugin) Gradle plugin is the recommended solution for building IntelliJ plugins.
 The plugin takes care of the dependencies of your plugin project - both the base IDE and other plugin dependencies.
 
-> **TIP** [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template) makes it easier to create and maintain your IDE plugins, having the Gradle plugin already integrated and CI covered with GitHub Actions.
+> **TIP** [Consulo Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template) makes it easier to create and maintain your IDE plugins, having the Gradle plugin already integrated and CI covered with GitHub Actions.
 
 > **NOTE** If a new plugin will be Scala-based, a dedicated SBT plugin [sbt-idea-plugin](https://github.com/JetBrains/sbt-idea-plugin) is available.
 
@@ -18,7 +18,7 @@ To make sure that your plugin is not affected by [API changes](/reference_guide/
 > **NOTE** Please make sure to always upgrade to the latest version of `gradle-intellij-plugin`.
 Follow releases on [GitHub](https://github.com/JetBrains/gradle-intellij-plugin/releases).
 
-Below are a series of guides to developing and deploying Gradle-based IntelliJ Platform Plugins:
+Below are a series of guides to developing and deploying Gradle-based Consulo Plugins:
 
 * [Getting Started with Gradle](build_system/prerequisites.md)
 * [Configuring Gradle Projects](build_system/gradle_guide.md)

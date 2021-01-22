@@ -5,7 +5,7 @@ title: Library
 
 A library is an archive of compiled code (such as JAR files) that modules depend on.
 
-The IntelliJ Platform supports three types of libraries:
+The Consulo supports three types of libraries:
 * **Module Library**: the library classes are visible only in this module and the library information is recorded in the module `.iml` file.
 * **Project Library**: the library classes are visible within the project and the library information is recorded under `.idea/libraries` directory or in the project `.ipr` file.
 * **Global Library**: the library information is recorded in the `applicationLibraries.xml` file in `<User Home>/.IntelliJIdea/config/options` directory. Global libraries are similar to project libraries, but are visible for different projects.

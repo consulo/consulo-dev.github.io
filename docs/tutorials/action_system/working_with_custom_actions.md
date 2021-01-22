@@ -5,8 +5,8 @@ title: Creating Actions
 
 ## Introduction
 Plugins can add actions to existing IDE menus and toolbars, as well as add new menus and toolbars.
-The IntelliJ Platform calls the actions of plugins in response to user interactions with the IDE.
-However, the actions of a plugin must first be defined and registered with the IntelliJ Platform.
+The Consulo calls the actions of plugins in response to user interactions with the IDE.
+However, the actions of a plugin must first be defined and registered with the Consulo.
 
 Using the SDK code sample `action_basics`, this tutorial illustrates the steps to create an action for a plugin.
 
@@ -45,7 +45,7 @@ At this stage, `update()` implicitly defaults always to enable this action.
 The implementation of `actionPerformed()` does nothing.
 These methods fully implemented in [Developing the AnAction Methods](#developing-the-anaction-methods) below.
 
-Before fleshing out those methods, to complete this minimal implementation, `PopupDialogAction` must be registered with the IntelliJ Platform.
+Before fleshing out those methods, to complete this minimal implementation, `PopupDialogAction` must be registered with the Consulo.
 
 ## Registering a Custom Action
 Actions are registered by declaring them in code or by declaring them in the `<actions>` section of a plugin configuration (`plugin.xml`) file.
@@ -115,7 +115,7 @@ The full declaration is:
 ```
 
 #### Using Override-Text for an Action
-By using the `override-text` element introduced in 2020.1 of the IntelliJ Platform, the action text can be different depending on the context of where the action appears: menu, toolbar, etc.
+By using the `override-text` element introduced in 2020.1 of the Consulo, the action text can be different depending on the context of where the action appears: menu, toolbar, etc.
 The example above uses this element to ensure the shorter text "Pop Dialog Action" is shown anywhere the action appears in the Main Menu structure.
 Otherwise, the default, more explanatory text "Action Basics Plugin: Pop Dialog Action" is shown.
 For more information, see [Setting the Override-Text Element](/basics/action_system.md#setting-the-override-text-element)
@@ -134,7 +134,7 @@ Selecting the action from the menu, keyboard/mouse shortcuts, or Find Action won
 However, it confirms the new entry appears at **Tools \| Pop Dialog Action** and **Help \| Find Action...**.
 
 ## Developing the `AnAction` Methods
-At this point, the new action `PopupDialogAction` is registered with the IntelliJ Platform and functions in the sense that  `update()` and `actionPerformed()` are called in response to user interaction with the IDE Tools menu.
+At this point, the new action `PopupDialogAction` is registered with the Consulo and functions in the sense that  `update()` and `actionPerformed()` are called in response to user interaction with the IDE Tools menu.
 However, neither method implements any code to perform useful work.
 
 This section describes adding useful code to these methods.

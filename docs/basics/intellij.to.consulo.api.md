@@ -1,4 +1,4 @@
-# Migration from IntelliJ Platform to Consulo
+# Migration from Consulo to Consulo
 
 ### Platform changes
  * Plugins removed from platform. They plugin ids:
@@ -8,7 +8,7 @@
     * Images > **com.intellij.images**
  * Added plugin named **Platform: base** have id **com.intellij**. It holder for all extensions/actions/extensionPoints for platform
  * IDEA build number **!=** Consulo build number.
- * Now some IntelliJ Platform plugins ids is not working anymore
+ * Now some Consulo plugins ids is not working anymore
     * **com.intellij.modules.lang** > not need to write. It will throw 'plugin not found'
     * **com.intellij.modules.platform** > not need to write. It will throw 'plugin not found'
     * **com.intellij.modules.vcs** > not need to write. It will throw 'plugin not found'

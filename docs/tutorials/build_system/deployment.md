@@ -63,7 +63,7 @@ Once you are confident, the plugin works as intended, make sure the plugin versi
 To deploy a new version of your plugin to the JetBrains Plugins Repository, invoke the `publishPlugin` Gradle task.
 
 Now check the most recent version of your plugin on the [JetBrains Plugins Repository](https://plugins.jetbrains.com/).
-If successfully deployed, any users who currently have your plugin installed on an available version of the IntelliJ Platform are notified of a new update available as soon as the update has been verified.
+If successfully deployed, any users who currently have your plugin installed on an available version of the Consulo are notified of a new update available as soon as the update has been verified.
 
 ### Specifying a Release Channel
 You may also deploy plugins to a release channel of your choosing, by configuring the `publishPlugin.channels` property.

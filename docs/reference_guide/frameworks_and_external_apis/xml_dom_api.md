@@ -8,14 +8,14 @@ title: XML DOM API
 ## Abstract
 
 This article is intended for plugin writers who create custom web server integrations, or some UI for easy XML editing.
-It describes the *Document Object Model* (DOM) in IntelliJ Platform --- an easy way to work with DTD or Schema-based XML models.
+It describes the *Document Object Model* (DOM) in Consulo --- an easy way to work with DTD or Schema-based XML models.
 The following topics will be covered: working with DOM itself (reading/writing tags content, attributes, and subtags) and easy XML editing in the UI by connecting UI to DOM.
 
-It's assumed that the reader is familiar with Java, Swing, IntelliJ Platform XML PSI (classes [`XmlTag`](upsource:///xml/xml-psi-api/src/com/intellij/psi/xml/XmlTag.java), [`XmlFile`](upsource:///xml/xml-psi-api/src/com/intellij/psi/xml/XmlFile.java), [`XmlTagValue`](upsource:///xml/xml-psi-api/src/com/intellij/psi/xml/XmlTagValue.java), etc.), IntelliJ Platform plugin development basics (application and project components, file editors).
+It's assumed that the reader is familiar with Java, Swing, Consulo XML PSI (classes [`XmlTag`](upsource:///xml/xml-psi-api/src/com/intellij/psi/xml/XmlTag.java), [`XmlFile`](upsource:///xml/xml-psi-api/src/com/intellij/psi/xml/XmlFile.java), [`XmlTagValue`](upsource:///xml/xml-psi-api/src/com/intellij/psi/xml/XmlTagValue.java), etc.), Consulo plugin development basics (application and project components, file editors).
 
 ## Introduction
 
-So, how to operate with XML from an IntelliJ Platform plugin? Usually, one has to take `XmlFile`, get its root tag, and then find a required sub-tag by path.
+So, how to operate with XML from an Consulo plugin? Usually, one has to take `XmlFile`, get its root tag, and then find a required sub-tag by path.
 The path consists of tag names, each of them a string.
 Typing these everywhere is tedious and error-prone.
 Let's assume you have the following XML:
@@ -516,7 +516,7 @@ The combination of `createMockElement()` and `copyFrom()` is useful for editing 
 You create a mock copy of an element, work with it in the dialog and then, if the user doesn't cancel, copy the element back to the main model.
 Since it's a common case, a special shortcut method has been created in `DomElement`, called `createMockCopy()`.
 
-IntelliJ Platform's XML parser is incremental: changes in text do not cause the whole file to be reparsed.
+Consulo's XML parser is incremental: changes in text do not cause the whole file to be reparsed.
 But you should keep in mind that this rule may sometimes not work correctly.
 For example, your DOM elements can unexpectedly become broken as a result of manual editing of the XML file (even if it didn't happen inside those elements).
 If a file editor depends on such a broken element, this can lead to closing the tab, which isn't very nice from the user's point of view.
@@ -661,7 +661,7 @@ By default _invertedOrder_ is set to `false`, so the first element corresponds t
 If you set the parameter to `true`, the states will swap.
 
 ### Editor-Based Controls
-Please note that editor-based controls are built on IntelliJ Platform's `Editor` instead of standard `JTextField`.
+Please note that editor-based controls are built on Consulo's `Editor` instead of standard `JTextField`.
 Since there's currently no way to instantiate Editor directly through the Open API, controls are bound to special `JPanel` inheritors, and their `bind()` method adds the necessary content to those panels.
 
 ##### TextControl
@@ -707,7 +707,7 @@ The appropriate column info is `ChildGenericValueColumnInfo<T>`.
 It will ask you for a `DomFixedChildDescription` (one more thing from DOM reflection), a renderer and an editor — nothing else.
 So, the main things left to customize are the renderer and the editor.
 
-As for the renderer, there are two main choices: `DefaultTableCellRenderer`, and IntelliJ Platform's `BooleanTableCellRenderer`.
+As for the renderer, there are two main choices: `DefaultTableCellRenderer`, and Consulo's `BooleanTableCellRenderer`.
 Editors are more complicated, but they closely resemble simple DOM controls.
 
 `BooleanTableCellEditor`, `DefaultCellEditor(JTextField)`, `ComboTableCellEditor`, etc. `DomUIFactory.createCellEditor()` will create any of them automatically (including the editor for `PsiClass`), so that you won't need to think about which one to select every time.

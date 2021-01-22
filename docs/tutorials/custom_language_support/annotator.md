@@ -14,7 +14,7 @@ This section adds annotation functionality to support the Simple Language in the
 ## Required Project Configuration Changes
 Classes defined in this step of the tutorial depend on `com.intellij.psi.PsiLiteralExpression` at runtime.
 Using `PsiLiteralExpression` [introduces a dependency](/basics/getting_started/plugin_compatibility.md#modules-specific-to-functionality) on `com.intellij.modules.java`.
-Beginning in version 2019.2 of the IntelliJ Platform these dependencies are declared in `plugin.xml`:
+Beginning in version 2019.2 of the Consulo these dependencies are declared in `plugin.xml`:
 
 ```xml
   <depends>com.intellij.modules.java</depends>
@@ -43,7 +43,7 @@ Annotate the `simple:key` literal expression, and differentiate between a well-f
 > **TIP** If the above code is copied at this stage of the tutorial, then remove the line below the comment "** Tutorial step 18.3 …" The quick fix class in that line is not defined until later in the tutorial.
 
 ## 7.2. Register the Annotator
-Using the `com.intellij.annotator` extension point in the plugin configuration file, register the Simple Language annotator class with the IntelliJ Platform:
+Using the `com.intellij.annotator` extension point in the plugin configuration file, register the Simple Language annotator class with the Consulo:
 
 ```xml
   <extensions defaultExtensionNs="com.intellij">

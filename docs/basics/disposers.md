@@ -3,7 +3,7 @@ title: Disposer and Disposable
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-The IntelliJ Platform's [`Disposer`](upsource:///platform/util/src/com/intellij/openapi/util/Disposer.java) facilitates resource cleanup.
+The Consulo's [`Disposer`](upsource:///platform/util/src/com/intellij/openapi/util/Disposer.java) facilitates resource cleanup.
 If a subsystem keeps a set of resources alive coincident with a parent object's lifetime, the subsystem's resources should be registered with the `Disposer` to be released before or at the same time as the parent object.
 
 The most common resource type managed by `Disposer` is listeners, but there are other possible types:
@@ -46,7 +46,7 @@ Registering a disposable is performed by calling `Disposer.register()`:
 ### Choosing a Disposable Parent
 
 To register a child `Disposable`, a parent `Disposable` of a suitable lifetime is used to establish the parent-child relationship.
-One of the parent `Disposables` provided by the IntelliJ Platform can be chosen, or it can be another `Disposable`.
+One of the parent `Disposables` provided by the Consulo can be chosen, or it can be another `Disposable`.
 
 Use the following guidelines to choose the correct parent:
 
@@ -69,7 +69,7 @@ This creates memory pressure and can waste CPU cycles on processing events that 
 
 ### Registering Listeners with Parent Disposable
 
-Many IntelliJ Platform APIs for registering listeners either require passing a parent disposable or have overloads that take a parent disposable.
+Many Consulo APIs for registering listeners either require passing a parent disposable or have overloads that take a parent disposable.
 For example:
 
 ```java
@@ -139,7 +139,7 @@ Regardless, it illustrates the basic pattern, which is:
 ## Diagnosing Disposer Leaks
 
 When the application exits, it performs a final sanity check to verify everything was disposed.
-If something was registered with the `Disposer` but remains undisposed, the IntelliJ Platform reports it before shutting down.
+If something was registered with the `Disposer` but remains undisposed, the Consulo reports it before shutting down.
 
 In test and Debug mode (`idea.disposer.debug` is set to `on`), registering a `Disposable` with the `Disposer` also registers a stack trace for the object's allocation path.
 The `Disposer` accomplishes this by creating a dummy `Throwable` at the time of registration.
@@ -173,7 +173,7 @@ The following snippet represents the sort of "memory leak detected" error encoun
 > **TIP** The first part of the callstack is unrelated to diagnosing the memory leak.
 > Instead, pay attention to the second part of the call stack, after `Caused by: java.lang.Throwable`.
 
-In this specific case, the IntelliJ Platform ([`CoreProgressManager`](upsource:///platform/core-impl/src/com/intellij/openapi/progress/impl/CoreProgressManager.java)) started a task that contained the `DynamicWizard` code.
+In this specific case, the Consulo ([`CoreProgressManager`](upsource:///platform/core-impl/src/com/intellij/openapi/progress/impl/CoreProgressManager.java)) started a task that contained the `DynamicWizard` code.
 In turn, that code allocated a `Project` that was never disposed by the time the application exited.
 That is a promising place to start digging.
 

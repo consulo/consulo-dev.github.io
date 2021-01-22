@@ -34,9 +34,9 @@ That state will be passed to the [`Lexer.start()`](upsource:///platform/core-api
 Lexers used in other contexts can always return `0` from the `getState()` method.
 
 The easiest way to create a lexer for a custom language plugin is to use [JFlex](https://jflex.de).
-Classes [`FlexLexer`](upsource:///platform/core-api/src/com/intellij/lexer/FlexLexer.java) and [`FlexAdapter`](upsource:///platform/core-api/src/com/intellij/lexer/FlexAdapter.java) adapt JFlex lexers to the IntelliJ Platform Lexer API.
+Classes [`FlexLexer`](upsource:///platform/core-api/src/com/intellij/lexer/FlexLexer.java) and [`FlexAdapter`](upsource:///platform/core-api/src/com/intellij/lexer/FlexAdapter.java) adapt JFlex lexers to the Consulo Lexer API.
 We have a [patched version of JFlex](https://github.com/JetBrains/intellij-deps-jflex) that can be used with the lexer skeleton file located at *tools/lexer/idea-flex.skeleton* in the [IntelliJ IDEA Community Edition](https://github.com/JetBrains/intellij-community) source to create lexers compatible with [`FlexAdapter`](upsource:///platform/core-api/src/com/intellij/lexer/FlexAdapter.java).
-The patched version of JFlex provides a new command-line option `--charat` that changes the JFlex generated code to work with the IntelliJ Platform skeleton.
+The patched version of JFlex provides a new command-line option `--charat` that changes the JFlex generated code to work with the Consulo skeleton.
 Enabling `--charat` option passes the source data for lexing as a [`CharSequence`](https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html) and not as an array of characters.
 
 For developing lexers using JFlex, the [GrammarKit plugin](https://plugins.jetbrains.com/plugin/6606-grammar-kit) can be useful.

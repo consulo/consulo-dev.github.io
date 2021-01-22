@@ -6,7 +6,7 @@ title: Documents
 A [`Document`](upsource:///platform/core-api/src/com/intellij/openapi/editor/Document.java) is an editable sequence of Unicode characters, typically corresponding to the text contents of a [virtual file](virtual_file.md).
 
 Line breaks in a document are _always_ normalized to `\n`.
-The *IntelliJ Platform* handles encoding and line break conversions when loading and saving documents transparently.
+The *Consulo* handles encoding and line break conversions when loading and saving documents transparently.
 
 ## How do I get a document?
 
