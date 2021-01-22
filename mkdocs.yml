@@ -51,12 +51,7 @@ nav:
         - Introduction: basics/project_structure.md
         - Project:
             - Overview: reference_guide/project_model/project.md
-            - Project Wizard: reference_guide/project_wizard.md
-            - Project Wizard Tutorial:
-                - Overview: tutorials/project_wizard.md
-                - Adding New Steps to Project Wizard: tutorials/project_wizard/adding_new_steps.md
-                - Supporting Module Types: tutorials/project_wizard/module_types.md
-            - Frameworks: tutorials/framework.md
+            - Startup Activity: platform/project_model/project/startupactivity.md
         - Module: reference_guide/project_model/module.md
         - SDK: reference_guide/project_model/sdk.md
         - Library: reference_guide/project_model/library.md

@@ -3,23 +3,15 @@ title: Project Structure
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-<!--TODO split into parts accordingly to the table of contents-->
-
-This topic considers the concept of projects based on the IntelliJ Platform and related subjects, such as _modules_, _facets_, _libraries_, and _SDK_.
-The project structure and Java classes available to manage projects and modules are discussed.
-
-> **NOTE** Internal changes related to a significant redesign of the representation of project models are included in 2020.3 release; please see [blog post](https://blog.jetbrains.com/platform/2020/10/new-implementation-of-project-model-interfaces-in-2020-3/) for details. This shouldn’t affect any plugins using the IntelliJ API properly and which don’t access internal classes.
-
-* bullet list
-{:toc}
+This topic considers the concept of projects based on the Consulo and related subjects, such as _modules_, _libraries_, and _SDK_.
 
 ## Project and Its Components
-This section briefly discusses the IDEA project structure, project components, and related terms.
+This section briefly discusses the Consulo project structure, project components, and related terms.
 For more information about projects and their components, refer to [Project](https://www.jetbrains.com/help/idea/about-projects.html), [Module](https://www.jetbrains.com/help/idea/creating-and-managing-modules.html), [Library](https://www.jetbrains.com/help/idea/working-with-libraries.html), [Facet](https://www.jetbrains.com/help/idea/adding-support-for-frameworks-and-technologies.html#facets) in the IntelliJ IDEA Web Help.
 
 ### Project
-In the IntelliJ Platform, a _project_ encapsulates all of a project's source code, libraries, and build instructions into a single organizational unit.
-Everything done using the IntelliJ Platform SDK is done within the context of a project.
+In the Consulo, a _project_ encapsulates all of a project's source code, libraries, and build instructions into a single organizational unit.
+Everything done using the Consulo SDK is done within the context of a project.
 A project defines collections referred to as _modules_ and _libraries_.
 Depending on the project's logical and functional requirements, you can create a _single-module_ or a _multi-module_ project.
 
@@ -31,11 +23,9 @@ A module can depend on other modules of the project.
 
 ### Library
 A _library_ is an archive of compiled code (such as JAR files) on which modules depend.
-The IntelliJ Platform supports three types of libraries:
+The Consulo supports three types of libraries:
 * **Module Library**: the library classes are visible only in this module, and the library information is recorded in the module's `.iml` file.
 * **Project Library**: the library classes are visible within the project, and the library information is recorded in the project's `.ipr` file or in `.idea/libraries`.
-* **Global Library**: the library information is recorded in the `applicationLibraries.xml` file in the `~/.IntelliJIdea/config/options` directory.
-  Global libraries are similar to project libraries but are visible for different projects.
 
 For more information about libraries, refer to [Library](https://www.jetbrains.com/help/idea/working-with-libraries.html).
 
