@@ -98,10 +98,11 @@ nav:
 #        - Diff: not_documented_yet.md
 #        - Local History: not_documented_yet.md
 #    - Tasks and Contexts: not_documented_yet.md
-    - Localization Guide: reference_guide/localization_guide.md
 #    - Diagrams: not_documented_yet.md
-    - User Interface Components:
-      - Overview: user_interface_components_new/overview.md
+    - User Interface:
+      - Overview: platform/ui/overview.md
+      - Localization: platform/ui/localization.md
+      - Image Library: platform/ui/image.md
       - Swing (Desktop Only):
           - Overview: user_interface_components/user_interface_components.md
           - Tool Windows: user_interface_components/tool_windows.md
