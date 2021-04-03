@@ -4,7 +4,7 @@ Welcome to the **consulo.dev** - the primary source of documentation for extendi
 
 ## Getting Started
 
-* [**Creating Your First Plugin**](/basics/getting_started.md)
+* [**Creating Your First Plugin**](/basics/basics/)
 
 ## Open Source
 
