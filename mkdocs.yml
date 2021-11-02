@@ -35,6 +35,7 @@ nav:
           - Overview: basics/boot/overview.md
           - Boot Directories: basics/boot/boot.directories.md
         - Code Restriction: platform/restriction.md
+        - Permissions: platform/permissions.md
         - Migration from IntelliJ Platform to Consulo: basics/intellij.to.consulo.api.md
         - SPI Implementations: platform/desktop/spi.impl.md
     - Actions:
