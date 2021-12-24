@@ -30,7 +30,7 @@ title: Image Library
 		<plugins>
 			<plugin>
 				<groupId>consulo.maven</groupId>
-				<artifactId>consulo-maven-plugin</artifactId>
+				<artifactId>maven-consulo-plugin</artifactId>
 				<version>2-SNAPSHOT</version>
 				<extensions>true</extensions>
 				<executions>
