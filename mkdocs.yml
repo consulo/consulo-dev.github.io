@@ -1,5 +1,6 @@
 site_name: consulo.dev
 repo_url: https://github.com/consulo/consulo-dev.github.io
+site_url: https://consulo.dev
 theme:
   name: material
   favicon: art/icon16.svg
