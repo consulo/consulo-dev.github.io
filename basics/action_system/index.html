@@ -1,0 +1,6296 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://consulo.dev/basics/action_system/">
+      
+      
+        <link rel="prev" href="../../platform/desktop/spi.impl/">
+      
+      
+        <link rel="next" href="../../tutorials/action_system/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../art/icon16.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Action System - consulo.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="consulo.dev" class="md-header__button md-logo" aria-label="consulo.dev" data-md-component="logo">
+      
+  <img src="../../art/icon16.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            consulo.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Action System
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/consulo/consulo-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../platform/fundamentals/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../basics/" class="md-tabs__link">
+          
+  
+  
+  Creating Own Plugin
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="consulo.dev" class="md-nav__button md-logo" aria-label="consulo.dev" data-md-component="logo">
+      
+  <img src="../../art/icon16.svg" alt="logo">
+
+    </a>
+    consulo.dev
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/consulo/consulo-dev.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organization/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organization/repository_list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repositories
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fundamentals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../platform/fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../disposers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disposer and Disposable
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3" id="__nav_2_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Threading
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Threading
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/general_threading_rules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/messaging_infrastructure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Messaging Infrastructure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_5" id="__nav_2_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boot Information
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Boot Information
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../boot/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../boot/boot.directories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boot Directories
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../platform/restriction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Restriction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../platform/permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intellij.to.consulo.api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration from IntelliJ Platform to Consulo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../platform/desktop/spi.impl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SPI Implementations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Actions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#action-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Action Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principal-implementation-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principal Implementation Overrides
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overriding-the-anactionupdate-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overriding the AnAction.update Method
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overriding the AnAction.update Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#determining-the-action-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Determining the Action Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-and-setting-visibility-for-an-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enabling and Setting Visibility for an Action
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overriding-the-anactionactionperformed-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overriding the AnAction.actionPerformed Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-ids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action IDs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grouping-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouping Actions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Grouping Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Presentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compact-attribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compact Attribute
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registering-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registering Actions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registering Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registering-actions-in-pluginxml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registering Actions in plugin.xml
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registering Actions in plugin.xml">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-override-text-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting the Override-Text Element
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-synonym-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting the Synonym Element
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-search-for-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disabling Search for Group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#localizing-actions-and-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Localizing Actions and Groups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Localizing Actions and Groups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-declaration-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action Declaration Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registering-actions-from-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registering Actions from Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-ui-from-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building UI from Actions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions Tutorial
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Actions Tutorial
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/action_system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/action_system/working_with_custom_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/action_system/grouping_action/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Grouping Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Persistence
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../persisting_state_of_components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persisting State of Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../persisting_sensitive_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persisting Sensitive Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Model
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project Model
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_2" id="__nav_2_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/project_model/project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../platform/project_model/project/startupactivity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Startup Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/project_model/module/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/project_model/sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/project_model/library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/frameworks_and_external_apis/external_system_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External System Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Settings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Settings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/settings_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Settings Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/settings_groups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/settings_tutorial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Settings Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Files
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Files
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtual_file_system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual File System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/virtual_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/documents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Editors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/editors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8_2" id="__nav_2_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editor Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Editor Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/editor_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/editor_basics/working_with_text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Working with Text
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/editor_basics/coordinates_system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Editor Coordinates System. Positions and Offsets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/editor_basics/editor_events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Handling Editor Events
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/multiple_carets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Carets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PSI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PSI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/psi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What Is the PSI?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/psi_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PSI Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/file_view_providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File View Providers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/psi_elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PSI Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/navigating_psi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Navigating the PSI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/psi_references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architectural_overview/modifying_psi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modifying the PSI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../psi_cookbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PSI Cookbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9_9" id="__nav_2_9_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indexing and PSI Stubs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_9_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Indexing and PSI Stubs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../indexing_and_psi_stubs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../indexing_and_psi_stubs/file_based_indexes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File-Based Indexes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../indexing_and_psi_stubs/stub_indexes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stub Indexes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/frameworks_and_external_apis/xml_dom_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XML DOM API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run Configurations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Run Configurations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run_configurations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run_configurations/run_configuration_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run Configuration Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run_configurations/run_configuration_execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/run_configurations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run Configurations Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_11" id="__nav_2_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Version Control Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Version Control Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/vcs_integration_for_plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_12" id="__nav_2_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Interface
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Interface
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../platform/ui/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../platform/ui/localization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Localization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../platform/ui/image/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image Library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_12_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_12_4" id="__nav_2_12_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Swing (Desktop Only)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_12_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_12_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Swing (Desktop Only)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_interface_components/user_interface_components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_interface_components/tool_windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tool Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_interface_components/dialog_wrapper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dialogs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_interface_components/popups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Popups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_interface_components/notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notifications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_interface_components/file_and_class_choosers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File and Class Choosers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_interface_components/editor_components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editor Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_interface_components/lists_and_trees/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    List and Tree Controls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_interface_components/misc_swing_components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Miscellaneous Swing Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/work_with_icons_and_images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Icons and Images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/color_scheme_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Color Scheme Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../platform/update_channels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Update Channels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../platform/internal_libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Internal Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating Own Plugin
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Creating Own Plugin
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quick Start Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin Structure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Plugin Structure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_configuration_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration File
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_content/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Content
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_dependencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dependencies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_extension_points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extension Points
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_class_loaders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ClassLoaders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_listeners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Listeners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin_structure/plugin_icon_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Icon File
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types_of_plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main Types of Plugins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Language Support
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Custom Language Support
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/registering_file_type/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registering File Type
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/implementing_lexer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementing Lexer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/implementing_parser_and_psi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementing Parser and PSI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/syntax_highlighting_and_error_highlighting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syntax Highlighting and Error Highlighting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/references_and_resolve/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References and Resolve
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/symbols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Symbols
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/declarations_and_references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Declarations and References
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Navigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/code_completion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Completion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/find_usages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find Usages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/rename_refactoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rename Refactoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/safe_delete_refactoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Safe Delete Refactoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/code_formatting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Formatter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/code_inspections_and_intentions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Inspections and Intentions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/structure_view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Structure View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/surround_with/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Surround With
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/go_to_class_and_go_to_symbol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Go to Class and Go to Symbol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/documentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_guide/custom_language_support/additional_minor_features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Additional Minor Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_21" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_21" id="__nav_3_2_21_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_21_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_21">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Editing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../editing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_21_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_21_2" id="__nav_3_2_21_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Templates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_2_21_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_21_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Templates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_21_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_21_2_2" id="__nav_3_2_21_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live Templates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_3_2_21_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_21_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Live Templates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/live_templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/live_templates/template_support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding Live Templates to a Plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/live_templates/new_macros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating New Functions for Live Templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/code_intentions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intentions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project View
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project View
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project_view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/tree_structure_view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modifying Project View Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#action-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Action Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principal-implementation-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principal Implementation Overrides
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overriding-the-anactionupdate-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overriding the AnAction.update Method
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overriding the AnAction.update Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#determining-the-action-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Determining the Action Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-and-setting-visibility-for-an-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enabling and Setting Visibility for an Action
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overriding-the-anactionactionperformed-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overriding the AnAction.actionPerformed Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-ids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action IDs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grouping-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouping Actions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Grouping Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Presentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compact-attribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compact Attribute
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registering-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registering Actions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registering Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registering-actions-in-pluginxml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registering Actions in plugin.xml
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registering Actions in plugin.xml">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-override-text-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting the Override-Text Element
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-synonym-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting the Synonym Element
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-search-for-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disabling Search for Group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#localizing-actions-and-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Localizing Actions and Groups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Localizing Actions and Groups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-declaration-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action Declaration Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registering-actions-from-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registering Actions from Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-ui-from-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building UI from Actions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Overview</h1>
+
+<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+
+<h2 id="introduction">Introduction</h2>
+<p>The actions system is an extension point that allows plugins to add their items to Consulo-based IDE menus and toolbars.
+For example, one of the action classes is responsible for the <strong>File | Open File...</strong> menu item and the <strong>Open File</strong> toolbar button.</p>
+<p>Actions in the Consulo require a <a href="#action-implementation">code implementation</a> and must be <a href="#registering-actions">registered</a>.
+The action implementation determines the contexts in which an action is available, and its functionality when selected in the UI.
+Registration determines where an action appears in the IDE UI.
+Once implemented and registered, an action receives callbacks from the Consulo in response to user gestures.</p>
+<p>The <a href="/tutorials/action_system/working_with_custom_actions.md">Creating Actions</a> tutorial describes the process of adding a custom action to a plugin.
+The <a href="/tutorials/action_system/grouping_action.md">Grouping Actions</a> tutorial demonstrates three types of groups that can contain actions.
+The rest of this page is an overview of actions as an extension point.</p>
+<ul>
+<li>bullet list
+{:toc}</li>
+</ul>
+<h2 id="action-implementation">Action Implementation</h2>
+<p>An action is a class derived from the abstract class <a href="upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java"><code>AnAction</code></a>.
+The Consulo calls methods of an action when a user interacts with a menu item or toolbar button.</p>
+<blockquote>
+<p><strong>WARNING</strong> Classes based on <code>AnAction</code> do not have class fields of any kind.
+This is because an instance of <code>AnAction</code> class exists for the entire lifetime of the application.
+If the <code>AnAction</code> class uses a field to store data that has a shorter lifetime and doesn't clear this data promptly, the data leaks.
+For example, any <code>AnAction</code> data that exists only within the context of a <code>Project</code> causes the <code>Project</code> to be kept in memory after the user has closed it.</p>
+</blockquote>
+<h3 id="principal-implementation-overrides">Principal Implementation Overrides</h3>
+<p>Every Consulo action should override <code>AnAction.update()</code> and must override <code>AnAction.actionPerformed()</code>.
+* An action's method <code>AnAction.update()</code> is called by the Consulo framework to update an action state.
+  The state (enabled, visible) of an action determines whether the action is available in the UI of an IDE.
+  An object of the <a href="upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnActionEvent.java"><code>AnActionEvent</code></a> type is passed to this method and contains information about the current context for the action.
+  Actions are made available by changing state in the <a href="upsource:///platform/platform-api/src/com/intellij/ide/presentation/Presentation.java">Presentation</a> object associated with the event context.
+  As explained in <a href="#overriding-the-anactionupdate-method">Overriding the <code>AnAction.update()</code>  Method</a>, it is vital <code>update()</code> methods <em>execute quickly</em> and return execution to the Consulo.
+* An action's method <code>AnAction.actionPerformed()</code> is called by the Consulo if available and selected by the user.
+  This method does the heavy lifting for the action - it contains the code executed when the action gets invoked.
+  The <code>actionPerformed()</code> method also receives <code>AnActionEvent</code> as a parameter, which is used to access projects, files, selection, etc.
+  See <a href="#overriding-the-anactionactionperformed-method">Overriding the <code>AnAction.actionPerformed()</code> Method</a> for more information.</p>
+<p>There are other methods to override in the <code>AnAction</code> class, such as changing the default <code>Presentation</code> object for the action.
+There is also a use case for overriding action constructors when registering them with dynamic action groups, demonstrated in the <a href="/tutorials/action_system/grouping_action.md#adding-child-actions-to-the-dynamic-group">Grouping Actions</a> tutorial.
+However, the <code>update()</code> and <code>actionPerformed()</code> methods are essential to basic operation.</p>
+<h3 id="overriding-the-anactionupdate-method">Overriding the AnAction.update Method</h3>
+<p>The method <code>AnAction.update()</code> is periodically called by the Consulo in response to user gestures.
+The <code>update()</code> method gives an action to evaluate the current context and enable or disable its functionality.</p>
+<blockquote>
+<p><strong>WARNING</strong> The <code>AnAction.update()</code> method can be called frequently and on a UI thread.
+This method needs to <em>execute very quickly</em>; no real work should be performed in this method.
+For example, checking selection in a tree or a list is considered valid, but working with the file system is not.</p>
+<p><strong>TIP</strong> If the new state of an action cannot be determined quickly, then evaluation should be performed in the <code>AnAction.actionPerformed()</code> method, and notify the user that the action cannot be executed if the context isn't suitable.</p>
+</blockquote>
+<h4 id="determining-the-action-context">Determining the Action Context</h4>
+<p>The <code>AnActionEvent</code> object passed to <code>update()</code> carries information about the current context for the action.
+Context information is available from the methods of <code>AnActionEvent</code>, providing information such as the Presentation and whether the action is triggered by a Toolbar.
+Additional context information is available using the method <code>AnActionEvent.getData()</code>.
+Keys defined in <a href="upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/CommonDataKeys.java"><code>CommonDataKeys</code></a> are passed to the <code>getData()</code> method to retrieve objects such as <code>Project</code>, <code>Editor</code>, <code>PsiFile</code>, and other information.
+Accessing this information is relatively light-weight and is suited for <code>AnAction.update()</code>.</p>
+<h4 id="enabling-and-setting-visibility-for-an-action">Enabling and Setting Visibility for an Action</h4>
+<p>Based on information about the action context, the <code>AnAction.update()</code> method can enable, disable, or hide an action.
+An action's enable/disable state and visibility are set using methods of the <code>Presentation</code> object, which is accessed using <code>AnActionEvent.getPresentation()</code>.</p>
+<p>The default <code>Presentation</code> object is a set of descriptive information about a menu or toolbar action.
+Every context for an action - it might appear in multiple menus, toolbars, or Navigation search locations - has a unique presentation.
+Attributes such as an action's text, description, and icons and visibility and enable/disable state, are stored in the presentation.
+The attributes in a presentation get initialized from the <a href="#registering-actions">action registration</a>.
+However, some can be changed at runtime using the methods of the <code>Presentation</code> object associated with an action.</p>
+<p>The enabled/disabled state of an action is set using <code>Presentation.setEnabled()</code>.
+The visibility state of an action is set using <code>Presentation.setVisible()</code>
+If an action is enabled, the <code>AnAction.actionPerformed()</code> can be called if an action is selected in the IDE by a user.
+A menu action shows in the UI location specified in the registration.
+A toolbar action displays its enabled (or selected) icon, depending on the user interaction.</p>
+<p>When an action is disabled <code>AnAction.actionPerformed()</code> will not be called.
+Toolbar actions display their respective icons for the disabled state.
+The visibility of a disabled action in a menu depends on whether the host menu (e.g., "ToolsMenu") containing the action has the <code>compact</code> attribute set.
+See <a href="#grouping-actions">Grouping Actions</a> for more information about the <code>compact</code> attribute and menu actions' visibility.</p>
+<blockquote>
+<p><strong>NOTE</strong> If an action is added to a toolbar, its <code>update()</code> can be called if there was any user activity or focus transfer.
+If the action's availability changes in the absence of these events, then call <a href="upsource:///platform/platform-api/src/com/intellij/ide/ActivityTracker.java"><code>ActivityTracker.getInstance().inc()</code></a> to notify the action subsystem to update all toolbar actions.</p>
+</blockquote>
+<p>An example of enabling a menu action based on whether a project is open is demonstrated in <a href="https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/java/org/intellij/sdk/action/PopupDialogAction.java"><code>PopupDialogAction.update()</code></a> method.</p>
+<h3 id="overriding-the-anactionactionperformed-method">Overriding the AnAction.actionPerformed Method</h3>
+<p>When the user selects an enabled action, be it from a menu or toolbar, the action's <code>AnAction.actionPerformed()</code> method is called.
+This method contains the code executed to perform the action, and it is here that the real work gets done.</p>
+<p>By using the <code>AnActionEvent</code> methods and <code>CommonDataKeys</code>, objects such as the <code>Project</code>, <code>Editor</code>, <code>PsiFile</code>, and other information is available.
+For example, the <code>actionPerformed()</code> method can modify, remove, or add PSI elements to a file open in the editor.</p>
+<p>The code that executes in the <code>AnAction.actionPerformed()</code> method should execute efficiently, but it does not have to meet the same stringent requirements as the <code>update()</code> method.</p>
+<p>An example of inspecting PSI elements is demonstrated in the SDK code sample <code>action_basics</code> <a href="https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/java/org/intellij/sdk/action/PopupDialogAction.java"><code>PopupDialogAction.actionPerformed()</code></a> method.</p>
+<h3 id="action-ids">Action IDs</h3>
+<p>Every action and action group has a unique identifier.
+Basing the identifier for a custom action on the FQN of the implementation is the best practice, assuming the package incorporates the <code>&lt;id&gt;</code> of the plugin.
+An action must have a unique identifier for each place.
+It is used in the IDE UI, even though the FQN of the implementation is the same.
+Definitions of identifiers for the standard Consulo actions are in <a href="upsource:///platform/platform-api/src/com/intellij/openapi/actionSystem/IdeActions.java"><code>IdeActions</code></a>.</p>
+<h3 id="grouping-actions">Grouping Actions</h3>
+<p>Groups organize actions into logical UI structures, which in turn can contain other groups.
+A group of actions can form a toolbar or a menu.
+Subgroups of a group can form submenus of a menu.</p>
+<p>Actions can be included in multiple groups, and thus appear in different places within the IDE UI.
+An action must have a unique identifier for each place it appears in the IDE UI.
+See the <a href="#action-declaration-reference">Action Declaration Reference</a> section for information about how to specify locations in the IDE UI.</p>
+<h4 id="presentation">Presentation</h4>
+<p>A new <a href="upsource:///platform/platform-api/src/com/intellij/ide/presentation/Presentation.java"><code>Presentation</code></a> gets created for every place where the action appears.
+Therefore, the same action can have different text or icons when it appears in different places of the user interface.
+Different presentations for the action are created by copying the Presentation returned by the <code>AnAction.getTemplatePresentation()</code> method.</p>
+<h4 id="compact-attribute">Compact Attribute</h4>
+<p>A group's "compact" attribute specifies whether an action within that group is visible when disabled.
+See <a href="#registering-actions-in-pluginxml">Registering Actions in plugin.xml</a> for an explanation of how the <code>compact</code> attribute is set for a group.
+If the <code>compact</code> attribute is <code>true</code> for a menu group, an action in the menu only appears if its state is both enabled and visible.
+In contrast, if the <code>compact</code> attribute is <code>false</code>, an action in the menu appears if its state is disabled but visible.
+Some menus like <strong>Tools</strong> have the <code>compact</code> attribute set, so there isn't a way to show an action on the tools menu if it is not enabled.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Host Menu<br><code>compact</code> Setting</th>
+<th style="text-align: center;">Action Enabled</th>
+<th style="text-align: center;">Visibility Enabled</th>
+<th style="text-align: center;">Menu Item Visible?</th>
+<th style="text-align: center;">Menu Item Appears Gray?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;"><strong>F</strong></td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;"><strong>F</strong></td>
+<td style="text-align: center;">N/A</td>
+</tr>
+<tr>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">F</td>
+</tr>
+<tr>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;"><strong>F</strong></td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;"><strong>T</strong></td>
+<td style="text-align: center;"><strong>T</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">F</td>
+</tr>
+</tbody>
+</table>
+<p>All other combinations of <code>compact</code>, visibility, and enablement produce N/A for gray appearance because the menu item isn't visible.</p>
+<p>See the <a href="/tutorials/action_system/grouping_action.md">Grouping Actions</a> tutorial for examples of creating action groups.</p>
+<h2 id="registering-actions">Registering Actions</h2>
+<p>There are two main ways to register an action: either by listing it in the <code>&lt;actions&gt;</code> section of a plugin's <code>plugin.xml</code> file or through code.</p>
+<h3 id="registering-actions-in-pluginxml">Registering Actions in plugin.xml</h3>
+<p>Registering actions in <code>plugin.xml</code> is demonstrated in the following reference examples, which document all elements and attributes used in the <code>&lt;actions&gt;</code> section and describe each element's meaning.</p>
+<h4 id="setting-the-override-text-element">Setting the Override-Text Element</h4>
+<p>Beginning in 2020.1, an alternate version of an action's menu text can be declared for use depending on where an action appears.
+Using the <code>&lt;override-text&gt;</code> element, the menu text for an action can be different depending on context: menu location, toolbar, etc.
+This is also available for groups in 2020.3 and later.</p>
+<p>In the <code>action</code> element reference example (below) with <code>id</code> attribute <code>VssIntegration.GarbageCollection</code>, the default is to use the menu text "Garbage Collector: Collect _Garbage."
+The <code>add-to-group</code> element declares the action is added to the Tools Menu.</p>
+<p>However, the <code>override-text</code> element declares that text for <code>VssIntegration.GarbageCollection</code> displayed anywhere in the Main Menu system should be the alternate text "Collect _Garbage."
+The Tools Menu is part of the Main Menu, so the displayed menu text is "Collect _Garbage."
+A different context, such as searching for the action using <strong>Help | Find Action...</strong>,  displays the default text "Garbage Collector: Collect _Garbage" to give the user additional information about the action.</p>
+<p>A second <code>override-text</code> element uses <code>place</code> and <code>use-text-of-place</code> attributes to declare the same version of the text used in the Main Menu is also used in the Editor Popup Menu.
+Additional <code>override-text</code> elements could be used to specify other places where the Main Menu text should be used.</p>
+<p>An example of using <code>&lt;override-text&gt;</code> is demonstrated in the <a href="/tutorials/action_system/working_with_custom_actions.md#using-override-text-for-an-action">Creating Actions</a> tutorial.</p>
+<h4 id="setting-the-synonym-element">Setting the Synonym Element</h4>
+<p><em>2020.3</em>
+Users can locate actions via their name by invoking <strong>Help | Find Action</strong>.</p>
+<p>To allow using alternative names in search, add one or more <code>&lt;synonym&gt;</code> elements inside <code>&lt;action&gt;</code> or <code>&lt;reference&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">&lt;action</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;MyAction&quot;</span><span class="w"> </span><span class="na">text=</span><span class="s">&quot;My Action Name&quot;</span><span class="w"> </span><span class="err">...</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;synonym</span><span class="w"> </span><span class="na">text=</span><span class="s">&quot;Another Search Term&quot;</span><span class="nt">/&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">&lt;/action&gt;</span>
+</code></pre></div>
+<p>To provide a localized synonym, specify <code>key</code> instead of <code>text</code> attribute.</p>
+<h4 id="disabling-search-for-group">Disabling Search for Group</h4>
+<p><em>2020.3</em>
+To exclude a group from appearing in <strong>Help | Find Action</strong> results (e.g., <em>New...</em> popup), specify <code>searchable="false"</code>.</p>
+<h4 id="localizing-actions-and-groups">Localizing Actions and Groups</h4>
+<p>Action and group localization use resource bundles containing property files named <code>*Bundle.properties</code>, each file consisting of <code>key=value</code> pairs.
+The <a href="https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/action_basics"><code>action_basics</code></a> plugin demonstrates using a resource bundle to localize the group and action entries added to the Editor Popup Menu.</p>
+<p>When localizing actions and groups, the <code>text</code> and <code>description</code> attributes are not declared in <code>plugin.xml</code>.
+Instead, those attribute values vary depending on the locale and get declared in a resource bundle.</p>
+<p>The name and location of the resource bundle must be declared in the <code>plugin.xml</code> file.
+In the case of <code>action_basics</code>, only a default localization resource bundle (<code>/resources/messages/BasicActionsBundle.properties</code>) is provided:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">&lt;resource-bundle&gt;</span>messages.BasicActionsBundle<span class="nt">&lt;/resource-bundle&gt;</span>
+</code></pre></div>
+<p><em>2020.1</em>
+If necessary, a dedicated resource bundle to use for actions and groups can be defined on <code>&lt;actions&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">&lt;actions</span><span class="w"> </span><span class="na">resource-bundle=</span><span class="s">&quot;messages.MyActionsBundle&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- action/group defined here will use keys from MyActionsBundle.properties --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/actions&gt;</span>
+</code></pre></div>
+<h5 id="actions">Actions</h5>
+<p>For Actions, the key in property files incorporates the action <code>id</code> in this specific structure:
+* <code>action.&lt;action-id&gt;.text=Translated Action Text</code>
+* <code>action.&lt;action-id&gt;.description=Translated Action Description</code></p>
+<p><em>2020.1</em>
+If <code>&lt;override-text&gt;</code> is used for an action <code>id</code>, the key includes the <code>&lt;place&gt;</code> attribute:
+* <code>action.&lt;action-id&gt;.&lt;place&gt;.text=Place-dependent Translated Action Text</code></p>
+<h5 id="groups">Groups</h5>
+<p>For Groups, the <code>key</code> in the property files incorporates the group <code>id</code> in this specific structure:
+* <code>group.&lt;group-id&gt;.text=Translated Group Text</code>
+* <code>group.&lt;group-id&gt;.description=Translated Group Description</code></p>
+<p><em>2020.3</em> 
+If <code>&lt;override-text&gt;</code> is used for an group <code>id</code>, the key includes the <code>&lt;place&gt;</code> attribute:
+* <code>group.&lt;group-id&gt;.&lt;place&gt;.text=Place-dependent Translated Group Text</code></p>
+<p>See <a href="/tutorials/action_system/grouping_action.md#extending-defaultactiongroup">Extending DefaultActionGroup</a> for a tutorial of localizing Actions and Groups.</p>
+<h4 id="action-declaration-reference">Action Declaration Reference</h4>
+<p>The places where actions can appear are defined by constants in <a href="upsource:///platform/platform-api/src/com/intellij/openapi/actionSystem/ActionPlaces.java"><code>ActionPlaces</code></a>.
+Group IDs for the Consulo are defined in <a href="upsource:///platform/platform-resources/src/idea/PlatformActions.xml"><code>PlatformActions.xml</code></a>.</p>
+<p>This, and additional information can also be found by using the <a href="https://www.jetbrains.com/help/idea/auto-completing-code.html#invoke-basic-completion">Code Completion</a>, <a href="https://www.jetbrains.com/help/idea/viewing-reference-information.html#view-definition-symbols">Quick Definition</a> and <a href="https://www.jetbrains.com/help/idea/viewing-reference-information.html#inline-quick-documentation">Quick Documentation</a> features.</p>
+<blockquote>
+<p><strong>TIP</strong> To lookup existing Action ID (e.g. for use in <code>relative-to-action</code>), <a href="/reference_guide/internal_actions/internal_ui_inspector.md">UI Inspector</a> can be used.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Actions --&gt;</span>
+<span class="nt">&lt;actions&gt;</span>
+<span class="w">  </span><span class="cm">&lt;!-- The &lt;action&gt; element defines an action to register.</span>
+<span class="cm">       The mandatory &quot;id&quot; attribute specifies a unique</span>
+<span class="cm">       identifier for the action.</span>
+<span class="cm">       The mandatory &quot;class&quot; attribute specifies the</span>
+<span class="cm">       FQN of the class implementing the action.</span>
+<span class="cm">       The mandatory &quot;text&quot; attribute specifies the default long-version text to be displayed for the</span>
+<span class="cm">       action (tooltip for toolbar button or text for menu item).</span>
+<span class="cm">       The optional &quot;use-shortcut-of&quot; attribute specifies the ID</span>
+<span class="cm">       of the action whose keyboard shortcut this action will use.</span>
+<span class="cm">       The optional &quot;description&quot; attribute specifies the text</span>
+<span class="cm">       which is displayed in the status bar when the action is focused.</span>
+<span class="cm">       The optional &quot;icon&quot; attribute specifies the icon which is</span>
+<span class="cm">       displayed on the toolbar button or next to the menu item. --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;action</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;VssIntegration.GarbageCollection&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;com.foo.impl.CollectGarbage&quot;</span><span class="w"> </span><span class="na">text=</span><span class="s">&quot;Garbage Collector: Collect _Garbage&quot;</span>
+<span class="w">                </span><span class="na">description=</span><span class="s">&quot;Run garbage collector&quot;</span><span class="w"> </span><span class="na">icon=</span><span class="s">&quot;icons/garbage.png&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- The &lt;override-text&gt; element defines an alternate version of the text for the menu action.</span>
+<span class="cm">         The mandatory &quot;text&quot; attribute defines the text to be displayed for the action.</span>
+<span class="cm">         The mandatory &quot;place&quot; attribute declares where the alternate text should be used. In this example,</span>
+<span class="cm">         any time the action is displayed in the IDE Main Menu (and submenus) the override-text</span>
+<span class="cm">         version should be used.</span>
+<span class="cm">         The second &lt;override-text&gt; element uses the alternate attribute &quot;use-text-of-place&quot; to define</span>
+<span class="cm">         a location (EditorPopup) to use the same text as is used in MainMenu. It is a way to specify</span>
+<span class="cm">         use of alternate menu text in multiple discrete menu groups. --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;override-text</span><span class="w"> </span><span class="na">place=</span><span class="s">&quot;MainMenu&quot;</span><span class="w"> </span><span class="na">text=</span><span class="s">&quot;Collect _Garbage&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;override-text</span><span class="w"> </span><span class="na">place=</span><span class="s">&quot;EditorPopup&quot;</span><span class="w"> </span><span class="na">use-text-of-place=</span><span class="s">&quot;MainMenu&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Provide alternative names for searching action by name --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;synonym</span><span class="w"> </span><span class="na">text=</span><span class="s">&quot;GC&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- The &lt;add-to-group&gt; node specifies that the action should be added</span>
+<span class="cm">         to an existing group. An action can be added to several groups.</span>
+<span class="cm">         The mandatory &quot;group-id&quot; attribute specifies the ID of the group</span>
+<span class="cm">         to which the action is added.</span>
+<span class="cm">         The group must be implemented by an instance of the DefaultActionGroup class.</span>
+<span class="cm">         The mandatory &quot;anchor&quot; attribute specifies the position of the</span>
+<span class="cm">         action in the relative to other actions. It can have the values</span>
+<span class="cm">         &quot;first&quot;, &quot;last&quot;, &quot;before&quot; and &quot;after&quot;.</span>
+<span class="cm">         The &quot;relative-to-action&quot; attribute is mandatory if the anchor</span>
+<span class="cm">         is set to &quot;before&quot; and &quot;after&quot;, and specifies the action before or after which</span>
+<span class="cm">         the current action is inserted. --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;add-to-group</span><span class="w"> </span><span class="na">group-id=</span><span class="s">&quot;ToolsMenu&quot;</span><span class="w"> </span><span class="na">relative-to-action=</span><span class="s">&quot;GenerateJavadoc&quot;</span><span class="w"> </span><span class="na">anchor=</span><span class="s">&quot;after&quot;</span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="cm">&lt;!-- The &lt;keyboard-shortcut&gt; node specifies the keyboard shortcut</span>
+<span class="cm">           for the action. An action can have several keyboard shortcuts.</span>
+<span class="cm">           The mandatory &quot;first-keystroke&quot; attribute specifies the first</span>
+<span class="cm">           keystroke of the action. The keystrokes are specified according</span>
+<span class="cm">           to the regular Swing rules.</span>
+<span class="cm">           The optional &quot;second-keystroke&quot; attribute specifies the second</span>
+<span class="cm">           keystroke of the action.</span>
+<span class="cm">           The mandatory &quot;keymap&quot; attribute specifies the keymap for which</span>
+<span class="cm">           the action is active. IDs of the standard keymaps are defined as</span>
+<span class="cm">           constants in the com.intellij.openapi.keymap.KeymapManager class.</span>
+<span class="cm">           The optional &quot;remove&quot; attribute in the second &lt;keyboard-shortcut&gt;</span>
+<span class="cm">           element below means the specified shortcut should be removed from</span>
+<span class="cm">           the specified action.</span>
+<span class="cm">           The optional &quot;replace-all&quot; attribute in the third &lt;keyboard-shortcut&gt;</span>
+<span class="cm">           element below means remove all keyboard and mouse shortcuts from the specified</span>
+<span class="cm">           action before adding the specified shortcut.  --&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Add the first and second keystrokes to all keymaps  --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;keyboard-shortcut</span><span class="w"> </span><span class="na">keymap=</span><span class="s">&quot;$default&quot;</span><span class="w"> </span><span class="na">first-keystroke=</span><span class="s">&quot;control alt G&quot;</span><span class="w"> </span><span class="na">second-keystroke=</span><span class="s">&quot;C&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Except to the &quot;Mac OS X&quot; keymap and its children --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;keyboard-shortcut</span><span class="w"> </span><span class="na">keymap=</span><span class="s">&quot;Mac OS X&quot;</span><span class="w"> </span><span class="na">first-keystroke=</span><span class="s">&quot;control alt G&quot;</span><span class="w"> </span><span class="na">second-keystroke=</span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="na">remove=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- The &quot;Mac OS X 10.5+&quot; keymap and its children will have only this keyboard shortcut for this action.  --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;keyboard-shortcut</span><span class="w"> </span><span class="na">keymap=</span><span class="s">&quot;Mac OS X 10.5+&quot;</span><span class="w"> </span><span class="na">first-keystroke=</span><span class="s">&quot;control alt G&quot;</span><span class="w"> </span><span class="na">second-keystroke=</span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="na">replace-all=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- The &lt;mouse-shortcut&gt; node specifies the mouse shortcut for the</span>
+<span class="cm">           action. An action can have several mouse shortcuts.</span>
+<span class="cm">           The mandatory &quot;keystroke&quot; attribute specifies the clicks and</span>
+<span class="cm">           modifiers for the action. It is defined as a sequence of words</span>
+<span class="cm">           separated by spaces:</span>
+<span class="cm">           &quot;button1&quot;, &quot;button2&quot;, &quot;button3&quot; for the mouse buttons;</span>
+<span class="cm">           &quot;shift&quot;, &quot;control&quot;, &quot;meta&quot;, &quot;alt&quot;, &quot;altGraph&quot; for the modifier keys;</span>
+<span class="cm">           &quot;doubleClick&quot; if the action is activated by a double-click of the button.</span>
+<span class="cm">           The mandatory &quot;keymap&quot; attribute specifies the keymap for which</span>
+<span class="cm">           the action is active. IDs of the standard keymaps are defined as</span>
+<span class="cm">           constants in the com.intellij.openapi.keymap.KeymapManager class.</span>
+<span class="cm">           The &quot;remove&quot; and &quot;replace-all&quot; attributes can also be used in</span>
+<span class="cm">           a &lt;mouse-shortcut&gt; element. See &lt;keyboard-shortcut&gt; for documentation.  --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;mouse-shortcut</span><span class="w"> </span><span class="na">keymap=</span><span class="s">&quot;$default&quot;</span><span class="w"> </span><span class="na">keystroke=</span><span class="s">&quot;control button3 doubleClick&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/action&gt;</span>
+<span class="w">  </span><span class="cm">&lt;!--  This action declares neither a text nor description attribute. If it has</span>
+<span class="cm">        a resource bundle declared the text and descriptions will be retrieved</span>
+<span class="cm">        based on the action-id incorporated in the key for a translated string --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;action</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;sdk.action.PopupDialogAction&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;sdk.action.PopupDialogAction&quot;</span>
+<span class="w">        </span><span class="na">icon=</span><span class="s">&quot;SdkIcons.Sdk_default_icon&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/action&gt;</span>
+<span class="w">  </span><span class="cm">&lt;!-- The &lt;group&gt; element defines an action group. &lt;action&gt;, &lt;group&gt; and</span>
+<span class="cm">       &lt;separator&gt; elements defined within it are automatically included in the group.</span>
+<span class="cm">       The mandatory &quot;id&quot; attribute specifies a unique identifier for the group.</span>
+<span class="cm">       The optional &quot;class&quot; attribute specifies the FQN of</span>
+<span class="cm">       the class implementing the group. If not specified,</span>
+<span class="cm">       com.intellij.openapi.actionSystem.DefaultActionGroup is used.</span>
+<span class="cm">       The optional &quot;text&quot; attribute specifies the text of the group (text</span>
+<span class="cm">       for the menu item showing the submenu).</span>
+<span class="cm">       The optional &quot;description&quot; attribute specifies the text which is displayed</span>
+<span class="cm">       in the status bar when the group has focus.</span>
+<span class="cm">       The optional &quot;icon&quot; attribute specifies the icon which is displayed on</span>
+<span class="cm">       the toolbar button or next to the menu group.</span>
+<span class="cm">       The optional &quot;popup&quot; attribute specifies how the group is presented in</span>
+<span class="cm">       the menu. If a group has popup=&quot;true&quot;, actions in it are placed in a</span>
+<span class="cm">       submenu; for popup=&quot;false&quot;, actions are displayed as a section of the</span>
+<span class="cm">       same menu delimited by separators.</span>
+<span class="cm">       The optional &quot;compact&quot; attribute specifies whether an action within that group is visible when disabled.</span>
+<span class="cm">       Setting compact=&quot;true&quot; specifies an action in the group isn&#39;t visible unless the action is enabled.        --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;com.foo.impl.MyActionGroup&quot;</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;TestActionGroup&quot;</span><span class="w"> </span><span class="na">text=</span><span class="s">&quot;Test Group&quot;</span><span class="w"> </span><span class="na">description=</span><span class="s">&quot;Group with test actions&quot;</span><span class="w"> </span><span class="na">icon=</span><span class="s">&quot;icons/testgroup.png&quot;</span><span class="w"> </span><span class="na">popup=</span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="na">compact=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;action</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;VssIntegration.TestAction&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;com.foo.impl.TestAction&quot;</span><span class="w"> </span><span class="na">text=</span><span class="s">&quot;My Test Action&quot;</span><span class="w"> </span><span class="na">description=</span><span class="s">&quot;My test action&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- The &lt;separator&gt; element defines a separator between actions.</span>
+<span class="cm">         It can also have an &lt;add-to-group&gt; child element. --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;separator/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;TestActionSubGroup&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- The &lt;reference&gt; element allows to add an existing action to the group.</span>
+<span class="cm">         The mandatory &quot;ref&quot; attribute specifies the ID of the action to add. --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;reference</span><span class="w"> </span><span class="na">ref=</span><span class="s">&quot;EditorCopy&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;add-to-group</span><span class="w"> </span><span class="na">group-id=</span><span class="s">&quot;MainMenu&quot;</span><span class="w"> </span><span class="na">relative-to-action=</span><span class="s">&quot;HelpMenu&quot;</span><span class="w"> </span><span class="na">anchor=</span><span class="s">&quot;before&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/group&gt;</span>
+<span class="nt">&lt;/actions&gt;</span>
+</code></pre></div>
+<h3 id="registering-actions-from-code">Registering Actions from Code</h3>
+<p>Two steps are required to register an action from code:
+* First, an instance of the class derived from <code>AnAction</code> must be passed to the <code>registerAction()</code> method of <a href="upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionManager.java"><code>ActionManager</code></a>, to associate the action with an ID.
+* Second, the action needs to be added to one or more groups.
+  To get an instance of an action group by ID, it is necessary to call <code>ActionManager.getAction()</code> and cast the returned value to <a href="upsource:///platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java"><code>DefaultActionGroup</code></a>.</p>
+<h2 id="building-ui-from-actions">Building UI from Actions</h2>
+<p>If a plugin needs to include a toolbar or popup menu built from a group of actions in its user interface, that is accomplished through <a href="upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionPopupMenu.java"><code>ActionPopupMenu</code></a> and <a href="upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionToolbar.java"><code>ActionToolbar</code></a>.
+These objects can be created through calls to the <code>ActionManager.createActionPopupMenu()</code> and <code>createActionToolbar()</code> methods.
+To get a Swing component from such an object, call the respective <code>getComponent()</code> method.</p>
+<p>If an action toolbar is attached to a specific component (for example, a panel in a tool window), call <code>ActionToolbar.setTargetComponent()</code> and pass the related component's instance as a parameter.
+Setting the target ensures that the toolbar buttons' state depends on the state of the related component, not on the current focus location within the IDE frame.</p>
+<p>See <a href="https://jetbrains.design/intellij/controls/toolbar/">Toolbar</a> in <em>Consulo UI Guidelines</em> for an overview.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
