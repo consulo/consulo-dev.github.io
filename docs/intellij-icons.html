@@ -29,8 +29,20 @@
     color: var(--bs-secondary-color);
     padding: 12px 0 2px;
     border-bottom: 1px solid var(--bs-border-color);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
+  .group-header:hover { color: var(--bs-body-color); }
   .group-header:first-child { padding-top: 0; }
+  .group-header .chevron {
+    display: inline-block;
+    font-size: 10px;
+    transition: transform 0.2s;
+  }
+  .group-header.collapsed .chevron { transform: rotate(-90deg); }
 
   .icon-card {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -241,6 +253,18 @@ let filtered = [];
 let offset = 0;
 let currentQuery = '';
 let lastGroup = '';
+const collapsedGroups = new Set();
+
+function toggleGroup(header, group) {
+  const collapsed = header.classList.toggle('collapsed');
+  if (collapsed) collapsedGroups.add(group); else collapsedGroups.delete(group);
+  let el = header.nextElementSibling;
+  while (el && !el.classList.contains('group-header')) {
+    el.style.display = collapsed ? 'none' : '';
+    el = el.nextElementSibling;
+  }
+  requestAnimationFrame(checkScroll);
+}
 
 function toUrl(p) {
   return BASE_URL + p.split('/').map(encodeURIComponent).join('/');
@@ -309,13 +333,17 @@ function renderBatch() {
     if (group !== lastGroup) {
       lastGroup = group;
       const header = document.createElement('div');
-      header.className = 'group-header';
-      header.textContent = group;
+      header.className = 'group-header' + (collapsedGroups.has(group) ? ' collapsed' : '');
+      header.dataset.group = group;
+      header.innerHTML = `<span class="chevron">&#9660;</span>${escHtml(group)}`;
+      header.addEventListener('click', () => toggleGroup(header, group));
       frag.appendChild(header);
     }
 
     const card = document.createElement('div');
     card.className = 'icon-card';
+    card.dataset.group = group;
+    if (collapsedGroups.has(group)) card.style.display = 'none';
     card.dataset.src = toUrl(src);
     card.dataset.light = entry[0] || '';
     card.dataset.dark = entry[1] || '';
@@ -356,12 +384,12 @@ const imgObserver = new IntersectionObserver((entries) => {
   }
 }, { rootMargin: '300px' });
 
-// Infinite scroll
+// Infinite scroll — keep loading batches until page is tall enough
 function checkScroll() {
-  if (offset >= filtered.length) return;
-  const scrollBottom = window.scrollY + window.innerHeight;
-  const docHeight = document.documentElement.scrollHeight;
-  if (scrollBottom + 800 >= docHeight) {
+  while (offset < filtered.length) {
+    const scrollBottom = window.scrollY + window.innerHeight;
+    const docHeight = document.documentElement.scrollHeight;
+    if (scrollBottom + 800 < docHeight) break;
     renderBatch();
   }
 }
