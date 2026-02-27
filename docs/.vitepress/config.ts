@@ -53,6 +53,7 @@ export default defineConfig({
             '/basics/psi_cookbook': architectureSidebar(),
             '/basics/indexing_and_psi_stubs': architectureSidebar(),
             '/basics/run_configurations': architectureSidebar(),
+            '/basics/intellij.to.consulo.api': architectureSidebar(),
             '/reference_guide/messaging_infrastructure': architectureSidebar(),
             '/reference_guide/editors': architectureSidebar(),
             '/reference_guide/multiple_carets': architectureSidebar(),
@@ -117,6 +118,7 @@ function homeSidebar(): DefaultTheme.SidebarItem[] {
 
 function architectureSidebar(): DefaultTheme.SidebarItem[] {
     return [
+        {text: 'Migration from IntelliJ Platform', link: '/basics/intellij.to.consulo.api'},
         {
             text: 'Fundamentals',
             collapsed: false,
@@ -143,7 +145,6 @@ function architectureSidebar(): DefaultTheme.SidebarItem[] {
                 },
                 {text: 'Code Restriction', link: '/platform/restriction'},
                 {text: 'Permissions', link: '/platform/permissions'},
-                {text: 'Migration from IntelliJ Platform to Consulo', link: '/basics/intellij.to.consulo.api'},
                 {text: 'SPI Implementations', link: '/platform/desktop/spi.impl'}
             ]
         },
