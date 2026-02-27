@@ -1,7 +1,7 @@
 ---
 title: 5. Syntax Highlighter and Color Settings Page
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The first level of syntax highlighting is based on the lexer output, and is provided by `SyntaxHighlighter`.
 A plugin can also define color settings based on `ColorSettingPage` so the user can configure highlight colors.
@@ -18,7 +18,69 @@ As recommended in [Color Scheme Management](/reference_guide/color_scheme_manage
 For the Simple Language, define only one scheme.
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleSyntaxHighlighter.java %}
+package org.consulo.sdk.language;
+
+import consulo.colorScheme.DefaultLanguageHighlighterColors;
+import consulo.colorScheme.HighlighterColors;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenType;
+import consulo.language.editor.highlight.SyntaxHighlighterBase;
+import consulo.language.lexer.Lexer;
+import org.consulo.sdk.language.psi.SimpleTypes;
+
+import jakarta.annotation.Nonnull;
+
+import static consulo.colorScheme.TextAttributesKey.createTextAttributesKey;
+
+public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
+
+  public static final TextAttributesKey SEPARATOR =
+      createTextAttributesKey("SIMPLE_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
+  public static final TextAttributesKey KEY =
+      createTextAttributesKey("SIMPLE_KEY", DefaultLanguageHighlighterColors.KEYWORD);
+  public static final TextAttributesKey VALUE =
+      createTextAttributesKey("SIMPLE_VALUE", DefaultLanguageHighlighterColors.STRING);
+  public static final TextAttributesKey COMMENT =
+      createTextAttributesKey("SIMPLE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+  public static final TextAttributesKey BAD_CHARACTER =
+      createTextAttributesKey("SIMPLE_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
+
+  private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
+  private static final TextAttributesKey[] SEPARATOR_KEYS = new TextAttributesKey[]{SEPARATOR};
+  private static final TextAttributesKey[] KEY_KEYS = new TextAttributesKey[]{KEY};
+  private static final TextAttributesKey[] VALUE_KEYS = new TextAttributesKey[]{VALUE};
+  private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
+  private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
+
+  @Nonnull
+  @Override
+  public Lexer getHighlightingLexer() {
+    return new SimpleLexerAdapter();
+  }
+
+  @Nonnull
+  @Override
+  public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
+    if (tokenType.equals(SimpleTypes.SEPARATOR)) {
+      return SEPARATOR_KEYS;
+    }
+    if (tokenType.equals(SimpleTypes.KEY)) {
+      return KEY_KEYS;
+    }
+    if (tokenType.equals(SimpleTypes.VALUE)) {
+      return VALUE_KEYS;
+    }
+    if (tokenType.equals(SimpleTypes.COMMENT)) {
+      return COMMENT_KEYS;
+    }
+    if (tokenType.equals(TokenType.BAD_CHARACTER)) {
+      return BAD_CHAR_KEYS;
+    }
+    return EMPTY_KEYS;
+  }
+
+}
 ```
 
 ### 5.2. Define a Syntax Highlighter Factory
@@ -26,7 +88,34 @@ The factory provides a standard way for the Consulo to instantiate the syntax hi
 Here, `SimpleSyntaxHighlighterFactory` subclasses [`SyntaxHighlighterFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/highlight/SyntaxHighlighterFactory.java).
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleSyntaxHighlighterFactory.java %}
+package org.consulo.sdk.language;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.language.editor.highlight.SyntaxHighlighterFactory;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
+@ExtensionImpl
+final class SimpleSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return SimpleLanguage.INSTANCE;
+  }
+
+  @Nonnull
+  @Override
+  public SyntaxHighlighter getSyntaxHighlighter(@Nullable Project project, @Nullable VirtualFile virtualFile) {
+    return new SimpleSyntaxHighlighter();
+  }
+
+}
 ```
 
 ### 5.3. Register the Syntax Highlighter Factory
@@ -43,7 +132,84 @@ The color settings page adds the ability for users to customize color settings f
 The `SimpleColorSettingsPage` implements `ColorSettingsPage`.
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleColorSettingsPage.java %}
+package org.consulo.sdk.language;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.colorScheme.setting.AttributesDescriptor;
+import consulo.colorScheme.setting.ColorDescriptor;
+import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
+import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.ui.image.Image;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
+import java.util.Map;
+
+@ExtensionImpl
+final class SimpleColorSettingsPage implements ColorSettingsPage {
+
+  private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
+      new AttributesDescriptor("Key", SimpleSyntaxHighlighter.KEY),
+      new AttributesDescriptor("Separator", SimpleSyntaxHighlighter.SEPARATOR),
+      new AttributesDescriptor("Value", SimpleSyntaxHighlighter.VALUE),
+      new AttributesDescriptor("Bad value", SimpleSyntaxHighlighter.BAD_CHARACTER)
+  };
+
+  @Override
+  public Image getIcon() {
+    return SimpleIcons.FILE;
+  }
+
+  @Nonnull
+  @Override
+  public SyntaxHighlighter getHighlighter() {
+    return new SimpleSyntaxHighlighter();
+  }
+
+  @Nonnull
+  @Override
+  public String getDemoText() {
+    return "# You are reading the \".properties\" entry.\n" +
+        "! The exclamation mark can also mark text as comments.\n" +
+        "website = https://en.wikipedia.org/\n" +
+        "language = English\n" +
+        "# The backslash below tells the application to continue reading\n" +
+        "# the value onto the next line.\n" +
+        "message = Welcome to \\\n" +
+        "          Wikipedia!\n" +
+        "# Add spaces to the key\n" +
+        "key\\ with\\ spaces = This is the value that could be looked up with the key \"key with spaces\".\n" +
+        "# Unicode\n" +
+        "tab : \\u0009";
+  }
+
+  @Nullable
+  @Override
+  public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
+    return null;
+  }
+
+  @Nonnull
+  @Override
+  public AttributesDescriptor[] getAttributeDescriptors() {
+    return DESCRIPTORS;
+  }
+
+  @Nonnull
+  @Override
+  public ColorDescriptor[] getColorDescriptors() {
+    return ColorDescriptor.EMPTY_ARRAY;
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Simple";
+  }
+
+}
 ```
 
 ### 5.6. Register the Color Settings Page

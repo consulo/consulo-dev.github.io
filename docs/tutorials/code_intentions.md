@@ -1,7 +1,7 @@
 ---
 title: Code Intentions
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 This topic describes the conditional_operator_intention, a sample plugin that adds a new intention action to the Consulo Intentions list.
 In addition, the sample plugin contains a JUnit-based test.

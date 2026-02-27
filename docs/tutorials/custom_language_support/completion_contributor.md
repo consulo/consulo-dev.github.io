@@ -1,7 +1,7 @@
 ---
 title: 9. Completion Contributor
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 Custom languages provide code completion using one of two approaches: Contributor and Reference-based (see [10. Reference Contributor](reference_contributor.md)) completion.
 
@@ -16,7 +16,40 @@ Create a completion contributor by subclassing [`CompletionContributor`](https:/
 This rudimentary completion contributor always adds "Hello" to the results set, regardless of context:
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleCompletionContributor.java %}
+package org.consulo.sdk.language;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.completion.*;
+import consulo.language.editor.completion.lookup.LookupElementBuilder;
+import consulo.language.pattern.PlatformPatterns;
+import consulo.language.util.ProcessingContext;
+import org.consulo.sdk.language.psi.SimpleTypes;
+
+import jakarta.annotation.Nonnull;
+
+@ExtensionImpl
+final class SimpleCompletionContributor extends CompletionContributor {
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return SimpleLanguage.INSTANCE;
+  }
+
+  SimpleCompletionContributor() {
+    extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.VALUE),
+        new CompletionProvider() {
+          public void addCompletions(@Nonnull CompletionParameters parameters,
+                                     @Nonnull ProcessingContext context,
+                                     @Nonnull CompletionResultSet resultSet) {
+            resultSet.addElement(LookupElementBuilder.create("Hello"));
+          }
+        }
+    );
+  }
+
+}
 ```
 
 ## 9.2. Register the Completion Contributor

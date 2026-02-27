@@ -3,7 +3,7 @@ title: IDE Development Instances
 redirect_from:
   - /basics/settings_caches_logs.html
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 A feature for developing plugins is running or debugging a plugin project from within the Consulo IDE.
 Selecting the appropriate run configuration for a Maven-based project (or [**Run**](getting_started/running_and_debugging_a_plugin.md) menu for a DevKit-based project) will launch a _Development Instance_ of the IDE with the plugin enabled.

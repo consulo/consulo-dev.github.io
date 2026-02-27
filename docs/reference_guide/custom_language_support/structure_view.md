@@ -2,7 +2,7 @@
 title: Structure View
 ---
 
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The Structure View implementation used for a specific file type can be customized on many levels.
 If a custom language plugin provides an implementation of the `StructureView` interface, it can completely replace the standard structure view implementation with a custom user interface component.

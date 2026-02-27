@@ -1,7 +1,7 @@
 ---
 title: Creating New Functions for Live Templates
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The Predefined Functions are the building blocks for creating Parameterized Templates and Surround Templates.
 However, sometimes the Predefined Functions are not enough.
@@ -24,7 +24,45 @@ Three `TitleCaseMacro` methods are of particular interest:
   The text to be capitalized is retrieved from the Live Template and converted to Title Case.
 
 ```java
-{% include /code_samples/live_templates/src/main/java/org/intellij/sdk/liveTemplates/TitleCaseMacro.java%}
+package org.consulo.sdk.liveTemplates;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.template.*;
+import consulo.language.editor.template.context.TemplateContextType;
+import consulo.language.editor.template.macro.MacroBase;
+import consulo.util.lang.StringUtil;
+
+import jakarta.annotation.Nonnull;
+
+@ExtensionImpl
+final class TitleCaseMacro extends MacroBase {
+
+  public TitleCaseMacro() {
+    super("titleCase", "titleCase(String)");
+  }
+
+  private TitleCaseMacro(String name, String description) {
+    super(name, description);
+  }
+
+  @Override
+  protected Result calculateResult(Expression @Nonnull [] params, ExpressionContext context, boolean quick) {
+    String text = getTextResult(params, context, true);
+    if (text == null) {
+      return null;
+    }
+    if (!text.isEmpty()) {
+      text = StringUtil.toTitleCase(text);
+    }
+    return new TextResult(text);
+  }
+
+  @Override
+  public boolean isAcceptableInContext(TemplateContextType context) {
+    return (context instanceof MarkdownContext);
+  }
+
+}
 ```
 
 ## Adding a Live Template

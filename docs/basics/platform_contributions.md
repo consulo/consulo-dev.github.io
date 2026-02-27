@@ -49,10 +49,10 @@ When writing a plugin, you have control over the code and don't need to sign the
 ### Submit a Patch
 If you would like to improve the code in the Consulo or its core functionality, you can submit a patch in the [GitHub issue tracker](https://github.com/consulo/consulo/issues).
 You can either file a new issue with the patch attached or attach a patch to an issue submitted by another user.
-When writing a patch, please make sure to follow the [Consulo Coding Guidelines](intellij_coding_guidelines.md).
+When writing a patch, please make sure to follow the [Consulo Coding Guidelines](consulo_coding_guidelines.md).
 
 Alternatively, you can fork the [Consulo repository on GitHub](https://github.com/consulo/consulo), make the changes in your fork and send us a pull request.
-A developer will review your patch and, if it meets the [quality criteria](intellij_coding_guidelines.md) and fits well with the rest of the code, you'll be notified about the acceptance of the patch.
+A developer will review your patch and, if it meets the [quality criteria](consulo_coding_guidelines.md) and fits well with the rest of the code, you'll be notified about the acceptance of the patch.
 
 ### Become a Committer
 Developers with a long history of submitting high-quality patches can gain direct commit rights.

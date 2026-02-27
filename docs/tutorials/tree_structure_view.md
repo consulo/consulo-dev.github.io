@@ -1,7 +1,7 @@
 ---
 title: Tree Structure View
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 This tutorial is meant to illustrate how the project tree structure view appearance can be modified programmatically.
 If you need to know more about basic concepts of a project view in Consulo-based IDEs, please refer to the Exploring The Project Structure section of the Consulo documentation.
@@ -41,7 +41,43 @@ To implement Tree Structure nodes filtering logic, override `modify()` method.
 The example below shows how to filter out all the Project View nodes except those which correspond to text files and directories.
 
 ```java
-{% include /code_samples/tree_structure_provider/src/main/java/org/intellij/sdk/treeStructureProvider/TextOnlyTreeStructureProvider.java %}
+package org.consulo.sdk.treeStructureProvider;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.project.ui.view.TreeStructureProvider;
+import consulo.project.ui.view.ViewSettings;
+import consulo.project.ui.view.internal.node.PsiFileNode;
+import consulo.ui.ex.tree.AbstractTreeNode;
+import consulo.language.plain.PlainTextFileType;
+import consulo.virtualFileSystem.VirtualFile;
+
+import jakarta.annotation.Nonnull;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+@ExtensionImpl
+final class TextOnlyTreeStructureProvider implements TreeStructureProvider {
+
+  @Nonnull
+  @Override
+  public Collection<AbstractTreeNode<?>> modify(@Nonnull AbstractTreeNode<?> parent,
+                                                @Nonnull Collection<AbstractTreeNode<?>> children,
+                                                ViewSettings settings) {
+    ArrayList<AbstractTreeNode<?>> nodes = new ArrayList<>();
+    for (AbstractTreeNode<?> child : children) {
+      if (child instanceof PsiFileNode) {
+        VirtualFile file = ((PsiFileNode) child).getVirtualFile();
+        if (file != null && !file.isDirectory() && !(file.getFileType() instanceof PlainTextFileType)) {
+          continue;
+        }
+      }
+      nodes.add(child);
+    }
+    return nodes;
+  }
+
+}
 ```
 
 ## 3. Compile and Run the Plugin

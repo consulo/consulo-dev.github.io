@@ -1,7 +1,7 @@
 ---
 title: 2. Language and File Type
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The Consulo determines file type by examining the name of a file.
 Each language has [Language](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/Language.java) and [LanguageFileType](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/file/LanguageFileType.java) objects defining the language.
@@ -14,10 +14,22 @@ Register the `LanguageFileType` with the Consulo by annotating the implementatio
 
 ## 2.1. Define the Language
 The language implemented in this tutorial is named "Simple" - note the case of the name.
-The `SimpleLanguage` class is defined in the `org.intellij.sdk.language` package of the `simple_language_plugin` code sample:
+The `SimpleLanguage` class is defined in the `org.consulo.sdk.language` package of the `simple_language_plugin` code sample:
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleLanguage.java %}
+package org.consulo.sdk.language;
+
+import consulo.language.Language;
+
+public class SimpleLanguage extends Language {
+
+  public static final SimpleLanguage INSTANCE = new SimpleLanguage();
+
+  private SimpleLanguage() {
+    super("Simple");
+  }
+
+}
 ```
 
 ## 2.2. Define an Icon
@@ -26,14 +38,63 @@ There is nothing uniquely Simple Language-specific about [defining the icon](/re
 The definition follows a pattern similar to defining, e.g., `SdkIcons`.
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleIcons.java %}
+package org.consulo.sdk.language;
+
+import consulo.ui.image.Image;
+import consulo.ui.image.ImageKey;
+
+public class SimpleIcons {
+
+  public static final Image FILE = ImageKey.of("SimplePlugin", "simple-file", 16, 16);
+
+}
 ```
 
 ## 2.3. Define a FileType
 The Simple Language file type is defined by subclassing [`LanguageFileType`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/file/LanguageFileType.java):
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFileType.java %}
+package org.consulo.sdk.language;
+
+import consulo.language.file.LanguageFileType;
+import consulo.localize.LocalizeValue;
+import consulo.ui.image.Image;
+
+import jakarta.annotation.Nonnull;
+
+public final class SimpleFileType extends LanguageFileType {
+
+  public static final SimpleFileType INSTANCE = new SimpleFileType();
+
+  private SimpleFileType() {
+    super(SimpleLanguage.INSTANCE);
+  }
+
+  @Nonnull
+  @Override
+  public String getId() {
+    return "Simple File";
+  }
+
+  @Nonnull
+  @Override
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Simple language file");
+  }
+
+  @Nonnull
+  @Override
+  public String getDefaultExtension() {
+    return "simple";
+  }
+
+  @Nonnull
+  @Override
+  public Image getIcon() {
+    return SimpleIcons.FILE;
+  }
+
+}
 ```
 
 ## 2.4. Register the FileType

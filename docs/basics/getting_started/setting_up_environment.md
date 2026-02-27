@@ -1,7 +1,7 @@
 ---
 title: Setting Up a Development Environment
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 > **NOTE** For new projects, it is highly recommended to use [Maven](/tutorials/build_system.md).
 
@@ -21,7 +21,7 @@ Use the following checklist to ensure that you are ready to develop your custom 
 To set up your plugin development environment:
 
 * Create a new *Consulo SDK* under **File \| Project Structure**:
-  ![Create Consulo SDK](img/create_intellij_idea_sdk.png)
+  ![Create Consulo SDK](img/create_consulo_sdk.png)
   <br/>
   <br/>
 * Specify the installation folder of *Consulo* as the home directory.

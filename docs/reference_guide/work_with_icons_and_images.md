@@ -1,7 +1,7 @@
 ---
 title: Working with Icons and Images
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 Icons and images are used widely by Consulo plugins.
 Plugins need icons mostly for actions, custom components renderers, tool windows, and so on.

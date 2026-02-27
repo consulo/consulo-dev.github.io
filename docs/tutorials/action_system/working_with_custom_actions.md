@@ -1,7 +1,7 @@
 ---
 title: Creating Actions
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 ## Introduction
 Plugins can add actions to existing IDE menus and toolbars, as well as add new menus and toolbars.
@@ -63,7 +63,7 @@ The key parameters for basic registration are:
 In this case, `PopupDialogAction` will be available in the **Tools** menu, placed at the top:
 
 ```java
-@ActionImpl(id = "org.intellij.sdk.action.PopupDialogAction",
+@ActionImpl(id = "org.consulo.sdk.action.PopupDialogAction",
     parents = @ActionParentRef(value = @ActionRef(id = "ToolsMenu"), anchor = ActionRefAnchor.FIRST))
 public class PopupDialogAction extends AnAction {
 
@@ -94,7 +94,7 @@ An exhaustive list of `@ActionImpl` parameters is presented in the [@ActionImpl 
 The full `@ActionImpl` registration for `PopupDialogAction` in the `action_basics` code sample includes an [`Icon`](/reference_guide/work_with_icons_and_images.md), text, description, and shortcut reuse configuration:
 
 ```java
-@ActionImpl(id = "org.intellij.sdk.action.PopupDialogAction",
+@ActionImpl(id = "org.consulo.sdk.action.PopupDialogAction",
     parents = @ActionParentRef(value = @ActionRef(id = "ToolsMenu"), anchor = ActionRefAnchor.FIRST))
 public class PopupDialogAction extends AnAction {
 

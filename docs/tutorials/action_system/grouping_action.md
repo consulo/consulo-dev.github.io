@@ -1,7 +1,7 @@
 ---
 title: Grouping Actions
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 If an implementation requires several actions, or there are simply too many actions that overload the menu, the actions can be placed into groups.
 This tutorial demonstrates adding an action to an existing group, creating a new action group, and action groups with a variable number of actions.
@@ -25,7 +25,7 @@ The group's popup behavior, icon, and compact settings are configured through th
 See [Registering Actions with @ActionImpl](/basics/action_system.md#registering-actions-with-actionimpl) for more information about these attributes.
 
 ```java
-@ActionImpl(id = "org.intellij.sdk.action.GroupedActions")
+@ActionImpl(id = "org.consulo.sdk.action.GroupedActions")
 public class GroupedActions extends DefaultActionGroup {
     public GroupedActions() {
         super("Static Grouped Actions", true);
@@ -40,11 +40,11 @@ The `relatedToAction` references the action `id` for `PopupDialogAction`, not a 
 This group is placed after the single entry for the action `PopupDialogAction`, as defined in the tutorial [Creating Actions](working_with_custom_actions.md#registering-an-action-with-actionimpl).
 
 ```java
-@ActionImpl(id = "org.intellij.sdk.action.GroupedActions",
+@ActionImpl(id = "org.consulo.sdk.action.GroupedActions",
     parents = @ActionParentRef(
         value = @ActionRef(id = "ToolsMenu"),
         anchor = ActionRefAnchor.AFTER,
-        relatedToAction = @ActionRef(id = "org.intellij.sdk.action.PopupDialogAction")
+        relatedToAction = @ActionRef(id = "org.consulo.sdk.action.PopupDialogAction")
     ))
 public class GroupedActions extends DefaultActionGroup {
     public GroupedActions() {
@@ -60,15 +60,15 @@ To add a child action to the group, use the `children` parameter on the group's 
 Alternatively, a separate action class with its own `@ActionImpl` can reference the group as its parent.
 
 In this example, we create a new action class `GroupPopDialogAction` that extends `PopupDialogAction` and registers it as a child of the group.
-The `id` for this action is set to a unique value, `org.intellij.sdk.action.GroupPopDialogAction`, to differentiate it from the `id` used in the [Creating Actions](working_with_custom_actions.md#registering-an-action-with-actionimpl) tutorial.
+The `id` for this action is set to a unique value, `org.consulo.sdk.action.GroupPopDialogAction`, to differentiate it from the `id` used in the [Creating Actions](working_with_custom_actions.md#registering-an-action-with-actionimpl) tutorial.
 A unique `id` supports reuse of action classes in more than one menu or group.
 
 ```java
-@ActionImpl(id = "org.intellij.sdk.action.GroupedActions",
+@ActionImpl(id = "org.consulo.sdk.action.GroupedActions",
     parents = @ActionParentRef(
         value = @ActionRef(id = "ToolsMenu"),
         anchor = ActionRefAnchor.AFTER,
-        relatedToAction = @ActionRef(id = "org.intellij.sdk.action.PopupDialogAction")
+        relatedToAction = @ActionRef(id = "org.consulo.sdk.action.PopupDialogAction")
     ),
     children = @ActionRef(type = GroupPopDialogAction.class))
 public class GroupedActions extends DefaultActionGroup {
@@ -78,7 +78,7 @@ public class GroupedActions extends DefaultActionGroup {
     }
 }
 
-@ActionImpl(id = "org.intellij.sdk.action.GroupPopDialogAction")
+@ActionImpl(id = "org.consulo.sdk.action.GroupPopDialogAction")
 public class GroupPopDialogAction extends PopupDialogAction {
     public GroupPopDialogAction() {
         super("A Group Action", "SDK static grouped action example", SdkIcons.Sdk_default_icon);
@@ -88,8 +88,8 @@ public class GroupPopDialogAction extends PopupDialogAction {
 
 After performing the steps described above, the action group and its content will be available in the **Tools** menu.
 The underlying `PopupDialogAction` implementation is reused for two entries in the **Tools** menu:
-* Once for the top menu entry **Tools \| Pop Dialog Action** with the action `id` equal to `org.intellij.sdk.action.PopupDialogAction` as set in the [Creating Actions](/tutorials/action_system/working_with_custom_actions.md#registering-an-action-with-actionimpl) tutorial.
-* A second time for the menu entry **Tools \| Static Grouped Actions \| A Group Action** with the action `id` equal to `org.intellij.sdk.action.GroupPopDialogAction`.
+* Once for the top menu entry **Tools \| Pop Dialog Action** with the action `id` equal to `org.consulo.sdk.action.PopupDialogAction` as set in the [Creating Actions](/tutorials/action_system/working_with_custom_actions.md#registering-an-action-with-actionimpl) tutorial.
+* A second time for the menu entry **Tools \| Static Grouped Actions \| A Group Action** with the action `id` equal to `org.consulo.sdk.action.GroupPopDialogAction`.
 
 ![Simple Action Group](img/grouped_action.png){:width="550px"}
 
@@ -130,7 +130,7 @@ The `@ActionImpl` declaration below shows:
 * The `parents` parameter specifies adding the group in the first position of the existing `EditorPopupMenu`.
 
 ```java
-@ActionImpl(id = "org.intellij.sdk.action.CustomDefaultActionGroup",
+@ActionImpl(id = "org.consulo.sdk.action.CustomDefaultActionGroup",
     parents = @ActionParentRef(value = @ActionRef(id = "EditorPopupMenu"), anchor = ActionRefAnchor.FIRST))
 public class CustomDefaultActionGroup extends DefaultActionGroup {
     public CustomDefaultActionGroup() {
@@ -148,7 +148,7 @@ In the declaration below:
 * The SDK icon is set in the child action class.
 
 ```java
-@ActionImpl(id = "org.intellij.sdk.action.CustomDefaultActionGroup",
+@ActionImpl(id = "org.consulo.sdk.action.CustomDefaultActionGroup",
     parents = @ActionParentRef(value = @ActionRef(id = "EditorPopupMenu"), anchor = ActionRefAnchor.FIRST),
     children = @ActionRef(type = CustomGroupedAction.class))
 public class CustomDefaultActionGroup extends DefaultActionGroup {
@@ -157,7 +157,7 @@ public class CustomDefaultActionGroup extends DefaultActionGroup {
     }
 }
 
-@ActionImpl(id = "org.intellij.sdk.action.CustomGroupedAction")
+@ActionImpl(id = "org.consulo.sdk.action.CustomGroupedAction")
 public class CustomGroupedAction extends PopupDialogAction {
     public CustomGroupedAction() {
         super(null, null, SdkIcons.Sdk_default_icon);
@@ -211,11 +211,11 @@ To register the dynamic menu group, annotate the class with `@ActionImpl`.
 When enabled, this group appears at the entry just below the [Static Grouped Actions](#binding-action-groups-to-ui-components) in the **Tools** menu:
 
 ```java
-@ActionImpl(id = "org.intellij.sdk.action.DynamicActionGroup",
+@ActionImpl(id = "org.consulo.sdk.action.DynamicActionGroup",
     parents = @ActionParentRef(
         value = @ActionRef(id = "ToolsMenu"),
         anchor = ActionRefAnchor.AFTER,
-        relatedToAction = @ActionRef(id = "org.intellij.sdk.action.GroupedActions")
+        relatedToAction = @ActionRef(id = "org.consulo.sdk.action.GroupedActions")
     ))
 public class DynamicActionGroup extends ActionGroup {
     public DynamicActionGroup() {

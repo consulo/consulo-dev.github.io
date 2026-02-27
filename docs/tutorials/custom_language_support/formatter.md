@@ -1,7 +1,7 @@
 ---
 title: 15. Formatter
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The Consulo includes a powerful framework for implementing formatting for custom languages.
 A formatter enables reformatting code automatically based on code style settings.
@@ -19,7 +19,60 @@ Since each block builds its children's blocks, it can generate extra blocks or s
 Define `SimpleBlock` based on `AbstractBlock`.
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleBlock.java %}
+package org.consulo.sdk.language;
+
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.TokenType;
+import consulo.language.codeStyle.*;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SimpleBlock extends AbstractBlock {
+
+  private final SpacingBuilder spacingBuilder;
+
+  protected SimpleBlock(@Nonnull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment,
+                        SpacingBuilder spacingBuilder) {
+    super(node, wrap, alignment);
+    this.spacingBuilder = spacingBuilder;
+  }
+
+  @Override
+  protected List<Block> buildChildren() {
+    List<Block> blocks = new ArrayList<>();
+    ASTNode child = myNode.getFirstChildNode();
+    while (child != null) {
+      if (child.getElementType() != TokenType.WHITE_SPACE) {
+        Block block = new SimpleBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(),
+            spacingBuilder);
+        blocks.add(block);
+      }
+      child = child.getTreeNext();
+    }
+    return blocks;
+  }
+
+  @Override
+  public Indent getIndent() {
+    return Indent.getNoneIndent();
+  }
+
+  @Nullable
+  @Override
+  public Spacing getSpacing(@Nullable Block child1, @Nonnull Block child2) {
+    return spacingBuilder.getSpacing(this, child1, child2);
+  }
+
+  @Override
+  public boolean isLeaf() {
+    return myNode.getFirstChildNode() == null;
+  }
+
+}
 ```
 
 ## 15.2. Define a Formatting Model Builder
@@ -29,7 +82,46 @@ For example, reformat "foo  = &nbsp;&nbsp;&nbsp;&nbsp;bar" to "foo = bar".
 Create `SimpleFormattingModelBuilder` by subclassing [`FormattingModelBuilder`](https://github.com/consulo/consulo/blob/master/modules/base/language-code-style-api/src/main/java/consulo/language/codeStyle/FormattingModelBuilder.java).
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFormattingModelBuilder.java %}
+package org.consulo.sdk.language;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.codeStyle.*;
+import org.consulo.sdk.language.psi.SimpleTypes;
+
+import jakarta.annotation.Nonnull;
+
+@ExtensionImpl
+final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return SimpleLanguage.INSTANCE;
+  }
+
+  private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
+    return new SpacingBuilder(settings, SimpleLanguage.INSTANCE)
+        .around(SimpleTypes.SEPARATOR)
+        .spaceIf(settings.getCommonSettings(SimpleLanguage.INSTANCE.getID()).SPACE_AROUND_ASSIGNMENT_OPERATORS)
+        .before(SimpleTypes.PROPERTY)
+        .none();
+  }
+
+  @Nonnull
+  @Override
+  public FormattingModel createModel(@Nonnull FormattingContext formattingContext) {
+    final CodeStyleSettings codeStyleSettings = formattingContext.getCodeStyleSettings();
+    return FormattingModelProvider
+        .createFormattingModelForPsiFile(formattingContext.getContainingFile(),
+            new SimpleBlock(formattingContext.getNode(),
+                Wrap.createWrap(WrapType.NONE, false),
+                Alignment.createAlignment(),
+                createSpaceBuilder(codeStyleSettings)),
+            codeStyleSettings);
+  }
+
+}
 ```
 
 ## 15.3. Register the Formatter

@@ -1,7 +1,7 @@
 ---
 title: Adding Live Templates to a Plugin
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 This tutorial illustrates how to add default Custom Live Templates to an Consulo plugin, and assign valid contexts for these templates based on the surrounding code and file type.
 In addition, the tutorial discusses how to export existing Live Templates, and bundle them within a plugin.
@@ -58,7 +58,27 @@ The `MarkdownContext` class defines it for Markdown files.
 Ultimately, a file's extension determines the applicable Markdown context.
 
 ```java
-{% include /code_samples/live_templates/src/main/java/org/intellij/sdk/liveTemplates/MarkdownContext.java%}
+package org.consulo.sdk.liveTemplates;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.template.context.TemplateActionContext;
+import consulo.language.editor.template.context.TemplateContextType;
+
+import jakarta.annotation.Nonnull;
+
+@ExtensionImpl
+final class MarkdownContext extends TemplateContextType {
+
+  MarkdownContext() {
+    super("Markdown");
+  }
+
+  @Override
+  public boolean isInContext(@Nonnull TemplateActionContext templateActionContext) {
+    return templateActionContext.getFile().getName().endsWith(".md");
+  }
+
+}
 ```
 
 > **NOTE** Once the `MarkdownContext` is defined, be sure to add the new context type to the previously created Live Template settings file.
@@ -88,7 +108,7 @@ Make sure to include the full path to the file, relative to the `src/main/resour
 Add `@ExtensionImpl` to register it with the platform:
 
 ```java
-package org.intellij.sdk.liveTemplates;
+package org.consulo.sdk.liveTemplates;
 
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.template.DefaultLiveTemplatesProvider;

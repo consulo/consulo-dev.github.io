@@ -1,7 +1,7 @@
 ---
 title: Project Structure
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 This topic considers the concept of projects based on the Consulo and related subjects, such as _modules_, _libraries_, and _SDK_.
 

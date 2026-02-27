@@ -1,7 +1,7 @@
 ---
 title: 12. Folding Builder
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 A folding builder identifies the folding regions in the code.
 In this step of the tutorial, the folding builder is used to identify folding regions and replace the regions with specific text.
@@ -25,7 +25,105 @@ The `getPlaceholderText()` method retrieves the Simple Language value correspond
 The Consulo uses the value to substitute for the key when the code gets folded.
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFoldingBuilder.java %}
+package org.consulo.sdk.language;
+
+import consulo.application.dumb.DumbAware;
+import consulo.codeEditor.FoldingGroup;
+import consulo.document.Document;
+import consulo.document.util.TextRange;
+import consulo.language.ast.ASTNode;
+import consulo.language.editor.folding.FoldingBuilderEx;
+import consulo.language.editor.folding.FoldingDescriptor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiLiteralExpression;
+import consulo.language.psi.util.PsiLiteralUtil;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+import org.consulo.sdk.language.psi.SimpleProperty;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+final class SimpleFoldingBuilder extends FoldingBuilderEx implements DumbAware {
+
+  @Nonnull
+  @Override
+  public FoldingDescriptor[] buildFoldRegions(@Nonnull PsiElement root,
+                                              @Nonnull Document document,
+                                              boolean quick) {
+    FoldingGroup group = FoldingGroup.newGroup(SimpleAnnotator.SIMPLE_PREFIX_STR);
+    List<FoldingDescriptor> descriptors = new ArrayList<>();
+
+    root.accept(new JavaRecursiveElementWalkingVisitor() {
+
+      @Override
+      public void visitLiteralExpression(@Nonnull PsiLiteralExpression literalExpression) {
+        super.visitLiteralExpression(literalExpression);
+
+        String value = PsiLiteralUtil.getStringLiteralContent(literalExpression);
+        if (value != null &&
+            value.startsWith(SimpleAnnotator.SIMPLE_PREFIX_STR + SimpleAnnotator.SIMPLE_SEPARATOR_STR)) {
+          Project project = literalExpression.getProject();
+          String key = value.substring(
+              SimpleAnnotator.SIMPLE_PREFIX_STR.length() + SimpleAnnotator.SIMPLE_SEPARATOR_STR.length()
+          );
+          SimpleProperty simpleProperty = ContainerUtil.getOnlyItem(SimpleUtil.findProperties(project, key));
+          if (simpleProperty != null) {
+            descriptors.add(new FoldingDescriptor(literalExpression.getNode(),
+                new TextRange(literalExpression.getTextRange().getStartOffset() + 1,
+                    literalExpression.getTextRange().getEndOffset() - 1),
+                group, Collections.singleton(simpleProperty)));
+          }
+        }
+      }
+    });
+
+    return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
+  }
+
+  @Nullable
+  @Override
+  public String getPlaceholderText(@Nonnull ASTNode node) {
+    if (node.getPsi() instanceof PsiLiteralExpression psiLiteralExpression) {
+      String text = PsiLiteralUtil.getStringLiteralContent(psiLiteralExpression);
+      if (text == null) {
+        return null;
+      }
+
+      String key = text.substring(SimpleAnnotator.SIMPLE_PREFIX_STR.length() +
+          SimpleAnnotator.SIMPLE_SEPARATOR_STR.length());
+
+      SimpleProperty simpleProperty = ContainerUtil.getOnlyItem(
+          SimpleUtil.findProperties(psiLiteralExpression.getProject(), key)
+      );
+      if (simpleProperty == null) {
+        return StringUtil.THREE_DOTS;
+      }
+
+      String propertyValue = simpleProperty.getValue();
+      if (propertyValue == null) {
+        return StringUtil.THREE_DOTS;
+      }
+
+      return propertyValue
+          .replaceAll("\n", "\\n")
+          .replaceAll("\"", "\\\\\"");
+    }
+
+    return null;
+  }
+
+  @Override
+  public boolean isCollapsedByDefault(@Nonnull ASTNode node) {
+    return true;
+  }
+
+}
 ```
 
 ## 12.2. Register the Folding Builder

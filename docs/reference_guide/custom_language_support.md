@@ -2,7 +2,7 @@
 title: Custom Language Support
 ---
 
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 *Consulo* is a powerful platform for building development tools targeting *any* language.
 Most of the IDE features consist of language-independent (provided by the platform) and language-specific parts.
@@ -34,4 +34,10 @@ Providing custom language support includes the following major steps:
 * [Surround With](/reference_guide/custom_language_support/surround_with.md)
 * [Go to Class and Go to Symbol](/reference_guide/custom_language_support/go_to_class_and_go_to_symbol.md)
 * [Documentation](/reference_guide/custom_language_support/documentation.md)
+* [Parameter Info](/reference_guide/custom_language_support/parameter_info.md)
+* [Inlay Hints](/reference_guide/custom_language_support/inlay_hints.md)
+* [Code Hierarchy](/reference_guide/custom_language_support/code_hierarchy.md)
+* [Spell Checking](/reference_guide/custom_language_support/spell_checking.md)
+* [Postfix Completion](/reference_guide/custom_language_support/postfix_completion.md)
+* [Navigation Bar](/reference_guide/custom_language_support/navigation_bar.md)
 * [Additional Minor Features](/reference_guide/custom_language_support/additional_minor_features.md)

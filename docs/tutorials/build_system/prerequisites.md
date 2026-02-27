@@ -1,7 +1,7 @@
 ---
 title: Getting Started with Maven
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 Maven is the preferred solution for creating Consulo plugins.
 The `maven-consulo-plugin` handles dependencies, code generation, and packaging.

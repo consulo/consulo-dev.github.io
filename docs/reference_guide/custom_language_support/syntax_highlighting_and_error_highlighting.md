@@ -2,7 +2,7 @@
 title: Syntax Highlighting and Error Highlighting
 ---
 
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The class used to specify how a particular range of text should be highlighted is called [`TextAttributesKey`](https://github.com/consulo/consulo/blob/master/modules/base/color-scheme-api/src/main/java/consulo/colorScheme/TextAttributesKey.java) (`consulo.colorScheme.TextAttributesKey`).
 An instance of this class is created for every distinct type of item that should be highlighted (keyword, number, string, etc.).

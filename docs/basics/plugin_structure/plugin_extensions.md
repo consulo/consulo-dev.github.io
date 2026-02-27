@@ -4,7 +4,7 @@ redirect_from:
     /basics/plugin_structure/plugin_extensions_and_extension_points.html
 ---
 
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 _Extensions_ are the most common way for a plugin to extend the Consulo Platform's functionality in a way that is not as straightforward as adding an action to a menu or toolbar.
 

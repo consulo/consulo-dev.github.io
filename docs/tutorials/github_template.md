@@ -1,7 +1,7 @@
 ---
 title: Consulo Plugin Template
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 **Consulo Plugin Template** is a repository that provides a pure boilerplate template to make it easier to create a new plugin project using the recommended [Maven setup](/tutorials/build_system.md).
 

@@ -1,7 +1,7 @@
 ---
 title: 17. Commenter
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 A commenter enables the user to comment-out a line of code at the cursor or selected code automatically.
 The [`Commenter`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/Commenter.java) defines support for **Code \| Comment with Line Comment** and **Code \| Comment with Block Comment** actions.
@@ -13,7 +13,53 @@ The [`Commenter`](https://github.com/consulo/consulo/blob/master/modules/base/la
 The commenter for Simple Language defines the line comment prefix as `#`.
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleCommenter.java %}
+package org.consulo.sdk.language;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Commenter;
+import consulo.language.Language;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
+@ExtensionImpl
+final class SimpleCommenter implements Commenter {
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return SimpleLanguage.INSTANCE;
+  }
+
+  @Override
+  public String getLineCommentPrefix() {
+    return "#";
+  }
+
+  @Override
+  public String getBlockCommentPrefix() {
+    return "";
+  }
+
+  @Nullable
+  @Override
+  public String getBlockCommentSuffix() {
+    return null;
+  }
+
+  @Nullable
+  @Override
+  public String getCommentedBlockCommentPrefix() {
+    return null;
+  }
+
+  @Nullable
+  @Override
+  public String getCommentedBlockCommentSuffix() {
+    return null;
+  }
+
+}
 ```
 
 ## 17.2. Register the Commenter

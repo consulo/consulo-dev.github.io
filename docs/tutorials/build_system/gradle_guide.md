@@ -1,12 +1,11 @@
 ---
 title: Configuring Maven Projects
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 This page serves as a guide to the Maven-based plugin configuration for _Consulo_ projects.
 
 The [Getting Started with Maven](prerequisites.md) page provides a tutorial for creating Maven-based Consulo plugins.
-It may be useful to review the Consulo page, particularly the description of versioning in the [Open Source](/intro/intellij_platform.md#open-source) section.
 
 > **WARNING** When adding additional repositories to your Maven build script, always use HTTPS protocol.
 
@@ -26,12 +25,12 @@ This section presents a guided tour of `maven-consulo-plugin` configuration to a
 ### Configuring the Maven Plugin for Building Consulo Plugin Projects
 The `maven-consulo-plugin` builds plugin projects against the Consulo API.
 
-> **NOTE** Using EAP versions of the Consulo requires adding the _Snapshots repository_ to the `pom.xml` file (see [Consulo Artifacts Repositories](/reference_guide/intellij_artifacts.md)).
+> **NOTE** Using EAP versions of the Consulo requires adding the _Snapshots repository_ to the `pom.xml` file (see [Consulo Artifacts Repositories](/reference_guide/consulo_artifacts.md)).
 
 #### Consulo Configuration
 The Consulo API version your plugin targets is controlled by the dependency versions declared in your `pom.xml`.
 
-All available platform versions can be browsed in the [Consulo Artifacts Repositories](/reference_guide/intellij_artifacts.md).
+All available platform versions can be browsed in the [Consulo Artifacts Repositories](/reference_guide/consulo_artifacts.md).
 
 #### Plugin Dependencies
 Consulo plugin projects may depend on either bundled or third-party plugins.

@@ -1,7 +1,7 @@
 ---
 title: 3. Grammar and Parser
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 In order for the Consulo to parse a Simple Language file, tokens and elements must be defined based on [`IElementType`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/ast/IElementType.java).
 The Simple Language grammar must also be defined to generate a parser.
@@ -12,36 +12,67 @@ The Simple Language grammar must also be defined to generate a parser.
 {:toc}
 
 ## 3.1. Define a Token Type
-Create `SimpleTokenType` in the `org.intellij.sdk.language.psi` package (see the `simple_language_plugin` code sample) by subclassing `IElementType`.
+Create `SimpleTokenType` in the `org.consulo.sdk.language.psi` package (see the `simple_language_plugin` code sample) by subclassing `IElementType`.
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/psi/SimpleTokenType.java %}
+package org.consulo.sdk.language.psi;
+
+import consulo.language.ast.IElementType;
+import org.consulo.sdk.language.SimpleLanguage;
+
+import jakarta.annotation.Nonnull;
+
+public class SimpleTokenType extends IElementType {
+
+  public SimpleTokenType(@Nonnull String debugName) {
+    super(debugName, SimpleLanguage.INSTANCE);
+  }
+
+  @Override
+  public String toString() {
+    return "SimpleTokenType." + super.toString();
+  }
+
+}
 ```
 
 ## 3.2. Define an Element Type
-Create the `SimpleElementType` in the `org.intellij.sdk.language.psi` package by subclassing `IElementType`.
+Create the `SimpleElementType` in the `org.consulo.sdk.language.psi` package by subclassing `IElementType`.
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/psi/SimpleElementType.java %}
+package org.consulo.sdk.language.psi;
+
+import consulo.language.ast.IElementType;
+import org.consulo.sdk.language.SimpleLanguage;
+
+import jakarta.annotation.Nonnull;
+
+public class SimpleElementType extends IElementType {
+
+  public SimpleElementType(@Nonnull String debugName) {
+    super(debugName, SimpleLanguage.INSTANCE);
+  }
+
+}
 ```
 
 ## 3.3. Define the Grammar
-Define a grammar for the Simple Language in the `com/intellij/sdk/language/Simple.bnf` file.
+Define a grammar for the Simple Language in the `org/consulo/sdk/language/Simple.bnf` file.
 
 ```properties
 {
-  parserClass="org.intellij.sdk.language.parser.SimpleParser"
+  parserClass="org.consulo.sdk.language.parser.SimpleParser"
 
   extends="consulo.language.impl.psi.ASTWrapperPsiElement"
 
   psiClassPrefix="Simple"
   psiImplClassSuffix="Impl"
-  psiPackage="org.intellij.sdk.language.psi"
-  psiImplPackage="org.intellij.sdk.language.psi.impl"
+  psiPackage="org.consulo.sdk.language.psi"
+  psiImplPackage="org.consulo.sdk.language.psi.impl"
 
-  elementTypeHolderClass="org.intellij.sdk.language.psi.SimpleTypes"
-  elementTypeClass="org.intellij.sdk.language.psi.SimpleElementType"
-  tokenTypeClass="org.intellij.sdk.language.psi.SimpleTokenType"
+  elementTypeHolderClass="org.consulo.sdk.language.psi.SimpleTypes"
+  elementTypeClass="org.consulo.sdk.language.psi.SimpleElementType"
+  tokenTypeClass="org.consulo.sdk.language.psi.SimpleTokenType"
 }
 
 simpleFile ::= item_*
