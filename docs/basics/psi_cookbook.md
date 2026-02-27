@@ -15,7 +15,7 @@ Unlike [Developing Custom Language Plugins](/reference_guide/custom_language_sup
 
 ### How do I find where a particular PSI element is used?
 
-`ReferencesSearch.search()`
+[`ReferencesSearch.search()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/search/ReferencesSearch.java)
 
 ### How do I rename a PSI element?
 

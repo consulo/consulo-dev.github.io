@@ -65,7 +65,7 @@ In general, there is no single right way to implement a PSI for a custom languag
 However, one base interface needs to be used by a custom language PSI implementation to support features like rename and find usages.
 Every element which can be renamed or referenced (a class definition, a method definition and so on) needs to implement the [`PsiNamedElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiNamedElement.java) interface, with methods `getName()` and `setName()`.
 
-Several functions which can be used for implementing and using the PSI can be found in the `consulo.language.psi.util` package, and in particular in the `PsiUtilCore` and [`PsiTreeUtil`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/util/PsiTreeUtil.java) classes.
+Several functions which can be used for implementing and using the PSI can be found in the `consulo.language.psi.util` package, and in particular in the [`PsiTreeUtil`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/util/PsiTreeUtil.java) class.
 
 > **TIP** A useful tool for debugging the PSI implementation is the PsiViewer plugin.
 > It can show you the PSI structure built by your plugin, the properties of every PSI element, and highlight its text range.

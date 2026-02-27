@@ -52,7 +52,7 @@ For every block, the plugin specifies the following properties:
    If two blocks with the alignment property set to the same object instance are placed in different lines, and if the second block is the first non-whitespace block in its line, the formatter inserts white spaces before the second block, so that it starts from the same column as the first one.
 
 For each of these properties, several particular use settings exist, described in the JavaDoc comments for the respective classes.
-See also `SpacingBuilder` (`consulo.language.codeStyle.SpacingBuilder`), which aids in building rule-based configuration.
+See also [`SpacingBuilder`](https://github.com/consulo/consulo/blob/master/modules/base/language-code-style-api/src/main/java/consulo/language/codeStyle/SpacingBuilder.java) (`consulo.language.codeStyle.SpacingBuilder`), which aids in building rule-based configuration.
 
 An important special case in using the formatter is the smart indent performed when the user presses the `Enter` key in a source code file.
 To determine the indent for the new line, the formatter engine calls the method `getChildAttributes()` on either the block immediately before the caret or the parent of that block, depending on the return value of the `isIncomplete()` method for the block before the caret.

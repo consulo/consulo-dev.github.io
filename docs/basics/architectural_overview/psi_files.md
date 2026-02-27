@@ -25,7 +25,7 @@ In contrast, `VirtualFile` and Document have application scope; files are repres
 
 Most interesting modification operations are performed on the level of individual PSI elements, not files as a whole.
 
-To iterate over the elements in a file, use `psiFile.accept(new PsiRecursiveElementWalkingVisitor()...);`
+To iterate over the elements in a file, use `psiFile.accept(new` [`PsiRecursiveElementWalkingVisitor`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiRecursiveElementWalkingVisitor.java)`()...);`
 
 ## Where does a PSI file come from?
 
@@ -39,9 +39,9 @@ Like documents, PSI files are weakly referenced from the corresponding `VirtualF
 
 ## How do I create a PSI file?
 
-The `PsiFileFactory` `createFileFromText()` method creates an in-memory PSI file with the specified contents.
+The [`PsiFileFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiFileFactory.java) `createFileFromText()` method creates an in-memory PSI file with the specified contents.
 
-To save the PSI file to disk, use the `PsiDirectory` `add()` method.
+To save the PSI file to disk, use the [`PsiDirectory`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiDirectory.java) `add()` method.
 
 ## How do I get notified when PSI files change?
 

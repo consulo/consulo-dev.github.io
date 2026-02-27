@@ -80,8 +80,8 @@ In some cases, synchronous refreshes can cause deadlocks, depending on which loc
 All changes happening in the virtual file system, either due to refresh operations or caused by user actions, are reported as _virtual file system events_.
 VFS events are always fired in the event dispatch thread and in a write action.
 
-The most efficient way to listen to VFS events is to implement `BulkFileListener` and to subscribe with it to the [`VirtualFileManager.VFS_CHANGES`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFileManager.java) topic.
-A non-blocking variant `AsyncFileListener` is also available in 2019.2 or later.
+The most efficient way to listen to VFS events is to implement [`BulkFileListener`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/event/BulkFileListener.java) and to subscribe with it to the [`VirtualFileManager.VFS_CHANGES`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFileManager.java) topic.
+A non-blocking variant [`AsyncFileListener`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/event/AsyncFileListener.java) is also available in 2019.2 or later.
 See [How do I get notified when VFS changes?](/basics/architectural_overview/virtual_file.md#how-do-i-get-notified-when-vfs-changes) for implementation details.
 
 > **WARNING** VFS listeners are application level and will receive events for changes happening in *all* the projects opened by the user.

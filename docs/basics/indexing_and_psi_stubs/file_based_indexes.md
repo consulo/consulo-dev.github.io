@@ -45,7 +45,7 @@ If you don't need to associate any value with the files (i.e., your value type i
 
 ## Accessing a File-Based Index
 
-Access to file-based indexes is performed through the `FileBasedIndex` class.
+Access to file-based indexes is performed through the [`FileBasedIndex`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/FileBasedIndex.java) class.
 
 The following primary operations are supported:
 
@@ -67,7 +67,7 @@ The most useful indexes for plugin developers are:
 
 ### Word Index
 
-Generally, the word index should be accessed indirectly by using helper methods of the `PsiSearchHelper` class.
+Generally, the word index should be accessed indirectly by using helper methods of the [`PsiSearchHelper`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/search/PsiSearchHelper.java) class.
 
 ### File Name Index
 `FilenameIndex` provides a quick way to find all files matching a specific file name.

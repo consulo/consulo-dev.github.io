@@ -30,7 +30,7 @@ From a document
 ## What can I do with it?
 
 Typical file operations are available, such as traverse the file system, get file contents, rename, move, or delete.
-Recursive iteration should be performed using [`VfsUtilCore.iterateChildrenRecursively()`](https://github.com/consulo/consulo/blob/master/modules/base/ide-impl/src/main/java/consulo/ide/impl/idea/openapi/vfs/VfsUtilCore.java) to prevent endless loops caused by recursive symlinks.
+Recursive iteration should be performed using [`VirtualFileUtil.iterateChildrenRecursively()`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/util/VirtualFileUtil.java) to prevent endless loops caused by recursive symlinks.
 
 ## Where does it come from?
 
@@ -45,7 +45,7 @@ Invoking a VFS refresh might be necessary for accessing a file that has just bee
 
 A particular file on disk is represented by equal `VirtualFile` instances for the IDE process's entire lifetime.
 There may be several instances corresponding to the same file, and they can be garbage-collected.
-The file is a `UserDataHolder`, and the user data is shared between those equal instances.
+The file is a [`UserDataHolder`](https://github.com/consulo/consulo/blob/master/modules/base/util/util-dataholder/src/main/java/consulo/util/dataholder/UserDataHolder.java), and the user data is shared between those equal instances.
 If a file is deleted, its corresponding VirtualFile instance becomes invalid (`isValid()` returns `false`), and operations cause exceptions.
 
 ## How do I create a virtual file?
@@ -59,7 +59,7 @@ If one needs to create a file through VFS, use [`VirtualFile.createChildData()`]
 
 > **NOTE** See [Virtual file system events](/basics/virtual_file_system.md#virtual-file-system-events) for important details.
 
-Implement `BulkFileListener` and subscribe to the [message bus](/reference_guide/messaging_infrastructure.md) topic [`VirtualFileManager.VFS_CHANGES`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFileManager.java).
+Implement [`BulkFileListener`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/event/BulkFileListener.java) and subscribe to the [message bus](/reference_guide/messaging_infrastructure.md) topic [`VirtualFileManager.VFS_CHANGES`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFileManager.java).
 For example:
 
 ```java
@@ -73,21 +73,21 @@ project.getMessageBus().connect().subscribe(VirtualFileManager.VFS_CHANGES, new 
 
 See [Message Infrastructure](/reference_guide/messaging_infrastructure.md) and [Plugin Listeners](/basics/plugin_structure/plugin_listeners.md) for more details.
 
-For a non-blocking alternative, starting with version 2019.2 of the platform, see `AsyncFileListener`.
+For a non-blocking alternative, starting with version 2019.2 of the platform, see [`AsyncFileListener`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/event/AsyncFileListener.java).
 
 Plugins targeting versions 2017.2 or older of the platform can use the now deprecated [`VirtualFileManager.addVirtualFileListener()`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFileManager.java) method, which allows you to receive notifications about all changes in the VFS.
 
 ## Are there any utilities for analyzing and manipulating virtual files?
 
-`VfsUtil` and `VfsUtilCore` provide utility methods for analyzing files in the Virtual File System.
+[`VirtualFileUtil`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/util/VirtualFileUtil.java) provides utility methods for analyzing files in the Virtual File System.
 
-Use `ProjectLocator` to find the projects that contain a given virtual file.
+Use [`ProjectLocator`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/ProjectLocator.java) to find the projects that contain a given virtual file.
 
 ## How do I extend VFS?
 
-To provide an alternative file system implementation (for example, an FTP file system), implement the `VirtualFileSystem` class (most likely you'll also need to implement `VirtualFile`), and register your implementation via `consulo.virtualFileSystem` extension point (2019.2 and later) or [application component](/basics/plugin_structure/plugin_components.md) for earlier versions.
+To provide an alternative file system implementation (for example, an FTP file system), implement the [`VirtualFileSystem`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFileSystem.java) class (most likely you'll also need to implement [`VirtualFile`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFile.java)), and register your implementation via `consulo.virtualFileSystem` extension point (2019.2 and later) or [application component](/basics/plugin_structure/plugin_components.md) for earlier versions.
 
-To hook into operations performed in the local file system (for example, when developing a version control system integration that needs custom rename/move handling), implement `LocalFileOperationsHandler` and register it via [`LocalFileSystem.registerAuxiliaryFileOperationsHandler()`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/LocalFileSystem.java).
+To hook into operations performed in the local file system (for example, when developing a version control system integration that needs custom rename/move handling), implement [`LocalFileOperationsHandler`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/LocalFileOperationsHandler.java) and register it via [`LocalFileSystem.registerAuxiliaryFileOperationsHandler()`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/LocalFileSystem.java).
 
 ## What are the rules for working with VFS?
 

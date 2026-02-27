@@ -50,17 +50,17 @@ To create a `Document` instance that isn't bound to anything, use [`EditorFactor
 ## What are the rules of working with Documents?
 
 The general read/write action rules are in effect.
-Besides, any operations which modify the contents of the document must be wrapped in a command (`CommandProcessor.getInstance().executeCommand()`).
+Besides, any operations which modify the contents of the document must be wrapped in a command ([`CommandProcessor`](https://github.com/consulo/consulo/blob/master/modules/base/undo-redo-api/src/main/java/consulo/undoRedo/CommandProcessor.java)`.getInstance().executeCommand()`).
 `executeCommand()` calls can be nested, and the outermost `executeCommand()` call is added to the undo stack.
 If multiple documents are modified within a command, undoing this command will, by default, show a confirmation dialog to the user.
 
 If the file corresponding to a `Document` is read-only (for example, not checked out from the version control system), document modifications will fail.
-Thus, before modifying the `Document`, it is necessary to call `ReadonlyStatusHandler.getInstance(project).ensureFilesWritable()` to check out the file.
+Thus, before modifying the `Document`, it is necessary to call [`ReadonlyStatusHandler`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/ReadonlyStatusHandler.java)`.getInstance(project).ensureFilesWritable()` to check out the file.
 
 All text strings passed to `Document` modification methods (`setText()`, `insertString()`, `replaceString()`) must use only `\n` as line separators.
 
 ## Are there any utilities available for working with Documents?
 
-`DocumentUtil` contains utility methods for `Document` processing.
+[`DocumentUtil`](https://github.com/consulo/consulo/blob/master/modules/base/document-api/src/main/java/consulo/document/util/DocumentUtil.java) contains utility methods for [`Document`](https://github.com/consulo/consulo/blob/master/modules/base/document-api/src/main/java/consulo/document/Document.java) processing.
 This allows you to get information like the text offsets of particular lines.
 This is particularly useful when you need text location/offset information about a given [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java).

@@ -62,4 +62,4 @@ public boolean setupSdkPaths(@NotNull Sdk sdk, @NotNull SdkModel sdkModel) {
 }
 ```
 
-The recommended way of managing SDK settings is to save settings in a [`PersistentStateComponent`](/basics/persisting_state_of_components.md).
+The recommended way of managing SDK settings is to save settings in a [`PersistentStateComponent`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/persist/PersistentStateComponent.java) (see [Persisting State](/basics/persisting_state_of_components.md)).

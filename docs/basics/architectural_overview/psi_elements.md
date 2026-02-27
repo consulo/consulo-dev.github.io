@@ -21,7 +21,7 @@ The [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/l
 * From a file by offset: [`PsiFile.findElementAt()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiFile.java).
   Note: this returns the lowest level element  ("leaf") at the specified offset, normally a lexer token.
   Most likely, you should use [`PsiTreeUtil.getParentOfType()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/util/PsiTreeUtil.java) to find the element you really need.
-* By iterating through a PSI file: using a `PsiRecursiveElementWalkingVisitor`.
+* By iterating through a PSI file: using a [`PsiRecursiveElementWalkingVisitor`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiRecursiveElementWalkingVisitor.java).
 * By resolving a reference: [`PsiReference.resolve()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiReference.java)
 
 ## What can I do with PSI elements?

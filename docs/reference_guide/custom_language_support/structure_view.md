@@ -5,8 +5,8 @@ title: Structure View
 <!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The Structure View implementation used for a specific file type can be customized on many levels.
-If a custom language plugin provides an implementation of the `StructureView` interface, it can completely replace the standard structure view implementation with a custom user interface component.
-However, for most languages, this is not necessary, and the standard `StructureView` implementation provided by *Consulo* can be reused.
+If a custom language plugin provides an implementation of the [`StructureView`](https://github.com/consulo/consulo/blob/master/modules/base/file-editor-api/src/main/java/consulo/fileEditor/structureView/StructureView.java) interface, it can completely replace the standard structure view implementation with a custom user interface component.
+However, for most languages, this is not necessary, and the standard [`StructureView`](https://github.com/consulo/consulo/blob/master/modules/base/file-editor-api/src/main/java/consulo/fileEditor/structureView/StructureView.java) implementation provided by *Consulo* can be reused.
 
 The starting point for the structure view is the [`PsiStructureViewFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/structureView/PsiStructureViewFactory.java) interface, with the implementation annotated with `@ExtensionImpl`.
 
@@ -18,7 +18,7 @@ To reuse the *Consulo* implementation of the `StructureView`, the plugin returns
 As the builder model, the plugin can specify a subclass of [`TextEditorBasedStructureViewModel`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/structureView/TextEditorBasedStructureViewModel.java), and by overriding methods of this subclass, it customizes the structure view for a specific language.
 
 **Example**:
-`StructureViewModel` for Properties language plugin
+[`StructureViewModel`](https://github.com/consulo/consulo/blob/master/modules/base/file-editor-api/src/main/java/consulo/fileEditor/structureView/StructureViewModel.java) for Properties language plugin
 
 
 The main method to override is `getRoot()`, which returns the instance of a class implementing the [`StructureViewTreeElement`](https://github.com/consulo/consulo/blob/master/modules/base/file-editor-api/src/main/java/consulo/fileEditor/structureView/StructureViewTreeElement.java) interface.

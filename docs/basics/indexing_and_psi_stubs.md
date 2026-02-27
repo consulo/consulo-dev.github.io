@@ -27,10 +27,10 @@ Please see also [Improving indexing performance](/reference_guide/performance/pe
 
 Indexing is a potentially lengthy process.
 It's performed in the background, and during this time, IDE's features are restricted to the ones that don't require index: basic text editing, version control, etc.
-This restriction is managed by `DumbService`.
+This restriction is managed by [`DumbService`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/DumbService.java).
 Violations are reported via `IndexNotReadyException`, please see its javadoc on how to adapt callers.
 
-`DumbService` provides API to query whether the IDE is currently in "dumb" mode (where index access is not allowed) or "smart" mode (with all index built and ready to use).
+[`DumbService`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/DumbService.java) provides API to query whether the IDE is currently in "dumb" mode (where index access is not allowed) or "smart" mode (with all index built and ready to use).
 It also provides ways of delaying code execution until indices are ready.
 Please see its JavaDoc for more details.
 

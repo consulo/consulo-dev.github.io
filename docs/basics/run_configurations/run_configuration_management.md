@@ -45,7 +45,7 @@ These additional overrides are optional.
 
 ## Run Configuration
 
-The run configuration itself is represented by the `RunConfiguration` interface.
+The run configuration itself is represented by the [`RunConfiguration`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/configuration/RunConfiguration.java) interface.
 A _'run configuration'_ here is some named profile which can be executed, e.g., the application started via `main()` class, test, remote debug to particular machine/port, etc.
 
 Here is an example of a Java run configuration defined for a particular project:
