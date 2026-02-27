@@ -25,9 +25,6 @@ export default defineConfig({
     themeConfig: {
         logo: '/art/icon16.svg',
 
-        socialLinks: [
-            {icon: 'github', link: 'https://github.com/consulo/consulo-dev.github.io'}
-        ],
 
         nav: [
             {text: 'Home', link: '/'},

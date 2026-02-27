@@ -1,4 +1,4 @@
-.consulo/workspace.xml
+.consulo/
 site/
 node_modules/
 docs/.vitepress/dist/
