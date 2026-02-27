@@ -11,21 +11,9 @@ This page describes how to control some of the settings for the Development Inst
 
 > **TIP** Please see also the Consulo documentation on Advanced Configuration for general VM options and properties.
 
-## Using a Runtime for the Development Instance
-An everyday use case is to develop (build) a plugin project against a JDK, e.g., Java 8, and then run or debug the plugin in a Development Instance of the IDE.
-In such a situation, Development Instance must use an appropriate runtime rather than the JDK used to build the plugin project.
+## Runtime
 
-The Consulo Runtime is an environment for running Consulo-based IDEs on Windows, macOS, and Linux.
-A version of the runtime is bundled with all Consulo-based IDEs.
-To produce accurate results while running or debugging a plugin project in a Development Instance, follow the procedures below to ensure the Development Instance uses the appropriate runtime.
-
-### Setting a Runtime for Maven-Based Plugin Projects
-By default, the Development Instance will use the version of the runtime bundled with the Consulo installation corresponding to the version of the Consulo used for building the plugin project.
-
-### Setting a Runtime for DevKit-Based Plugin Projects
-The Run Configuration for a DevKit-based plugin project controls the JDK used to run and debug a plugin project in a Development Instance.
-The default Run Configuration uses the same JDK for building the plugin project and running the plugin in a Development Instance.
-To change the runtime for the Development Instance, set the _JRE_ field in the Run Configuration edit dialog.
+Consulo requires **JDK 21**. The runtime is bundled with all Consulo-based IDEs. Overriding the runtime is not supported.
 
 ## The Development Instance Sandbox Directory
 The _Sandbox Home_ directory contains the [settings, caches, logs, and plugins](#development-instance-settings-caches-logs-and-plugins) for a Development Instance of the IDE.

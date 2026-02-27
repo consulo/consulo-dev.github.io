@@ -28,9 +28,9 @@ To set up your plugin development environment:
   ![Set Home Directory](img/set_home_directory.png)
   <br/>
   <br/>
-* Select **1.8** as the default Java SDK.
-  See the _Build Configuration_ section of [Check Out And Build Consulo](https://github.com/consulo/consulo/blob/master/README.md) for instructions about creating **1.8** Java SDK.
-  ![Set IDEA JDK](img/set_java_sdk.png)
+* Select **JDK 21** as the default Java SDK.
+  See the _Build Configuration_ section of [Check Out And Build Consulo](https://github.com/consulo/consulo/blob/master/README.md) for instructions about configuring JDK 21.
+  ![Set Java SDK](img/set_java_sdk.png)
   <br/>
   <br/>
 * In the Sourcepath tab of the SDK settings, click the *Add* button:

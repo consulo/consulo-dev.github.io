@@ -32,7 +32,7 @@ You can record a screencast about a particular feature or use case you discovere
 Bug reports take little time to file and are very helpful to developers.
 This is one of the easiest contributions you can make.
 When you discover a problem with the IDE or the platform, please report it.
-Make sure you provide information about your environment (OS, JDK version), steps to reproduce the issue, as well as a written description of the problem.
+Make sure you provide information about your environment (OS, Consulo version), steps to reproduce the issue, as well as a written description of the problem.
 You can file a bug in our [GitHub issue tracker](https://github.com/consulo/consulo/issues).
 Before submitting an issue, please search for already submitted ones describing the same problem - and if you find one, feel free to vote for it.
 
