@@ -17,13 +17,6 @@ If a [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/
 
 The most common way to implement `getVariants()` is to use the same function for walking up the tree as in [`PsiReference.resolve()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiReference.java), and a different implementation of [`PsiScopeProcessor`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/resolve/PsiScopeProcessor.java) which collects all declarations passed to its `processDeclarations()` method and returns them as an array for filling the completion list.
 
-#### Symbol Reference Completion
-
-> **WARNING** This API is available starting from 2020.3 and currently in development and thus in experimental state.
-
-To provide completion variants by a `PsiSymbolReference` implement
-`PsiCompletableReference`.
-
 ### Contributor-Based Completion
 
 Implementing the [`CompletionContributor`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/completion/CompletionContributor.java) (`consulo.language.editor.completion.CompletionContributor`) interface gives you the greatest control over the operation of code completion for your language.
