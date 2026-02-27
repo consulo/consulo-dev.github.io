@@ -13,7 +13,7 @@ For more information about dependencies on the Consulo modules, see Part II of t
 To express dependencies on classes from other plugins or modules, perform the following three required steps:
 
 ## 1. Locating Plugin ID and Preparing Sandbox
-A compatible version must be chosen carefully according to the plugin's [compatibility](/basics/getting_started/build_number_ranges.md). 
+A compatible version must be chosen carefully according to the plugin's [platform version](/basics/getting_started/build_number_ranges.md).
 
 For plugins published on [Consulo Plugin Repository](https://plugins.consulo.app)
 - open plugin's detail page

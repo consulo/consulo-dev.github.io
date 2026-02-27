@@ -8,7 +8,7 @@ title: Consulo Artifacts Repositories
 Consulo maintains public repositories that host artifacts related to the Consulo Platform, such as binaries and source code.
 These repositories make artifacts more accessible for plugin developers.
 
-The Consulo artifacts repositories are available for release versions by [build number](/basics/getting_started/build_number_ranges.md) and for snapshot versions.
+The Consulo artifacts repositories are available for snapshot versions. See [Platform Versioning](/basics/getting_started/build_number_ranges.md) for details about the versioning scheme.
 
 See the [Maven coordinates](#specify-the-maven-coordinates-for-the-artifact) section for details about specifying these artifacts.
 
@@ -32,8 +32,7 @@ To setup dependencies on a module there are two types of information needed:
 
 ### Specify the Repository URL
 The URL for the desired artifact needs to be added to your Maven `pom.xml`:
-* For release versions, use the Consulo releases repository.
-* For snapshots, use the Consulo snapshots repository.
+* Use the Consulo snapshots repository.
 * For dependencies on individual modules from the Consulo, also use the Consulo third-party dependencies repository.
 
 ### Specify the Maven Coordinates for the Artifact
@@ -59,17 +58,7 @@ The table below shows some example module names and their corresponding groupId 
 | consulo.platform.vcs.log        | consulo.platform                | vcs-log                 |
 | consulo.xml.impl                | consulo.xml                     | xml-impl                |
 
-The artifact _version_ can be specified in one of several ways because each artifact [at the Repository URLs](#specify-the-repository-url) has multiple versions available:
-* Specify release build versions as _MAJOR[.MINOR][.FIX]_. For example `14`, or `14.1`, or `14.1.1`
-* Snapshot versions are specified as:
-  * The snapshot of the most recent branch build is specified as _BRANCH-EAP-SNAPSHOT_. For example, `193-EAP-SNAPSHOT`.
-    There is only one of this type of build for each branch of each product.
-  * The snapshot of the branch from which the next EAP/release build might be produced is specified as _BRANCH.BUILD-EAP-CANDIDATE-SNAPSHOT_. For example `193.4386-EAP-CANDIDATE-SNAPSHOT`.
-    There are multiple builds of this type, one for each build in each branch of every product.
-  * The latest snapshot of a product is always specified as _LATEST-EAP-SNAPSHOT_.
-    There is only one build of this type per product, and it is always the same as the _BRANCH-EAP-SNAPSHOT_ for the newest branch of the product.
-  * A snapshot of a branch is specified as _BRANCH.BUILD.FIX-EAP-SNAPSHOT_. For example, `193.4386.10-EAP-SNAPSHOT`.
-    There are many builds of this type for each branch of each product.
+The artifact _version_ is always `3-SNAPSHOT`. Consulo does not publish release artifacts or maintain older versions — all Maven dependencies use this single shared snapshot version.
 
 ### Example Artifact Specification
 For example, to specify the `jps-model-serialization` module:
@@ -103,16 +92,16 @@ This code snippet specifies the desired module artifacts.
     <dependency>
         <groupId>consulo.platform</groupId>
         <artifactId>jps-model-serialization</artifactId>
-        <version>182.2949.4</version>
+        <version>3-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>consulo.platform</groupId>
         <artifactId>jps-model-impl</artifactId>
-        <version>182.2949.4</version>
+        <version>3-SNAPSHOT</version>
     </dependency>
 </dependencies>
 ```
 
 Note:
- * The artifact version (`182.2949.4`) must match in both statements.
+ * The artifact version (`3-SNAPSHOT`) must match in both statements.
  * In this example `jps-model-serialization` declares the APIs and `jps-model-impl` provides the implementation, so both are required dependencies.

@@ -21,7 +21,7 @@ Whether online or in the product UI, a Plugin Logo helps users to identify a plu
 
 ![Example Product Plugin Preferences Dialog](img/plugin_prefs.png){:width="800px"}
                                 
-> **NOTE** When browsing [custom plugin repositories](/basics/getting_started/update_plugins_format.md), there is no support for showing logos for plugins hosted there but not yet installed.
+> **NOTE** Plugin logos are displayed in the "Plugins" settings dialog for installed plugins.
 
 ## Plugin Logo Requirements
 For a Plugin Logo to be displayed correctly within Consulo, it must:

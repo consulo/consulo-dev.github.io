@@ -25,7 +25,7 @@ Allowed HTML elements include text formatting, paragraphs, and lists.
   <name>Vss Integration</name>
 
   <!-- Plugin version
-       Recommended format is BRANCH.BUILD.FIX (MAJOR.MINOR.FIX)
+       Recommended format is MAJOR.MINOR.FIX
        Displayed in the "Plugins" settings dialog and the plugin repository Web interface. -->
   <version>1.0.0</version>
 
@@ -75,9 +75,10 @@ Allowed HTML elements include text formatting, paragraphs, and lists.
   <!-- Reference to localization bundle for the plugin. -->
   <localize>com.company.vssintegration.localize.VssIntegrationLocalize</localize>
 
-  <!-- Minimum platform version required by the plugin.
+  <!-- Platform version. Always set to SNAPSHOT in source code.
+       The actual version is substituted during deployment.
        Replaces the legacy <idea-version> element. -->
-  <platformVersion>3</platformVersion>
+  <platformVersion>SNAPSHOT</platformVersion>
 
   <!-- Optional security permissions requested by the plugin. -->
   <permissions>

@@ -25,8 +25,6 @@ This section presents a guided tour of `maven-consulo-plugin` configuration to a
 ### Configuring the Maven Plugin for Building Consulo Plugin Projects
 The `maven-consulo-plugin` builds plugin projects against the Consulo API.
 
-> **NOTE** Using EAP versions of the Consulo requires adding the _Snapshots repository_ to the `pom.xml` file (see [Consulo Artifacts Repositories](/reference_guide/consulo_artifacts.md)).
-
 #### Consulo Configuration
 The Consulo API version your plugin targets is controlled by the dependency versions declared in your `pom.xml`.
 
@@ -68,13 +66,13 @@ These goals are typically configured to run during the `generate-sources` phase:
 ```
 
 ### Configuring the Plugin Configuration File
-The `since-build` and `until-build` values are specified directly in your `plugin.xml` file within the `<idea-version>` element:
+The platform version is specified in your `plugin.xml` file using the `<platformVersion>` element:
 
 ```xml
-<idea-version since-build="162" until-build="162.*"/>
+<platformVersion>SNAPSHOT</platformVersion>
 ```
 
-A best practice is to keep version declarations in sync with the Consulo API version your plugin targets.
+Always set this to `SNAPSHOT` in source code. The actual version number is substituted automatically during deployment.
 
 ### Verifying Plugin
 Before publishing, verify your plugin works correctly by building it and installing it into a local Consulo instance.
@@ -89,9 +87,9 @@ This section reviews some of the more common configurations.
 ### Plugins Targeting Consulo
 Consulo plugins have the most straightforward Maven plugin configuration.
 * Determine the version of Consulo API to use for building the plugin project.
-  This can be determined from the [build number ranges](/basics/getting_started/build_number_ranges.md).
+  See [Platform Versioning](/basics/getting_started/build_number_ranges.md) for details.
   * Set the necessary [plugin dependencies](#plugin-dependencies), if any.
-* Set the appropriate `since-build` and `until-build` values in your `plugin.xml` file.
+* Ensure `<platformVersion>SNAPSHOT</platformVersion>` is set in your `plugin.xml` file.
 
 ### Plugins Targeting Alternate Consulo-Based IDEs
 Maven also supports developing plugins to run in IDEs that are based on the Consulo.

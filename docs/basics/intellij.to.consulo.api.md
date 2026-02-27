@@ -7,7 +7,7 @@
     * RegExp > **com.intellij.regexp**
     * Images > **com.intellij.images**
  * Added plugin named **Platform: base** have id **com.intellij**. It holder for all extensions/actions/extensionPoints for platform
- * IDEA build number **!=** Consulo build number.
+ * Consulo uses its own versioning (e.g. `3-SNAPSHOT`), not IntelliJ build numbers. See [Platform Versioning](/basics/getting_started/build_number_ranges.md).
  * Now some Consulo plugins ids is not working anymore
     * **com.intellij.modules.lang** > not need to write. It will throw 'plugin not found'
     * **com.intellij.modules.platform** > not need to write. It will throw 'plugin not found'

@@ -21,7 +21,7 @@ For manual distribution or local installation, invoke the Maven `package` goal t
 mvn package
 ```
 
-The resulting artifact is located in the `target/` directory and can then be installed either manually or uploaded to a [custom plugin repository](/basics/getting_started/update_plugins_format.md).
+The resulting artifact is located in the `target/` directory and can then be installed manually.
 
 ## Providing Your Credentials to Maven
 To deploy a plugin to the Consulo Plugin Repository, you need to supply your authentication credentials.
@@ -73,5 +73,3 @@ If successfully deployed, any users who currently have your plugin installed on 
 
 ### Specifying a Release Channel
 You may also deploy plugins to a release channel of your choosing by configuring the appropriate properties in your `pom.xml`.
-
-When using a non-default release channel, users need to configure a new custom plugin repository in their IDE to install your plugin.
