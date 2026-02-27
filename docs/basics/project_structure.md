@@ -7,7 +7,6 @@ This topic considers the concept of projects based on the Consulo and related su
 
 ## Project and Its Components
 This section briefly discusses the Consulo project structure, project components, and related terms.
-For more information about projects and their components, refer to [Project](https://www.jetbrains.com/help/idea/about-projects.html), [Module](https://www.jetbrains.com/help/idea/creating-and-managing-modules.html), [Library](https://www.jetbrains.com/help/idea/working-with-libraries.html), [Facet](https://www.jetbrains.com/help/idea/adding-support-for-frameworks-and-technologies.html#facets) in the IntelliJ IDEA Web Help.
 
 ### Project
 In the Consulo, a _project_ encapsulates all of a project's source code, libraries, and build instructions into a single organizational unit.
@@ -23,11 +22,9 @@ A module can depend on other modules of the project.
 
 ### Library
 A _library_ is an archive of compiled code (such as JAR files) on which modules depend.
-The Consulo supports three types of libraries:
-* **Module Library**: the library classes are visible only in this module, and the library information is recorded in the module's `.iml` file.
-* **Project Library**: the library classes are visible within the project, and the library information is recorded in the project's `.ipr` file or in `.idea/libraries`.
-
-For more information about libraries, refer to [Library](https://www.jetbrains.com/help/idea/working-with-libraries.html).
+The Consulo supports two types of libraries:
+* **Module Library**: the library classes are visible only in this module.
+* **Project Library**: the library classes are visible within the project.
 
 ### SDK
 Every project uses a Software Development Kit (_SDK_).
@@ -37,14 +34,12 @@ The SDK determines which API library is used to build the project.
 If a project is multi-module, the project SDK is common for all modules within the project by default.
 Optionally, a project can configure an individual SDK for each module.
 
-For more information about SDKs, see [Working with SDKs](https://www.jetbrains.com/help/idea/working-with-sdks.html) in the IntelliJ IDEA Web Help.
+### Module Extension
+A _module extension_ represents a certain configuration, specific for a particular framework/technology associated with a module.
+A module can have multiple module extensions.
+E.g., Spring-specific configuration is stored in a Spring module extension.
 
-### Facet
-A _facet_ represents a certain configuration, specific for a particular framework/technology associated with a module.
-A module can have multiple facets.
-E.g., Spring-specific configuration is stored in a Spring facet.
-
-Facets are documented under [Facet](https://www.jetbrains.com/help/idea/adding-support-for-frameworks-and-technologies.html#facets) and [Language and Framework Specific Guidelines](https://www.jetbrains.com/help/idea/language-and-framework-specific-guidelines.html) in the IntelliJ IDEA Web Help.
+Module extensions are managed via `ModuleExtensionProvider`.
 
 ## Additional Information
 For more information on each of these entities, see:

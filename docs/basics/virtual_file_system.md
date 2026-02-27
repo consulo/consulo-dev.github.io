@@ -1,6 +1,7 @@
 ---
 title: Virtual File System
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The virtual file system (VFS) is a component of the *Consulo* that encapsulates most of its activity for working with files represented as [Virtual File](/basics/architectural_overview/virtual_file.md).
@@ -51,7 +52,7 @@ The VFS itself does not honor ignored files listed in **Settings \| Editor \| Fi
 If the application code accesses them, the VFS will load and return their contents.
 In most cases, the ignored files and excluded folders must be skipped from processing by higher-level code.
 
-During the lifetime of a running instance of an Consulo IDE, multiple `VirtualFile` instances may correspond to the same disk file.
+During the lifetime of a running instance of a Consulo IDE, multiple [`VirtualFile`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFile.java) instances may correspond to the same disk file.
 They are equal, have the same `hashCode`, and share the user data.
 
 ## Synchronous and Asynchronous Refreshes
@@ -64,13 +65,13 @@ Both synchronous and asynchronous refreshes can be initiated from any thread.
 If a refresh is initiated from a background thread, the calling thread must not hold a read action, because otherwise, a deadlock would occur.
 See [Consulo Architectural Overview](/basics/architectural_overview/general_threading_rules.md) for more details on the threading model and read/write actions.
 
-The same threading requirements also apply to functions like [`LocalFileSystem.refreshAndFindFileByPath()`](upsource:///platform/analysis-api/src/com/intellij/openapi/vfs/LocalFileSystem.java), which perform a partial refresh if the file with the specified path is not found in the snapshot.
+The same threading requirements also apply to functions like [`LocalFileSystem.refreshAndFindFileByPath()`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/LocalFileSystem.java), which perform a partial refresh if the file with the specified path is not found in the snapshot.
 
 In nearly all cases, using asynchronous refreshes is strongly preferred.
 If there is some code that needs to be executed after the refresh is complete, the code should be passed as a `postRunnable` parameter to one of the refresh methods:
 
-* [`RefreshQueue.createSession()`](upsource:///platform/analysis-api/src/com/intellij/openapi/vfs/newvfs/RefreshQueue.java)
-* [`VirtualFile.refresh()`](upsource:///platform/core-api/src/com/intellij/openapi/vfs/VirtualFile.java)
+* `RefreshQueue.createSession()`
+* [`VirtualFile.refresh()`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFile.java)
 
 In some cases, synchronous refreshes can cause deadlocks, depending on which locks are held by the thread invoking the refresh operation.
 
@@ -79,12 +80,12 @@ In some cases, synchronous refreshes can cause deadlocks, depending on which loc
 All changes happening in the virtual file system, either due to refresh operations or caused by user actions, are reported as _virtual file system events_.
 VFS events are always fired in the event dispatch thread and in a write action.
 
-The most efficient way to listen to VFS events is to implement [`BulkFileListener`](upsource:///platform/core-api/src/com/intellij/openapi/vfs/newvfs/BulkFileListener.java) and to subscribe with it to the [`VirtualFileManager.VFS_CHANGES`](upsource:///platform/core-api/src/com/intellij/openapi/vfs/VirtualFileManager.java) topic.
-A non-blocking variant [`AsyncFileListener`](upsource:///platform/core-api/src/com/intellij/openapi/vfs/AsyncFileListener.java) is also available in 2019.2 or later.
+The most efficient way to listen to VFS events is to implement `BulkFileListener` and to subscribe with it to the [`VirtualFileManager.VFS_CHANGES`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFileManager.java) topic.
+A non-blocking variant `AsyncFileListener` is also available in 2019.2 or later.
 See [How do I get notified when VFS changes?](/basics/architectural_overview/virtual_file.md#how-do-i-get-notified-when-vfs-changes) for implementation details.
 
 > **WARNING** VFS listeners are application level and will receive events for changes happening in *all* the projects opened by the user.
-> You may need to filter out events that aren't relevant to your task (e.g., via [`ProjectFileIndex.isInContent()`](upsource:///platform/projectModel-api/src/com/intellij/openapi/roots/ProjectFileIndex.java)).
+> You may need to filter out events that aren't relevant to your task (e.g., via `ProjectFileIndex.isInContent()`).
 
 VFS events are sent both before and after each change, and you can access the old contents of the file in the before event.
 Note that events caused by a refresh are sent after the changes have already occurred on disk.
@@ -92,6 +93,6 @@ So when you process the `beforeFileDeletion` event, for example, the file has al
 However, it is still present in the VFS snapshot, and you can access its last contents using the VFS API.
 
 Note that a refresh operation fires events only for changes in files that have been loaded in the snapshot.
-For example, if you accessed a `VirtualFile` for a directory but never loaded its contents using [`VirtualFile.getChildren()`](upsource:///platform/core-api/src/com/intellij/openapi/vfs/VirtualFile.java), you may not get `fileCreated` notifications when files are created in that directory.
+For example, if you accessed a `VirtualFile` for a directory but never loaded its contents using [`VirtualFile.getChildren()`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFile.java), you may not get `fileCreated` notifications when files are created in that directory.
 
-If you loaded only a single file in a directory using `VirtualFile.findChild()`, you will get notifications for changes to that file, but you may not get created/deleted notifications for other files in the same directory.
+If you loaded only a single file in a directory using [`VirtualFile.findChild()`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFile.java), you will get notifications for changes to that file, but you may not get created/deleted notifications for other files in the same directory.

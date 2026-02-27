@@ -5,7 +5,7 @@ title: Dialogs
 
 ## DialogWrapper
 
-The [`DialogWrapper`](upsource:///platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) is the base class which is supposed to be used for all modal dialogs (and some non-modal dialogs) shown in *Consulo*.
+The [`DialogWrapper`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-awt-api/src/main/java/consulo/ui/ex/awt/DialogWrapper.java) is the base class which is supposed to be used for all modal dialogs (and some non-modal dialogs) shown in *Consulo*.
 
 It provides the following features:
 
@@ -19,7 +19,7 @@ It provides the following features:
     * <kbd>Y</kbd>/<kbd>N</kbd> for _Yes_/_No_ actions if they exist in the dialog
 * Optional _Do not ask again_ checkbox
 
-When using the [`DialogWrapper`](upsource:///platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) class for a dialog, follow these steps:
+When using the `DialogWrapper` class for a dialog, follow these steps:
 
 * Call the base class constructor and provide either a project in the frame of which the dialog will be displayed, or a parent component for the dialog.
 * Call the `init()` method from the constructor of the dialog class
@@ -30,7 +30,7 @@ When using the [`DialogWrapper`](upsource:///platform/platform-api/src/com/intel
 * *Optional*: Override the `getDimensionServiceKey()` method to return the identifier which will be used for persisting the dialog dimensions.
 * *Optional*: Override the `getHelpId()` method to return the context help topic associated with the dialog.
 
-The [`DialogWrapper`](upsource:///platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) class is often used together with [GUI Designer forms](https://www.jetbrains.com/help/idea/gui-designer-basics.html).
+The `DialogWrapper` class is often used together with GUI Designer forms.
 In this case, bind a GUI Designer form to the class extending `DialogWrapper`, bind the top-level panel of the form to a field and return that field from the `createCenterPanel()` method.
 
 > **TIP** Existing dialogs can be inspected at runtime using [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md), e.g., to locate the underlying implementation of UI components.
@@ -40,18 +40,18 @@ The `showAndGet()` method can be used to combine these two calls.
 
 To customize the buttons displayed in the dialog (replacing the standard _OK_/_Cancel_/_Help_ set of buttons), override either the `createActions()` or `createLeftActions()` methods.
 Both of these methods return an array of Swing Action objects.
-If a button closes the dialog, use [`DialogWrapperExitAction`](upsource:///platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) as the base class for the action.
+If a button closes the dialog, use `DialogWrapperExitAction` as the base class for the action.
 Use `action.putValue(DialogWrapper.DEFAULT_ACTION, true)` to set the default button.
 
 To validate the data entered into the dialog, override the `doValidate()` method.
 The method will be called automatically by timer.
 If the currently entered data is valid, return `null`.
-Otherwise, return a [`ValidationInfo`](upsource:///platform/platform-api/src/com/intellij/openapi/ui/ValidationInfo.java) object which encapsulates an error message, and an optional component associated with the invalid data.
+Otherwise, return a `ValidationInfo` object which encapsulates an error message, and an optional component associated with the invalid data.
 When specifying a component, an error icon will be displayed next to it, and it will be focused when the user tries to invoke the _OK_ action.
 
 ## Example
 
-Simple definition of a [`DialogWrapper`](upsource:///platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java):
+Simple definition of a `DialogWrapper`:
 
 ```java
 public class SampleDialogWrapper extends DialogWrapper {
@@ -76,7 +76,7 @@ public class SampleDialogWrapper extends DialogWrapper {
 }
 ```
 
-Usage of [`DialogWrapper`](upsource:///platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java):
+Usage of `DialogWrapper`:
 
 ```java
 JButton testButton = new JButton();

@@ -1,6 +1,7 @@
 ---
 title: Plugin Configuration File - plugin.xml
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The following is a sample plugin configuration file.
@@ -11,11 +12,9 @@ Limited HTML elements are allowed within `<description>` and `<change-notes>` el
 However, content containing HTML elements must be surrounded by `<![CDATA[  ]]>` tags.
 Allowed HTML elements include text formatting, paragraphs, and lists.
 
-When using Gradle, a number of metadata elements will be provided at build time by [`patchPluginXml` task](/tutorials/build_system/gradle_guide.md#patching-the-plugin-configuration-file).
-
 ```xml
 <!-- `url` specifies the URL of the plugin homepage (can be opened from "Plugins" settings dialog) -->
-<idea-plugin url="https://www.jetbrains.com/idea">
+<consulo-plugin url="https://www.company.com/my-plugin">
 
   <!-- Plugin name. It should be short and descriptive and in Title Case.
        Displayed in the "Plugins" settings dialog and the plugin repository Web interface. -->
@@ -24,7 +23,7 @@ When using Gradle, a number of metadata elements will be provided at build time 
   <!-- Unique identifier of the plugin. It should be FQN.
        It cannot be changed between the plugin versions.
        If not specified, <name> will be used (not recommended). -->
-  <id>com.jetbrains.vssintegration</id>
+  <id>com.company.vssintegration</id>
 
   <!-- Description of the plugin.
        Should be short and to the point.
@@ -34,7 +33,7 @@ When using Gradle, a number of metadata elements will be provided at build time 
        Don't repeat the name of the plugin.
        For plugins that add language/platform/framework support, the description MUST specify
        the version of the corresponding language/platform/framework.
-       Don't mention the IDE compatibility. E.g., don't say "Adds support to IntelliJ IDEA for..."
+       Don't mention the IDE compatibility. E.g., don't say "Adds support to Consulo for..."
        Displayed in the "Plugins" settings dialog and the plugin repository Web interface.
        Simple HTML elements can be included between <![CDATA[  ]]> tags.  -->
   <description>Integrates Volume Snapshot Service W10</description>
@@ -56,11 +55,8 @@ When using Gradle, a number of metadata elements will be provided at build time 
   <vendor url="https://www.company.com" email="support@company.com">A Company Inc.</vendor>
 
   <!-- Mandatory dependencies on plugins or modules.
-       The FQN module names in <depends> elements are used to determine IDE compatibility for the plugin.
-       Include at least the module shown below to indicate compatibility with Consulo-based products.
-       Also, include dependencies on other plugins as needed.
-       See "Compatibility with Multiple Products" and "Plugin Dependencies" for more information.  -->
-  <depends>com.intellij.modules.platform</depends>
+       Include dependencies on other plugins as needed.
+       See "Plugin Dependencies" for more information.  -->
   <depends>com.third.party.plugin</depends>
 
   <!-- Optional dependency on another plugin.
@@ -71,13 +67,8 @@ When using Gradle, a number of metadata elements will be provided at build time 
   <!-- Minimum and maximum build of IDE compatible with the plugin -->
   <idea-version since-build="193" until-build="193.*"/>
 
-  <!-- Resource bundle (/messages/MyPluginBundle.properties) to be used
-       with `key` attributes in extension points and implicit keys like
-       `action.[ActionID].text|description` -->
-  <resource-bundle>messages.MyPluginBundle</resource-bundle>
-
   <!-- Plugin's application components / DEPRECATED - do not use in new plugins
-       See https://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_components.html for migration steps
+       See plugin_components.md for migration steps
   -->
   <application-components>
     <component>
@@ -90,7 +81,7 @@ When using Gradle, a number of metadata elements will be provided at build time 
   </application-components>
 
   <!-- Plugin's project components / DEPRECATED - do not use in new plugins
-       See https://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_components.html for migration steps
+       See plugin_components.md for migration steps
   -->
   <project-components>
     <component>
@@ -110,7 +101,7 @@ When using Gradle, a number of metadata elements will be provided at build time 
   </project-components>
 
   <!-- Plugin's module components / DEPRECATED - do not use in new plugins
-       See https://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_components.html for migration steps
+       See plugin_components.md for migration steps
   -->
   <module-components>
     <component>
@@ -137,8 +128,8 @@ When using Gradle, a number of metadata elements will be provided at build time 
        defined by the Consulo or by other plugins.
        The "defaultExtensionNs" attribute must be set to the
        ID of the plugin defining the extension point, or to
-       "com.intellij" if the extension point is defined by the
-       Consulo. The name of the tag within the <extensions>
+       "consulo" if the extension point is defined by the
+       Consulo Platform. The name of the tag within the <extensions>
        tag matches the name of the extension point, and the
        "implementation" class specifies the name of the class
        added to the extension point. -->
@@ -148,12 +139,12 @@ When using Gradle, a number of metadata elements will be provided at build time 
 
   <!-- Application-level listeners -->
   <applicationListeners>
-    <listener class="com.foo.impl.MyListener" topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
+    <listener class="com.foo.impl.MyListener" topic="consulo.virtualFileSystem.event.BulkFileListener"/>
   </applicationListeners>
 
   <!-- Project-level listeners -->
   <projectListeners>
-    <listener class="com.foo.impl.MyToolwindowListener" topic="com.intellij.openapi.wm.ex.ToolWindowManagerListener"/>
+    <listener class="com.foo.impl.MyToolwindowListener" topic="consulo.wm.ToolWindowManagerListener"/>
   </projectListeners>
-</idea-plugin>
+</consulo-plugin>
 ```

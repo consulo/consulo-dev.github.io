@@ -1,16 +1,17 @@
 ---
 title: Plugin Services
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-A _service_ is a plugin component loaded on demand when your plugin calls the `getService()` method of [`ServiceManager`](upsource:///platform/core-api/src/com/intellij/openapi/components/ServiceManager.java).
+A _service_ is a plugin component loaded on demand when your plugin calls the `getService()` method of `ServiceManager`.
 
 The *Consulo* ensures that only one instance of a service is loaded even though it is called several times.
 
 A service must have an implementation class that is used for service instantiation.
 A service may also have an interface class used to obtain the service instance and provide the service's API.
 
-A service needing a shutdown hook/cleanup routine can implement [`Disposable`](upsource:///platform/util/src/com/intellij/openapi/Disposable.java) and perform necessary work in `dispose()` (see [Automatically Disposed Objects](/basics/disposers.md#automatically-disposed-objects)).
+A service needing a shutdown hook/cleanup routine can implement [`Disposable`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java) and perform necessary work in `dispose()` (see [Automatically Disposed Objects](/basics/disposers.md#automatically-disposed-objects)).
 
 #### Types
 The *Consulo* offers three types of services: _application level_ services (global singleton), _project level_ services, and _module level_ services.
@@ -19,7 +20,7 @@ For the latter two, a separate instance of the service is created for each insta
 > **NOTE** Please consider not using module-level services because it can increase memory usage for projects with many modules.
 
 #### Constructor
-Project/Module level service constructors can have a `Project`/`Module` argument.
+Project/Module level service constructors can have a [`Project`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/Project.java)/[`Module`](https://github.com/consulo/consulo/blob/master/modules/base/module-api/src/main/java/consulo/module/Module.java) argument.
 To improve startup performance, avoid any heavy initializations in the constructor.
 
 > **NOTE** Please note that using constructor injection is deprecated (and not supported in [Light Services](#light-services)) for performance reasons.
@@ -30,7 +31,7 @@ To improve startup performance, avoid any heavy initializations in the construct
 > **NOTE** Light Services are available since Consulo 2019.3.
 
 A service not going to be overridden does not need to be registered in `plugin.xml` (see [Declaring a Service](#declaring-a-service)).
-Instead, annotate service class with [`@Service`](upsource:///platform/core-api/src/com/intellij/openapi/components/Service.java).
+Instead, annotate service class with `@Service`.
 The service instance will be created in scope according to the caller (see [Retrieving a Service](#retrieving-a-service)).
 
 Restrictions:
@@ -45,9 +46,9 @@ See [Project Level Service](#project-service-sample) below for a sample.
 
 To register a non-[Light Service](#light-services), distinct extension points are provided for each type:
 
-* `com.intellij.applicationService` - application level service
-* `com.intellij.projectService` - project level service
-* `com.intellij.moduleService` - module level service (not recommended, see Note above)
+* `consulo.applicationService` - application level service
+* `consulo.projectService` - project level service
+* `consulo.moduleService` - module level service (not recommended, see Note above)
                                   
 To expose service API, create separate class for `serviceInterface` and extend it in corresponding class registered in `serviceImplementation`.
 If `serviceInterface` isn't specified, it's supposed to have the same value as `serviceImplementation`.
@@ -57,7 +58,7 @@ To provide custom implementation for test/headless environment, specify `testSer
 _plugin.xml_
 
 ```xml
-<extensions defaultExtensionNs="com.intellij">
+<extensions defaultExtensionNs="consulo">
   <!-- Declare the application level service -->
   <applicationService serviceInterface="mypackage.MyApplicationService"
                       serviceImplementation="mypackage.MyApplicationServiceImpl" />
@@ -120,7 +121,5 @@ If this number exceeds the maximum number of simultaneously opened projects allo
 
 **To install and run the sample plugin**
 
-* Download the included sample plugin project located [here](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/max_opened_projects).
-* Start *IntelliJ IDEA*, on the starting page, click *Open Project*, and then use the *Open Project* dialog box to open the project.
+* Start *Consulo*, on the starting page, click *Open Project*, and then use the *Open Project* dialog box to open the project.
 * On the main menu, choose *Run \| Run* or press <kbd>Shift</kbd>+<kbd>F10</kbd>.
-* If necessary, change the [Run/Debug Configurations](https://www.jetbrains.com/help/idea/run-debug-configuration-plugin.html).

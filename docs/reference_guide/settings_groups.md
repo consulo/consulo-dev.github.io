@@ -17,11 +17,11 @@ Extension Point declarations can create this kind of multilayer Settings hierarc
 ## Extension Points for Parent-Child Settings Relationships
 There are multiple ways of creating parent-child relationships in groups of Settings: in implementations, or Extension Point declarations.
 However, there are performance penalties for creating these relationships in implementations because the objects must be instantiated to determine the relationships.
-This section describes the syntax for declaring more complex parent-child relationships in `com.intellij.projectConfigurable` or `com.intellij.applicationConfigurable` EPs.
+This section describes the syntax for declaring more complex parent-child relationships in `consulo.projectConfigurable` or `consulo.applicationConfigurable` EPs.
 
 > **NOTE** An application configurable can be a parent of a project configurable.
 
-There are two ways of declaring parent-child relationships using the `com.intellij.projectConfigurable` or `com.intellij.applicationConfigurable` EPs.
+There are two ways of declaring parent-child relationships using the `consulo.projectConfigurable` or `consulo.applicationConfigurable` EPs.
 The first is to use separate EP declarations that are tied together by the value of one attribute.
 The second method is to use nested declarations.
 
@@ -35,23 +35,23 @@ The first gets added to the `tools` group, and the second gets added to the `id`
 The `id` of the second, child `<projectConfigurable>` adds a suffix (`servers`) to the `id` of the parent.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
-    <projectConfigurable parentId="tools" id="com.intellij.sdk.tasks" displayName="Tasks"
+  <extensions defaultExtensionNs="consulo">
+    <projectConfigurable parentId="tools" id="consulo.sdk.tasks" displayName="Tasks"
                          nonDefaultProject="true"
-                         instance="com.intellij.sdk.TaskConfigurable"/>
+                         instance="consulo.sdk.TaskConfigurable"/>
 
-    <projectConfigurable parentId="com.intellij.sdk.tasks" id="com.intellij.sdk.tasks.servers" displayName="Servers"
+    <projectConfigurable parentId="consulo.sdk.tasks" id="consulo.sdk.tasks.servers" displayName="Servers"
                          nonDefaultProject="true"
-                         instance="com.intellij.sdk.TaskRepositoriesConfigurable"/>
+                         instance="consulo.sdk.TaskRepositoriesConfigurable"/>
   </extensions>
 ```
 
 See the [Attributes for Parent-Child Settings EPs](#attributes-for-parent-child-settings-eps) section for details about the suffix `id`.
 
 ### Parent-Child Settings Using Nested EPs
-A shorthand for the separate declaration approach is using the `com.intellij.configurable` EP.
-This approach nests the child's Settings declaration within the `com.intellij.projectConfigurable` or `com.intellij.applicationConfigurable` EP.
-Using `<configurable>` EP would not be possible if the parent Settings were declared in another plugin or file.
+A shorthand for the separate declaration approach is using the `consulo.configurable` EP.
+This approach nests the child's Settings declaration within the `consulo.projectConfigurable` or `consulo.applicationConfigurable` EP.
+Using the `<configurable>` EP would not be possible if the parent Settings were declared in another plugin or file.
 In that case, [Parent-Child Settings Using Separate EPs](#parent-child-settings-using-separate-eps) would be used.
 
 When using `<configurable>` EP there isn't a `parentId` for the child because the nesting implies it.
@@ -61,11 +61,11 @@ See the [Attributes for Parent-Child Settings EPs](#attributes-for-parent-child-
 The example below demonstrates a `<configurable>` EP declaration:
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
-    <projectConfigurable parentId="tools" id="com.intellij.sdk.tasks" displayName="Tasks" nonDefaultProject="true"
-                         instance="com.intellij.sdk.TaskConfigurable"/>
-      <configurable id="com.intellij.sdk.tasks.servers" displayName="Servers" nonDefaultProject="true"
-                         instance="com.intellij.sdk.TaskRepositoriesConfigurable"/>
+  <extensions defaultExtensionNs="consulo">
+    <projectConfigurable parentId="tools" id="consulo.sdk.tasks" displayName="Tasks" nonDefaultProject="true"
+                         instance="consulo.sdk.TaskConfigurable"/>
+      <configurable id="consulo.sdk.tasks.servers" displayName="Servers" nonDefaultProject="true"
+                         instance="consulo.sdk.TaskRepositoriesConfigurable"/>
     </projectConfigurable>
   </extensions>
 ```
@@ -80,13 +80,13 @@ For the child of a parent, the `id` attribute becomes compound:
 
 | Attribute | Required | Value |
 |:---   |  :---:  |:---  |
-| `id` | Y | Compound FQN of implementation based on `com.intellij.openapi.options.Configurable` in the form: `XX.YY` where:<br>`XX` is the parent Settings component FQN-based id.<br>`YY` is unique to the child among other siblings.  |
+| `id` | Y | Compound FQN of implementation based on [`consulo.configurable.Configurable`](https://github.com/consulo/consulo/blob/master/modules/base/configurable-api/src/main/java/consulo/configurable/Configurable.java) in the form: `XX.YY` where:<br>`XX` is the parent Settings component FQN-based id.<br>`YY` is unique to the child among other siblings.  |
 
 > **TIP** All children share the parent's `id` as the basis of their own `id`.
 > All children have an `id` suffix that is unique among their siblings.
 
 ## Implementations for Parent-Child Settings
-Implementations can be based on [`Configurable`](upsource:///platform/platform-api/src/com/intellij/openapi/options/Configurable.java), [`ConfigurableProvider`](upsource:///platform/platform-api/src/com/intellij/openapi/options/ConfigurableProvider.java) or one of their subtypes.
+Implementations can be based on [`Configurable`](https://github.com/consulo/consulo/blob/master/modules/base/configurable-api/src/main/java/consulo/configurable/Configurable.java), `ConfigurableProvider` or one of their subtypes.
 For more information about creating Settings implementations, see [Implementations for Settings Extension Points](settings_guide.md#implementations-for-settings-extension-points).
 
 ### Configurable Marker Interfaces

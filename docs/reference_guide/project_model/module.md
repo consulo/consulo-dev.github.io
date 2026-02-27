@@ -14,37 +14,37 @@ The key components of a module are:
   Source roots can have different types: regular source roots, test source roots, resource roots, etc.
   In Consulo, source roots are used as roots of the package hierarchy structure.
   Java classes directly under a source root will be in the root package.
-  Source roots can also be used to implement more fine-grained dependency checks. 
+  Source roots can also be used to implement more fine-grained dependency checks.
   Code under a regular source root cannot depend on code under a test source root.
 * **Order entries** - the dependencies of a module, which are stored in an ordered list.
   A dependency can be a reference to an [SDK](sdk.md), a [library](library.md), or another module.
-* **Extensions** - the extensions of a module, which can store framework(or language) settings. Each extension can provide own per module setting page.
+* **Module Extensions** - the extensions of a module, which can store framework (or language) settings. Each extension can provide its own per-module setting page. Module extensions are managed via `ModuleExtensionProvider`.
 
 In addition to that, a module can store other settings, such as a module-specific [SDK](sdk.md), compile output path settings, etc.
 Plugins can store additional data associated with a module by creating module extensions or module-level components.
 
 The *Consulo* provides a number of classes and interfaces you can use to work with modules:
 
-* [`Module`](upsource:///platform/core-api/src/com/intellij/openapi/module/Module.java)
-* [`ModuleUtil`](upsource:///platform/lang-api/src/com/intellij/openapi/module/ModuleUtil.java)
-* [`ModuleManager`](upsource:///platform/projectModel-api/src/com/intellij/openapi/module/ModuleManager.java)
-* [`ModuleRootManager`](upsource:///platform/projectModel-api/src/com/intellij/openapi/roots/ModuleRootManager.java)
-* [`ModuleRootModel`](upsource:///platform/projectModel-api/src/com/intellij/openapi/roots/ModuleRootModel.java)
-* [`ModifiableModuleModel`](upsource:///platform/projectModel-api/src/com/intellij/openapi/module/ModifiableModuleModel.java)
-* [`ModifiableRootModel`](upsource:///platform/projectModel-api/src/com/intellij/openapi/roots/ModifiableRootModel.java)
+* [`consulo.module.Module`](https://github.com/consulo/consulo/blob/master/modules/base/module-api/src/main/java/consulo/module/Module.java)
+* [`consulo.module.ModuleUtilCore`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/util/ModuleUtilCore.java)
+* [`consulo.module.ModuleManager`](https://github.com/consulo/consulo/blob/master/modules/base/module-api/src/main/java/consulo/module/ModuleManager.java)
+* [`consulo.module.content.ModuleRootManager`](https://github.com/consulo/consulo/blob/master/modules/base/module-content-api/src/main/java/consulo/module/content/ModuleRootManager.java)
+* [`consulo.module.content.ModuleRootModel`](https://github.com/consulo/consulo/blob/master/modules/base/module-content-api/src/main/java/consulo/module/content/layer/ModuleRootModel.java)
+* [`consulo.module.ModifiableModuleModel`](https://github.com/consulo/consulo/blob/master/modules/base/module-api/src/main/java/consulo/module/ModifiableModuleModel.java)
+* [`consulo.module.content.ModifiableRootModel`](https://github.com/consulo/consulo/blob/master/modules/base/module-content-api/src/main/java/consulo/module/content/layer/ModifiableRootModel.java)
 
 This section discusses how to complete some common tasks related to management of modules.
 
 ### How do I get a list of modules the project includes?
 
-Use the `ModuleManager.getModules()` method.
+Use the [`ModuleManager.getModules()`](https://github.com/consulo/consulo/blob/master/modules/base/module-api/src/main/java/consulo/module/ModuleManager.java) method.
 
 ### How do I get dependencies and classpath of a module?
 
 _Order entries_ include SDK, libraries and other modules the module uses.
-With the *Consulo* UI, you can view order entries for a module on the [Dependencies](https://www.jetbrains.com/help/idea/dependencies-tab.html) tab of the *Project Structure* dialog box.
+With the *Consulo* UI, you can view order entries for a module on the Dependencies tab of the *Project Structure* dialog box.
 
-To explore the [module dependencies](https://www.jetbrains.com/help/idea/dependencies-tab.html), use the [`OrderEnumerator`](upsource:///platform/projectModel-api/src/com/intellij/openapi/roots/OrderEnumerator.java) class.
+To explore the module dependencies, use the [`OrderEnumerator`](https://github.com/consulo/consulo/blob/master/modules/base/module-content-api/src/main/java/consulo/module/content/layer/OrderEnumerator.java) class.
 
 The following code snippet illustrates how you can get classpath (classes root of all dependencies) for a module:
 
@@ -54,8 +54,8 @@ VirtualFile[] roots = ModuleRootManager.getInstance(module).orderEntries().class
 
 ### How do I get the SDK the module uses?
 
-Use the `ModuleRootManager.getSdk()` method.
-This method returns a value of the [`Sdk`](upsource:///platform/projectModel-api/src/com/intellij/openapi/projectRoots/Sdk.java) type.
+Use the [`ModuleRootManager.getSdk()`](https://github.com/consulo/consulo/blob/master/modules/base/module-content-api/src/main/java/consulo/module/content/ModuleRootManager.java) method.
+This method returns a value of the [`consulo.content.bundle.Sdk`](https://github.com/consulo/consulo/blob/master/modules/base/application-content-api/src/main/java/consulo/content/bundle/Sdk.java) type.
 
 The following code snippet illustrates how you can get detailed information on SDK the specified module uses:
 
@@ -68,7 +68,7 @@ String jdkInfo = "Module: " + module.getName() + " SDK: " + SDK.getName() + " SD
 
 ### How do I get a list of modules on which this module directly depends?
 
-Use the `ModuleRootManager.getDependencies()` method to get an array of the `Module` type values or the `ModuleRootManager.getDependencyModuleNames()` to get an array of module names.
+Use the [`ModuleRootManager.getDependencies()`](https://github.com/consulo/consulo/blob/master/modules/base/module-content-api/src/main/java/consulo/module/content/ModuleRootManager.java) method to get an array of the [`Module`](https://github.com/consulo/consulo/blob/master/modules/base/module-api/src/main/java/consulo/module/Module.java) type values or the [`ModuleRootManager.getDependencyModuleNames()`](https://github.com/consulo/consulo/blob/master/modules/base/module-content-api/src/main/java/consulo/module/content/ModuleRootManager.java) to get an array of module names.
 To clarify, consider the following code snippet:
 
 ```java
@@ -79,9 +79,9 @@ String[] dependentModulesNames = moduleRootManager.getDependencyModuleNames();
 
 ### How do I get a list of modules that depend on this module?
 
-Use the `ModuleManager.getModuleDependentModules(module)` method.
+Use the [`ModuleManager.getModuleDependentModules(module)`](https://github.com/consulo/consulo/blob/master/modules/base/module-api/src/main/java/consulo/module/ModuleManager.java) method.
 
-Note that you can also check whether a module (*module1*) depends on another specified module (*module2*) using the `ModuleManager.isModuleDependent()` method in the following way:
+Note that you can also check whether a module (*module1*) depends on another specified module (*module2*) using the [`ModuleManager.isModuleDependent()`](https://github.com/consulo/consulo/blob/master/modules/base/module-api/src/main/java/consulo/module/ModuleManager.java) method in the following way:
 
 ```java
 boolean isDependent = ModuleManager.getInstance(project).isModuleDependent(module1,module2);
@@ -89,23 +89,23 @@ boolean isDependent = ModuleManager.getInstance(project).isModuleDependent(modul
 
 ### How do I get a module to which the specified file or PSI element belongs?
 
-* To get the project module to which the specified file belongs, use the `ModuleUtil.findModuleForFile()` static method.
+* To get the project module to which the specified file belongs, use the [`ModuleUtilCore.findModuleForFile()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/util/ModuleUtilCore.java) static method.
 
     To clarify, consider the following code snippet:
 
 ```java
 String pathToFile = "C:\\users\\firstName.LastName\\plugins\\myPlugin\src\MyAction.java";
 VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByPath(pathToFile);
-Module module = ModuleUtil.findModuleForFile(virtualFile,myProject);
+Module module = ModuleUtilCore.findModuleForFile(virtualFile,myProject);
 String moduleName = module == null ? "Module not found" : module.getName();
 ```
 
-* To get the project module to which the specified [PSI element](/basics/architectural_overview/psi_elements.md) belongs, use the `ModuleUtil.findModuleForPsiElement()` method.
+* To get the project module to which the specified [PSI element](/basics/architectural_overview/psi_elements.md) belongs, use the [`ModuleUtilCore.findModuleForPsiElement()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/util/ModuleUtilCore.java) method.
 
 
 ### Accessing Module Roots
 
-Information about module roots can be accessed via [`ModuleRootManager`](upsource:///platform/projectModel-api/src/com/intellij/openapi/roots/ModuleRootManager.java).
+Information about module roots can be accessed via [`ModuleRootManager`](https://github.com/consulo/consulo/blob/master/modules/base/module-content-api/src/main/java/consulo/module/content/ModuleRootManager.java).
 For example, the following snippet shows how to access the content roots of a module:
 
 ```java
@@ -114,7 +114,7 @@ VirtualFile[] contentRoots = ModuleRootManager.getInstance(module).getContentRoo
 
 ### Checking Belonging to a Module Source Root
 
-To check if a virtual file or directory belongs to a module source root, use the `ProjectFileIndex.getSourceRootForFile()` method.
+To check if a virtual file or directory belongs to a module source root, use the [`ProjectFileIndex.getSourceRootForFile()`](https://github.com/consulo/consulo/blob/master/modules/base/module-content-api/src/main/java/consulo/module/content/ProjectFileIndex.java) method.
 This method returns `null` if the file or directory does not belong to any source root of modules in the project.
 
 ```java

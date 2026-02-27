@@ -13,7 +13,7 @@ The `SimpleSyntaxHighlighter`, `SimpleSyntaxHighlighterFactory`, and `SimpleColo
 {:toc}
 
 ## 5.1. Define a Syntax Highlighter
-The Simple Language syntax highlighter class extends [`SyntaxHighlighterBase`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/fileTypes/SyntaxHighlighterBase.java).
+The Simple Language syntax highlighter class extends `SyntaxHighlighterBase`.
 As recommended in [Color Scheme Management](/reference_guide/color_scheme_management.md#text-attribute-key-dependency), the Simple Language highlighting text attributes are specified as a dependency on one of standard Consulo keys.
 For the Simple Language, define only one scheme.
 
@@ -23,17 +23,17 @@ For the Simple Language, define only one scheme.
 
 ### 5.2. Define a Syntax Highlighter Factory
 The factory provides a standard way for the Consulo to instantiate the syntax highlighter for Simple Language files.
-Here, `SimpleSyntaxHighlighterFactory` subclasses [`SyntaxHighlighterFactory`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/fileTypes/SyntaxHighlighterFactory.java).
+Here, `SimpleSyntaxHighlighterFactory` subclasses [`SyntaxHighlighterFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/highlight/SyntaxHighlighterFactory.java).
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleSyntaxHighlighterFactory.java %}
 ```
 
 ### 5.3. Register the Syntax Highlighter Factory
-Register the factory with the Consulo in the plugin configuration file using the `com.intellij.lang.syntaxHighlighterFactory` extension point.
+Register the factory with the Consulo in the plugin configuration file using the `consulo.lang.syntaxHighlighterFactory` extension point.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <lang.syntaxHighlighterFactory language="Simple"
                 implementationClass="org.intellij.sdk.language.SimpleSyntaxHighlighterFactory"/>
   </extensions>
@@ -47,17 +47,17 @@ The colors for Simple Language Key, Separator, and Value highlighting default to
 
 ## 5.5. Define a Color Settings Page
 The color settings page adds the ability for users to customize color settings for the highlighting in Simple Language files.
-The `SimpleColorSettingsPage` implements [`ColorSettingsPage`](upsource:///platform/platform-api/src/com/intellij/openapi/options/colors/ColorSettingsPage.java).
+The `SimpleColorSettingsPage` implements `ColorSettingsPage`.
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleColorSettingsPage.java %}
 ```
 
 ### 5.6. Register the Color Settings Page
-Register the Simple Language color settings page with the Consulo in the plugin configuration file using the `com.intellij.colorSettingsPage` extension point.
+Register the Simple Language color settings page with the Consulo in the plugin configuration file using the `consulo.colorSettingsPage` extension point.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <colorSettingsPage implementation="org.intellij.sdk.language.SimpleColorSettingsPage"/>
   </extensions>
 ```

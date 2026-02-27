@@ -13,7 +13,7 @@ These markers can provide navigation targets to related code.
 A line marker provider annotates usages of Simple Language properties within Java code and provides navigation to the definition of these properties.
 The visual marker is a Simple Language icon in the gutter of the Editor window.
 
-The Simple Language marker provider subclasses [`RelatedItemLineMarkerProvider`](upsource:///platform/lang-api/src/com/intellij/codeInsight/daemon/RelatedItemLineMarkerProvider.java).
+The Simple Language marker provider subclasses `RelatedItemLineMarkerProvider`.
 For this example, override the `collectNavigationMarkers()` method to collect usage of a Simple Language [key and separators](/tutorials/custom_language_support/language_and_filetype.md#define-the-language):
 
 ```java
@@ -26,8 +26,8 @@ The `collectNavigationMarkers()` method should:
 * Only return line marker information consistent with the element passed into the method.
   For example, do not return a _class_ marker if `getLineMarkerInfo()` was called with an element that corresponds to a _method_.
 * Return line marker information for the appropriate element at the correct scope of the PSI tree.
-  For example, do not return method marker for [`PsiMethod`](upsource:///java/java-psi-api/src/com/intellij/psi/PsiMethod.java).
-  Instead, return it for the [`PsiIdentifier`](upsource:///java/java-psi-api/src/com/intellij/psi/PsiIdentifier.java) which contains the name of the method.
+  For example, do not return method marker for `PsiMethod`.
+  Instead, return it for the `PsiIdentifier` which contains the name of the method.
 
 ![Line Marker Location](img/line_marker_location.png){:width="900px"}
 
@@ -44,7 +44,7 @@ public class MyWrongLineMarkerProvider implements LineMarkerProvider {
 ```
 
 The consequences of the `MyWrongLineMarkerProvider()` implementation have to do with how the Consulo performs inspections.
-For performance reasons, inspection, and specifically the [`LineMarkersPass`](upsource:///platform/lang-impl/src/com/intellij/codeInsight/daemon/impl/LineMarkersPass.java) queries all [`LineMarkerProviders`](upsource:///platform/lang-api/src/com/intellij/codeInsight/daemon/LineMarkerProviders.java) in two phases:
+For performance reasons, inspection, and specifically the `LineMarkersPass` queries all `LineMarkerProviders` in two phases:
 * The first pass is for all elements visible in the Editor window,
 * The second pass is for the rest of the elements in the file.
 
@@ -66,10 +66,10 @@ public class MyCorrectLineMarkerProvider implements LineMarkerProvider {
 ```
 
 ## 8.3. Register the Line Marker Provider
-The `SimpleLineMarkerProvider` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.codeInsight.lineMarkerProvider` extension point.
+The `SimpleLineMarkerProvider` implementation is registered with the Consulo in the plugin configuration file using the `consulo.codeInsight.lineMarkerProvider` extension point.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <codeInsight.lineMarkerProvider language="JAVA"
             implementationClass="org.intellij.sdk.language.SimpleLineMarkerProvider"/>
   </extensions>

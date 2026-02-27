@@ -1,6 +1,7 @@
 ---
 title: Navigating the PSI
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 There are three main ways to navigate the PSI: *top-down*, *bottom-up*, and *references*.
@@ -13,7 +14,7 @@ References are described in a [separate topic](psi_references.md).
 ## Top-Down Navigation
 
 The most common way to perform top-down navigation is to use a *visitor*.
-To use a visitor, you create a class (usually an anonymous inner class) that extends the base visitor class, overrides the methods that handle the elements you're interested in, and passes the visitor instance to `PsiElement.accept()`.
+To use a visitor, you create a class (usually an anonymous inner class) that extends the base visitor class, overrides the methods that handle the elements you're interested in, and passes the visitor instance to [`PsiElement.accept()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java).
 
 The base classes for visitors are language-specific.
 For example, if you need to process elements in a Java file, you extend `JavaRecursiveElementVisitor` and override the methods corresponding to the Java element types you're interested in.
@@ -33,15 +34,15 @@ file.accept(new JavaRecursiveElementVisitor() {
 In many cases, you can also use more specific APIs for top-down navigation.
 For example, if you need to get a list of all methods in a Java class, you can use a visitor, but a much easier way to do that is calling `PsiClass.getMethods()`.
 
-[`PsiTreeUtil`](upsource:///platform/core-api/src/com/intellij/psi/util/PsiTreeUtil.java) contains a number of general-purpose, language-independent functions for PSI tree navigation, some of which (for example, `findChildrenOfType()`) perform top-down navigation.
+[`PsiTreeUtil`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/util/PsiTreeUtil.java) contains a number of general-purpose, language-independent functions for PSI tree navigation, some of which (for example, `findChildrenOfType()`) perform top-down navigation.
 
 ## Bottom-Up Navigation
 
 The starting point for bottom-up navigation is either a specific element in the PSI tree (for example, the result of resolving a reference) or an offset.
-If you have an offset, you can find the corresponding PSI element by calling `PsiFile.findElementAt()`.
+If you have an offset, you can find the corresponding PSI element by calling [`PsiFile.findElementAt()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiFile.java).
 This method returns the element at the lowest level of the tree (for example, an identifier), and you need to navigate the tree up if you want to determine the broader context.
 
-In most cases, bottom-up navigation is performed by calling `PsiTreeUtil.getParentOfType()`.
+In most cases, bottom-up navigation is performed by calling [`PsiTreeUtil.getParentOfType()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/util/PsiTreeUtil.java).
 This method goes up the tree until it finds the element of the type you've specified.
 For example, to find the containing method, you call `PsiTreeUtil.getParentOfType(element, PsiMethod.class)`.
 
@@ -56,5 +57,3 @@ PsiElement element = psiFile.findElementAt(offset);
 PsiMethod containingMethod = PsiTreeUtil.getParentOfType(element, PsiMethod.class);
 PsiClass containingClass = containingMethod.getContainingClass();
 ```
-
-To see how the navigation works in practice, please refer to the [code sample](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/psi_demo/src/main/java/org/intellij/sdk/psi/PsiNavigationDemoAction.java).

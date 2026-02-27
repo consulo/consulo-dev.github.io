@@ -10,7 +10,7 @@ redirect_from:
 This section explains how you can create a new plugin project from scratch using the New Project wizard.
 Optionally, you can import an existing project or import a project from external models.
 You can also add a new plugin module to a current *Consulo* project.
-For more information, refer to the [IntelliJ IDEA Web Help](https://www.jetbrains.com/idea/help/new-project-wizard.html).
+For more information, refer to the Consulo documentation.
 
 ### To Create an Consulo Plugin Project:
 

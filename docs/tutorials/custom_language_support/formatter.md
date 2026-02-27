@@ -13,10 +13,10 @@ The formatter controls spaces, indents, wrap, and alignment.
 {:toc}
 
 ## 15.1. Define a Block
-The formatting model represents the formatting structure of a file as a tree of [`Block`](upsource:///platform/code-style-api/src/com/intellij/formatting/Block.java) objects, with associated indent, wrap, alignment and spacing settings.
+The formatting model represents the formatting structure of a file as a tree of `Block` objects, with associated indent, wrap, alignment and spacing settings.
 The goal is to cover each PSI element with such a block.
 Since each block builds its children's blocks, it can generate extra blocks or skip any PSI elements.
-Define `SimpleBlock` based on [`AbstractBlock`](upsource:///platform/code-style-impl/src/com/intellij/psi/formatter/common/AbstractBlock.java).
+Define `SimpleBlock` based on `AbstractBlock`.
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleBlock.java %}
@@ -26,17 +26,17 @@ Define `SimpleBlock` based on [`AbstractBlock`](upsource:///platform/code-style-
 Define a formatter that removes extra spaces except for the single spaces around the property separator.
 For example, reformat "foo  = &nbsp;&nbsp;&nbsp;&nbsp;bar" to "foo = bar".
 
-Create `SimpleFormattingModelBuilder` by subclassing [`FormattingModelBuilder`](upsource:///platform/code-style-api/src/com/intellij/formatting/FormattingModelBuilder.java).
+Create `SimpleFormattingModelBuilder` by subclassing [`FormattingModelBuilder`](https://github.com/consulo/consulo/blob/master/modules/base/language-code-style-api/src/main/java/consulo/language/codeStyle/FormattingModelBuilder.java).
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFormattingModelBuilder.java %}
 ```
 
 ## 15.3. Register the Formatter
-The `SimpleFormattingModelBuilder` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.lang.formatter` extension point.
+The `SimpleFormattingModelBuilder` implementation is registered with the Consulo in the plugin configuration file using the `consulo.lang.formatter` extension point.
 
 ```xml
- <extensions defaultExtensionNs="com.intellij">
+ <extensions defaultExtensionNs="consulo">
     <lang.formatter language="Simple"
             implementationClass="org.intellij.sdk.language.SimpleFormattingModelBuilder"/>
   </extensions>

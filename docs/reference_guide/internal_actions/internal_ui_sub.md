@@ -5,7 +5,7 @@ title: Internal Actions - UI Submenu
 
 The Internal Actions UI submenu provides Consulo plugin developers with a suite of tools to help develop, debug, and test their Consulo project UI.
 
-> **TIP** If the menu item **Tools \| Internal Actions** is not available in IntelliJ IDEA, then the first step is to [Enabling Internal Mode](enabling_internal.md)
+> **TIP** If the menu item **Tools \| Internal Actions** is not available in Consulo, then the first step is to [Enabling Internal Mode](enabling_internal.md)
 
 ## The Tools Available on the UI Submenu
 Here are some tools available on the UI submenu of the Internal Actions menu:

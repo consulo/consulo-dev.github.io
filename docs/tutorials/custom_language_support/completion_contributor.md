@@ -12,7 +12,7 @@ Custom languages provide code completion using one of two approaches: Contributo
 
 ## 9.1. Define a Completion Contributor
 For this tutorial, the `simple_language_plugin` provides custom completion for values in Simple Language property files.
-Create a completion contributor by subclassing [`CompletionContributor`](upsource:///platform/analysis-api/src/com/intellij/codeInsight/completion/CompletionContributor.java).
+Create a completion contributor by subclassing [`CompletionContributor`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/completion/CompletionContributor.java).
 This rudimentary completion contributor always adds "Hello" to the results set, regardless of context:
 
 ```java
@@ -20,10 +20,10 @@ This rudimentary completion contributor always adds "Hello" to the results set, 
 ```
 
 ## 9.2. Register the Completion Contributor
-The `SimpleCompletionContributor` implementation is registered in the plugin configuration file with the Consulo using the `com.intellij.completion.contributor` extension point.
+The `SimpleCompletionContributor` implementation is registered in the plugin configuration file with the Consulo using the `consulo.completion.contributor` extension point.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <completion.contributor language="Simple"
             implementationClass="org.intellij.sdk.language.SimpleCompletionContributor"/>
   </extensions>
@@ -31,7 +31,7 @@ The `SimpleCompletionContributor` implementation is registered in the plugin con
 
 ## 9.3. Run the Project
 Run the `simple_language_plugin` in a Development Instance and open the [`test.simple`](/tutorials/custom_language_support/lexer_and_parser_definition.md#run-the-project) file.
-Erase the property "English" and invoke [Basic Code Completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#invoke-basic-completion).
+Erase the property "English" and invoke Basic Code Completion.
 The choice "Hello" is shown:
 
 ![Completion](img/completion.png)

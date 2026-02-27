@@ -1,5 +1,5 @@
 ---
-title: IntelliJ Action System Tutorial
+title: Consulo Action System Tutorial
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
@@ -9,4 +9,4 @@ By registering actions, you can add your own menu items, toolbar buttons and key
 * [Grouping Actions](action_system/grouping_action.md)
 
 
-The source code for the [`action_basics`](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/action_basics) code sample is used throughout this tutorial.
+The `action_basics` code sample is used throughout this tutorial. See the Consulo plugin template for examples.

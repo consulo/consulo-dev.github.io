@@ -4,13 +4,13 @@ title: Persisting State of Components
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The *Consulo* provides an API that allows components or services to persist their state between restarts of the IDE.
-You can use either a simple API to persist a few values or persist the state of more complicated components using the [`PersistentStateComponent`](upsource:///platform/projectModel-api/src/com/intellij/openapi/components/PersistentStateComponent.java) interface.
+You can use either a simple API to persist a few values or persist the state of more complicated components using the [`consulo.component.persist.PersistentStateComponent`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/persist/PersistentStateComponent.java) interface.
 
 > **WARNING** If you need to persist sensitive data like passwords, please see [Persisting Sensitive Data](persisting_sensitive_data.md).
 
 ## Using PropertiesComponent for Simple Non-Roamable Persistence
 
-If the plugin needs to persist just a few simple values, the easiest way to do so is to use the [`com.intellij.ide.util.PropertiesComponent`](upsource:///platform/core-api/src/com/intellij/ide/util/PropertiesComponent.java) service.
+If the plugin needs to persist just a few simple values, the easiest way to do so is to use the [`consulo.component.PropertiesComponent`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/PropertiesComponent.java) service.
 It can save both application-level values and project-level values in the workspace file.
 Roaming is disabled for `PropertiesComponent`, so use it only for temporary, non-roamable properties.
 
@@ -20,12 +20,12 @@ Since all plugins share the same namespace, it is highly recommended to prefix k
 
 ## Using PersistentStateComponent
 
-The [`com.intellij.openapi.components.PersistentStateComponent`](upsource:///platform/projectModel-api/src/com/intellij/openapi/components/PersistentStateComponent.java) interface gives you the most flexibility for defining the values to be persisted, their format, and storage location.
+The [`consulo.component.persist.PersistentStateComponent`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/persist/PersistentStateComponent.java) interface gives you the most flexibility for defining the values to be persisted, their format, and storage location.
 
 To use it:
-- mark a [service](plugin_structure/plugin_services.md) as implementing the `PersistentStateComponent` interface
+- mark a [service](plugin_structure/plugin_services.md) as implementing the [`PersistentStateComponent`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/persist/PersistentStateComponent.java) interface
 - define the state class
-- specify the storage location using `@com.intellij.openapi.components.State`
+- specify the storage location using `@consulo.component.persist.State`
 
 Note that instances of extensions cannot persist their state by implementing `PersistentStateComponent`.
 If your extension needs to have a persistent state, you need to define a separate service responsible for managing that state.
@@ -76,9 +76,9 @@ class MyService implements PersistentStateComponent<MyService> {
 
 ### Implementing the State Class
 
-The implementation of `PersistentStateComponent` works by serializing public fields, [annotated](upsource:///platform/util/src/com/intellij/util/xmlb/annotations) private fields (see also [Customizing the XML format of persisted values](#customizing-the-xml-format-of-persisted-values)), and bean properties into an XML format.
+The implementation of `PersistentStateComponent` works by serializing public fields, annotated ([`consulo.util.xml.serializer.annotation`](https://github.com/consulo/consulo/blob/master/modules/base/util/util-xml-serializer/src/main/java/consulo/util/xml/serializer/annotation)) private fields (see also [Customizing the XML format of persisted values](#customizing-the-xml-format-of-persisted-values)), and bean properties into an XML format.
 
-To exclude a public field or bean property from serialization, annotate the field or getter with `@com.intellij.util.xmlb.annotations.Transient`.
+To exclude a public field or bean property from serialization, annotate the field or getter with `@consulo.util.xml.serializer.annotation.Transient`.
 
 Note that the state class must have a default constructor.
 It should return the component's default state: the one used if there is nothing persisted in the XML files yet.
@@ -96,7 +96,7 @@ The following types of values can be persisted:
 * maps
 * enums
 
-For other types, extend [`com.intellij.util.xmlb.Converter`](upsource:///platform/util/src/com/intellij/util/xmlb/Converter.java):
+For other types, extend [`consulo.util.xml.serializer.Converter`](https://github.com/consulo/consulo/blob/master/modules/base/util/util-xml-serializer/src/main/java/consulo/util/xml/serializer/Converter.java):
 
 ```java
 class LocalDateTimeConverter extends Converter<LocalDateTime> {
@@ -114,7 +114,7 @@ class LocalDateTimeConverter extends Converter<LocalDateTime> {
 }
 ```
 
-Define the converter above in `@com.intellij.util.xmlb.annotations.OptionTag` or `@com.intellij.util.xmlb.annotations.Attribute`:
+Define the converter above in `@consulo.util.xml.serializer.annotation.OptionTag` or `@consulo.util.xml.serializer.annotation.Attribute`:
 
 ```java
 class State {
@@ -130,17 +130,17 @@ To specify where precisely the persisted values are stored, add `@State` annotat
 
 It has the following fields:
 * `name` (required) — specifies the name of the state (name of the root tag in XML).
-* `storages` — one or more of `@com.intellij.openapi.components.Storage` annotations to specify the storage locations.
+* `storages` — one or more of `@consulo.component.persist.Storage` annotations to specify the storage locations.
   Optional for project-level values — standard project file is used in this case.
 * `reloadable` (optional) — if set to false, complete project (or application) reload is required when the XML file is changed externally, and the state has changed.
 
-The simplest ways of specifying the `@Storage` annotation are as follows (since 2016.x; for previous versions, please see [old version](https://github.com/JetBrains/intellij-sdk-docs/blob/5dcb02991cf828a7d4680d125ce56b4c10234146/basics/persisting_state_of_components.md) of this document):
+The simplest ways of specifying the `@Storage` annotation are as follows:
 
-* `@Storage("yourName.xml")` If a component is project-level — for `.ipr` based projects standard project file is used automatically - no need to specify anything.
+* `@Storage("yourName.xml")` If a component is project-level, the standard project file is used automatically - no need to specify anything.
 
 * `@Storage(StoragePathMacros.WORKSPACE_FILE)` for values stored in the workspace file.
 
-The state is persisted in a separate file by specifying a different setting for the `value` parameter, which was the `file` parameter before 2016.x.
+The state is persisted in a separate file by specifying a different setting for the `value` parameter.
 
 > **NOTE** For application-level components, it is strongly recommended to use a custom file, using of `other.xml` is deprecated.
 
@@ -153,16 +153,12 @@ The `roamingType` parameter of the `@Storage` annotation specifies the roaming t
 
 If you want to use the default bean serialization but need to customize the storage format in XML (for example, for compatibility with previous versions of your plugin or externally defined XML formats), you can use the `@Tag`, `@Attribute`, `@Property`, `@MapAnnotation`, `@AbstractCollection` annotations.
 
-Please see `com.intellij.util.xmlb.annotations`'s [`package.html`](upsource:///platform/util/src/com/intellij/util/xmlb/annotations/package.html) for more information.
+Please see the [`consulo.util.xml.serializer.annotation`](https://github.com/consulo/consulo/blob/master/modules/base/util/util-xml-serializer/src/main/java/consulo/util/xml/serializer/annotation) package for more information.
 
 If the state you need to serialize doesn't map cleanly to a JavaBean, you can use `org.jdom.Element` as the state class.
 In that case, you can use the `getState()` method to build an XML element with an arbitrary structure, which then is saved directly in the state XML file.
 In the `loadState()` method, you can deserialize the JDOM element tree using any custom logic.
 Please note this is not recommended and should be avoided whenever possible.
-
-## Migrating Persisted Values
-
-If the underlying persistence model or storage format has changed, a [`ConverterProvider`](upsource:///platform/lang-impl/src/com/intellij/conversion/ConverterProvider.java) can provide [`ProjectConverter`](upsource:///platform/lang-impl/src/com/intellij/conversion/ProjectConverter.java) whose `getAdditionalAffectedFiles()` method returns affected files to migrate and performs programmatic migration of stored values.
 
 ## Persistent Component Lifecycle
 
@@ -175,13 +171,11 @@ Otherwise, the returned state is serialized in XML and stored.
 
 ## Legacy API (JDOMExternalizable)
 
-Older components use the [`JDOMExternalizable`](upsource:///platform/util/src/com/intellij/openapi/util/JDOMExternalizable.java) interface for persisting state.
+> **WARNING** `JDOMExternalizable` and `DefaultJDOMExternalizer` are deprecated and removed in Consulo. Use `PersistentStateComponent` instead.
+
+Older components used the `JDOMExternalizable` interface for persisting state.
 It uses the `readExternal()` method for reading the state from a JDOM element, and `writeExternal()` to write the state.
 
-Implementations can manually store the state in attributes and sub-elements or use the [`DefaultJDOMExternalizer`](upsource:///platform/util/src/com/intellij/openapi/util/DefaultJDOMExternalizer.java) class to store the values of all public fields automatically.
+Implementations could manually store the state in attributes and sub-elements or use the `DefaultJDOMExternalizer` class to store the values of all public fields automatically.
 
-Components save their state in the following files:
-
-* Project-level: project (`.ipr`) file.
-  However, if the workspace option in the `plugin.xml` file is set to `true`, then the workspace (`.iws`) file is used instead.
-* Module-level: module (`.iml`) file.
+New code should use `PersistentStateComponent` as described above.

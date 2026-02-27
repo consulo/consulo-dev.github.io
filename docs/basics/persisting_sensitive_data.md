@@ -6,7 +6,7 @@ title: Persisting Sensitive Data
 The Credentials Store API allows you to store sensitive user data securely, like passwords, server URLs, etc.
 
 ## How to Use
-Use [`PasswordSafe`](upsource:///platform/platform-api/src/com/intellij/ide/passwordSafe/PasswordSafe.kt) to work with credentials.
+Use [`consulo.credentialStorage.PasswordSafe`](https://github.com/consulo/consulo/blob/master/modules/base/credential-storage-api/src/main/java/consulo/credentialStorage/PasswordSafe.java) to work with credentials.
 
 ### Retrieve Stored Credentials
 
@@ -49,6 +49,6 @@ The default storage format depends on the OS.
 [Windows]: https://keepass.info
 [macOS]: https://developer.apple.com/documentation/security/keychain_services
 [linux]: https://specifications.freedesktop.org/secret-service/latest/
-[linux]: https://wiki.gnome.org/Projects/Libsecret
+[linux2]: https://wiki.gnome.org/Projects/Libsecret
 
 Users can override the default behavior in Preferences \| Appearance & Behavior \| System Settings \| Passwords.

@@ -6,7 +6,7 @@ title: 10. Reference Contributor
 The references functionality is one of the most important parts in the implementation of custom language support.
 Resolving references means the ability to go from the usage of an element to its declaration, completion, rename refactoring, find usages, etc.
 
-> **NOTE** Every PSI element that can be renamed or referenced needs to implement [`PsiNamedElement`](upsource:///platform/core-api/src/com/intellij/psi/PsiNamedElement.java) interface.
+> **NOTE** Every PSI element that can be renamed or referenced needs to implement `PsiNamedElement` interface.
 
 **Reference**: [References and Resolve](/reference_guide/custom_language_support/references_and_resolve.md)
 
@@ -16,13 +16,13 @@ Resolving references means the ability to go from the usage of an element to its
 ## 10.1. Define a Named Element Class
 The classes below show how the Simple Language fulfills the need to implement `PsiNamedElement`.
 
-The `SimpleNamedElement` interface is subclassed from [`PsiNameIdentifierOwner`](upsource:///platform/core-api/src/com/intellij/psi/PsiNameIdentifierOwner.java).
+The `SimpleNamedElement` interface is subclassed from `PsiNameIdentifierOwner`.
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/psi/SimpleNamedElement.java %}
 ```
 
-The `SimpleNamedElementImpl` class implements the `SimpleNamedElement` interface and extends [`ASTWrapperPsiElement`](upsource:///platform/core-impl/src/com/intellij/extapi/psi/ASTWrapperPsiElement.java).
+The `SimpleNamedElementImpl` class implements the `SimpleNamedElement` interface and extends `ASTWrapperPsiElement`.
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/psi/impl/SimpleNamedElementImpl.java %}
@@ -71,8 +71,8 @@ The `SimpleElementFactory` provides methods for creating `SimpleFile`.
 ```java
 package org.intellij.sdk.language.psi;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import consulo.project.Project;
+import consulo.language.psi.*;
 import org.intellij.sdk.language.SimpleFileType;
 
 public class SimpleElementFactory {
@@ -104,7 +104,7 @@ property ::= (KEY? SEPARATOR VALUE?) | KEY {
 
 ## 10.5. Define a Reference
 Now define a reference class to resolve a property from its usage.
-This requires extending [`PsiReferenceBase`](upsource:///platform/core-api/src/com/intellij/psi/PsiReferenceBase.java) and implementing [`PsiPolyVariantReference`](upsource:///platform/core-api/src/com/intellij/psi/PsiPolyVariantReference.java).
+This requires extending `PsiReferenceBase` and implementing `PsiPolyVariantReference`.
 The latter enables the reference to resolve to more than one element or to resolve result(s) for a superset of valid resolve cases.
 
 ```java
@@ -113,7 +113,7 @@ The latter enables the reference to resolve to more than one element or to resol
 
 ## 10.6. Define a Reference Contributor
 A reference contributor allows the `simple_language_plugin` to provide references to Simple Language from elements in other languages such as Java.
-Create `SimpleReferenceContributor` by subclassing [`PsiReferenceContributor`](upsource:///platform/core-api/src/com/intellij/psi/PsiReferenceContributor.java).
+Create `SimpleReferenceContributor` by subclassing `PsiReferenceContributor`.
 Contribute a reference to each usage of a property:
 
 ```java
@@ -121,27 +121,27 @@ Contribute a reference to each usage of a property:
 ```
 
 ## 10.7. Register the Reference Contributor
-The `SimpleReferenceContributor` implementation is registered with the Consulo using the `com.intellij.psi.referenceContributor` extension point.
+The `SimpleReferenceContributor` implementation is registered with the Consulo using the `consulo.psi.referenceContributor` extension point.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <psi.referenceContributor implementation="org.intellij.sdk.language.SimpleReferenceContributor"/>
   </extensions>
 ```
 
 ## 10.8. Run the Project
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.
-The IDE now resolves the property and provides [completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#basic_completion) suggestions:
+The IDE now resolves the property and provides completion suggestions:
 
 ![Reference Contributor](img/reference_contributor.png){:width="800px"}
 
-The [Rename refactoring](https://www.jetbrains.com/help/idea/rename-refactorings.html#invoke-rename-refactoring) functionality is now available from definition and usages.
+The Rename refactoring functionality is now available from definition and usages.
 
 ![Rename](img/rename.png){:width="800px"}
 
 ## 10.9. Define a Refactoring Support Provider
 Support for in-place refactoring is specified explicitly in a refactoring support provider.
-Create `SimpleRefactoringSupportProvider` by subclassing [`RefactoringSupportProvider`](upsource:///platform/lang-api/src/com/intellij/lang/refactoring/RefactoringSupportProvider.java)
+Create `SimpleRefactoringSupportProvider` by subclassing [`RefactoringSupportProvider`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/RefactoringSupportProvider.java)
 As long as an element is a `SimpleProperty` it is allowed to be refactored:
 
 ```java
@@ -149,10 +149,10 @@ As long as an element is a `SimpleProperty` it is allowed to be refactored:
 ```
 
 ## 10.10. Register the Refactoring Support Provider
-The `SimpleRefactoringSupportProvider` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.lang.refactoringSupport` extension point.
+The `SimpleRefactoringSupportProvider` implementation is registered with the Consulo in the plugin configuration file using the `consulo.lang.refactoringSupport` extension point.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <lang.refactoringSupport language="Simple"
             implementationClass="org.intellij.sdk.language.SimpleRefactoringSupportProvider"/>
   </extensions>
@@ -160,6 +160,6 @@ The `SimpleRefactoringSupportProvider` implementation is registered with the Con
 
 ## 10.11. Run the Project
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.
-The IDE now supports [refactoring](https://www.jetbrains.com/help/idea/rename-refactorings.html) suggestions:
+The IDE now supports refactoring suggestions:
 
 ![In Place Rename](img/in_place_rename.png){:width="800px"}

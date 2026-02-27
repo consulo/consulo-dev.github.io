@@ -9,14 +9,13 @@ Plugins need icons mostly for actions, custom components renderers, tool windows
 > **NOTE** Plugin Icons, which represent a plugin itself, have different requirements than icons and images used within a plugin.
 For more information see the [Plugin Icon](/basics/plugin_structure/plugin_icon_file.md) page.
 
-> **TIP** Plugins should reuse existing platform icons whenever possible, see [Icons list](https://jetbrains.design/intellij/resources/icons_list/) and [`AllIcons`](upsource:///platform/util/src/com/intellij/icons/AllIcons.java).
-> A detailed [design guideline](https://jetbrains.design/intellij/principles/icons/) is available for creating custom icons.
+> **TIP** Plugins should reuse existing platform icons whenever possible, see `PlatformIconGroup`.
 
 ## How to organize and how to use icons?
 
 The best way to deal with icons and other image resources is to put them to a dedicated source root marked as *Resources Root*, say `icons` or `resources`.
 
-The `getIcon()` method of [`IconLoader`](upsource:///platform/util/ui/src/com/intellij/openapi/util/IconLoader.java) can be used to access the icons.
+The `getIcon()` method of `IconLoader` can be used to access the icons.
 
 > **NOTE** The path to the icon passed in as argument to `IconLoader.getIcon()` must start with leading `/`
 
@@ -55,7 +54,7 @@ Note that the package name `icons` will be automatically prefixed and must not b
             icon="DemoPluginIcons.DemoAction" [...] />
 </actions>
 
-<extensions defaultExtensionNs="com.intellij">
+<extensions defaultExtensionNs="consulo">
     <toolWindow id="CustomStructure"
                 icon="DemoPluginIcons.StructureToolWindow" [...] />
 </extensions>

@@ -9,7 +9,7 @@ redirect_from:
 The _LaF Defaults_ window provides a key-value pair lookup for UI Controls.
 It also allows interactive prototyping of UI Control color changes.
 
-If the menu item **Tools \| Internal Actions** is not available in IntelliJ IDEA, then the first step is to [enable internal mode](enabling_internal.md)
+If the menu item **Tools \| Internal Actions** is not available in Consulo, then the first step is to [enable internal mode](enabling_internal.md)
 
 ## Opening LaF Defaults
 The _LaF Defaults_ window is opened by selecting the menu item **Tools \| Internal Actions \| UI \| LaF Defaults**.
@@ -33,4 +33,4 @@ The _Choose Color_ window is displayed.
 Color changes can be specified as RGB, hexadecimal, or using the color picker.
 Pressing the _Choose_ button changes the UI Control color immediately.
 
-UI Control colors can be reset using the _Choose Color_ window, or by resetting the [UI Theme](https://www.jetbrains.com/help/idea/settings-appearance.html).
+UI Control colors can be reset using the _Choose Color_ window, or by resetting the UI Theme.

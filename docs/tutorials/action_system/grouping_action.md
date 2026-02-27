@@ -5,7 +5,7 @@ title: Grouping Actions
 
 If an implementation requires several actions, or there are simply too many actions that overload the menu, the actions can be placed into groups.
 This tutorial demonstrates adding an action to an existing group, creating a new action group, and action groups with a variable number of actions.
-The sample code discussed in this tutorial is from the code sample [`action_basics`](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/code_samples/action_basics).
+The sample code discussed in this tutorial is from the `action_basics` code sample. See the Consulo plugin template for examples.
 
 Some content in this tutorial assumes the reader is familiar with the tutorial for [Creating Actions](working_with_custom_actions.md).
 
@@ -34,8 +34,8 @@ See [Registering Actions in plugin.xml](/basics/action_system.md#registering-act
 
 ### Binding Action Groups to UI Components
 The following sample shows how to use an `<add-to-group>` element to place a custom action group relative to an entry in the **Tools** menu.
-The attribute `relative-to-action` references the action `id` for `PopupDialogAction`, not a native IntelliJ menu entry.
-Rather `PopupDialogAction` is defined in the same [`plugin.xml`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/resources/META-INF/plugin.xml) file.
+The attribute `relative-to-action` references the action `id` for `PopupDialogAction`, not a native Consulo menu entry.
+Rather `PopupDialogAction` is defined in the same `plugin.xml` file.
 This group is placed after the single entry for the action `PopupDialogAction`, as defined in the tutorial [Creating Actions](working_with_custom_actions.md#registering-an-action-with-the-new-action-form).
 
 ```xml
@@ -74,14 +74,14 @@ The solution is analogous to making a [single action entry dependent on context]
 
 The steps below show how to make a group of actions available and visible if certain conditions are met.
 In this case, the condition is having an instance of an editor is available.
-This condition is needed because the custom action group is added to an IntelliJ menu that is only enabled for editing.
+This condition is needed because the custom action group is added to a Consulo menu that is only enabled for editing.
 
 ### Extending DefaultActionGroup
-The [`DefaultActionGroup`](upsource:///platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java) is an implementation of [`ActionGroup`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionGroup.java).
-The `DefaultActionGroup` class is used to add child actions and separators between them to a group.
+The [`DefaultActionGroup`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/DefaultActionGroup.java) is an implementation of `ActionGroup`.
+The [`DefaultActionGroup`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/DefaultActionGroup.java) class is used to add child actions and separators between them to a group.
 This class is used if a set of actions belonging to the group does not change at runtime.
 
-As an example, extend [`DefaultActionGroup`](upsource:///platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java)  to create the `CustomDefaultActionGroup` class in the `action_basics` code sample:
+As an example, extend [`DefaultActionGroup`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/DefaultActionGroup.java) to create the `CustomDefaultActionGroup` class in the `action_basics` code sample:
 
 ```java
   public class CustomDefaultActionGroup extends DefaultActionGroup {
@@ -93,7 +93,7 @@ As an example, extend [`DefaultActionGroup`](upsource:///platform/platform-api/s
 ```
 
 ### Registering the Custom Action Group
-As in the case with the static action group, the action `<group>` should be declared in the `<actions>` section of the `plugin.xml` file, for example, the [action_basics](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/resources/META-INF/plugin.xml) plugin.
+As in the case with the static action group, the action `<group>` should be declared in the `<actions>` section of the `plugin.xml` file, for example, the `action_basics` plugin.
 For demonstration purposes, this implementation will use localization.
 
 The `<group>` element declaration below shows:
@@ -134,7 +134,7 @@ In the `<action>` element declaration below:
     </group>
 ```
 
-Now the translations for the `text` and `description` attributes must be provided in the resource bundle [`BasicActionsBundle.properties`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/resources/messages/BasicActionsBundle.properties) file according to [Localizing Actions and Groups](/basics/action_system.md#localizing-actions-and-groups).
+Now the translations for the `text` and `description` attributes must be provided in the resource bundle `BasicActionsBundle.properties` file according to [Localizing Actions and Groups](/basics/action_system.md#localizing-actions-and-groups).
 Note there are two sets of `text` and `description` translations, one for the action and one for the group.
 Conceivably, there could be another set of translations for the action if it used the `<override-text>` attribute.
 
@@ -170,12 +170,12 @@ The new group will also have an icon:
 
 
 ## Action Groups with Variable Actions Sets
-If a set of actions belonging to a custom group varies depending on the context, the group must extend [`ActionGroup`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionGroup.java).
+If a set of actions belonging to a custom group varies depending on the context, the group must extend `ActionGroup`.
 The set of actions in the `ActionGroup` is dynamically defined.
 
 ### Creating Variable Action Group
 To create a group of actions with a variable number of actions, extend `ActionGroup`.
-For example, as in the `action_basics` class [`DynamicActionGroup`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/java/org/intellij/sdk/action/DynamicActionGroup.java) code:
+For example, as in the `action_basics` class `DynamicActionGroup` code:
 
 ```java
 public class DynamicActionGroup extends ActionGroup {
@@ -183,7 +183,7 @@ public class DynamicActionGroup extends ActionGroup {
 ```
 
 ### Registering a Variable Action Group
-To register the dynamic menu group, a `<group>` attribute needs to be placed in the `<actions>` section of [`plugin`.xml](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/resources/META-INF/plugin.xml).
+To register the dynamic menu group, a `<group>` attribute needs to be placed in the `<actions>` section of `plugin.xml`.
 When enabled, this group appears at the entry just below the [Static Grouped Actions](#binding-action-groups-to-ui-components) in the **Tools** menu:
 
 ```xml
@@ -194,10 +194,10 @@ When enabled, this group appears at the entry just below the [Static Grouped Act
 ```
 
 > **WARNING** If a`<group>` element's `class` attribute names a class derived from `ActionGroup`, then any static `<action>` declarations in that group throw an exception.
-For a statically defined group, use `DefaultActionGroup`.
+For a statically defined group, use [`DefaultActionGroup`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/DefaultActionGroup.java).
 
 ### Adding Child Actions to the Dynamic Group
-To add actions to the `DynamicActionGroup`, a non-empty array of `AnAction` instances should be returned from the `DynamicActionGroup.getChildren()` method.
+To add actions to the `DynamicActionGroup`, a non-empty array of [`AnAction`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java) instances should be returned from the `DynamicActionGroup.getChildren()` method.
 Here again, reuse the `PopupDialogAction` implementation.
 This use case is why `PopupDialogAction` overrides a constructor:
 

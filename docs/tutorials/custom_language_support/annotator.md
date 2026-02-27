@@ -12,12 +12,12 @@ This section adds annotation functionality to support the Simple Language in the
 {:toc}
 
 ## Required Project Configuration Changes
-Classes defined in this step of the tutorial depend on `com.intellij.psi.PsiLiteralExpression` at runtime.
-Using `PsiLiteralExpression` [introduces a dependency](/basics/getting_started/plugin_compatibility.md#modules-specific-to-functionality) on `com.intellij.modules.java`.
+Classes defined in this step of the tutorial depend on `consulo.language.psi.PsiLiteralExpression` at runtime.
+Using `PsiLiteralExpression` [introduces a dependency](/basics/getting_started/plugin_compatibility.md#modules-specific-to-functionality) on `consulo.modules.java`.
 Beginning in version 2019.2 of the Consulo these dependencies are declared in `plugin.xml`:
 
 ```xml
-  <depends>com.intellij.modules.java</depends>
+  <depends>consulo.modules.java</depends>
 ```
 
 The dependency is also declared in the `build.gradle` file:
@@ -29,7 +29,7 @@ intellij {
 ```
 
 ## 7.1. Define an Annotator
-The `SimpleAnnotator` subclasses [`Annotator`](upsource:///platform/analysis-api/src/com/intellij/lang/annotation/Annotator.java).
+The `SimpleAnnotator` subclasses [`Annotator`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/annotation/Annotator.java).
 Consider a literal string that starts with "simple:" as a prefix of a Simple Language key.
 It isn't part of the Simple Language, but it is a useful convention for detecting Simple Language keys embedded as string literals in other languages, like Java.
 Annotate the `simple:key` literal expression, and differentiate between a well-formed vs. an unresolved property.
@@ -43,10 +43,10 @@ Annotate the `simple:key` literal expression, and differentiate between a well-f
 > **TIP** If the above code is copied at this stage of the tutorial, then remove the line below the comment "** Tutorial step 18.3 …" The quick fix class in that line is not defined until later in the tutorial.
 
 ## 7.2. Register the Annotator
-Using the `com.intellij.annotator` extension point in the plugin configuration file, register the Simple Language annotator class with the Consulo:
+Using the `consulo.annotator` extension point in the plugin configuration file, register the Simple Language annotator class with the Consulo:
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <annotator language="JAVA" implementationClass="org.intellij.sdk.language.SimpleAnnotator"/>
   </extensions>
 ```

@@ -8,7 +8,7 @@ Using those components in your plugins will ensure that your plugin looks and wo
 
 > **TIP** Use [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md) to locate the underlying Swing component implementation or to inspect an existing UI at runtime.
 
-Please refer to [Writing short and clear](https://jetbrains.design/intellij/text/writing_short/) in _Consulo UI Guidelines_ on writing UI-related texts.
+Please refer to _Consulo UI Guidelines_ on writing UI-related texts.
 
 The following components are particularly noteworthy:
 

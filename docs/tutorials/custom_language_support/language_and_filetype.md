@@ -4,7 +4,7 @@ title: 2. Language and File Type
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The Consulo determines file type by examining the name of a file.
-Each language has [Language](upsource:///platform/core-api/src/com/intellij/lang/Language.java) and [LanguageFileType](upsource:///platform/core-api/src/com/intellij/openapi/fileTypes/LanguageFileType.java) objects defining the language.
+Each language has [Language](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/Language.java) and [LanguageFileType](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/file/LanguageFileType.java) objects defining the language.
 Register the `LanguageFileType` with the Consulo in the plugin configuration file.
 
 **Reference**: [Registering a File Type](/reference_guide/custom_language_support/registering_file_type.md)
@@ -21,7 +21,7 @@ The `SimpleLanguage` class is defined in the `org.intellij.sdk.language` package
 ```
 
 ## 2.2. Define an Icon
-The [icon](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/simple_language_plugin/src/main/resources/icons/jar-gray.png) for the Simple Language is defined by the `SimpleIcons` class.
+The icon for the Simple Language is defined by the `SimpleIcons` class.
 There is nothing uniquely Simple Language-specific about [defining the icon](/reference_guide/work_with_icons_and_images.md) itself.
 The definition follows a pattern similar to defining, e.g., `SdkIcons`.
 
@@ -30,7 +30,7 @@ The definition follows a pattern similar to defining, e.g., `SdkIcons`.
 ```
 
 ## 2.3. Define a FileType
-The Simple Language file type is defined by subclassing [`LanguageFileType`](upsource:///platform/core-api/src/com/intellij/openapi/fileTypes/LanguageFileType.java):
+The Simple Language file type is defined by subclassing [`LanguageFileType`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/file/LanguageFileType.java):
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFileType.java %}
@@ -39,10 +39,10 @@ The Simple Language file type is defined by subclassing [`LanguageFileType`](ups
 ## 2.4. Register the FileType Directly
 Direct registration is possible when targeting version 2019.2 (and later) of the Consulo - no `FileTypeFactory` is required.
 
-Instead, the file type is registered via the `com.intellij.fileType` extension point in `plugin.xml`:
+Instead, the file type is registered via the `consulo.fileType` extension point in `plugin.xml`:
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <fileType name="Simple File" implementationClass="org.intellij.sdk.language.SimpleFileType"
             fieldName="INSTANCE" language="Simple" extensions="simple"/>
   </extensions>
@@ -54,23 +54,23 @@ Skip to [section 2.6](#26-run-the-project).
 This pattern is necessary when targeting versions of the Consulo prior to 2019.2
 
 ### 2.5.1 Define a FileType Factory
-First, define `SimpleFileTypeFactory` as a subclass of [`FileTypeFactory`](upsource:///platform/platform-api/src/com/intellij/openapi/fileTypes/FileTypeFactory.java).
+First, define `SimpleFileTypeFactory` as a subclass of `FileTypeFactory`.
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFileTypeFactory.java %}
 ```
 
 ### 2.5.2 Register the FileType Factory
-The `SimpleFileTypeFactory` is registered using the `com.intellij.openapi.fileTypes.FileTypeFactory` extension point in `plugin.xml`.
+The `SimpleFileTypeFactory` is registered using the `consulo.fileTypeFactory` extension point in `plugin.xml`.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <fileTypeFactory implementation="org.intellij.sdk.language.SimpleFileTypeFactory"/>
   </extensions>
 ```
 
 ## 2.6. Run the Project
-Create an empty file with the extension `*.simple`, and IntelliJ IDEA automatically associates it with our language.
+Create an empty file with the extension `*.simple`, and Consulo automatically associates it with our language.
 Note the appearance of the Simple Language file icon next to the `test.simple` file in the **Project Tool Window**, and the editor tab for the file.
 
 ![File Type Factory](img/file_type_factory.png){:width="800px"}

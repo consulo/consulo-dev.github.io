@@ -3,7 +3,7 @@ title: 18. Quick Fix
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-A quick fix for a custom language supports the Consulo-based IDE feature [Intention Actions](https://www.jetbrains.com/help/idea/intention-actions.html#apply-intention-actions).
+A quick fix for a custom language supports the Consulo-based IDE feature Intention Actions.
 For the Simple Language, this tutorial adds a quick fix that helps to define an unresolved property from its usage.
 
 **Reference**: [Code Inspections and Intentions](/reference_guide/custom_language_support/code_inspections_and_intentions.md)
@@ -23,7 +23,7 @@ A new overload of `createProperty()` creates a new `key`-`value` pair for Simple
 ## 18.2. Define an Intention Action
 The `SimpleCreatePropertyQuickFix` creates a property in the file chosen by the user - in this case, a Java file containing a `prefix:key` - and navigate to this property after creation.
 Under the hood, `SimpleCreatePropertyQuickFix` is an Intention Action.
-For a more in-depth example of an Intention Action, see [`conditional_operator_intention`](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/conditional_operator_intention).
+For a more in-depth example of an Intention Action, see the `conditional_operator_intention` code sample.
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleCreatePropertyQuickFix.java %}
@@ -47,7 +47,7 @@ Choose "Create Property".
 ![Quick Fix](img/quick_fix.png){:width="800px"}
 
 The IDE opens the `test.simple` file and adds `website.url` as a new key.
-Add the new value `jetbrains.com` for the new `website.url` key.
+Add the new value `example.com` for the new `website.url` key.
 
 ![New Property](img/new_property.png)
 

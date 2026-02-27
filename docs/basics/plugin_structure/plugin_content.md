@@ -1,6 +1,7 @@
 ---
 title: Plugin Content
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The plugin `jar` file must contain:
@@ -13,7 +14,7 @@ The plugin `jar` file must contain:
 A plugin consisting of a single `.jar` file is placed in the `/plugins` directory.
 
 ```text
-.IntelliJIDEAx0/
+.Consulo/
 └── plugins
     └── sample.jar
         ├── com/foo/...
@@ -32,7 +33,7 @@ The plugin `.jar` file is placed in the `/lib` folder under the plugin's "root" 
 All jars from the `/lib` folder are automatically added to the classpath (see also [Plugin Class Loaders](plugin_class_loaders.md)).
 
 ```text
-   .IntelliJIDEAx0/
+   .Consulo/
    └── plugins
        └── sample
            └── lib

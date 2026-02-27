@@ -1,4 +1,4 @@
-# Migration from Consulo to Consulo
+# Migration from IntelliJ Platform to Consulo
 
 ### Platform changes
  * Plugins removed from platform. They plugin ids:

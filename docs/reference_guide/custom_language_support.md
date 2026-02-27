@@ -1,6 +1,7 @@
 ---
 title: Custom Language Support
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 *Consulo* is a powerful platform for building development tools targeting *any* language.
@@ -9,13 +10,11 @@ Supporting a particular feature for a new language can be achieved with a small 
 a plugin must implement only the language-specific part.
 
 This part of the documentation explains the main concepts of the *Language API* and guides you through the sequence of steps that are usually required to develop a custom language plugin.
-You can obtain additional information about the *Language API* from the JavaDoc comments for the *Language API* classes and from the Properties language support source code, which is part of the [IntelliJ IDEA Community Edition](https://github.com/JetBrains/intellij-community) source code.
+You can obtain additional information about the *Language API* from the JavaDoc comments for the *Language API* classes and from the Properties language support source code.
 
 If you prefer a full example to the detailed descriptions offered in this section, please check out a step-by-step tutorial on how to create custom language support for _Simple Language_:
 [Custom Language Support Tutorial](/tutorials/custom_language_support_tutorial.md).
 Corresponding steps from the tutorial are linked under the "Examples" section on each page of this reference.
-
-The webinar [How We Built Comma, the Raku IDE, on the Consulo](https://blog.jetbrains.com/platform/2020/01/webinar-recording-how-we-built-comma-the-raku-ide-on-the-intellij-platform/) offers an excellent introduction as well.
 
 Providing custom language support includes the following major steps:
 

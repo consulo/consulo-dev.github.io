@@ -1,10 +1,11 @@
 ---
 title: Main Types of Plugins
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 Products based on the *Consulo* can be modified and adjusted for custom purposes by adding plugins.
-All downloadable plugins are available at the [JetBrains Plugins Repository](https://plugins.jetbrains.com/).
+All downloadable plugins are available at the [Consulo Plugin Repository](https://plugins.consulo.app).
 
 The most common types of plugins include:
 
@@ -25,7 +26,7 @@ Custom UI Themes can:
 * provide custom editor schemes,
 * add background images.
 
-The [UI Themes available for download](https://plugins.jetbrains.com/search?headline=164-theme&tags=Theme) illustrate the creative possibilities.
+The UI Themes available for download illustrate the creative possibilities.
 
 ## Custom Language Support
 
@@ -51,8 +52,7 @@ Sometimes it also includes language support elements for a custom syntax or DSL.
 * Specific code insight
 * Direct access to framework-specific functionality
 
-Refer to the [Struts 2 plugin](https://github.com/JetBrains/intellij-plugins/tree/master/struts2) as an example of framework integration.
-More reference plugins can be found on [JetBrains Plugins Repository](https://plugins.jetbrains.com/search?orderBy=update%20date&shouldHaveSource=true&tags=Framework%20integration).
+More reference plugins can be found on the [Consulo Plugin Repository](https://plugins.consulo.app).
 
 ## Tool Integration
 
@@ -62,10 +62,10 @@ Tool integration makes it possible to manipulate third-party tools and component
 * Related UI components
 * Access to external resources
 
-Refer to the [Gerrit integration](https://plugins.jetbrains.com/plugin/7272?pr=idea) plugin as an example.
+Refer to the Gerrit integration plugin as an example.
 
 ## User Interface Add-Ons
 
 Plugins in this category apply various changes to the standard user interface of the IDE.
 Some newly added components are interactive and provide new functionality, while others are limited to visual modifications only.
-The [Random Background](https://plugins.jetbrains.com/plugin/9692-random-background) plugin may serve as an example.
+The Random Background plugin may serve as an example.

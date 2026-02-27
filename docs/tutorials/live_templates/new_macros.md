@@ -3,19 +3,19 @@ title: Creating New Functions for Live Templates
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-The [Predefined Functions](https://www.jetbrains.com/help/idea/template-variables.html?s=quick#predefined_functions) are the building blocks for creating [Parameterized Templates and Surround Templates](https://www.jetbrains.com/help/idea/using-live-templates.html?s=quick#live_templates_types).
+The Predefined Functions are the building blocks for creating Parameterized Templates and Surround Templates.
 However, sometimes the Predefined Functions are not enough.
 
 This tutorial illustrates how to add custom functions to an Consulo plugin and make them available for use by Live Templates.
 As an example, a function is created to convert a selection to Title Case.
-Refer to the SDK code sample [`live_templates`](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/live_templates).
+Refer to the SDK code sample `live_templates`.
 
 * bullet
 {:toc}
 
 ## Implementing a New Function
 Under the hood, the predefined functions for Live Templates are called _macros_.
-A new custom function for Live Templates is implemented in `TitleCaseMacro`, which extends [`MacroBase`](upsource:///platform/lang-impl/src/com/intellij/codeInsight/template/macro/MacroBase.java).
+A new custom function for Live Templates is implemented in `TitleCaseMacro`, which extends `MacroBase`.
 Three `TitleCaseMacro` methods are of particular interest:
 * The `TitleCaseMacro()` constructor passes the name and description of the macro to the parent constructor.
 * The `isAcceptableInContext()` method tests whether the macro is available in the current context.
@@ -28,7 +28,7 @@ Three `TitleCaseMacro` methods are of particular interest:
 ```
 
 ## Adding a Live Template
-Using the procedures previously discussed for [Template Creation](template_support.md#template-creation) and [Export the Live Template](template_support.md#export-the-live-template), add a Live Template to the [Markdown.xml](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/live_templates/src/main/resources/liveTemplates) file for the plugin.
+Using the procedures previously discussed for [Template Creation](template_support.md#template-creation) and [Export the Live Template](template_support.md#export-the-live-template), add a Live Template to the `Markdown.xml` file for the plugin.
 The XML representation of an example Live Template using the new `titleCase` function is listed below.
 
 There is only one variable, `TITLE`.
@@ -49,10 +49,10 @@ The argument to the `titleCase` function is `SELECTION`, which tells the Consulo
 ```
 
 ## Register Extension Point
-Using the `com.intellij.liveTemplateMacro` extension point, register the implementation with the Consulo.
+Using the `consulo.liveTemplateMacro` extension point, register the implementation with the Consulo.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <liveTemplateMacro implementation="org.intellij.sdk.liveTemplates.TitleCaseMacro"/>
   </extensions>
 ```

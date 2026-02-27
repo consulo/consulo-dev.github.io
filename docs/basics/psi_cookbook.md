@@ -1,6 +1,7 @@
 ---
 title: PSI Cookbook
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 This page gives recipes for the most common operations for working with the PSI (Program Structure Interface).
@@ -51,7 +52,7 @@ PsiPackage pkg = JavaPsiFacade.getInstance(project).findPackage(javaFile.getPack
 
 or
 
-`com.intellij.psi.util.PsiUtil.getPackageName()`
+`consulo.language.psi.util.PsiUtil.getPackageName()`
 
 ### How do I find the methods overriding a specific method?
 

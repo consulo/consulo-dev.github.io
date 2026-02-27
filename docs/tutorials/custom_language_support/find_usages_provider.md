@@ -12,8 +12,8 @@ A scanner breaks the text into words and defines the context for each word.
 {:toc}
 
 ## 11.1. Define a Find Usages Provider
-The `SimpleFindUsagesProvider` implements [`FindUsagesProvider`](upsource:///platform/indexing-api/src/com/intellij/lang/findUsages/FindUsagesProvider.java).
-Using the [`DefaultWordsScanner`](upsource:///platform/indexing-api/src/com/intellij/lang/cacheBuilder/DefaultWordsScanner.java) ensures the scanner implementation is thread-safe.
+The `SimpleFindUsagesProvider` implements [`FindUsagesProvider`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/findUsage/FindUsagesProvider.java).
+Using the `DefaultWordsScanner` ensures the scanner implementation is thread-safe.
 See the comments in `FindUsagesProvider` for more information.
 
 ```java
@@ -21,10 +21,10 @@ See the comments in `FindUsagesProvider` for more information.
 ```
 
 ## 11.2. Register the Find Usages Provider
-The `SimpleFindUsagesProvider` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.lang.findUsagesProvider` extension point.
+The `SimpleFindUsagesProvider` implementation is registered with the Consulo in the plugin configuration file using the `consulo.lang.findUsagesProvider` extension point.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <lang.findUsagesProvider language="Simple"
             implementationClass="org.intellij.sdk.language.SimpleFindUsagesProvider"/>
   </extensions>
@@ -32,6 +32,6 @@ The `SimpleFindUsagesProvider` implementation is registered with the Consulo in 
 
 ## 11.3. Run the Project
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.
-The IDE now supports [Find Usages](https://www.jetbrains.com/help/idea/find-highlight-usages.html) for any property with a reference:
+The IDE now supports Find Usages for any property with a reference:
 
 ![Find Usages](img/find_usages.png)

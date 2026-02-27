@@ -1,6 +1,7 @@
 ---
 title: Plugin Logo
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 Beginning in version 2019.1, the Consulo supports representing a plugin with a logo.
@@ -14,8 +15,8 @@ See [Working with Icons and Images](/reference_guide/work_with_icons_and_images.
 {:toc}
 
 ## Introduction
-Plugin Logos are shown in the [JetBrains Plugins Repository](https://plugins.jetbrains.com).
-They also appear in the Settings/Preferences [Plugin Manager](https://www.jetbrains.com/help/idea/managing-plugins.html) UI in Consulo-based IDEs.
+Plugin Logos are shown in the [Consulo Plugin Repository](https://plugins.consulo.app).
+They also appear in the Settings/Preferences Plugin Manager UI in Consulo.
 Whether online or in the product UI, a Plugin Logo helps users to identify a plugin more quickly in a list, as shown below:
 
 ![Example Product Plugin Preferences Dialog](img/plugin_prefs.png){:width="800px"}
@@ -23,7 +24,7 @@ Whether online or in the product UI, a Plugin Logo helps users to identify a plu
 > **NOTE** When browsing [custom plugin repositories](/basics/getting_started/update_plugins_format.md), there is no support for showing logos for plugins hosted there but not yet installed.
 
 ## Plugin Logo Requirements
-For a Plugin Logo to be displayed correctly within an Consulo-based IDE, it must:
+For a Plugin Logo to be displayed correctly within Consulo, it must:
 * Follow the best practices design guidelines,
 * Be in the correct file format,
 * Conform to file name conventions,
@@ -34,7 +35,7 @@ The Plugin Logo should be provided in one size: 40px by 40px.
 
 A Plugin Logo is displayed in two sizes, and scales automatically in each context:
 * 40px by 40px in the plugins list in the Plugin Manager UI.
-* 80px by 80px in the plugin details screen in the Plugin Manager UI, on the plugin's page in the Plugins Repository, and on MarketPlace.
+* 80px by 80px in the plugin details screen in the Plugin Manager UI and on the plugin's page in the Plugin Repository.
 
 Verify that Plugin Logo designs are effective in both sizes and all display contexts.
 
@@ -45,7 +46,7 @@ Plugin Logo designs should leave at least 2px transparent padding around the per
 
 Make sure Plugin Logos have the same visual weight as the logos in the examples below.
 The more filled a Plugin Logo design is, the less actual space it needs.
-See more examples of [visual weight compensation](https://jetbrains.design/intellij/principles/icons/#08) in the Consulo UI Guidelines for Icons.
+See more examples of visual weight compensation in the Consulo UI Guidelines for Icons.
 
 For basic shapes, use the following sizes.
 Note the different areas of transparent padding used for each shape:
@@ -61,7 +62,7 @@ Note the different areas of transparent padding used for each shape:
 ### Plugin Logo Colors
 If the plugin's technology already has a logo, use its colors.
 Check the license terms before using the logo.
-If there is no existing logo, or its use is prohibited, create a custom logo based on the [Action Colors Palette](https://jetbrains.design/intellij/principles/icons/#action-icons) in the Consulo UI Guidelines for Icons.
+If there is no existing logo, or its use is prohibited, create a custom logo based on the Consulo UI Guidelines for Icons.
 
 | ![The YouTrack Plugin Logo uses the YouTrack product logo ](img/yt_logo.png){:height="200px" width="200px"} | ![The Keymap Plugin Logo uses a color from the Action Colors Palette](img/keymap_logo.png){:height="200px" width="200px"} |
 |:---:|:---:|
@@ -88,7 +89,7 @@ Name the Plugin Logo files according to the following conventions:
 
 
 ## Adding Plugin Logo Files to a Plugin Project
-The Plugin Logo files must be in the `META-INF` folder of the plugin distribution file, i.e., the `*.jar` or `*.zip` file you upload to the plugin repository and install into a JetBrains IDE.
+The Plugin Logo files must be in the `META-INF` folder of the plugin distribution file, i.e., the `*.jar` or `*.zip` file you upload to the plugin repository and install into Consulo.
 
 To include Plugin Logo files in your distribution file, place the Plugin Logo files into a plugin project's `resources/META-INF` folder.
 Note that this requirement is the same regardless of using DevKit or Gradle for developing a plugin.

@@ -7,8 +7,8 @@ redirect_from:
 
 The Internal Actions menu provides plugin developers with a suite of tools to help develop, debug, and test their Consulo plugins.
 
-> **TIP** If the menu item **Tools \| Internal Actions** is not available in IntelliJ IDEA, then the first step is to [Enabling Internal Mode](enabling_internal.md)
+> **TIP** If the menu item **Tools \| Internal Actions** is not available in Consulo, then the first step is to [Enabling Internal Mode](enabling_internal.md)
 
 Click on the following topics to learn more about the _Internal Actions_ menu.
-* [Enabling Internal Mode](enabling_internal.md) provides instructions for enabling the Internal Actions menu in IntelliJ IDEA.
+* [Enabling Internal Mode](enabling_internal.md) provides instructions for enabling the Internal Actions menu in Consulo.
 * [UI Tools](internal_ui_sub.md) has information about some of the Internal Actions menu tools for inspecting and testing plugin UI.

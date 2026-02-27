@@ -15,7 +15,7 @@ Define a utility class with these helper methods:
 ```java
 package org.intellij.sdk.language.psi.impl;
 
-import com.intellij.lang.ASTNode;
+import consulo.language.ast.ASTNode;
 
 public class SimplePsiImplUtil {
   public static String getKey(SimpleProperty element) {
@@ -50,7 +50,7 @@ Compare the last line of the grammar below to the [previous definition](/tutoria
 {
   parserClass="org.intellij.sdk.language.parser.SimpleParser"
 
-  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+  extends="consulo.language.impl.psi.ASTWrapperPsiElement"
 
   psiClassPrefix="Simple"
   psiImplClassSuffix="Impl"
@@ -75,7 +75,7 @@ After making changes to the grammar, regenerate the parser and PSI classes.
 
 ## 6.3. Define a Utility to Search Properties
 Create a utility class to search PSI elements for defined properties over the project.
-This utility will be used later when implementing [code completion](https://www.jetbrains.com/help/idea/auto-completing-code.html).
+This utility will be used later when implementing code completion.
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleUtil.java %}

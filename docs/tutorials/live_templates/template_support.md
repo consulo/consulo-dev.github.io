@@ -7,13 +7,13 @@ This tutorial illustrates how to add default Custom Live Templates to an Consulo
 In addition, the tutorial discusses how to export existing Live Templates, and bundle them within a plugin.
 Any Live Template that can be created and exported can be added to a plugin by following the Template Creation, Export, and Extension Point Registration processes.
 
-This tutorial uses the SDK code sample [`live_templates`](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/live_templates).
+This tutorial uses the SDK code sample `live_templates`.
 
 * bullet
 {:toc}
 
 ## Template Creation
-Get started by [creating a new Live Template](https://www.jetbrains.com/idea/help/creating-and-editing-live-templates.html) within the Consulo-based IDE:
+Get started by creating a new Live Template within the Consulo-based IDE:
 * Add a new Template Group, "Markdown" and create a new Live Template under this group.
 * Assign the template the abbreviation "**{**".
 * Assign the description "**SDK: New link reference**".
@@ -26,12 +26,12 @@ Get started by [creating a new Live Template](https://www.jetbrains.com/idea/hel
 The variables `$TEXT$` and `$LINK$` may be further configured in the *Edit variables* dialogue to reorder their precedence and bind to functions that invoke auto-completion at the appropriate time.
 In the *Edit variables* dialog, set the `Expression` for the `LINK` to `complete()` using the combobox.
 
-There are many other [predefined functions](https://www.jetbrains.com/idea/help/creating-and-editing-template-variables.html) that developers should become familiar with before implementing any unique functionality in a plugin.
+There are many other predefined functions that developers should become familiar with before implementing any unique functionality in a plugin.
 
 > **TIP** Consider iteratively testing the Live Template using the current editor and a markdown file to minimize debugging later.
 
 ## Export the Live Template
-Once the Live Template produces the expected result, [export the Live Template](https://www.jetbrains.com/help/idea/sharing-live-templates.html).
+Once the Live Template produces the expected result, export the Live Template.
 The export produces a file called `Markdown.xml` with the following contents:
 
 ```xml
@@ -49,10 +49,10 @@ The export produces a file called `Markdown.xml` with the following contents:
 
 The display `name` can also provide localized variants by specifying `key` and `resource-bundle` attributes additionally (2020.3 and later).
 
-Copy this file into the [plugin's resources folder](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/live_templates/src/main/resources/liveTemplates).
+Copy this file into the plugin's resources folder.
 
 ## Implement TemplateContextType
-A [`TemplateContextType`](upsource:///platform/analysis-api/src/com/intellij/codeInsight/template/TemplateContextType.java) tells the Consulo where the Live Template is applicable: Markdown files.
+A `TemplateContextType` tells the Consulo where the Live Template is applicable: Markdown files.
 Every context must have a unique `TemplateContextType` defined for it, and many context types are defined by the Platform.
 The `MarkdownContext` class defines it for Markdown files.
 Ultimately, a file's extension determines the applicable Markdown context.
@@ -83,11 +83,11 @@ Depending on the version of the Consulo, different steps are used to complete th
 For 2020.1 and later, follow this section to register the extension points and then proceed to the [Check Plugin](#check-plugin) section.
 
 #### Register Extension Points
-Using the `com.intellij.defaultLiveTemplates` and `com.intellij.liveTemplateContext` extension points, register the implementations with the Consulo.
+Using the `consulo.defaultLiveTemplates` and `consulo.liveTemplateContext` extension points, register the implementations with the Consulo.
 The `file` attribute in the `defaultLiveTemplates` element specifies `path/filename` under the `src/main/resources` folder.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <defaultLiveTemplates file="/liveTemplates/Markdown.xml"/>
     <liveTemplateContext implementation="org.intellij.sdk.liveTemplates.MarkdownContext"/>
   </extensions>
@@ -106,8 +106,8 @@ Make sure to include the full path to the file, relative to the `src/main/resour
 ```java
 package org.intellij.sdk.liveTemplates;
 
-import com.intellij.codeInsight.template.impl.DefaultLiveTemplatesProvider;
-import org.jetbrains.annotations.Nullable;
+import consulo.language.editor.template.DefaultLiveTemplatesProvider;
+import jakarta.annotation.Nullable;
 
 public class MarkdownTemplateProvider implements DefaultLiveTemplatesProvider {
   @Override
@@ -124,10 +124,10 @@ public class MarkdownTemplateProvider implements DefaultLiveTemplatesProvider {
 ```
 
 #### Register Extension Points
-Using the `com.intellij.defaultLiveTemplatesProvider` and `com.intellij.liveTemplateContext` extension points, register the implementations with the Consulo.
+Using the `consulo.defaultLiveTemplatesProvider` and `consulo.liveTemplateContext` extension points, register the implementations with the Consulo.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <defaultLiveTemplatesProvider implementation="org.intellij.sdk.liveTemplates.MarkdownTemplateProvider"/>
     <liveTemplateContext implementation="org.intellij.sdk.liveTemplates.MarkdownContext"/>
   </extensions>

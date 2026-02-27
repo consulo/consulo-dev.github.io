@@ -53,17 +53,17 @@ property ::= (KEY? SEPARATOR VALUE?) | KEY {
 ```
 
 ## 13.3. Define a Go to Symbol Contributor
-To enable the `simple_language_plugin` to contribute items to **Navigate \| Class..., File..., Symbol...** lists, subclass [`ChooseByNameContributor`](upsource:///platform/lang-api/src/com/intellij/navigation/ChooseByNameContributor.java) to create `SimpleChooseByNameContributor`:
+To enable the `simple_language_plugin` to contribute items to **Navigate \| Class..., File..., Symbol...** lists, subclass `ChooseByNameContributor` to create `SimpleChooseByNameContributor`:
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleChooseByNameContributor.java %}
 ```
 
 ## 13.4. Register the Go To Symbol Contributor
-The `SimpleChooseByNameContributor` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.gotoSymbolContributor` extension point.
+The `SimpleChooseByNameContributor` implementation is registered with the Consulo in the plugin configuration file using the `consulo.gotoSymbolContributor` extension point.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <gotoSymbolContributor
             implementation="org.intellij.sdk.language.SimpleChooseByNameContributor"/>
   </extensions>

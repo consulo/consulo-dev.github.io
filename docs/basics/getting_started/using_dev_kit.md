@@ -5,7 +5,7 @@ title: Using DevKit
 
 > **NOTE** For new projects, it is highly recommended to use [Gradle](/tutorials/build_system.md).
 
-_Plugin DevKit_ is a bundled IntelliJ IDEA plugin for developing plugins for the Consulo using IntelliJ IDEA's build system.
+_Plugin DevKit_ is a bundled Consulo plugin for developing plugins for the Consulo.
 It provides its custom SDK type and a set of actions for building plugins within the IDE.
 
 In this section:

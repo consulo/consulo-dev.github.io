@@ -3,7 +3,7 @@ title: Optimizing Performance
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-> **TIP** [IDE Perf](https://plugins.jetbrains.com/plugin/15104-ide-perf) plugin provides on-the-fly performance diagnostic tools, including a dedicated view for [`CachedValue`](#cache-results-of-heavy-computations) metrics.
+> **TIP** IDE Perf plugin provides on-the-fly performance diagnostic tools, including a dedicated view for [`CachedValue`](#cache-results-of-heavy-computations) metrics.
 
 ## Working with PSI Efficiently
 
@@ -29,7 +29,7 @@ Everything else, even if it's needed for resolve/highlighting purposes, can be a
 
 If stubs don't suit your case well (e.g., the information you need is large and/or very rarely needed, or you're developing a plugin for a language whose PSI you don't control), you can create a [custom index or gist](/basics/indexing_and_psi_stubs.md).
 
-You can use [`AstLoadingFilter`](upsource:///platform/core-api/src/com/intellij/util/AstLoadingFilter.java) in production and `PsiManagerEx.setAssertOnFileLoadingFilter()` in tests to ensure you're not loading AST accidentally.
+You can use `AstLoadingFilter` in production and `PsiManagerEx.setAssertOnFileLoadingFilter()` in tests to ensure you're not loading AST accidentally.
 
 The same applies to documents: only the ones opened in editors should be loaded.
 Usually, you shouldn't need document contents (as most information can be retrieved from PSI).
@@ -40,9 +40,9 @@ If you still need documents, then at least ensure you load them one by one and d
 
 These include `PsiElement.getReference(s)`, `PsiReference.resolve()` (and `multiResolve()` and other equivalents), expression types, type inference results, control flow graphs, etc.
 
-Usually, [`CachedValue`](upsource:///platform/core-api/src/com/intellij/psi/util/CachedValue.java) works well.
+Usually, `CachedValue` works well.
 
-If the information you cache depends only on a subtree of the current PSI element (and nothing else: no resolve results or other files), you can cache it in a field in that `PsiElement` and drop the cache in an override of `ASTDelegatePsiElement.subtreeChanged()`.
+If the information you cache depends only on a subtree of the current PSI element (and nothing else: no resolve results or other files), you can cache it in a field in that `PsiElement` and drop the cache in an override of [`ASTDelegatePsiElement.subtreeChanged()`](https://github.com/consulo/consulo/blob/master/modules/base/language-impl/src/main/java/consulo/language/impl/psi/ASTDelegatePsiElement.java).
 
 ## Improving Indexing Performance
 
@@ -53,15 +53,15 @@ Use lexer information instead of parsed trees if possible.
 If impossible, use light AST which doesn't create memory-hungry AST nodes inside, so traversing it might be faster.
 Make sure to traverse only the nodes you need to.
 
-For stub index, implement [`LightStubBuilder`](upsource:///platform/core-impl/src/com/intellij/psi/stubs/LightStubBuilder.java).
+For stub index, implement `LightStubBuilder`.
 For other indices, you can obtain the light AST manually via `((PsiDependentFileContent) fileContent).getLighterAST()`.
 
-If a custom language contains lazy-parseable elements that never or rarely contain any stubs, consider implementing `StubBuilder.skipChildProcessingWhenBuildingStubs()` (preferably using Lexer/node text).
+If a custom language contains lazy-parseable elements that never or rarely contain any stubs, consider implementing [`StubBuilder.skipChildProcessingWhenBuildingStubs()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/StubBuilder.java) (preferably using Lexer/node text).
 
 #### Consider Prebuilt Stubs
 
 If your language has a massive standard library, which is mostly the same for all users, you can avoid stub-indexing it in each installation by providing prebuilt stubs with your distribution.
-See [`PrebuiltStubsProvider`](upsource:///platform/lang-impl/src/com/intellij/psi/stubs/PrebuiltStubs.kt) extension.
+See `PrebuiltStubsProvider` extension.
 
 ## Avoiding UI Freezes
 
@@ -69,18 +69,18 @@ See [`PrebuiltStubsProvider`](upsource:///platform/lang-impl/src/com/intellij/ps
 
 In particular, don't traverse VFS, parse PSI, resolve references or query `FileBasedIndex`.
 
-There are cases when the platform itself invokes such expensive code (e.g., resolve in `AnAction.update()`).
+There are cases when the platform itself invokes such expensive code (e.g., resolve in [`AnAction.update()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java)).
 We're trying to eliminate them.
 Meanwhile, you can try to speed up what you can in your plugin, it'll be beneficial anyway, as it'll also improve background highlighting performance.
 
-`WriteAction`s currently have to happen on UI thread, so to speed them up, you can try moving as much as possible out of write action into a preparation step which can be then invoked in background (e.g., using `ReadAction.nonBlocking()`).
+[`WriteAction`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/WriteAction.java)s currently have to happen on UI thread, so to speed them up, you can try moving as much as possible out of write action into a preparation step which can be then invoked in background (e.g., using [`ReadAction.nonBlocking()`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ReadAction.java)).
 
 Don't do anything expensive in event listeners.
 Ideally, you should only clear some caches.
 You can also schedule background processing of events, but be prepared that some new events might be delivered before your background processing starts, and thus the world might have changed by that moment or even in the middle of background processing.
-Consider using [`MergingUpdateQueue`](upsource:///platform/platform-api/src/com/intellij/util/ui/update/MergingUpdateQueue.java) and `ReadAction.nonBlocking()` to mitigate these issues.
+Consider using [`MergingUpdateQueue`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-awt-api/src/main/java/consulo/ui/ex/awt/util/MergingUpdateQueue.java) and [`ReadAction.nonBlocking()`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ReadAction.java) to mitigate these issues.
 
-Massive batches of VFS events can be pre-processed in background, see [`AsyncFileListener`](upsource:///platform/core-api/src/com/intellij/openapi/vfs/AsyncFileListener.java) (2019.2 or later).
+Massive batches of VFS events can be pre-processed in background, see `AsyncFileListener`.
 
 #### Don't block EDT by long non-cancellable `ReadAction`s in background threads
 

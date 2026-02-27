@@ -14,7 +14,7 @@ Please see [README.md](https://github.com/consulo/consulo-dev.github.io/blob/mas
 
 ## Helpful Links
 * [consulo.io](https://consulo.io) - home page
-* [gihub discussing]([https://discuss.consulo.io](https://github.com/orgs/consulo/discussions)) - place there you can ask questions
+* [GitHub Discussions](https://github.com/orgs/consulo/discussions) - place where you can ask questions
 * [hub.consulo.io](https://hub.consulo.io) - hub where you can find info about plugins, your error reports, statistics, e tc
 * [ci.consulo.io](https://ci.consulo.io) - jenkins
 * [maven.consulo.io](https://maven.consulo.dev) - maven repository

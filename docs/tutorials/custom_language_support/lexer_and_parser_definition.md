@@ -40,13 +40,13 @@ Choose the project root directory, for example `code_samples/simple_language_plu
 
 After that, the IDE generates the lexer under the `gen` directory, for example in `simple_language_plugin/src/main/gen/org/intellij/sdk/language/SimpleLexer`.
 
-> **TIP** Gradle plugin [gradle-grammarkit-plugin](https://github.com/JetBrains/gradle-grammar-kit-plugin) can be used alternatively.
+> **TIP** Gradle plugin `gradle-grammarkit-plugin` can be used alternatively.
 
 See [Implementing Lexer](/reference_guide/custom_language_support/implementing_lexer.md) for more information about using _JFlex_ with the Consulo.
 
 ## 4.3. Define a Lexer Adapter
 The JFlex lexer needs to be adapted to the Consulo Lexer API.
-This is done by subclassing [`FlexAdapter`](upsource:///platform/core-api/src/com/intellij/lexer/FlexAdapter.java).
+This is done by subclassing `FlexAdapter`.
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleLexerAdapter.java %}
@@ -60,7 +60,7 @@ The `SimpleFile` implementation is the top-level node of the [tree of `PsiElemen
 ```
 
 ## 4.5. Define a Parser
-The Simple Language parser is defined by subclassing [`ParserDefinition`](upsource:///platform/core-api/src/com/intellij/lang/ParserDefinition.java).
+The Simple Language parser is defined by subclassing [`ParserDefinition`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/parser/ParserDefinition.java).
 
 ```java
 {% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleParserDefinition.java %}
@@ -68,11 +68,11 @@ The Simple Language parser is defined by subclassing [`ParserDefinition`](upsour
 
 ## 4.6. Register the Parser Definition
 Registering the parser definition in the `plugin.xml` file makes it available to the Consulo.
-Use the `com.intellij.lang.parserDefinition` extension point for registration.
+Use the `consulo.lang.parserDefinition` extension point for registration.
 For example, see `simple_language_plugin/src/main/resources/META-INF/plugin.xml`.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <lang.parserDefinition language="Simple"
             implementationClass="org.intellij.sdk.language.SimpleParserDefinition"/>
   </extensions>

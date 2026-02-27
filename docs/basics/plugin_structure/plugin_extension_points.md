@@ -1,6 +1,7 @@
 ---
 title: Plugin Extension Points
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 > **NOTE** See [Plugin Extensions](plugin_extensions.md) for _using_ extension points in your plugin.
@@ -24,7 +25,7 @@ Then insert a child element `<extensionPoint>` that defines the extension point 
 _myPlugin/META-INF/plugin.xml_
 
 ```xml
-<idea-plugin>
+<consulo-plugin>
   <id>my.plugin</id>
 
   <extensionPoints>
@@ -35,13 +36,13 @@ _myPlugin/META-INF/plugin.xml_
                     interface="com.myplugin.MyInterface"/>
   </extensionPoints>
 
-</idea-plugin>
+</consulo-plugin>
 ```
 
 The `name` attribute assigns a unique name for this extension point. 
 It will be prefixed with the plugin's `<id>` automatically.
 
-The `beanClass` attribute sets a bean class that specifies one or several properties annotated with the [`@Attribute`](upsource:///platform/util/src/com/intellij/util/xmlb/annotations/Attribute.java) annotation.
+The `beanClass` attribute sets a bean class that specifies one or several properties annotated with the `@Attribute` annotation.
 The `interface` attribute sets an interface the plugin that contributes to the extension point must implement.
 
 The `area` attribute determines the scope in which the extension will be instantiated.
@@ -82,7 +83,7 @@ For above extension points usage in _anotherPlugin_ would look like this (see al
 _anotherPlugin/META-INF/plugin.xml_
 
 ```xml
-<idea-plugin>
+<consulo-plugin>
   <id>another.plugin</id>
 
   <!-- declare dependency on plugin defining extension point -->
@@ -96,11 +97,11 @@ _anotherPlugin/META-INF/plugin.xml_
     <myExtensionPoint2 implementation="another.MyInterfaceImpl"/>
   </extension>
 
-</idea-plugin>
+</consulo-plugin>
 ```
 
 ## Using Extension Points
-To refer to all registered extension instances at runtime, declare an [`ExtensionPointName`](upsource:///platform/extensions/src/com/intellij/openapi/extensions/ExtensionPointName.java) passing in the fully-qualified name matching its [declaration in `plugin.xml`](#declaring-extension-points).
+To refer to all registered extension instances at runtime, declare an [`ExtensionPointName`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/extension/ExtensionPointName.java) passing in the fully-qualified name matching its [declaration in `plugin.xml`](#declaring-extension-points).
 
 _myPlugin/src/com/myplugin/MyExtensionUsingService.java_
 

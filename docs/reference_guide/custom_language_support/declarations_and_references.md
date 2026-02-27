@@ -1,6 +1,7 @@
 ---
 title: Declarations and References
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 > **WARNING** This API is available starting from 2020.3 and currently in development and thus in experimental state.
@@ -14,22 +15,22 @@ Each [symbol](symbols.md) may be declared in zero or more places, for example:
 - and a file is a symbol without declarations; it has only references.
 
 Declarations are implementations of
-[`SymbolDeclaration`](upsource:///platform/core-api/src/com/intellij/model/SymbolDeclaration.java). 
+`SymbolDeclaration`. 
 Declarations in PSI elements are implementations of
-[`PsiSymbolDeclaration`](upsource:///platform/core-api/src/com/intellij/model/psi/PsiSymbolDeclaration.java).
+`PsiSymbolDeclaration`.
 
 To report a declaration in a PSI element, either:
 - implement and register 
-  [`PsiSymbolDeclarationProvider`](upsource:///platform/core-api/src/com/intellij/model/psi/PsiSymbolDeclarationProvider.java);
-- or implement `PsiSymbolDeclaration` directly in the `PsiElement`.
+  `PsiSymbolDeclarationProvider`;
+- or implement `PsiSymbolDeclaration` directly in the [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java).
 
 
 ## References
 
 References are implementations of 
-[`SymbolReference`](upsource:///platform/core-api/src/com/intellij/model/SymbolReference.java) interface. 
+`SymbolReference` interface. 
 References from PSI elements are implementations of 
-[`PsiSymbolReference`](upsource:///platform/core-api/src/com/intellij/model/psi/PsiSymbolReference.java) interface.
+`PsiSymbolReference` interface.
 
 The main method of `SymbolReference` is `resolveReference()`, which returns the collection of symbols to which the reference points, 
 plus additional data.
@@ -40,11 +41,11 @@ This method can be implemented to walk the tree only if the element's text is eq
 
 For convenience, if the reference can possibly be resolved:
 - with a single result, then it might be extended from 
-[`SingleResultReference`](upsource:///platform/core-api/src/com/intellij/model/SingleResultReference.java);
+`SingleResultReference`;
 - to a single symbol without additional data, then it might be extended from 
-[`SingleTargetReference`](upsource:///platform/core-api/src/com/intellij/model/SingleTargetReference.java);
+`SingleTargetReference`;
 - to multiple symbols without additional data, then 
-[`SymbolResolveResult.fromSymbol()`](upsource:///platform/core-api/src/com/intellij/model/SymbolResolveResult.java) might be used.
+`SymbolResolveResult.fromSymbol()` might be used.
 
 
 ### Own References
@@ -55,8 +56,8 @@ Own references are the references found in PSI elements, which are considered as
 PSI element representing `x` in `x * 2` Java expression has an Own reference to a local Java variable, e.g., `var x = 42`,
 because this is a reference from Java language point of view, and Java language support uses it, e.g., for code analysis.
 
-To provide Own references by the `PsiElement`, implement 
-[`PsiElement.getOwnReferences()`](upsource:///platform/core-api/src/com/intellij/psi/PsiElement.java) in the `PsiElement`.
+To provide Own references by the [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java), implement
+[`PsiElement.getOwnReferences()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java) in the [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java).
 If the element contains a single reference, `Collections.singletonList()` can be used
 
 
@@ -70,10 +71,10 @@ PSI element representing `"users.txt"` in `new File("users.txt")` Java expressio
 but there is a plugin which _knows_ that this literal references a file name, and provides such reference.
 
 External references might be contributed to PSI elements
-that implement [`PsiExternalReferenceHost`](upsource:///platform/core-api/src/com/intellij/model/psi/PsiExternalReferenceHost.java). 
-To allow other plugins to contribute references of `PsiElement`, implement `PsiExternalReferenceHost` in the `PsiElement`. 
+that implement `PsiExternalReferenceHost`. 
+To allow other plugins to contribute references of [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java), implement `PsiExternalReferenceHost` in the [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java). 
 To contribute an External reference to the existing `PsiExternalReferenceHost`, implement and register 
-[`PsiSymbolReferenceProvider`](upsource:///platform/core-api/src/com/intellij/model/psi/PsiSymbolReferenceProvider.java).
+`PsiSymbolReferenceProvider`.
 
 
 ### Implicit References
@@ -89,4 +90,4 @@ At the same time it's possible:
 - to view documentation of the class targeted by this reference.
 
 To provide an Implicit reference, implement and register 
-[`ImplicitReferenceProvider`](upsource:///platform/core-api/src/com/intellij/model/psi/ImplicitReferenceProvider.java).
+`ImplicitReferenceProvider`.

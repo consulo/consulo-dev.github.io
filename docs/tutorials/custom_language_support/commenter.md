@@ -4,7 +4,7 @@ title: 17. Commenter
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 A commenter enables the user to comment-out a line of code at the cursor or selected code automatically.
-The [`Commenter`](upsource:///platform/core-api/src/com/intellij/lang/Commenter.java) defines support for **Code \| Comment with Line Comment** and **Code \| Comment with Block Comment** actions.
+The [`Commenter`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/Commenter.java) defines support for **Code \| Comment with Line Comment** and **Code \| Comment with Block Comment** actions.
 
 * bullet list
 {:toc}
@@ -17,10 +17,10 @@ The commenter for Simple Language defines the line comment prefix as `#`.
 ```
 
 ## 17.2. Register the Commenter
-The `SimpleCommenter` implementation is registered in the plugin configuration file using the `com.intellij.lang.commenter` extension point.
+The `SimpleCommenter` implementation is registered in the plugin configuration file using the `consulo.lang.commenter` extension point.
 
 ```xml
-  <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="consulo">
     <lang.commenter language="Simple" implementationClass="org.intellij.sdk.language.SimpleCommenter"/>
   </extensions>
 ```
