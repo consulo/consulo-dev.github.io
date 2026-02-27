@@ -1,14 +1,17 @@
 # Consulo Unified UI
 
-Consulo provide UI API - implementation will be work at Desktop & Web Browsers.
+Consulo provides a unified UI API — implementations work across Desktop and Web browsers.
 
-Desktop implementation based on **Swing**, and Web on **GWT** (with **Vaadin** as transport + ui system)
+There are three backends:
+* **Swing** — primary desktop implementation
+* **SWT** — alternative desktop implementation _(experimental)_
+* **Vaadin Flow** — web implementation _(experimental)_
 
-For default - any plugins don't known about **Swing** or **GWT**
+By default, plugins don't need to know about **Swing**, **SWT**, or **Vaadin Flow** — they use the unified UI API
 
 Classes:
 
  * [`consulo.ui.UIAccess`](https://github.com/consulo/consulo/blob/master/modules/base/ui-api/src/main/java/consulo/ui/UIAccess.java) - class provide access to UI Thread, and allow get current thread status
    * ```#isUIThread()``` - will return true if we inside UI Thread
    * ```#give(Runnable)``` - run task inside UI Thread
-   * ```#get()``` - will return UIAccess instance if call inside UI thread, otherwise throw exception
+   * ```#current()``` - will return UIAccess instance if call inside UI thread, otherwise throw exception

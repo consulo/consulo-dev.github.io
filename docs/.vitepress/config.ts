@@ -280,22 +280,22 @@ function architectureSidebar(): DefaultTheme.SidebarItem[] {
                 {text: 'Overview', link: '/platform/ui/overview'},
                 {text: 'Localization', link: '/platform/ui/localization'},
                 {text: 'Image Library', link: '/platform/ui/image'},
+                {text: 'Tool Windows', link: '/user_interface_components/tool_windows'},
+                {text: 'Popups', link: '/user_interface_components/popups'},
+                {text: 'Notifications', link: '/user_interface_components/notifications'},
+                {text: 'File and Class Choosers', link: '/user_interface_components/file_and_class_choosers'},
+                {text: 'Editor Components', link: '/user_interface_components/editor_components'},
+                {text: 'List and Tree Controls', link: '/user_interface_components/lists_and_trees'},
+                {text: 'Status Bar Widgets', link: '/user_interface_components/status_bar_widgets'},
+                {text: 'Icons and Images', link: '/reference_guide/work_with_icons_and_images'},
+                {text: 'Color Scheme Management', link: '/reference_guide/color_scheme_management'},
                 {
                     text: 'Swing (Desktop Only)',
                     collapsed: true,
                     items: [
                         {text: 'Overview', link: '/user_interface_components/user_interface_components'},
-                        {text: 'Tool Windows', link: '/user_interface_components/tool_windows'},
                         {text: 'Dialogs', link: '/user_interface_components/dialog_wrapper'},
-                        {text: 'Popups', link: '/user_interface_components/popups'},
-                        {text: 'Notifications', link: '/user_interface_components/notifications'},
-                        {text: 'File and Class Choosers', link: '/user_interface_components/file_and_class_choosers'},
-                        {text: 'Editor Components', link: '/user_interface_components/editor_components'},
-                        {text: 'List and Tree Controls', link: '/user_interface_components/lists_and_trees'},
-                        {text: 'Miscellaneous Swing Components', link: '/user_interface_components/misc_swing_components'},
-                        {text: 'Status Bar Widgets', link: '/user_interface_components/status_bar_widgets'},
-                        {text: 'Icons and Images', link: '/reference_guide/work_with_icons_and_images'},
-                        {text: 'Color Scheme Management', link: '/reference_guide/color_scheme_management'}
+                        {text: 'Miscellaneous Swing Components', link: '/user_interface_components/misc_swing_components'}
                     ]
                 }
             ]
