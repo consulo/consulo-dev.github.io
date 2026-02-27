@@ -19,7 +19,7 @@ This declarative registration allows for better performance because listener ins
 The platform defines listener interfaces annotated with `@TopicAPI`.
 To subscribe to a topic, annotate your implementation class with `@TopicImpl` specifying the appropriate scope.
 
-As a specific example, if you want to receive events about all virtual file system changes, you need to implement the `BulkFileListener` interface.
+As a specific example, if you want to receive events about all virtual file system changes, you need to implement the [`BulkFileListener`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/fileEvent/BulkFileListener.java) interface.
 The platform already defines this interface with `@TopicAPI`:
 
 ```java

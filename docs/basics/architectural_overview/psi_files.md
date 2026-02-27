@@ -19,7 +19,7 @@ In contrast, `VirtualFile` and Document have application scope; files are repres
 * From a VirtualFile: [`PsiManager.getInstance(project).findFile()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiManager.java)
 * From a Document: [`PsiDocumentManager.getInstance(project).getPsiFile()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiDocumentManager.java)
 * From an element inside the file: `psiElement.getContainingFile()`
-* To find files with a specific name anywhere in the project, use `FilenameIndex.getFilesByName(project, name, scope)`
+* To find files with a specific name anywhere in the project, use [`FilenameIndex`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/search/FilenameIndex.java)`.getFilesByName(project, name, scope)`
 
 ## What can I do with a PSI file?
 

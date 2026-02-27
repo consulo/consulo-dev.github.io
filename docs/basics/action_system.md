@@ -166,7 +166,7 @@ To exclude a group from appearing in **Help \| Find Action** results (e.g., _New
 Consulo uses the [localize system](/platform/ui/localization.md) (LOCALIZE-LIB with YAML files and generated Localize classes) for action and group localization, rather than Java resource bundles.
 
 When localizing actions and groups, text and description are provided via generated `Localize` classes rather than hardcoding strings in the action constructor.
-Pass `LocalizeValue` instances from the generated Localize class to the `AnAction` constructor:
+Pass [`LocalizeValue`](https://github.com/consulo/consulo/blob/master/modules/base/localize-api/src/main/java/consulo/localize/LocalizeValue.java) instances from the generated Localize class to the `AnAction` constructor:
 
 ```java
 public class PopupDialogAction extends AnAction {
@@ -296,7 +296,7 @@ Two steps are required to register an action from code:
   To get an instance of an action group by ID, it is necessary to call [`ActionManager.getAction()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/ActionManager.java) and cast the returned value to [`DefaultActionGroup`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/DefaultActionGroup.java).
 
 ## Building UI from Actions
-If a plugin needs to include a toolbar or popup menu built from a group of actions in its user interface, that is accomplished through `ActionPopupMenu` and `ActionToolbar`.
+If a plugin needs to include a toolbar or popup menu built from a group of actions in its user interface, that is accomplished through [`ActionPopupMenu`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/ActionPopupMenu.java) and `ActionToolbar`.
 These objects can be created through calls to the [`ActionManager.createActionPopupMenu()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/ActionManager.java) and `createActionToolbar()` methods.
 To get a Swing component from such an object, call the respective `getComponent()` method.
 

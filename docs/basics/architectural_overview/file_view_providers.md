@@ -4,7 +4,7 @@ title: File View Providers
 
 <!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-A file view provider (`FileViewProvider`) manages access to multiple PSI trees within a single file.
+A file view provider ([`FileViewProvider`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/file/FileViewProvider.java)) manages access to multiple PSI trees within a single file.
 
 For example, a JSPX page has a separate PSI tree for the Java code in it (`PsiJavaFile`), a separate tree for the XML code (`XmlFile`), and a separate tree for JSP as a whole (`JspFile`).
 
@@ -26,7 +26,7 @@ A `FileViewProvider` instance corresponds to a single [`VirtualFile`](https://gi
 
 ## How do I extend the FileViewProvider?
 
-To create a file type that has multiple interspersing trees for different languages, a plugin must implement `FileViewProviderFactory` and return your `FileViewProvider` implementation from `createFileViewProvider()` method.
+To create a file type that has multiple interspersing trees for different languages, a plugin must implement [`FileViewProviderFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/file/FileViewProviderFactory.java) and return your `FileViewProvider` implementation from `createFileViewProvider()` method.
 
 Register the factory by annotating the implementation class with `@ExtensionImpl`:
 

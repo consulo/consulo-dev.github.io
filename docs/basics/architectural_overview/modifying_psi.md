@@ -15,7 +15,7 @@ See [the Documents article](documents.md#what-are-the-rules-of-working-with-docu
 ## Creating the New PSI
 
 The PSI elements to add to the tree or replace existing PSI elements are usually *created from text*.
-In the most general case, you use the `createFileFromText()` method of `PsiFileFactory` to create a new file that contains the code construct which you need to add to the tree or to use as a replacement for an existing element, traverse the resulting tree to locate the specific part that you need, and then pass that element to `add()` or `replace()`.
+In the most general case, you use the `createFileFromText()` method of [`PsiFileFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiFileFactory.java) to create a new file that contains the code construct which you need to add to the tree or to use as a replacement for an existing element, traverse the resulting tree to locate the specific part that you need, and then pass that element to `add()` or `replace()`.
 
 Most languages provide factory methods that let you create specific code constructs more easily.
 For example, the `PsiJavaParserFacade` class contains methods such as `createMethodFromText()`, which creates a Java method from the given text.
@@ -73,7 +73,7 @@ This method ensures that the structure you've built is the same as what the pars
 
 When working with PSI modification functions, you should never create individual whitespace nodes (spaces or line breaks) from the text.
 Instead, all whitespace modifications are performed by the formatter, which follows the code style settings selected by the user.
-Formatting is automatically performed at the end of every command, and if you need, you can also perform it manually using the `reformat(PsiElement)` method in the `CodeStyleManager` class.
+Formatting is automatically performed at the end of every command, and if you need, you can also perform it manually using the `reformat(PsiElement)` method in the [`CodeStyleManager`](https://github.com/consulo/consulo/blob/master/modules/base/language-code-style-api/src/main/java/consulo/language/codeStyle/CodeStyleManager.java) class.
 
 Also, when working with Java code (or with code in other languages with a similar import mechanism such as Groovy or Python), you should never create imports manually.
 Instead, you should insert fully-qualified names into the code you're generating, and then call the `shortenClassReferences()` method in the  `JavaCodeStyleManager` (or the equivalent API for the language you're working with).

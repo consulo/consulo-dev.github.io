@@ -39,7 +39,7 @@ A _module extension_ represents a certain configuration, specific for a particul
 A module can have multiple module extensions.
 E.g., Spring-specific configuration is stored in a Spring module extension.
 
-Module extensions are managed via `ModuleExtensionProvider`.
+Module extensions are managed via [`ModuleExtensionProvider`](https://github.com/consulo/consulo/blob/master/modules/base/module-content-api/src/main/java/consulo/module/content/layer/ModuleExtensionProvider.java).
 
 ## Additional Information
 For more information on each of these entities, see:

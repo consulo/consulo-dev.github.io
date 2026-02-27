@@ -31,16 +31,16 @@ To subscribe to events, use a [listener](plugin_listeners.md) or create an [exte
 
 Executing code on application startup should be avoided whenever possible because it slows down startup.
 Plugin code should only be executed when projects are opened (see [Project Open](#project-open)) or when the user invokes an action of a plugin.
-If this cannot be avoided, add a [listener](plugin_listeners.md) subscribing to the `AppLifecycleListener` topic.
+If this cannot be avoided, add a [listener](plugin_listeners.md) subscribing to the [`AppLifecycleListener`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/AppLifecycleListener.java) topic.
 
-To execute an activity in background on IDE startup (e.g., to warm up caches), use `PreloadingActivity`.
+To execute an activity in background on IDE startup (e.g., to warm up caches), use [`PreloadingActivity`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/PreloadingActivity.java).
 
 ### Project Open
 
 To execute code when a project is being opened, use one of these two [extensions](plugin_extensions.md):
 
 `consulo.postStartupActivity`
-: `StartupActivity` for immediate execution on EDT. Implement `DumbAware` to indicate activity can run in background thread (in parallel with other such tasks).
+: [`StartupActivity`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/startup/StartupActivity.java) for immediate execution on EDT. Implement [`DumbAware`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/dumb/DumbAware.java) to indicate activity can run in background thread (in parallel with other such tasks).
 
 `consulo.backgroundPostStartupActivity`
 : `StartupActivity.Background` for execution with 5 seconds delay in background thread (2019.3 or later).

@@ -55,7 +55,7 @@ For visible progresses, threads can use [`ProgressIndicator`](https://github.com
 Progress indicators also provide means to handle cancellation of background processes, either by the user (pressing the _Cancel_ button) or from code (e.g., when the current operation becomes obsolete due to some changes in the project).
 The progress can be marked as canceled by calling `ProgressIndicator.cancel()`.
 The process reacts to this by calling `ProgressIndicator.checkCanceled()` (or `ProgressManager.checkCanceled()` if no indicator instance at hand).
-This call throws a special unchecked `ProcessCanceledException` if the background process has been canceled.
+This call throws a special unchecked [`ProcessCanceledException`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/ProcessCanceledException.java) if the background process has been canceled.
 
 All code working with PSI, or in other kinds of background processes, must be prepared for `ProcessCanceledException` being thrown from any point.
 This exception should never be logged but rethrown, and it'll be handled in the infrastructure that started the process.
@@ -78,7 +78,7 @@ The next time the background thread calls `checkCanceled()`, a `ProcessCanceledE
 
 There are two recommended ways of doing this:
 
-* If on UI thread, call [`ReadAction.nonBlocking()`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ReadAction.java) which returns `NonBlockingReadAction`
+* If on UI thread, call [`ReadAction.nonBlocking()`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ReadAction.java) which returns [`NonBlockingReadAction`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/NonBlockingReadAction.java)
 * If already in a background thread, use `ProgressManager.getInstance().runInReadActionWithWriteActionPriority()` in a loop, until it passes or the whole activity becomes obsolete.
 
 In both approaches, always check at the start of each read action, if the objects are still valid, and if the whole operation still makes sense (i.e., not canceled by the user, the project isn't closed, etc.).

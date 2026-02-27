@@ -69,7 +69,7 @@ PsiClass result = DumbService.getInstance(project).runReadActionInSmartMode(() -
 });
 ```
 
-If this method is called when read access is already held, the runnable executes immediately (since waiting would cause a deadlock). In that case, an `IndexNotReadyException` may be thrown if dumb mode is active.
+If this method is called when read access is already held, the runnable executes immediately (since waiting would cause a deadlock). In that case, an [`IndexNotReadyException`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/IndexNotReadyException.java) may be thrown if dumb mode is active.
 
 ### Waiting for Smart Mode
 
@@ -82,7 +82,7 @@ dumbService.waitForSmartMode();
 
 ### Smart Invocation on EDT
 
-`smartInvokeLater()` posts a `Runnable` to the EDT that will only execute when the IDE leaves dumb mode. If the project is disposed during dumb mode, the runnable is discarded.
+`smartInvokeLater()` posts a `Runnable` to the EDT that will only execute when the IDE leaves dumb mode. If the project is disposed during dumb mode, the runnable is discarded. An optional [`ModalityState`](https://github.com/consulo/consulo/blob/master/modules/base/ui-api/src/main/java/consulo/ui/ModalityState.java) parameter can be provided.
 
 ```java
 dumbService.smartInvokeLater(() -> {
@@ -191,7 +191,7 @@ If needed, you can cancel a previously queued task:
 DumbService.getInstance(project).cancelTask(task);
 ```
 
-Cancelling a running task cancels its `ProgressIndicator`, so the next `checkCanceled()` call inside `performInDumbMode()` will throw `ProcessCanceledException`.
+Cancelling a running task cancels its `ProgressIndicator`, so the next `checkCanceled()` call inside `performInDumbMode()` will throw [`ProcessCanceledException`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/ProcessCanceledException.java).
 
 ### Task Equivalence
 

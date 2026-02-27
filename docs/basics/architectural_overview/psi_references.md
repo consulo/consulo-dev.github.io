@@ -87,7 +87,7 @@ For example, suppose you have multiple Java method overloads and a call with arg
 As you already know, resolving a reference means going from usage to the corresponding declaration.
 To perform the navigation in the opposite direction - from a declaration to its usages - perform a **references search**.
 
-To perform a search using `ReferencesSearch`, specify the *element* to search for, and optionally other parameters such as the scope in which the reference needs to be searched.
+To perform a search using [`ReferencesSearch`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/search/ReferencesSearch.java), specify the *element* to search for, and optionally other parameters such as the scope in which the reference needs to be searched.
 The created `Query` allows obtaining all results at once or iterating over the results one by one.
 The latter allows stopping processing as soon as the first (matching) result has been found.
 

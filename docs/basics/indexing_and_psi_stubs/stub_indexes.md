@@ -23,12 +23,12 @@ You usually don't need to have stubs for things like statements or local variabl
 
 For each element type that you want to store in the stub tree, you need to perform the following steps:
 
-* Define an interface for the stub, derived from the `StubElement` interface.
+* Define an interface for the stub, derived from the [`StubElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/StubElement.java) interface.
 * Provide an implementation for the interface.
-* Make sure the interface for the PSI element extends `StubBasedPsiElement` parameterized by the type of the stub interface.
-* Make sure the implementation class for the PSI element extends `StubBasedPsiElementBase` parameterized by the type of the stub interface.
+* Make sure the interface for the PSI element extends [`StubBasedPsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/StubBasedPsiElement.java) parameterized by the type of the stub interface.
+* Make sure the implementation class for the PSI element extends [`StubBasedPsiElementBase`](https://github.com/consulo/consulo/blob/master/modules/base/language-impl/src/main/java/consulo/language/impl/psi/stub/StubBasedPsiElementBase.java) parameterized by the type of the stub interface.
   Provide both a constructor that accepts an `ASTNode` and a constructor that accepts a stub.
-* Create a class that implements `IStubElementType` and is parameterized with the stub interface and the actual PSI element interface.
+* Create a class that implements [`IStubElementType`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/IStubElementType.java) and is parameterized with the stub interface and the actual PSI element interface.
   Implement the `createPsi()` and `createStub()` methods for creating PSI from a stub and vice versa.
   Implement the `serialize()` and `deserialize()` methods for storing the data in a binary stream.
 * Use the class implementing `IStubElementType` as the element type constant when parsing.
@@ -36,8 +36,8 @@ For each element type that you want to store in the stub tree, you need to perfo
 
 The following steps need to be performed only once for each language that supports stubs:
 
-* Change the file element type for your language (the element type that you return from [`ParserDefinition.getFileNodeType()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/parser/ParserDefinition.java)) to a class that extends `IStubFileElementType`.
-* Register the stub element type holder by annotating it with `@ExtensionImpl`. The interface which contains the `IElementType` constants used by your language's parser should be specified, as well as `externalIdPrefix` if possible.
+* Change the file element type for your language (the element type that you return from [`ParserDefinition.getFileNodeType()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/parser/ParserDefinition.java)) to a class that extends [`IStubFileElementType`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/IStubFileElementType.java).
+* Register the stub element type holder by annotating it with `@ExtensionImpl`. The interface which contains the [`IElementType`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/ast/IElementType.java) constants used by your language's parser should be specified, as well as `externalIdPrefix` if possible.
 
 For serializing string data, e.g. element names, in stubs, we recommend to use `StubOutputStream.writeName()` and `StubInputStream.readName()` methods.
 These methods ensure that each unique identifier is stored only once in the data stream.
@@ -62,12 +62,12 @@ When building the stub tree, you can, at the same time, put some data about the 
 Unlike file-based indexes, stub indexes do not support storing custom data as values; the value is always a PSI element.
 Keys in stub indexes are typically strings (such as class names); other data types are also supported if desired.
 
-A stub index is a class which extends `AbstractStubIndex`.
-In the most common case, when the key type is `String`, you use a more specific base class, namely `StringStubIndexExtension`.
+A stub index is a class which extends [`AbstractStubIndex`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/AbstractStubIndex.java).
+In the most common case, when the key type is `String`, you use a more specific base class, namely [`StringStubIndexExtension`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/StringStubIndexExtension.java).
 Stub index implementation classes are registered by annotating them with `@ExtensionImpl`.
 
 To put data into an index, you implement the method `IStubElementType.indexStub()`.
-This method accepts an `IndexSink` as a parameter and puts in the index ID and the key for each index in which the element should be stored.
+This method accepts an [`IndexSink`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/IndexSink.java) as a parameter and puts in the index ID and the key for each index in which the element should be stored.
 
 To access the data from an index, the following two methods are used:
 

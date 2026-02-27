@@ -10,7 +10,7 @@ This document describes the primary classes to work with run configurations and 
 
 ## Configuration Type
 
-The starting point for implementing any run configuration type is the `ConfigurationType` interface.
+The starting point for implementing any run configuration type is the [`ConfigurationType`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/configuration/ConfigurationType.java) interface.
 The list of available configuration types is shown when a user opens the _'Edit run configurations'_ dialog and executes _'Add'_ action:
 
 ![Create](/basics/img/create-1.png)
@@ -24,13 +24,13 @@ public class MyConfigurationType implements ConfigurationType {
 }
 ```
 
-The easiest way to implement this interface is to use the `ConfigurationTypeBase` base class.
+The easiest way to implement this interface is to use the [`ConfigurationTypeBase`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/configuration/ConfigurationTypeBase.java) base class.
 To use it, you need to inherit from it and to provide the configuration type parameters (ID, name, description, and icon) as constructor parameters.
 In addition to that, you need to call the `addFactory()` method to add a configuration factory.
 
 ## Configuration Factory
 
-All run configurations are created by the `ConfigurationFactory` registered for a particular `ConfigurationType`.
+All run configurations are created by the [`ConfigurationFactory`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/configuration/ConfigurationFactory.java) registered for a particular `ConfigurationType`.
 It's possible that one `ConfigurationType` has more than one `ConfigurationFactory`:
 
 ![Configuration Factory](/basics/img/create-3.png)
@@ -54,17 +54,17 @@ Here is an example of a Java run configuration defined for a particular project:
 
 When implementing a run configuration, you may want to use one of the common base classes:
 
-* `RunConfigurationBase` is a general-purpose superclass that contains the most basic implementation of a run configuration.
-* `LocatableConfigurationBase` is a common base class that should be used for configurations that can be created from context by a `RunConfigurationProducer`.
+* [`RunConfigurationBase`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/configuration/RunConfigurationBase.java) is a general-purpose superclass that contains the most basic implementation of a run configuration.
+* [`LocatableConfigurationBase`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/configuration/LocatableConfigurationBase.java) is a common base class that should be used for configurations that can be created from context by a [`RunConfigurationProducer`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/action/RunConfigurationProducer.java).
   It supports automatically generating a name for a configuration from its settings and keeping track of whether the name was changed by the user.
-* `ModuleBasedConfiguration` is a base class for a configuration that is associated with a specific module (for example, Java run configurations use the selected module to determine the run classpath).
+* [`ModuleBasedConfiguration`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/configuration/ModuleBasedConfiguration.java) is a base class for a configuration that is associated with a specific module (for example, Java run configurations use the selected module to determine the run classpath).
 
 ## Settings Editor
 
 That common run configuration settings might be modified via:
 
 `RunConfiguration`-specific UI.
-That is handled by `SettingsEditor`:
+That is handled by [`SettingsEditor`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/configuration/ui/SettingsEditor.java):
 
 * `getComponent()` method is called by the IDE and shows run configuration specific UI.
 * `resetFrom()` is called to discard all non-confirmed user changes made via that UI.
@@ -75,22 +75,22 @@ That is handled by `SettingsEditor`:
 That run configuration settings are persistent, i.e., they are stored at the file system and loaded back on the IDE startup.
 That is performed via `writeExternal()` and `readExternal()` methods of `RunConfiguration` class correspondingly.
 
-The actual configurations stored by the *Consulo* are represented by instances of the `RunnerAndConfigurationSettings` class, which combines a run configuration with runner-specific settings, as well as keeping track of certain run configuration flags such as "temporary" or "singleton".
+The actual configurations stored by the *Consulo* are represented by instances of the [`RunnerAndConfigurationSettings`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/RunnerAndConfigurationSettings.java) class, which combines a run configuration with runner-specific settings, as well as keeping track of certain run configuration flags such as "temporary" or "singleton".
 
 Dealing with instances of this class becomes necessary when you need to create run configurations from code.
 This is accomplished with the following two steps:
 
-* `RunManager.createConfiguration()` creates an instance of `RunnerAndConfigurationSettings`.
+* [`RunManager`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/RunManager.java)`.createConfiguration()` creates an instance of `RunnerAndConfigurationSettings`.
 * `RunManager.addConfiguration()` makes it persistent by adding it to either the list of shared configurations stored in a project or to the list of local configurations stored in the workspace file.
 
 ## Refactoring Support
 
 Most run configurations contain references to classes, files, or directories in their settings, and these settings usually need to be updated when the corresponding element is renamed or moved.
 
-To support that, your run configuration needs to implement the `RefactoringListenerProvider` interface.
+To support that, your run configuration needs to implement the [`RefactoringListenerProvider`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/event/RefactoringListenerProvider.java) interface.
 
 In your implementation of `getRefactoringElementListener()`, you need to check whether the refactored element is the one that your run configuration refers to.
-If it is, you return a `RefactoringElementListener` that updates your configuration according to the new name and location of the element.
+If it is, you return a [`RefactoringElementListener`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/event/RefactoringElementListener.java) that updates your configuration according to the new name and location of the element.
 
 ## Creating Configurations from Context
 
@@ -100,7 +100,7 @@ Note that the previous `RuntimeConfigurationProducer` is a much more confusing v
 
 The two main methods that you need to implement are:
 
-* `setupConfigurationFromContext()` receives a blank configuration of your type and a `ConfigurationContext` containing information about a source code location (accessible by calling `getLocation()` or `getPsiLocation()`).
+* `setupConfigurationFromContext()` receives a blank configuration of your type and a [`ConfigurationContext`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/action/ConfigurationContext.java) containing information about a source code location (accessible by calling `getLocation()` or `getPsiLocation()`).
   Your implementation needs to check whether the location is applicable for your configuration type (for example, if it's in a file of the language you're supporting).
   If not, you need to return false, and if it is, you need to put the correct context-specific settings into the run configuration and return true.
 * `isConfigurationFromContext()` checks if your type's specified configuration was created from the specified context.
@@ -110,4 +110,4 @@ Note that, to support the automatic naming of configurations created from contex
 
 ## Running from the Gutter
 
-Take a look at `RunLineMarkerContributor` and its implementations.
+Take a look at [`RunLineMarkerContributor`](https://github.com/consulo/consulo/blob/master/modules/base/execution-api/src/main/java/consulo/execution/lineMarker/RunLineMarkerContributor.java) and its implementations.
