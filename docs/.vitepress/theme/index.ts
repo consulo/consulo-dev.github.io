@@ -1,4 +1,13 @@
 import DefaultTheme from 'vitepress/theme'
+import GitHubCorner from './GitHubCorner.vue'
 import './custom.css'
+import { h } from 'vue'
 
-export default DefaultTheme
+export default {
+    extends: DefaultTheme,
+    Layout() {
+        return h(DefaultTheme.Layout, null, {
+            'layout-top': () => h(GitHubCorner)
+        })
+    }
+}

@@ -75,7 +75,7 @@ The following `pom.xml` shows a typical Consulo plugin project configuration:
     <repositories>
         <repository>
             <id>consulo-snapshots</id>
-            <url>https://maven.consulo.app/repository/snapshots/</url>
+            <url>https://maven.consulo.dev/repository/snapshots/</url>
         </repository>
     </repositories>
 
