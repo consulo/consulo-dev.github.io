@@ -108,7 +108,7 @@ public class PopupDialogAction extends AnAction {
 
 #### Using Override Text for an Action
 The action text can be different depending on the context of where the action appears: menu, toolbar, etc.
-For example, the constructor sets the longer text "Action Basics Plugin: Pop Dialog Action" as the default. Override text such as the shorter "Pop Dialog Action" for the Main Menu context can be configured through localization resource bundles or by customizing the `Presentation` in the `update()` method.
+For example, the constructor sets the longer text "Action Basics Plugin: Pop Dialog Action" as the default. Override text such as the shorter "Pop Dialog Action" for the Main Menu context can be configured through the [localize system](/platform/ui/localization.md) or by customizing the `Presentation` in the `update()` method.
 For more information, see [Setting Override Text](/basics/action_system.md#setting-override-text)
 
 ## Testing the Minimal Custom Action Implementation

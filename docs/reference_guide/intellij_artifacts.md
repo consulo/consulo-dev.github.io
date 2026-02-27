@@ -17,21 +17,21 @@ The repositories have two types of content:
   These artifacts are _not intended_ to be accessed directly from a plugin project's build file.
   The build system will access them as-needed for a plugin project.
 * Artifacts for individual modules from the Consulo.
-These may be downloaded, or accessed directly from a `build.gradle` file, as explained below.
+These may be downloaded, or accessed directly from a `pom.xml` file, as explained below.
 
 Artifacts for Consulo third-party dependencies are hosted in a separate repository.
-A link to this repository should be added to `pom.xml`/`build.gradle` files when individual modules from a Consulo artifacts repository are used.
+A link to this repository should be added to `pom.xml` files when individual modules from a Consulo artifacts repository are used.
 
 ## Using Consulo Module Artifacts
-Consulo module artifacts are utilized by adding information to a project's `build.gradle` file.
-More information about Gradle support is available in the Consulo documentation.
+Consulo module artifacts are utilized by adding information to a project's `pom.xml` file.
+More information about Maven support is available in the Consulo documentation.
 
 To setup dependencies on a module there are two types of information needed:
 1. Specify the corresponding repository URL for the artifact.
 2. Specify the [Maven coordinates](https://maven.apache.org/pom.html#Maven_Coordinates) for the artifact.
 
 ### Specify the Repository URL
-The URL for the desired artifact needs to be added to a Maven or Gradle script:
+The URL for the desired artifact needs to be added to your Maven `pom.xml`:
 * For release versions, use the Consulo releases repository.
 * For snapshots, use the Consulo snapshots repository.
 * For dependencies on individual modules from the Consulo, also use the Consulo third-party dependencies repository.
@@ -78,30 +78,39 @@ For example, to specify the `jps-model-serialization` module:
   * _classifier_ = `""`
   * _packaging_ = `jar`
 
-## Gradle Example for an Individual Module from the Consulo
-This section presents an example of using a Gradle script to incorporate an Consulo module and repository in a `build.gradle` file.
+## Maven Example for an Individual Module from the Consulo
+This section presents an example of using Maven to incorporate a Consulo module and repository in a `pom.xml` file.
 The example illustrates declaring the artifact URL, Maven coordinates, and version for the `jps-model-serialization` module artifact.
 There are two parts to the example: the repository and the dependency sections.
 
 ### Repositories Section
-This code snippet selects the release repository with the first URL, and repository of Consulo dependencies with the second URL.
-The second URL is needed because this example selects individual modules.
+This code snippet selects the snapshots repository for Consulo dependencies.
 
-```groovy
-repositories {
-	mavenCentral()
-	maven { url "https://maven.consulo.app/repository/snapshots/" }
-}
+```xml
+<repositories>
+    <repository>
+        <id>consulo-snapshots</id>
+        <url>https://maven.consulo.app/repository/snapshots/</url>
+    </repository>
+</repositories>
 ```
 
 ### Dependencies Section
 This code snippet specifies the desired module artifacts.
 
-```groovy
-dependencies {
-	compile "consulo.platform:jps-model-serialization:182.2949.4"
-	compile "consulo.platform:jps-model-impl:182.2949.4"
-}
+```xml
+<dependencies>
+    <dependency>
+        <groupId>consulo.platform</groupId>
+        <artifactId>jps-model-serialization</artifactId>
+        <version>182.2949.4</version>
+    </dependency>
+    <dependency>
+        <groupId>consulo.platform</groupId>
+        <artifactId>jps-model-impl</artifactId>
+        <version>182.2949.4</version>
+    </dependency>
+</dependencies>
 ```
 
 Note:

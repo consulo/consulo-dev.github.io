@@ -32,7 +32,7 @@ Further customization of the Rename refactoring processing is possible on multip
 Providing a custom implementation of the [`RenameHandler`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/rename/RenameHandler.java) interface allows you to entirely replace the UI and workflow of the rename refactoring, and also to support renaming something which is not a [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java) at all.
 
 **Example**:
-[`RenameHandler`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/rename/RenameHandler.java) for renaming a resource bundle in the Properties language plugin
+[`RenameHandler`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/rename/RenameHandler.java) for renaming PSI elements in custom language plugins
 
 If you're okay with the standard UI but need to extend the default logic of renaming, you can provide an implementation of the [`RenamePsiElementProcessor`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/rename/RenamePsiElementProcessor.java) interface.
 This allows you to:

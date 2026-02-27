@@ -6,31 +6,30 @@ title: Creating Your First Plugin
 This documentation section will help you get started with developing plugins for the *Consulo*.
 
 There are three supported workflows available for building plugins.
-The recommended workflow for new projects is to [use GitHub Template](#using-github-template) or to [use Gradle](#using-gradle) to create everything from scratch.
+The recommended workflow for new projects is to [use GitHub Template](#using-github-template) or to [use Maven](#using-maven) to create everything from scratch.
 The old [Plugin DevKit](#using-devkit) workflow still supports existing projects.
 
-The Gradle workflow offers several advantages:
+The Maven workflow offers several advantages:
   * Representations of source sets, modules, and projects are portable,
-  * Projects of any size or complexity usually require scripts for build management, which Gradle handles natively,
-  * Training, documentation, and community help for general Gradle topics are widely available.
+  * Projects of any size or complexity usually require scripts for build management, which Maven handles natively,
+  * Training, documentation, and community help for general Maven topics are widely available.
 
-Specific to development of Consulo plugins with Gradle:
-  * Changing plugin targets is more comfortable because it is all done in `build.gradle`:
+Specific to development of Consulo plugins with Maven:
+  * Changing plugin targets is more comfortable because it is all done in `pom.xml`:
       * Switching the version of the target Consulo (IDE),
       * Changing the target Consulo-based IDE.
-  * Gradle is fully integrated with Continuous Integration systems, so it is easy to customize and extend the build and publishing processes.
-  * Built-in verification task for `plugin.xml` and plugin distribution structure.
+  * Maven is fully integrated with Continuous Integration systems, so it is easy to customize and extend the build and publishing processes.
 
 ## Using GitHub Template
 
 * [Developing plugins using GitHub Template](/tutorials/github_template.md)
 
-## Using Gradle
+## Using Maven
 
-* [Developing plugins using Gradle](/tutorials/build_system.md)
-    * [Getting Started with Gradle](/tutorials/build_system/prerequisites.md)
-    * [Configuring Gradle Projects](/tutorials/build_system/gradle_guide.md)
-    * [Publishing Plugins with Gradle](/tutorials/build_system/deployment.md)
+* [Developing plugins using Maven](/tutorials/build_system.md)
+    * [Getting Started with Maven](/tutorials/build_system/prerequisites.md)
+    * [Configuring Maven Projects](/tutorials/build_system/gradle_guide.md)
+    * [Publishing Plugins with Maven](/tutorials/build_system/deployment.md)
 
 ## Using DevKit
 * [Developing plugins using DevKit](getting_started/using_dev_kit.md)

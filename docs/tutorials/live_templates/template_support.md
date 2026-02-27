@@ -47,7 +47,7 @@ The export produces a file called `Markdown.xml` with the following contents:
 </templateSet>
 ```
 
-The display `name` can also provide localized variants by specifying `key` and `resource-bundle` attributes additionally (2020.3 and later).
+The display `name` can also provide localized variants through the [localize system](/platform/ui/localization.md).
 
 Copy this file into the plugin's resources folder.
 

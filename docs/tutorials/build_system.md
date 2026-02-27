@@ -1,18 +1,51 @@
 ---
-title: Building Plugins with Gradle
+title: Building Plugins with Maven
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-The Gradle plugin is the recommended solution for building Consulo plugins.
-The plugin takes care of the dependencies of your plugin project - both the base IDE and other plugin dependencies.
+Consulo plugins are built using Maven with the `maven-consulo-plugin`.
+The plugin handles dependencies, code generation, and packaging.
 
-The Gradle plugin provides tasks to run the IDE with your plugin and to publish your plugin to the [Consulo Plugin Repository](https://plugins.consulo.app).
-To make sure that your plugin is not affected by [API changes](/reference_guide/api_changes_list.md), which may happen between major releases of the platform, you can quickly build your plugin against many versions of the base IDE.
+The standard `pom.xml` configuration for a Consulo plugin:
 
-> **WARNING** When adding additional repositories to your Gradle build script, always use HTTPS protocol.
+```xml
+<project>
+    <modelVersion>4.0.0</modelVersion>
 
-Below are a series of guides to developing and deploying Gradle-based Consulo Plugins:
+    <groupId>com.example</groupId>
+    <artifactId>my-consulo-plugin</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>consulo-plugin</packaging>
 
-* [Getting Started with Gradle](build_system/prerequisites.md)
-* [Configuring Gradle Projects](build_system/gradle_guide.md)
-* [Publishing Plugins with Gradle](build_system/deployment.md)
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>consulo.maven</groupId>
+                <artifactId>maven-consulo-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-icon</goal>
+                            <goal>generate-localize</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- Consulo API dependencies -->
+    </dependencies>
+</project>
+```
+
+For a working example, see the [Consulo Simple Plugin Template](https://github.com/consulo/consulo-simple-plugin-template).
+
+Below are a series of guides to developing and deploying Maven-based Consulo Plugins:
+
+* [Getting Started with Maven](build_system/prerequisites.md)
+* [Configuring Maven Projects](build_system/gradle_guide.md)
+* [Publishing Plugins with Maven](build_system/deployment.md)

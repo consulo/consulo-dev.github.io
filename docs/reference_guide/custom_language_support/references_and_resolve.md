@@ -29,7 +29,7 @@ Still, additional optimizations are possible (for example, performing the tree w
 
 
 **Examples**:
-- Reference to a ResourceBundle in the Properties language plugin
+- Reference to a localize key in the Consulo [localization system](/platform/ui/localization.md)
 - [Custom Language Support Tutorial: Reference Contributor](/tutorials/custom_language_support/reference_contributor.md)
 
 > **TIP** To optimize `getReferences()` performance, consider implementing `HintedReferenceHost` to provide additional hints.

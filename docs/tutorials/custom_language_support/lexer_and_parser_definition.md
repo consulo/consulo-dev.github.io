@@ -13,15 +13,26 @@ The easiest way to create a lexer is to use [JFlex](https://jflex.de/).
 
 ## Required Project Configuration Change
 The previous tutorial step [Grammar and Parser](grammar_and_parser.md), and this page, generate source files in the directory `src/main/gen`.
-To include those files, the project's `sourceSets` must be expanded by inserting the following line in the project's `build.gradle` file:
+To include those files in a Maven project, add the `build-helper-maven-plugin` to your `pom.xml` to register the additional source directory:
 
-```groovy
-  sourceSets.main.java.srcDirs 'src/main/gen'
-```
-
-Or the following line in the project's `build.gradle.kts` file:
-```kotlin
-  sourceSets["main"].java.srcDirs("src/main/gen")
+```xml
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>build-helper-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-sources</phase>
+            <goals>
+                <goal>add-source</goal>
+            </goals>
+            <configuration>
+                <sources>
+                    <source>src/main/gen</source>
+                </sources>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
 ```
 
 ## 4.1. Define a Lexer
@@ -40,7 +51,7 @@ Choose the project root directory, for example `code_samples/simple_language_plu
 
 After that, the IDE generates the lexer under the `gen` directory, for example in `simple_language_plugin/src/main/gen/org/intellij/sdk/language/SimpleLexer`.
 
-> **TIP** Gradle plugin `gradle-grammarkit-plugin` can be used alternatively.
+> **TIP** The `maven-consulo-plugin` can be used to automate parser generation as part of the Maven build.
 
 See [Implementing Lexer](/reference_guide/custom_language_support/implementing_lexer.md) for more information about using _JFlex_ with the Consulo.
 

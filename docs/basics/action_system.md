@@ -151,43 +151,34 @@ The menu text for an action can be different depending on context: menu location
 For example, an action might have a default text "Garbage Collector: Collect _Garbage" but display a shorter "Collect _Garbage" when shown in the Main Menu.
 A different context, such as searching for the action using **Help \| Find Action...**, displays the default longer text to give the user additional information about the action.
 
-Override text can be configured through localization resource bundles or by overriding the action's `Presentation` in the `update()` method.
+Override text can be configured through the [localize system](/platform/ui/localization.md) or by overriding the action's `Presentation` in the `update()` method.
                              
 #### Setting Synonyms
 Users can locate actions via their name by invoking **Help \| Find Action**.
 
-To allow using alternative names in search, synonyms can be provided through localization resource bundles or programmatically.
+To allow using alternative names in search, synonyms can be provided through the [localize system](/platform/ui/localization.md) or programmatically.
                              
 #### Disabling Search for Group
 _2020.3_
 To exclude a group from appearing in **Help \| Find Action** results (e.g., _New..._ popup), specify `searchable="false"`.
 
 #### Localizing Actions and Groups
-Action and group localization use resource bundles containing property files named `*Bundle.properties`, each file consisting of `key=value` pairs.
-The `action_basics` plugin demonstrates using a resource bundle to localize the group and action entries added to the Editor Popup Menu.
+Consulo uses the [localize system](/platform/ui/localization.md) (LOCALIZE-LIB with YAML files and generated Localize classes) for action and group localization, rather than Java resource bundles.
 
-When localizing actions and groups, text and description are provided via resource bundles rather than hardcoding them in the action constructor.
-The resource bundle name and location must be declared in the `plugin.xml` file:
+When localizing actions and groups, text and description are provided via generated `Localize` classes rather than hardcoding strings in the action constructor.
+Pass `LocalizeValue` instances from the generated Localize class to the `AnAction` constructor:
 
-```xml
-  <resource-bundle>messages.BasicActionsBundle</resource-bundle>
+```java
+public class PopupDialogAction extends AnAction {
+    public PopupDialogAction() {
+        super(MyPluginLocalize.popupDialogActionText(),
+              MyPluginLocalize.popupDialogActionDescription(),
+              icon);
+    }
+}
 ```
 
-##### Actions
-For Actions, the key in property files incorporates the action `id` in this specific structure:
-* `action.<action-id>.text=Translated Action Text`
-* `action.<action-id>.description=Translated Action Description`
-
-Place-dependent overrides use this structure:
-* `action.<action-id>.<place>.text=Place-dependent Translated Action Text`
-
-##### Groups
-For Groups, the `key` in the property files incorporates the group `id` in this specific structure:
-* `group.<group-id>.text=Translated Group Text`
-* `group.<group-id>.description=Translated Group Description`
-
-Place-dependent overrides use this structure:
-* `group.<group-id>.<place>.text=Place-dependent Translated Group Text`
+See [Localization](/platform/ui/localization.md) for details on defining localize entries and generating Localize classes.
 
 See [Extending DefaultActionGroup](/tutorials/action_system/grouping_action.md#extending-defaultactiongroup) for a tutorial of localizing Actions and Groups.
 
@@ -247,16 +238,18 @@ public class CollectGarbage extends AnAction {
 
 ##### Registering an Action Using Localization
 
-When using resource bundles for text and description, they do not need to be specified in the constructor.
-The framework resolves them from the resource bundle using the action `id`:
+When using the [localize system](/platform/ui/localization.md), pass `LocalizeValue` instances from the generated Localize class to the action constructor:
 
 ```java
 @ActionImpl(id = "sdk.action.PopupDialogAction",
     parents = @ActionParentRef(value = @ActionRef(id = "ToolsMenu"), anchor = ActionRefAnchor.FIRST))
 public class PopupDialogAction extends AnAction {
-    // text and description resolved from resource bundle using:
-    //   action.sdk.action.PopupDialogAction.text=...
-    //   action.sdk.action.PopupDialogAction.description=...
+    public PopupDialogAction() {
+        // text and description provided via generated Localize class
+        super(MyPluginLocalize.popupDialogActionText(),
+              MyPluginLocalize.popupDialogActionDescription(),
+              SdkIcons.Sdk_default_icon);
+    }
 }
 ```
 

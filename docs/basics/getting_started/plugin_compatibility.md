@@ -89,17 +89,17 @@ Consequently, [dependencies](/basics/plugin_structure/plugin_dependencies.md) on
 ## Exploring Module and Plugin APIs
 Once the [dependency on a module or plugin](/basics/plugin_structure/plugin_dependencies.md) is declared in `plugin.xml`, it's useful to explore the packages and classes available in that dependency.
 The section below gives some recommended procedures for discovering what's available in a module or plugin on which a project depends.
-These procedures assume a project has the `build.gradle` and `plugin.xml` dependencies configured correctly.
+These procedures assume a project has the `pom.xml` and `plugin.xml` dependencies configured correctly.
 
 ### Exploring APIs as a Consumer
 Exploring the available packages and classes in a plugin or module utilizes features in the Consulo IDE.
 
-If the project is not up to date, reimport the Gradle project as a first step.
+If the project is not up to date, reimport the Maven project as a first step.
 Reimporting the project will automatically update the dependencies.
 
 In the Project Window, select Project View and scroll to the bottom to see External Libraries.
 Look for the library matching, or similar to the contents of the `<depends>` tags in `plugin.xml`.
-The image below shows the External Libraries for the example plugin project configuration explained in [Configuring build.gradle](/products/dev_alternate_products.md#configuring-buildgradle-using-the-intellij-idea-product-attribute) and [Configuring plugin.xml](/products/dev_alternate_products.md#configuring-pluginxml).
+The image below shows the External Libraries for the example plugin project configuration explained in [Configuring pom.xml](/products/dev_alternate_products.md#configuring-pomxml) and [Configuring plugin.xml](/products/dev_alternate_products.md#configuring-pluginxml).
 
 ![Example PhpStorm Project Libraries](img/php_prj_libs.png){:width="700px"}
 
@@ -122,7 +122,7 @@ Search the dependent plugin's `plugin.xml` file for:
 ## Verifying Dependency
 Before marking a plugin project as _dependent only on modules in a target product_ in addition to `consulo.modules.platform`, verify the plugin isn't implicitly dependent on any APIs that are specific to a particular product.
 
-For [Gradle-based](/tutorials/build_system.md) projects, [Plugin Verifier](/reference_guide/api_changes_list.md#plugin-verifier) can be used to ensure compatibility with all specified target IDEs.
+For [Maven-based](/tutorials/build_system.md) projects, [Plugin Verifier](/reference_guide/api_changes_list.md#plugin-verifier) can be used to ensure compatibility with all specified target IDEs.
 
 For DevKit-based projects, create an SDK pointing to an installation of the intended target Consulo-based product.
 Use the same development version of the Consulo as the targeted product.

@@ -127,7 +127,7 @@ Implicit in using [`LocalInspectionTool`](https://github.com/consulo/consulo/blo
   If a short name is not provided by the plugin, the Consulo computes one by removing `Inspection` suffix from the implementation class name.
 
 ### Inspection Unit Test
-> **NOTE** Please note that running the test requires setting system property `idea.home.path` in `test {}` block of `build.gradle`
+> **NOTE** Please note that running the test requires setting the system property `idea.home.path`. In a Maven project, this can be configured via the `maven-surefire-plugin` configuration in your `pom.xml`.
 
 The `comparing_references_inspection` code sample provides a unit test for the inspection.
 See the [Testing Plugins](/basics/testing_plugins/testing_plugins.md) section for general information about plugin testing.

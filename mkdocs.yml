@@ -55,6 +55,7 @@ nav:
             - Overview: reference_guide/project_model/project.md
             - Startup Activity: platform/project_model/project/startupactivity.md
         - Module: reference_guide/project_model/module.md
+        - Module Extensions: reference_guide/project_model/module_extenions.md
         - SDK: reference_guide/project_model/sdk.md
         - Library: reference_guide/project_model/library.md
         - External System Integration: reference_guide/frameworks_and_external_apis/external_system_integration.md

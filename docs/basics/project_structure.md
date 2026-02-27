@@ -48,4 +48,4 @@ For more information on each of these entities, see:
 - [Module](/reference_guide/project_model/module.md)
 - [SDK](/reference_guide/project_model/sdk.md)
 - [Library](/reference_guide/project_model/library.md)
-- [External system integration](/reference_guide/frameworks_and_external_apis/external_system_integration.md) (for projects imported from Gradle or similar build systems)
+- [External system integration](/reference_guide/frameworks_and_external_apis/external_system_integration.md) (for projects imported from Maven, Gradle, or similar build systems)

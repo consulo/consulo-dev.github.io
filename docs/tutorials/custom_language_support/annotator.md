@@ -20,12 +20,15 @@ Beginning in version 2019.2 of the Consulo these dependencies are declared in `p
   <depends>consulo.modules.java</depends>
 ```
 
-The dependency is also declared in the `build.gradle` file:
+The dependency is also declared in the `pom.xml` file as a Maven dependency:
 
-```groovy
-intellij {
-  plugins = ['java']
-}
+```xml
+<dependency>
+    <groupId>consulo</groupId>
+    <artifactId>consulo-java</artifactId>
+    <version>${consulo.version}</version>
+    <scope>provided</scope>
+</dependency>
 ```
 
 ## 7.1. Define an Annotator

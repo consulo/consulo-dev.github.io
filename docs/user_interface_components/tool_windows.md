@@ -40,7 +40,7 @@ If the tool window of a plugin doesn't need to be displayed for all projects, im
 
 Note the condition is evaluated only once when the project is loaded; to show and hide a tool window dynamically while the user is working with the project use the second method for tool window registration.
               
-To provide a localized text for the tool window button, specify matching `toolwindow.stripe.[id]` message key (escape spaces with `_`) in your [message bundle](/reference_guide/localization_guide.md) (code insight supported in 2020.3 and later).
+To provide a localized display name for the tool window button, use the [localize system](/platform/ui/localization.md) to define the tool window's display text via a generated Localize class.
 
 ### Programmatic Setup
 

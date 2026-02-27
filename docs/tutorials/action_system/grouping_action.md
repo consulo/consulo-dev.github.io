@@ -125,7 +125,7 @@ For demonstration purposes, this implementation will use localization.
 The `@ActionImpl` declaration below shows:
 * The annotated class `CustomDefaultActionGroup` is the group implementation, telling the Consulo framework to use it rather than the default `DefaultActionGroup`.
 * The group is configured as a popup (submenu) in its constructor.
-* The `text` and `description` are omitted from the constructor in favor of using the localization resource bundle to define them.
+* The `text` and `description` are omitted from the constructor in favor of using the [localize system](/platform/ui/localization.md) to define them.
 * There is no icon set in the annotation; the `CustomDefaultActionGroup` implementation will [add an icon for the group](#providing-specific-behavior-for-the-custom-group).
 * The `parents` parameter specifies adding the group in the first position of the existing `EditorPopupMenu`.
 
@@ -144,7 +144,7 @@ As in [Static Grouped Actions](#adding-a-new-action-to-the-static-grouped-action
 In the declaration below:
 * The `children` parameter references `CustomGroupedAction.class` to include it in the group.
 * The child action's `id` is unique to distinguish it from other uses of the implementation in the Action System.
-* The `text` and `description` for the child action are defined using the localization resource bundle.
+* The `text` and `description` for the child action are defined using the [localize system](/platform/ui/localization.md).
 * The SDK icon is set in the child action class.
 
 ```java
@@ -161,21 +161,13 @@ public class CustomDefaultActionGroup extends DefaultActionGroup {
 public class CustomGroupedAction extends PopupDialogAction {
     public CustomGroupedAction() {
         super(null, null, SdkIcons.Sdk_default_icon);
-        // text and description resolved from resource bundle
+        // text and description provided via Localize class
     }
 }
 ```
 
-Now the translations for the `text` and `description` attributes must be provided in the resource bundle `BasicActionsBundle.properties` file according to [Localizing Actions and Groups](/basics/action_system.md#localizing-actions-and-groups).
-Note there are two sets of `text` and `description` translations, one for the action and one for the group.
-Conceivably, there could be another set of translations for the action if it used place-dependent override text.
-
-```properties
-action.org.intellij.sdk.action.CustomGroupedAction.text=A Popup Action[en]
-action.org.intellij.sdk.action.CustomGroupedAction.description=SDK popup grouped action example[en]
-group.org.intellij.sdk.action.CustomDefaultActionGroup.text=Popup Grouped Actions[en]
-group.org.intellij.sdk.action.CustomDefaultActionGroup.description=Custom defaultActionGroup demo[en]
-```
+Now the `text` and `description` values must be provided via the generated Localize class. See [Localization](/platform/ui/localization.md) for details on defining localize entries.
+Note there are two sets of `text` and `description` values, one for the action and one for the group.
 
 ### Providing Specific Behavior for the Custom Group
 Override the `CustomDefaultActionGroup.update()` method to make the group visible only if there's an instance of the editor available.

@@ -92,7 +92,7 @@ Name the Plugin Logo files according to the following conventions:
 The Plugin Logo files must be in the `META-INF` folder of the plugin distribution file, i.e., the `*.jar` or `*.zip` file you upload to the plugin repository and install into Consulo.
 
 To include Plugin Logo files in your distribution file, place the Plugin Logo files into a plugin project's `resources/META-INF` folder.
-Note that this requirement is the same regardless of using DevKit or Gradle for developing a plugin.
+Note that this requirement is the same regardless of using DevKit or Maven for developing a plugin.
 For example:
 
 ![Plugin Logo Files in META-INF folder](img/resource_directory_structure.png){:width="450px"}
