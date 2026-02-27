@@ -4,6 +4,9 @@ export default defineConfig({
     title: 'consulo.dev',
     description: 'Consulo Plugin Development Documentation',
     cleanUrls: true,
+    sitemap: {
+        hostname: 'https://consulo.dev'
+    },
 
     ignoreDeadLinks: [
         /\/appendix\//,
