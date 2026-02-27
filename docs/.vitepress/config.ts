@@ -2,7 +2,7 @@ import {defineConfig, type DefaultTheme} from 'vitepress'
 
 export default defineConfig({
     title: 'consulo.dev',
-    description: 'Consulo Plugin Development Documentation',
+    description: 'The primary source of documentation for extending Consulo by creating plugins.',
     cleanUrls: true,
     sitemap: {
         hostname: 'https://consulo.dev'

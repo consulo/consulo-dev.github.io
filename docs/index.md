@@ -1,5 +1,7 @@
 ---
 layout: home
+title: consulo.dev — Plugin Development Documentation
+titleTemplate: false
 
 hero:
   name: consulo.dev
