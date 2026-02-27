@@ -47,5 +47,5 @@ For a working example, see the [Consulo Simple Plugin Template](https://github.c
 Below are a series of guides to developing and deploying Maven-based Consulo Plugins:
 
 * [Getting Started with Maven](build_system/prerequisites.md)
-* [Configuring Maven Projects](build_system/gradle_guide.md)
+* [Configuring Maven Projects](build_system/maven_guide.md)
 * [Publishing Plugins with Maven](build_system/deployment.md)

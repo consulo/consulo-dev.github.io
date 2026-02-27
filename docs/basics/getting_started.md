@@ -28,7 +28,7 @@ Specific to development of Consulo plugins with Maven:
 
 * [Developing plugins using Maven](/tutorials/build_system.md)
     * [Getting Started with Maven](/tutorials/build_system/prerequisites.md)
-    * [Configuring Maven Projects](/tutorials/build_system/gradle_guide.md)
+    * [Configuring Maven Projects](/tutorials/build_system/maven_guide.md)
     * [Publishing Plugins with Maven](/tutorials/build_system/deployment.md)
 
 ## Using DevKit
