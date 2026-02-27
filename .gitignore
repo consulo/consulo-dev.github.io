@@ -1,4 +1,5 @@
 .consulo/
+.claude/
 site/
 node_modules/
 docs/.vitepress/dist/

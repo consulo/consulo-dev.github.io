@@ -13,8 +13,13 @@
 }
 
 .dark {
-    --vp-c-brand-1: #66bb6a;
-    --vp-c-brand-2: #81c784;
-    --vp-c-brand-3: #a5d6a7;
-    --vp-c-brand-soft: rgba(102, 187, 106, 0.14);
+    --vp-c-brand-1: #388e3c;
+    --vp-c-brand-2: #2e7d32;
+    --vp-c-brand-3: #256b29;
+    --vp-c-brand-soft: rgba(76, 175, 80, 0.14);
+
+    --vp-button-brand-bg: #2e7d32;
+    --vp-button-brand-hover-bg: #388e3c;
+    --vp-button-brand-active-bg: #256b29;
+    --vp-button-brand-text: #e0e0e0;
 }
