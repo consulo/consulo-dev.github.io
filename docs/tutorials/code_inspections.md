@@ -1,24 +1,23 @@
 ---
 title: Code Inspections
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The Consulo provides tools designed for static code analysis called _code inspections_, which help the user maintain and clean up code without actually executing it.
 Custom code inspections can be implemented as Consulo plugins.
-Examples of the plugin approach are the Consulo SDK code samples [inspection_basics](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/inspection_basics) and [comparing_references_inspection](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/comparing_references_inspection).
+Examples of the plugin approach are the Consulo SDK code samples `inspection_basics` and `comparing_references_inspection`.
 In addition, the comparing_references_inspection code sample demonstrates implementing a unit test.
 
-You can also create custom inspections through the IntelliJ IDEA user interface.
-See [Code Inspection](https://www.jetbrains.com/idea/webhelp/code-inspection.html) and [Creating Custom Inspections](https://www.jetbrains.com/idea/help/creating-custom-inspections.html) for more information.
-                     
-See [Inspections](https://jetbrains.design/intellij/text/inspections/) topic in _Consulo UI Guidelines_ on naming, writing description, and message texts for inspections.
+You can also create custom inspections through the Consulo user interface.
+
+See the Consulo UI Guidelines on naming, writing description, and message texts for inspections.
 
 ## Creating an Inspection Plugin
 
-The [comparing_references_inspection](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/comparing_references_inspection) code sample adds a new inspection to the **Java | Probable Bugs** group in the [Inspections list](https://www.jetbrains.com/help/idea/inspections-settings.html).
+The `comparing_references_inspection` code sample adds a new inspection to the **Java | Probable Bugs** group in the Inspections list.
 The inspection reports when the `==` or `!=` operator is used between Java expressions of reference types.
 It illustrates the components for a custom inspection plugin:
-* Describing an [inspection](#plugin-configuration-file) in the plugin configuration file.
+* [Registering an inspection](#registering-the-inspection) with the `@ExtensionImpl` annotation.
 * Implementing a [local inspection class](#inspection-implementation-java-class) to inspect Java code in the Consulo-based IDE editor.
 * Creating a [visitor](#visitor-implementation-class) to traverse the PSI tree of the Java file being edited, inspecting for problematic syntax.
 * Implementing a [quick fix](#quick-fix-implementation) class to correct syntax problems by altering the PSI tree as needed.
@@ -27,46 +26,49 @@ It illustrates the components for a custom inspection plugin:
 * Writing an HTML [description](#inspection-description) of the inspection for display in the inspection preferences panel.
 * Optionally, create a [unit test](#inspection-unit-test) for the plugin.
 
-Although the Consulo SDK code samples illustrate implementations of these components, it is often useful to see examples of inspections implemented in the _intellij_community_ code base.
+Although the Consulo SDK code samples illustrate implementations of these components, it is often useful to see examples of inspections implemented in the Consulo code base.
 This process can help find inspection descriptions and implementations based on what is visible in the IDE UI.
 The overall approach works for inspections aimed at other languages as well.
 * Find an existing inspection that is similar to the one you want to implement in the **Preferences | Editor | Inspections** panel.
   Note the display name of the inspection.
   For example, the Java/Probable Bugs inspection "Object comparison using '==', instead of 'equals()'" is very similar to `comparing_references_inspection`.
-* Use the display name text as the [target for a search](https://www.jetbrains.com/help/idea/finding-and-replacing-text-in-project.html) within the _intellij_community_ project.
+* Use the display name text as the target for a search within the Consulo project.
   This will identify a bundle file if the display name is localized.
   If it is not localized, the search finds either the plugin configuration (`plugin.xml`) file where it is an attribute in the inspection description, or the implementation where it is provided by an overridden method.
 * In the case of localization, copy the key from the bundle file identified by the search.
-  * Use the key text as the target for a search within the _intellij_community_ project.
+  * Use the key text as the target for a search within the Consulo project.
     This search locates the plugin configuration file that describes the inspection.
   * From the inspection description entry find the `implementationClass` attribute value.
-* Use the `implementationClass` text as the [target of a class search](https://www.jetbrains.com/help/idea/searching-everywhere.html#Searching_Everywhere.xml) in the _intellij_community_ codebase to find the implementation.
+* Use the `implementationClass` text as the target of a class search in the Consulo codebase to find the implementation.
 
 ## Creating an Inspection
-The [comparing_references_inspection](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/comparing_references_inspection) code sample reports when the `==` or `!=` operators are used between Java expressions of reference types.
+The `comparing_references_inspection` code sample reports when the `==` or `!=` operators are used between Java expressions of reference types.
 The user can apply a quick fix to change `a==b` to `a.equals(b)`, or `a!=b` to `!a.equals(b)`.
 
 The details of the `comparing_references_inspection` implementation illustrate the components of an inspection plugin.
 
-### Plugin Configuration File
-The `comparing_references_inspection` is described as a `<localInspection>` extension point in the `comparing_references_inspection` plugin configuration ([`plugin.xml`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/comparing_references_inspection/src/main/resources/META-INF/plugin.xml)) file.
+### Registering the Inspection
+In Consulo, inspections are registered using the `@ExtensionImpl` annotation on the implementation class instead of XML configuration.
 
-There exist two types of inspection extensions:
-* The `com.intellij.localInspection` extension point is used for inspections that operate on one file at a time, and also operate "on-the-fly" as the user edits the file.
-* The `com.intellij.globalInspection` extension point is used for inspections that operate across multiple files, and the associated fix might, for example, refactor code between files.
+There exist two types of inspections:
+* Local inspections (based on `LocalInspectionTool`) operate on one file at a time, and also operate "on-the-fly" as the user edits the file.
+* Global inspections (based on `GlobalInspectionTool`) operate across multiple files, and the associated fix might, for example, refactor code between files.
 
-The minimum inspection description must contain the `implementationClass` attribute.
-As shown in the `comparing_references_inspection` plugin configuration file, other attributes can be defined in the `localInspection` element, either with or without localization.
-In most cases, it is simplest to define the attributes in the plugin configuration file because the underlying parent classes handle most of the class responsibilities based on the configuration file description.
-Note that some attributes are not displayed to the user, so they are never localized.
+Both `LocalInspectionTool` and `GlobalInspectionTool` are annotated with `@ExtensionAPI`, so implementations are registered by adding `@ExtensionImpl` to the inspection class.
+Inspection attributes such as display name, group, and description are provided by overriding methods in the inspection implementation class.
 
-If required, inspections can define all of the attribute information (except `implementationClass`) by overriding methods in the inspection implementation class (not recommended in general).
+```java
+@ExtensionImpl
+public class ComparingReferencesInspection extends AbstractBaseJavaLocalInspectionTool {
+    // ...
+}
+```
 
 ### Inspection Implementation Java Class
-Inspection implementations for Java files, like [`ComparingReferencesInspection`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/comparing_references_inspection/src/main/java/org/intellij/sdk/codeInspection/ComparingReferencesInspection.java), are often based on the Java class [`AbstractBaseJavaLocalInspectionTool`](upsource:///java/java-analysis-api/src/com/intellij/codeInspection/AbstractBaseJavaLocalInspectionTool.java).
+Inspection implementations for Java files, like `ComparingReferencesInspection`, are often based on the Java class `AbstractBaseJavaLocalInspectionTool`.
 The `AbstractBaseJavaLocalInspectionTool` implementation class offers methods to inspect Java classes, fields, and methods.
 
-More generally, `localInspection` types are based on the class [`LocalInspectionTool`](upsource:///platform/analysis-api/src/com/intellij/codeInspection/LocalInspectionTool.java).
+More generally, `localInspection` types are based on the class [`LocalInspectionTool`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/inspection/LocalInspectionTool.java).
 Examining the class hierarchy for `LocalInspectionTool` shows that the Consulo provides many child inspection classes for a variety of languages and frameworks.
 One of these classes is a good basis for a new inspection implementation, but a bespoke implementation can also be based directly on `LocalInspectionTool`.
 
@@ -84,7 +86,7 @@ The overridden `ComparingReferencesInspection` methods are discussed in the sect
 ### Visitor Implementation Class
 The visitor class evaluates whether elements of the file's PSI tree are of interest to an inspection.
 
-The `ComparingReferencesInspection.buildVisitor()` method creates an anonymous visitor class based on [`JavaElementVisitor`](upsource:///java/java-psi-api/src/com/intellij/psi/JavaElementVisitor.java) to traverse the PSI tree of the Java file being edited, inspecting for suspect syntax.
+The `ComparingReferencesInspection.buildVisitor()` method creates an anonymous visitor class based on `JavaElementVisitor` to traverse the PSI tree of the Java file being edited, inspecting for suspect syntax.
 The anonymous class overrides three methods in particular.
 * `visitReferenceExpression()` to prevent any duplicate visitation of reference-type expressions.
 * `visitBinaryExpression()`, which does all the heavy lifting.
@@ -94,7 +96,7 @@ The anonymous class overrides three methods in particular.
 ### Quick Fix Implementation
 The quick fix class acts much like an intention, allowing the user to invoke it on the `PsiElement` (or `TextRange`) highlighted by the inspection.
 
-The `ComparingReferencesInspection` implementation uses the nested class `CriQuickFix` to implement a quick fix based on [`LocalQuickFix`](upsource:///platform/analysis-api/src/com/intellij/codeInspection/LocalQuickFix.java).
+The `ComparingReferencesInspection` implementation uses the nested class `CriQuickFix` to implement a quick fix based on `LocalQuickFix`.
 The `CriQuickFix` class gives a user the option to change the use of `a == b` and `a != b` expression to `a.equals(b)` and `!a.equals(b)` respectively.
 
 The heavy lifting is done in `CriQuickFix.applyFix()`, which manipulates the PSI tree to convert the expressions.
@@ -118,19 +120,19 @@ As long as the inspection attributes and inspection description are defined corr
 The inspection description is an HTML file.
 The description is displayed in the upper right panel of the _Inspections Preferences_ dialog when an inspection is selected from the list.
 
-Implicit in using [`LocalInspectionTool`](upsource:///platform/analysis-api/src/com/intellij/codeInspection/LocalInspectionTool.java) in the class hierarchy of the inspection implementation means following some conventions.
+Implicit in using [`LocalInspectionTool`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/inspection/LocalInspectionTool.java) in the class hierarchy of the inspection implementation means following some conventions.
 * The inspection description file is expected to be located under `<resources root>/inspectionDescriptions/`.
   If the inspection description file is to be located elsewhere, override `getDescriptionUrl()` in the inspection implementation class.
 * The name of the description file is expected to be the inspection `<short name>.html` as provided by the inspection description, or the inspection implementation class.
   If a short name is not provided by the plugin, the Consulo computes one by removing `Inspection` suffix from the implementation class name.
 
 ### Inspection Unit Test
-> **NOTE** Please note that running the test requires setting system property `idea.home.path` in `test {}` block of `build.gradle`
+> **NOTE** Please note that running the test requires setting the system property `idea.home.path`. In a Maven project, this can be configured via the `maven-surefire-plugin` configuration in your `pom.xml`.
 
 The `comparing_references_inspection` code sample provides a unit test for the inspection.
 See the [Testing Plugins](/basics/testing_plugins/testing_plugins.md) section for general information about plugin testing.
 
-The `comparing_references_inspection` test is based on the [`UsefulTestCase`](upsource:///platform/testFramework/src/com/intellij/testFramework/UsefulTestCase.java) class, part of the JUnit framework APIs.
+The `comparing_references_inspection` test is based on the `UsefulTestCase` class, part of the JUnit framework APIs.
 This class handles much of the underlying boilerplate for tests.
 
 By convention, the folder `<project root>/testData/` contains the test files.
@@ -142,13 +144,13 @@ The `comparing_references_inspection` tests run the inspection on the `*.java` f
 
 
 ## Running the Comparing References Inspection Code Sample
-The [comparing_references_inspection](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/comparing_references_inspection) code sample adds a new inspection to the **Java | Probable Bugs** group in the [Inspections list](https://www.jetbrains.com/help/idea/inspections-settings.html).
+The `comparing_references_inspection` code sample adds a new inspection to the **Java | Probable Bugs** group in the Inspections list.
 The inspection reports when the `==` or `!=` operator is used between Java expressions of reference types.
 
 To run the sample plugin:
-* Start **IntelliJ IDEA**, open the `intellij-sdk-docs` project, and highlight the [comparing_references_inspection](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/comparing_references_inspection) module.
-* Open the [Project Structure](https://www.jetbrains.com/help/idea/project-structure-dialog.html) dialog and ensure that the project settings are valid for your environment.
-* If necessary, modify the [Run/Debug Configurations](https://www.jetbrains.com/idea/webhelp/run-debug-configuration-plugin.html) for the `comparing_references_inspection` module.
+* Start **Consulo**, open the `consulo-sdk-docs` project, and highlight the `comparing_references_inspection` module.
+* Open the Project Structure dialog and ensure that the project settings are valid for your environment.
+* If necessary, modify the Run/Debug Configurations for the `comparing_references_inspection` module.
 * Run the plugin by choosing **Run** on the main menu.
 
 ### Configuring the Plugin
@@ -157,7 +159,7 @@ Once the plugin is launched, you can set the plugin options.
 You can specify the Java classes to participate in the code inspection and the severity level of the found probable bugs.
 
 On the main menu, open the **Preferences | Editor | Inspections** dialog.
-In the list of the IntelliJ IDEA _Java_ inspections, expand the _Probable bugs_ node, and then click _SDK: '==' or '!=' instead of 'equals()'_.
+In the list of the Consulo _Java_ inspections, expand the _Probable bugs_ node, and then click _SDK: '==' or '!=' instead of 'equals()'_.
 
 ![](img/comparingReferences_options.png)
 
@@ -168,7 +170,7 @@ Under **Options**, you can specify the following plugin settings:
 
 ### How does it work?
 
-The plugin inspects your code opened in the IntelliJ IDEA editor or the code you are typing.
+The plugin inspects your code opened in the Consulo editor or the code you are typing.
 The plugin highlights the code fragments where two variables of the reference type are separated by `==` or `!=` and proposes to replace this code fragment with `.equals()`:
 
 ![](img/comparingReferences.png)

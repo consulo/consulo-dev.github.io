@@ -1,9 +1,8 @@
 ---
 title: Plugin Listeners
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-> **NOTE** Defining listeners in `plugin.xml` is supported starting with version 2019.3 of the platform.
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 > **NOTE** Listener implementations must be stateless and may not implement life-cycle (e.g., `Disposable`).
 
@@ -11,74 +10,55 @@ _Listeners_ allow plugins to declaratively subscribe to events delivered through
 
 You can define both application- and project-level listeners.
 
-Declarative registration of listeners allows you to achieve better performance than registering listeners from code. 
-The advantage is because listener instances get created lazily - the first time an event is sent to the topic - and not during application startup or project opening.
+Listeners are registered via the `@TopicImpl` annotation on the implementation class.
+The platform-side listener interface is annotated with `@TopicAPI`, which defines the topic and its scope.
+This declarative registration allows for better performance because listener instances get created lazily -- the first time an event is sent to the topic -- and not during application startup or project opening.
 
 ## Defining Application-Level Listeners
 
-To define an application-level listener, add the following section to your `plugin.xml`:
+The platform defines listener interfaces annotated with `@TopicAPI`.
+To subscribe to a topic, annotate your implementation class with `@TopicImpl` specifying the appropriate scope.
 
-```xml
-<applicationListeners>
-  <listener class="myPlugin.MyListenerClass" topic="BaseListenerInterface"/>
-</applicationListeners>
-```
-
-The `topic` attribute specifies the listener interface corresponding to the type of events you want to receive.
-Usually, this is the interface used as the type parameter of the [`Topic`](upsource:///platform/extensions/src/com/intellij/util/messages/Topic.java) instance for the type of events.
-The `class` attribute specifies the class in your plugin that implements the listener interface and receives the events.
-
-As a specific example, if you want to receive events about all virtual file system changes, you need to implement the `BulkFileListener` interface, corresponding to the topic `VirtualFileManager.VFS_CHANGES`.
-To subscribe to this topic from code, you could use something like the following snippet:
+As a specific example, if you want to receive events about all virtual file system changes, you need to implement the [`BulkFileListener`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/fileEvent/BulkFileListener.java) interface.
+The platform already defines this interface with `@TopicAPI`:
 
 ```java
-messageBus.connect().subscribe(VirtualFileManager.VFS_CHANGES, new BulkFileListener() {
-    @Override
-    public void after(@NotNull List<? extends VFileEvent> events) {
-        // handle the events
-    }
-});
+// Platform defines the topic (already done):
+@TopicAPI(ComponentScope.APPLICATION)
+public interface BulkFileListener { ... }
 ```
 
-To use declarative registration, you no longer need to reference the `Topic` instance.
-Instead, you refer directly to the listener interface class:
-
-```xml
-<applicationListeners>
-  <listener class="myPlugin.MyVfsListener"
-            topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
-</applicationListeners>
-```
-
-Then you provide the listener implementation as a top-level class:
+Your plugin implements it and annotates the class with `@TopicImpl`:
 
 ```java
+@TopicImpl(ComponentScope.APPLICATION)
 public class MyVfsListener implements BulkFileListener {
     @Override
-    public void after(@NotNull List<? extends VFileEvent> events) {
+    public void after(@Nonnull List<? extends VFileEvent> events) {
         // handle the events
     }
 }
 ```
 
+Both `@TopicAPI` and `@TopicImpl` carry the scope (`ComponentScope.APPLICATION` or `ComponentScope.PROJECT`).
+
+`@TopicAPI` also has a `direction` parameter that controls message broadcast behavior:
+
+* `TopicBroadcastDirection.TO_CHILDREN` (default) - messages are broadcast from parent to children
+* `TopicBroadcastDirection.TO_PARENT` - messages are broadcast from children to parent
+* `TopicBroadcastDirection.NONE` - no broadcast, messages stay within the same scope
+
 ## Defining Project-Level Listeners
 
-Project-level listeners are registered in the same way, except that the top-level tag is `<projectListeners>`.
+Project-level listeners are registered in the same way, using `ComponentScope.PROJECT`.
 They can be used to listen to project-level events, for example, tool window operations:
 
-```xml
-<projectListeners>
-    <listener class="MyToolwindowListener"
-              topic="com.intellij.openapi.wm.ex.ToolWindowManagerListener" />
-</projectListeners>
-```
-
-The class implementing the listener interface can define a one-argument constructor accepting a `Project`, and it will receive the instance of the project for which the listener is created:
-
 ```java
+@TopicImpl(ComponentScope.PROJECT)
 public class MyToolwindowListener implements ToolWindowManagerListener {
     private final Project project;
 
+    @Inject
     public MyToolwindowListener(Project project) {
         this.project = project;
     }
@@ -90,11 +70,11 @@ public class MyToolwindowListener implements ToolWindowManagerListener {
 }
 ```
 
+Use `@Inject` on the constructor to receive the `Project` instance for project-level listeners.
+
 ## Additional Attributes
 
-Registration of listeners can be restricted using the following attributes:
+The `@TopicImpl` annotation supports a `profiles` parameter to control conditional loading of listeners.
+This replaces the previous `activeInTestMode` and `activeInHeadlessMode` XML attributes.
 
-- `os` - allows to restrict listener to given OS, e.g., `os="windows"` for Windows only (2020.1 and later)
-- `activeInTestMode` - set to `false` to disable listener if `com.intellij.openapi.application.Application.isUnitTestMode()`==`true`
-- `activeInHeadlessMode` - set to `false` to disable listener if `com.intellij.openapi.application.Application.isHeadlessEnvironment()`==`true`.
-  Also, covers `activeInTestMode` as test mode implies headless mode.
+The `profiles` parameter allows you to specify under which runtime profiles the listener should be active, giving you fine-grained control over when your listener is loaded.

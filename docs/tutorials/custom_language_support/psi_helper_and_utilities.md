@@ -13,9 +13,9 @@ Custom methods in PSI classes are defined separately, and Grammar-Kit embeds the
 Define a utility class with these helper methods:
 
 ```java
-package org.intellij.sdk.language.psi.impl;
+package org.consulo.sdk.language.psi.impl;
 
-import com.intellij.lang.ASTNode;
+import consulo.language.ast.ASTNode;
 
 public class SimplePsiImplUtil {
   public static String getKey(SimpleProperty element) {
@@ -48,20 +48,20 @@ Compare the last line of the grammar below to the [previous definition](/tutoria
 
 ```java
 {
-  parserClass="org.intellij.sdk.language.parser.SimpleParser"
+  parserClass="org.consulo.sdk.language.parser.SimpleParser"
 
-  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+  extends="consulo.language.impl.psi.ASTWrapperPsiElement"
 
   psiClassPrefix="Simple"
   psiImplClassSuffix="Impl"
-  psiPackage="org.intellij.sdk.language.psi"
-  psiImplPackage="org.intellij.sdk.language.psi.impl"
+  psiPackage="org.consulo.sdk.language.psi"
+  psiImplPackage="org.consulo.sdk.language.psi.impl"
 
-  elementTypeHolderClass="org.intellij.sdk.language.psi.SimpleTypes"
-  elementTypeClass="org.intellij.sdk.language.psi.SimpleElementType"
-  tokenTypeClass="org.intellij.sdk.language.psi.SimpleTokenType"
+  elementTypeHolderClass="org.consulo.sdk.language.psi.SimpleTypes"
+  elementTypeClass="org.consulo.sdk.language.psi.SimpleElementType"
+  tokenTypeClass="org.consulo.sdk.language.psi.SimpleTokenType"
 
-  psiImplUtilClass="org.intellij.sdk.language.psi.impl.SimplePsiImplUtil"
+  psiImplUtilClass="org.consulo.sdk.language.psi.impl.SimplePsiImplUtil"
 }
 
 simpleFile ::= item_*
@@ -75,8 +75,89 @@ After making changes to the grammar, regenerate the parser and PSI classes.
 
 ## 6.3. Define a Utility to Search Properties
 Create a utility class to search PSI elements for defined properties over the project.
-This utility will be used later when implementing [code completion](https://www.jetbrains.com/help/idea/auto-completing-code.html).
+This utility will be used later when implementing code completion.
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleUtil.java %}
+package org.consulo.sdk.language;
+
+import consulo.language.psi.PsiComment;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.PsiWhiteSpace;
+import consulo.language.psi.search.FileTypeIndex;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import org.consulo.sdk.language.psi.SimpleFile;
+import org.consulo.sdk.language.psi.SimpleProperty;
+
+import jakarta.annotation.Nonnull;
+
+import java.util.*;
+
+public class SimpleUtil {
+
+  /**
+   * Searches the entire project for Simple language files with instances of the Simple property with the given key.
+   *
+   * @param project current project
+   * @param key     to check
+   * @return matching properties
+   */
+  public static List<SimpleProperty> findProperties(Project project, String key) {
+    List<SimpleProperty> result = new ArrayList<>();
+    Collection<VirtualFile> virtualFiles =
+        FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+    for (VirtualFile virtualFile : virtualFiles) {
+      SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
+      if (simpleFile != null) {
+        SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
+        if (properties != null) {
+          for (SimpleProperty property : properties) {
+            if (key.equals(property.getKey())) {
+              result.add(property);
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  public static List<SimpleProperty> findProperties(Project project) {
+    List<SimpleProperty> result = new ArrayList<>();
+    Collection<VirtualFile> virtualFiles =
+        FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+    for (VirtualFile virtualFile : virtualFiles) {
+      SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
+      if (simpleFile != null) {
+        SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
+        if (properties != null) {
+          Collections.addAll(result, properties);
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Attempts to collect any comment elements above the Simple key/value pair.
+   */
+  public static @Nonnull String findDocumentationComment(SimpleProperty property) {
+    List<String> result = new LinkedList<>();
+    PsiElement element = property.getPrevSibling();
+    while (element instanceof PsiComment || element instanceof PsiWhiteSpace) {
+      if (element instanceof PsiComment) {
+        String commentText = element.getText().replaceFirst("[!# ]+", "");
+        result.add(commentText);
+      }
+      element = element.getPrevSibling();
+    }
+    Collections.reverse(result);
+    return StringUtil.join(result, "\n ");
+  }
+
+}
 ```

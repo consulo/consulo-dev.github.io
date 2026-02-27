@@ -1,7 +1,7 @@
 ---
 title: Working with Icons and Images
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 Icons and images are used widely by Consulo plugins.
 Plugins need icons mostly for actions, custom components renderers, tool windows, and so on.
@@ -9,82 +9,161 @@ Plugins need icons mostly for actions, custom components renderers, tool windows
 > **NOTE** Plugin Icons, which represent a plugin itself, have different requirements than icons and images used within a plugin.
 For more information see the [Plugin Icon](/basics/plugin_structure/plugin_icon_file.md) page.
 
-> **TIP** Plugins should reuse existing platform icons whenever possible, see [Icons list](https://jetbrains.design/intellij/resources/icons_list/) and [`AllIcons`](upsource:///platform/util/src/com/intellij/icons/AllIcons.java).
-> A detailed [design guideline](https://jetbrains.design/intellij/principles/icons/) is available for creating custom icons.
+> **TIP** Plugins should reuse existing platform icons whenever possible, see `PlatformIconGroup` (e.g., `PlatformIconGroup.actionsClose()`).
 
-## How to organize and how to use icons?
+## Icon Library (ICON-LIB) System
 
-The best way to deal with icons and other image resources is to put them to a dedicated source root marked as *Resources Root*, say `icons` or `resources`.
+Consulo uses the **Icon Library** system for managing icons. Icons are placed in a special `ICON-LIB` directory inside your plugin's resources, and a Maven plugin auto-generates a typed Java class with static accessor methods for each icon.
 
-The `getIcon()` method of [`IconLoader`](upsource:///platform/util/ui/src/com/intellij/openapi/util/IconLoader.java) can be used to access the icons.
+### Directory Structure
 
-> **NOTE** The path to the icon passed in as argument to `IconLoader.getIcon()` must start with leading `/`
+Icons must be placed under `src/main/resources/ICON-LIB/` with `light/` and `dark/` subdirectories. Each subdirectory contains an **Icon Group** directory whose name is a fully qualified class-like identifier ending with `IconGroup`.
 
-Then define a class/interface in a top-level package called `icons` holding icon constants as static fields:
-
-```java
-package icons;
-
-public interface DemoPluginIcons {
-  Icon DemoAction = IconLoader.getIcon("/icons/demoAction.png", DemoPluginIcons.class);
-  Icon StructureToolWindow = IconLoader.getIcon("/icons/toolWindowStructure.png", DemoPluginIcons.class);
-  Icon FileType = IconLoader.getIcon("/icons/myLangFileType.png", DemoPluginIcons.class);
-}
+```
+src/main/resources/ICON-LIB/
+├── light/
+│   └── com.example.plugin.MyPluginIconGroup/
+│       ├── actions/
+│       │   └── myAction.svg
+│       ├── fileTypes/
+│       │   └── myFileType.svg
+│       └── toolWindow/
+│           └── myToolWindow.svg
+└── dark/
+    └── com.example.plugin.MyPluginIconGroup/
+        ├── actions/
+        │   └── myAction.svg
+        ├── fileTypes/
+        │   └── myFileType.svg
+        └── toolWindow/
+            └── myToolWindow.svg
 ```
 
-When using Kotlin, fields must be annotated with `@JvmField`:
+Key rules:
 
-```kotlin
-package icons
+* The top-level directory **must** be named `ICON-LIB` (all caps).
+* `light` and `dark` are the built-in library IDs managed by `IconLibraryManager`.
+* The Icon Group directory name **must** end with `IconGroup` and follow a fully qualified naming convention (e.g., `consulo.platform.base.PlatformIconGroup`).
+* Dark theme icons are optional -- if a dark variant is not provided, the light icon is used automatically.
+* Category subdirectories (e.g., `actions/`, `fileTypes/`, `toolWindow/`) organize icons by usage and become method name prefixes in the generated class.
 
-object DemoPluginIcons {
-  
-  @JvmField
-  val DemoAction = IconLoader.getIcon("/icons/demoAction.png", javaClass)
+### Maven Plugin Configuration
 
-  // ...
-}
-```
-
-Use these constants inside `plugin.xml` as well when specifying `icon` attribute for `<action>` or extension points.
-Note that the package name `icons` will be automatically prefixed and must not be added manually.
+The `maven-consulo-plugin` generates the Icon Group Java class during the `generate-sources` phase. Add the following to your `pom.xml`:
 
 ```xml
-<actions>
-    <action id="DemoPlugin.DemoAction"
-            icon="DemoPluginIcons.DemoAction" [...] />
-</actions>
+<build>
+    <plugins>
+        <plugin>
+            <groupId>consulo.maven</groupId>
+            <artifactId>maven-consulo-plugin</artifactId>
+            <extensions>true</extensions>
+            <executions>
+                <execution>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>generate-icon</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+```
 
-<extensions defaultExtensionNs="com.intellij">
-    <toolWindow id="CustomStructure"
-                icon="DemoPluginIcons.StructureToolWindow" [...] />
-</extensions>
+The generated source files are written to `target/generated-sources/icon/`.
 
+### Auto-Generated Icon Group Class
+
+For the directory structure shown above, the Maven plugin generates a class like:
+
+```java
+package com.example.plugin;
+
+import consulo.ui.image.ImageKey;
+
+public final class MyPluginIconGroup {
+    public static final String ID = "com.example.plugin.MyPluginIconGroup";
+
+    private static final ImageKey actions_myaction = ImageKey.of(ID, "actions.myaction", 16, 16);
+    private static final ImageKey filetypes_myfiletype = ImageKey.of(ID, "filetypes.myfiletype", 16, 16);
+    private static final ImageKey toolwindow_mytoolwindow = ImageKey.of(ID, "toolwindow.mytoolwindow", 13, 13);
+
+    public static ImageKey actionsMyaction() {
+        return actions_myaction;
+    }
+
+    public static ImageKey filetypesMyfiletype() {
+        return filetypes_myfiletype;
+    }
+
+    public static ImageKey toolwindowMytoolwindow() {
+        return toolwindow_mytoolwindow;
+    }
+}
+```
+
+The naming convention works as follows:
+
+* Category directories become method name prefixes (e.g., `actions/myAction.svg` produces `actionsMyaction()`).
+* The SVG `width` and `height` attributes determine the `ImageKey` dimensions.
+* `ImageKey` implements `Image`, so it can be used anywhere an `Image` is expected.
+* `ImageKey.of(groupId, imageId, width, height)` is the factory method used internally.
+
+### Using Icons in Code
+
+Reference the generated static methods from your Icon Group class:
+
+**In actions:**
+
+```java
+@ActionImpl(id = "MyPlugin.MyAction", parents = @ActionParentRef(@ActionRef(id = "ToolsMenu")))
+public class MyAction extends AnAction {
+    public MyAction() {
+        super("My Action", "Description", MyPluginIconGroup.actionsMyaction());
+    }
+
+    @Override
+    public void actionPerformed(@Nonnull AnActionEvent e) {
+        // action logic
+    }
+}
+```
+
+**In file types:**
+
+```java
+@Override
+public Image getIcon() {
+    return MyPluginIconGroup.filetypesMyfiletype();
+}
+```
+
+**In tool windows:**
+
+```java
+@Override
+public Image getIcon() {
+    return MyPluginIconGroup.toolwindowMytoolwindow();
+}
+```
+
+### Reusing Platform Icons
+
+For standard icons provided by the platform, use `PlatformIconGroup` instead of defining your own:
+
+```java
+Image closeIcon = PlatformIconGroup.actionsClose();
+Image settingsIcon = PlatformIconGroup.generalSettings();
 ```
 
 ## Image Formats
 
-Consulo supports Retina displays and has dark theme called Darcula.
-Thus, every icon should have a dedicated variant for Retina devices and Darcula theme.
-In some cases, you can skip dark variants if the original icon looks good under Darcula.
+### SVG Format (Recommended)
 
-Required icon sizes depend on the usage as listed in the following table:
+SVG is the recommended format for icons. SVG icons scale cleanly on HiDPI displays and across different resolutions.
 
-| Usage                  | Icon Size (pixels) |
-| ---------------------- | ------------------ |
-| Node, Action, Filetype | 16x16              |
-| Tool window            | 13x13              |
-| Editor gutter          | 12x12              |
-
-
-### SVG Format
-> **NOTE** SVG icons are supported since 2018.2.
-
-As SVG icons can be scaled arbitrarily, they provide better results on HiDPI environments or when used in combination with bigger screen fonts (e.g., in presentation mode).
-
-A base size denoting the size (in the user space) of the rendered image in 1x scale should be provided.
-The size is set via the `width` and `height` attributes omitting the size units.
-If unspecified, it defaults to 16x16 pixels.
+The base size of the icon is set via the `width` and `height` attributes in the SVG file (without size units). If unspecified, it defaults to 16x16 pixels.
 
 A minimal SVG icon file:
 
@@ -94,28 +173,29 @@ A minimal SVG icon file:
 </svg>
 ```
 
-The naming notation used for PNG icons (see below) is still relevant.
-However, the `@2x` version of an SVG icon should still provide the same base size.
-The icon graphics of such an icon can be expressed in more details via double precision.
-If the icon graphics are simple enough so that it renders perfectly in every scale, then the `@2x` version can be omitted.
+An `@2x` variant of an SVG icon should keep the same base size but express the icon graphics in more detail via double precision. If the icon graphics are simple enough to render well at every scale, the `@2x` version can be omitted.
 
 ### PNG Format
-> **NOTE** Please consider using SVG icons if your plugin targets 2018.2+.
 
-All icon files must be placed in the same directory following this naming pattern (replace `.png` with `.svg` for SVG icons):
+PNG icons are also supported. For HiDPI displays, provide `@2x` variants:
 
-* **iconName.png** W x H pixels (Will be used on non-Retina devices with default theme)
-* **iconName@2x.png** 2\*W x 2\*H pixels (Will be used on Retina devices with default theme)
-* **iconName_dark.png** W x H pixels (Will be used on non-Retina devices with Darcula theme)
-* **iconName@2x_dark.png** 2\*W x 2\*H pixels (Will be used on Retina devices with Darcula theme)
+* **iconName.png** -- base resolution
+* **iconName@2x.png** -- 2x resolution for HiDPI displays
 
-The `IconLoader` class will load the icon that matches the best depending on the current environment.
+### Icon Sizes
 
-Here are examples of *toolWindowStructure.png* icon representations:
+Required icon sizes depend on the usage:
 
-| Theme/Resolution | File name                         | Image                                                                       |
-| ---------------- | --------------------------------- | --------------------------------------------------------------------------- |
-| Default          | `toolWindowStructure.png`         | ![Tool Window Structure](img/toolWindowStructure.png)                       |
-| Darcula          | `toolWindowStructure_dark.png`    | ![Tool Window Structure, dark](img/toolWindowStructure_dark.png)            |
-| Default + Retina | `toolWindowStructure@2x.png`      | ![Tool Window Structure, retina](img/toolWindowStructure@2x.png)            |
-| Darcula + Retina | `toolWindowStructure@2x_dark.png` | ![Tool Window Structure, retina, dark](img/toolWindowStructure@2x_dark.png) |
+| Usage                  | Icon Size (pixels) |
+| ---------------------- | ------------------ |
+| Node, Action, Filetype | 16x16              |
+| Tool window            | 13x13              |
+| Editor gutter          | 12x12              |
+
+## Icon Library Manager
+
+The `IconLibraryManager` manages the active icon library and resolves images at runtime:
+
+* **Built-in libraries**: `light` and `dark` correspond to the `light/` and `dark/` directories under `ICON-LIB/`.
+* The active library is selected automatically based on the current theme.
+* If a dark variant is not provided for an icon, the system falls back to the light variant.

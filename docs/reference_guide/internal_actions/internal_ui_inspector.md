@@ -6,10 +6,10 @@ redirect_from:
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-The _UI Inspector_ is a tool to interrogate elements of the IntelliJ IDEA UI to get an internal description of each element.
+The _UI Inspector_ is a tool to interrogate elements of the Consulo UI to get an internal description of each element.
 UI elements can be tested interactively by clicking on the element while the _UI Inspector_ is enabled.
 
-If the menu item **Tools \| Internal Actions \| UI \| UI Inspector** is not available in IntelliJ IDEA, then the first step is to [enable internal mode](enabling_internal.md)
+If the menu item **Tools \| Internal Actions \| UI \| UI Inspector** is not available in Consulo, then the first step is to [enable internal mode](enabling_internal.md)
 
 ## Enabling the UI Inspector
 Before using the _UI Inspector_, it must be enabled by selecting the menu item **Tools \| Internal Actions \| UI \| UI Inspector**.
@@ -41,10 +41,10 @@ These can be useful to locate the underlying implementation, related Action, etc
 [DialogWrapper]: /user_interface_components/dialog_wrapper.md
 [Tree]: /user_interface_components/lists_and_trees.md
 [IntentionAction]: /reference_guide/custom_language_support/code_inspections_and_intentions.md
-[us:AnAction]: upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java
-[us:GutterMark]: upsource:///platform/editor-ui-api/src/com/intellij/codeInsight/daemon/GutterMark.java
-[us:DialogWrapper]: upsource:///platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java
-[us:IntentionAction]: upsource:///platform/analysis-api/src/com/intellij/codeInsight/intention/IntentionAction.java
-[us:QuickFix]: upsource:///platform/analysis-api/src/com/intellij/codeInspection/QuickFix.java
+[us:AnAction]: #
+[us:GutterMark]: #
+[us:DialogWrapper]: #
+[us:IntentionAction]: #
+[us:QuickFix]: #
 
-Custom Swing components can also provide additional properties via [`UiInspectorContextProvider`](upsource:///platform/platform-impl/src/com/intellij/internal/inspector/UiInspectorContextProvider.java) (2020.1 and later).
+Custom Swing components can also provide additional properties via `UiInspectorContextProvider`.

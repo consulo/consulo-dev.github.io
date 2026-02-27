@@ -1,13 +1,14 @@
 ---
 title: PSI Files
 ---
+
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 A PSI (Program Structure Interface) file is the root of a structure representing a file's contents as a hierarchy of elements in a particular programming language.
 
-The [`PsiFile`](upsource:///platform/core-api/src/com/intellij/psi/PsiFile.java) class is the common base class for all PSI files, while files in a specific language are usually represented by its subclasses.  For example, the [`PsiJavaFile`](upsource:///java/java-psi-api/src/com/intellij/psi/PsiJavaFile.java) class represents a Java file, and the [`XmlFile`](upsource:///xml/xml-psi-api/src/com/intellij/psi/xml/XmlFile.java) class represents an XML file.
+The [`PsiFile`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiFile.java) class is the common base class for all PSI files, while files in a specific language are usually represented by its subclasses.  For example, the `PsiJavaFile` class represents a Java file, and the `XmlFile` class represents an XML file.
 
-Unlike `VirtualFile` and `Document`, which have application scope (even if multiple projects are open, each file is represented by the same `VirtualFile` instance).
+Unlike [`VirtualFile`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFile.java) and [`Document`](https://github.com/consulo/consulo/blob/master/modules/base/document-api/src/main/java/consulo/document/Document.java), which have application scope (even if multiple projects are open, each file is represented by the same `VirtualFile` instance).
 A PSI has project scope.
 The same file is represented by one `PsiFile` instance for each open project to which the file belongs.
 In contrast, `VirtualFile` and Document have application scope; files are represented by the same VirtualFile instance, even if multiple projects are open.
@@ -15,20 +16,20 @@ In contrast, `VirtualFile` and Document have application scope; files are repres
 ## How do I get a PSI file?
 
 * From an action: `e.getData(LangDataKeys.PSI_FILE)`.
-* From a VirtualFile: `PsiManager.getInstance(project).findFile()`
-* From a Document: `PsiDocumentManager.getInstance(project).getPsiFile()`
+* From a VirtualFile: [`PsiManager.getInstance(project).findFile()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiManager.java)
+* From a Document: [`PsiDocumentManager.getInstance(project).getPsiFile()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiDocumentManager.java)
 * From an element inside the file: `psiElement.getContainingFile()`
-* To find files with a specific name anywhere in the project, use `FilenameIndex.getFilesByName(project, name, scope)`
+* To find files with a specific name anywhere in the project, use [`FilenameIndex`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/search/FilenameIndex.java)`.getFilesByName(project, name, scope)`
 
 ## What can I do with a PSI file?
 
 Most interesting modification operations are performed on the level of individual PSI elements, not files as a whole.
 
-To iterate over the elements in a file, use `psiFile.accept(new PsiRecursiveElementWalkingVisitor()...);`
+To iterate over the elements in a file, use `psiFile.accept(new` [`PsiRecursiveElementWalkingVisitor`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiRecursiveElementWalkingVisitor.java)`()...);`
 
 ## Where does a PSI file come from?
 
-As PSI is language-dependent, PSI files are created through the [`Language`](upsource:///platform/core-api/src/com/intellij/lang/Language.java) object, by using the `LanguageParserDefinitions.INSTANCE.forLanguage(language).createFile(fileViewProvider)` method.
+As PSI is language-dependent, PSI files are created through the [`Language`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/Language.java) object, by using the `LanguageParserDefinitions.INSTANCE.forLanguage(language).createFile(fileViewProvider)` method.
 
 Like documents, PSI files are created on-demand when the PSI is accessed for a particular file.
 
@@ -38,13 +39,13 @@ Like documents, PSI files are weakly referenced from the corresponding `VirtualF
 
 ## How do I create a PSI file?
 
-The [`PsiFileFactory`](upsource:///platform/core-api/src/com/intellij/psi/PsiFileFactory.java) `createFileFromText()` method creates an in-memory PSI file with the specified contents.
+The [`PsiFileFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiFileFactory.java) `createFileFromText()` method creates an in-memory PSI file with the specified contents.
 
-To save the PSI file to disk, use the [`PsiDirectory`](upsource:///platform/core-api/src/com/intellij/psi/PsiDirectory.java) `add()` method.
+To save the PSI file to disk, use the [`PsiDirectory`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiDirectory.java) `add()` method.
 
 ## How do I get notified when PSI files change?
 
-`PsiManager.getInstance(project).addPsiTreeChangeListener()` allows you to receive notifications about all changes to the PSI tree of a project.
+[`PsiManager.getInstance(project).addPsiTreeChangeListener()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiManager.java) allows you to receive notifications about all changes to the PSI tree of a project.
 
 ## How do I extend PSI?
 

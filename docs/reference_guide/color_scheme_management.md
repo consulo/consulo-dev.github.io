@@ -1,23 +1,23 @@
 ---
 title: Color Scheme Management
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 ## Preface
 
-Color scheme management in IntelliJ IDEA 12.1 was changed to ease scheme designers' work and make schemes look equally well for different programming languages even if not designed specifically for these languages.
+Color scheme management in Consulo was changed to ease scheme designers' work and make schemes look equally well for different programming languages even if not designed specifically for these languages.
 Previously language plug-ins were using fixed default colors incompatible, for example, with dark schemes.
 
 The new implementation allows specifying a dependency on a set of standard text attributes linked to a scheme but not to any specific language.
 Language-specific attributes still can be set by a scheme designer if needed, but it's optional.
-New color schemes have got a new `.icls` (Idea CoLor Scheme) extension to avoid confusion about compatibility problems with older platform versions:
+New color schemes have got a new `.icls` extension to avoid confusion about compatibility problems with older platform versions:
 if only standard attributes are set, they will not be used by the version before 12.1, resulting in different highlighting colors.
 
 ## Plug-in Developers
 
 ### Text Attribute Key Dependency
 
-The easiest and the best way to specify highlighting text attributes is to specify a dependency on one of standard keys defined in [`DefaultLanguageHighlighterColors`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/editor/DefaultLanguageHighlighterColors.java):
+The easiest and the best way to specify highlighting text attributes is to specify a dependency on one of standard keys defined in `DefaultLanguageHighlighterColors`:
 
 ```java
 static final TextAttributesKey MY_KEYWORD =
@@ -47,14 +47,16 @@ If the scheme designer doesn't have a language plug-in, he will not be able to f
 ### Providing Attributes for Specific Schemes
 
 A language plug-in may provide default text attributes for "Default" and "Darcula" bundled schemes or basically for any other scheme if the scheme's name is known.
-This can be done in `plugin.xml` by adding an `com.intellij.additionalTextAttributes` extension providing the name of the file containing desired text attributes, for example:
+This is done by creating an implementation of `AdditionalTextAttributesEP` annotated with `@ExtensionImpl`, providing the scheme name and the resource file path containing desired text attributes, for example:
 
-```xml
-<extensions defaultExtensionNs="com.intellij">
-..
-  <additionalTextAttributes scheme="Default" file="colorSchemes/MyLangDefault.xml"/>
-..
-</extensions>
+```java
+@ExtensionImpl
+public class MyLangDefaultTextAttributes extends AdditionalTextAttributesEP {
+    public MyLangDefaultTextAttributes() {
+        scheme = "Default";
+        file = "colorSchemes/MyLangDefault.xml";
+    }
+}
 ```
 
 It tells the IDE that the file `MyLangDefault.xml` must be searched in resources under `colorSchemes`.

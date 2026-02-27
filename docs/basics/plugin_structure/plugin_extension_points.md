@@ -1,123 +1,80 @@
 ---
 title: Plugin Extension Points
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 > **NOTE** See [Plugin Extensions](plugin_extensions.md) for _using_ extension points in your plugin.
 
 By defining _extension points_ in your plugin, you can allow other plugins to extend your plugin's functionality.
-There are two types of extension points:
-
-* _Interface_ extension points allow other plugins to extend your plugins with _code_.
-  When you define an interface extension point, you specify an interface, and other plugins will provide classes implementing that interface.
-  You'll then be able to invoke methods on those interfaces.
-* _Bean_ extension points allow other plugins to extend your plugins with _data_.
-  You specify the fully qualified name of an extension class, and other plugins will provide data that will be turned into instances of that class.
+An extension point is declared by annotating an interface or abstract class with `@ExtensionAPI`.
+Other plugins then provide implementations of that interface, annotated with `@ExtensionImpl`, which the platform discovers automatically at runtime.
 
 ## Declaring Extension Points
 
-You can declare extensions and extension points in the plugin configuration file `plugin.xml`, within the `<extensions>` and `<extensionPoints>` sections.
+Extension points are defined by annotating an interface or abstract class with `@ExtensionAPI(ComponentScope.xxx)`.
 
-To declare extension points in your plugin, add an `<extensionPoints>` section to your `plugin.xml`.
-Then insert a child element `<extensionPoint>` that defines the extension point name and the name of a bean class or an interface that is allowed to extend the plugin functionality in the `name`, `beanClass` and `interface` attributes, respectively.
+The `ComponentScope` determines the extension's lifecycle:
 
-_myPlugin/META-INF/plugin.xml_
+- `ComponentScope.APPLICATION` - the extension is a global singleton, instantiated once for the entire application.
+- `ComponentScope.PROJECT` - the extension is instantiated once per open project.
+- `ComponentScope.MODULE` - the extension is instantiated once per module.
 
-```xml
-<idea-plugin>
-  <id>my.plugin</id>
-
-  <extensionPoints>
-    <extensionPoint name="myExtensionPoint1"
-                    beanClass="com.myplugin.MyBeanClass"/>
-
-    <extensionPoint name="myExtensionPoint2"
-                    interface="com.myplugin.MyInterface"/>
-  </extensionPoints>
-
-</idea-plugin>
-```
-
-The `name` attribute assigns a unique name for this extension point. 
-It will be prefixed with the plugin's `<id>` automatically.
-
-The `beanClass` attribute sets a bean class that specifies one or several properties annotated with the [`@Attribute`](upsource:///platform/util/src/com/intellij/util/xmlb/annotations/Attribute.java) annotation.
-The `interface` attribute sets an interface the plugin that contributes to the extension point must implement.
-
-The `area` attribute determines the scope in which the extension will be instantiated.
-As extensions should be stateless, it is **not** recommended to use non-default.
-Must be one of `IDEA_APPLICATION` for Application (default), `IDEA_PROJECT` for Project, or `IDEA_MODULE` for Module scope.
-
-The plugin that contributes to the extension point will read those properties from the `plugin.xml` file.
-
-### Sample
-
-To clarify this, consider the following sample `MyBeanClass` bean class used in the above `plugin.xml` file:
-
-_myPlugin/src/com/myplugin/MyBeanClass.java_
+_myPlugin/src/com/myplugin/MyExtensionPoint.java_
 
 ```java
-public class MyBeanClass extends AbstractExtensionPointBean {
-
-  @Attribute("key")
-  public String key;
-
-  @Attribute("implementationClass")
-  public String implementationClass;
-
-  public String getKey() {
-    return key;
-  }
-
-  public String getClass() {
-    return implementationClass;
-  }
+@ExtensionAPI(ComponentScope.APPLICATION)
+public interface MyExtensionPoint {
+    String getKey();
+    void process();
 }
 ```
 
-> **TIP** See [Extension properties code insight](plugin_extensions.md#extension-properties-code-insight) on how to provide smart completion/validation.
+No XML declaration is needed. The `@ExtensionAPI` annotation is sufficient to register the extension point with the platform.
 
-For above extension points usage in _anotherPlugin_ would look like this (see also [Declaring Extensions](plugin_extensions.md#declaring-extensions)):
+### Sample
 
-_anotherPlugin/META-INF/plugin.xml_
+A plugin that wants to implement the above extension point simply creates a class implementing the interface and annotates it with `@ExtensionImpl`:
 
-```xml
-<idea-plugin>
-  <id>another.plugin</id>
+_anotherPlugin/src/another/MyExtensionImpl.java_
 
-  <!-- declare dependency on plugin defining extension point -->
-  <depends>my.plugin</depends>
+```java
+@ExtensionImpl
+public class MyExtensionImpl implements MyExtensionPoint {
+    @Override
+    public String getKey() { return "myKey"; }
 
-  <!-- use "my.plugin" namespace -->
-  <extensions defaultExtensionNs="my.plugin">
-    <myExtensionPoint1 key="someKey"
-                       implementationClass="another.some.implementation.class"/>
-
-    <myExtensionPoint2 implementation="another.MyInterfaceImpl"/>
-  </extension>
-
-</idea-plugin>
+    @Override
+    public void process() { /* implementation */ }
+}
 ```
 
+The platform discovers the `@ExtensionImpl`-annotated class automatically. No XML configuration or plugin dependency declarations beyond the standard module dependency are required.
+
 ## Using Extension Points
-To refer to all registered extension instances at runtime, declare an [`ExtensionPointName`](upsource:///platform/extensions/src/com/intellij/openapi/extensions/ExtensionPointName.java) passing in the fully-qualified name matching its [declaration in `plugin.xml`](#declaring-extension-points).
+
+To access all registered extension instances at runtime, use `Application.get().getExtensionPoint()` or `ExtensionPointName.create()`:
 
 _myPlugin/src/com/myplugin/MyExtensionUsingService.java_
 
 ```java
 public class MyExtensionUsingService {
 
-    private static final ExtensionPointName<MyBeanClass> EP_NAME =
-      ExtensionPointName.create("my.plugin.myExtensionPoint1");
-
     public void useExtensions() {
-      for (MyBeanClass extension : EP_NAME.getExtensionList()) {
+      // Option 1: via Application
+      List<MyExtensionPoint> extensions =
+        Application.get().getExtensionPoint(MyExtensionPoint.class).getExtensionList();
+
+      // Option 2: via ExtensionPointName
+      ExtensionPointName<MyExtensionPoint> EP_NAME =
+        ExtensionPointName.create(MyExtensionPoint.class);
+      List<MyExtensionPoint> extensionList = EP_NAME.getExtensionList();
+
+      for (MyExtensionPoint extension : extensionList) {
         String key = extension.getKey();
-        String clazz = extension.getClass();
+        extension.process();
         // ...
       }
     }
 }
 ```
-
-A gutter icon for the `ExtensionPointName` declaration allows navigating to the corresponding `<extensionPoint>` declaration in `plugin.xml`.

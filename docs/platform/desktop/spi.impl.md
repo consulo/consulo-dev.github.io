@@ -1,6 +1,6 @@
 # Desktop SPI implementations
 
-Consulo provide some SPI implementations, for extending JRE
+Consulo provides some SPI implementations for extending the JDK 21 runtime
 
 ## Audio Stack
 

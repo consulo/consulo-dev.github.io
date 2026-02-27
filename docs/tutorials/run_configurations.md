@@ -1,31 +1,23 @@
 ---
 title: Run Configurations
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 These series of steps show how to register and implement a simple Run Configuration.
 Run Configurations are used to run internal and external processes from within *Consulo* based products.
-To get familiar with the concept of a Run Configuration refer [Run/Debug Configuration](https://www.jetbrains.com/idea/help/run-debug-configuration.html) section of  [IntelliJ IDEA Web Help](https://www.jetbrains.com/idea/help/intellij-idea.html)
+To get familiar with the concept of a Run Configuration refer to the Run/Debug Configuration section of the Consulo documentation.
 
 ## Pre-Requirements
 
 Create an empty plugin project as described in [Creating a Plugin Project](/basics/getting_started.md).
 
-## 1. Register a New ConfigurationType
+## 1. Implement ConfigurationType
 
-Add new `configurationType` extension to the [plugin.xml](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/run_configuration/src/main/resources/META-INF/plugin.xml)
-
-```xml
-<extensions defaultExtensionNs="com.intellij">
-  <configurationType implementation="org.jetbrains.sdk.runConfiguration.DemoRunConfigurationType"/>
-</extensions>
-```
-
-## 2. Implement ConfigurationType
-
-Implement  [`ConfigurationType`](upsource:///platform/lang-api/src/com/intellij/execution/configurations/ConfigurationType.java)  interface registered in the Step 1.
+Implement the `ConfigurationType` interface.
+In Consulo, `ConfigurationType` is annotated with `@ExtensionAPI(ComponentScope.APPLICATION)`, so implementations are registered using the `@ExtensionImpl` annotation instead of XML.
 
 ```java
+@ExtensionImpl
 public class DemoRunConfigurationType implements ConfigurationType {
     @Override
     public String getDisplayName() {
@@ -55,9 +47,9 @@ public class DemoRunConfigurationType implements ConfigurationType {
 }
 ```
 
-## 3. Implement a ConfigurationFactory
+## 2. Implement a ConfigurationFactory
 
-Implement a new [`ConfigurationFactory`](upsource:///platform/lang-api/src/com/intellij/execution/configurations/ConfigurationFactory.java) through which custom run configurations will be created.
+Implement a new `ConfigurationFactory` through which custom run configurations will be created.
 
 ```java
 public class DemoConfigurationFactory extends ConfigurationFactory {
@@ -80,12 +72,12 @@ public class DemoConfigurationFactory extends ConfigurationFactory {
 
 ```
 
-## 4. Implement a Run Configuration
+## 3. Implement a Run Configuration
 
 To make your changes visible from the UI, implement a new Run Configuration.
 
-**Note:** In most of the cases you can derive a custom Run Configuration class from the [`RunConfigurationBase`](upsource:///platform/lang-api/src/com/intellij/execution/configurations/RunConfigurationBase.java).
-If you need to implement specific settings externalization rules and I/O behaviour, use [`RunConfiguration`](upsource:///platform/lang-api/src/com/intellij/execution/configurations/RunConfiguration.java) interface.
+**Note:** In most of the cases you can derive a custom Run Configuration class from the `RunConfigurationBase`.
+If you need to implement specific settings externalization rules and I/O behaviour, use `RunConfiguration` interface.
 
 ```java
 public class DemoRunConfiguration extends RunConfigurationBase {
@@ -112,17 +104,17 @@ public class DemoRunConfiguration extends RunConfigurationBase {
 }
 ```
 
-## 5. Create and Implement Run Configuration UI Form
+## 4. Create and Implement Run Configuration UI Form
 
-Make sure _UI Designer_ plugin is [enabled](https://www.jetbrains.com/help/idea/managing-plugins.html).
+Make sure _UI Designer_ plugin is enabled.
 
-Create a new  [UI form](https://www.jetbrains.com/help/idea/designing-gui-major-steps.html)  that defines, how an inner part of the new Run Configuration should look like.
+Create a new UI form that defines, how an inner part of the new Run Configuration should look like.
 
 Default Run Configuration will be looking like this:
 
 ![Default Run Configuration Look](run_configurations/img/ui_form.png)
 
-## 6. Bind the UI Form
+## 5. Bind the UI Form
 
 The UI Form should be bound with a Java class responsible for handling UI components logic.
 
@@ -154,7 +146,7 @@ public class DemoSettingsEditor extends SettingsEditor<DemoRunConfiguration> {
 }
 ```
 
-## 7. Compile and Run the Plugin
+## 6. Compile and Run the Plugin
 
 Refer to [Running and Debugging a Plugin](/basics/getting_started/running_and_debugging_a_plugin.md).
 

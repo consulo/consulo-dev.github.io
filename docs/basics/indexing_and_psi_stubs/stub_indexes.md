@@ -1,7 +1,7 @@
 ---
 title: Stub Indexes
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 ## Stub Trees
 
@@ -23,21 +23,21 @@ You usually don't need to have stubs for things like statements or local variabl
 
 For each element type that you want to store in the stub tree, you need to perform the following steps:
 
-* Define an interface for the stub, derived from the [`StubElement`](upsource:///platform/core-api/src/com/intellij/psi/stubs/StubElement.java) interface ([example](upsource:///plugins/properties/properties-psi-api/src/com/intellij/lang/properties/psi/PropertyStub.java)).
-* Provide an implementation for the interface ([example](upsource:///plugins/properties/properties-psi-impl/src/com/intellij/lang/properties/psi/impl/PropertyStubImpl.java)).
-* Make sure the interface for the PSI element extends [`StubBasedPsiElement`](upsource:///platform/core-api/src/com/intellij/psi/StubBasedPsiElement.java) parameterized by the type of the stub interface ([example](upsource:///plugins/properties/properties-psi-api/src/com/intellij/lang/properties/psi/Property.java)).
-* Make sure the implementation class for the PSI element extends [`StubBasedPsiElementBase`](upsource:///platform/core-impl/src/com/intellij/extapi/psi/StubBasedPsiElementBase.java) parameterized by the type of the stub interface ([example](upsource:///plugins/properties/properties-psi-impl/src/com/intellij/lang/properties/psi/impl/PropertyImpl.java)).
+* Define an interface for the stub, derived from the [`StubElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/StubElement.java) interface.
+* Provide an implementation for the interface.
+* Make sure the interface for the PSI element extends [`StubBasedPsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/StubBasedPsiElement.java) parameterized by the type of the stub interface.
+* Make sure the implementation class for the PSI element extends [`StubBasedPsiElementBase`](https://github.com/consulo/consulo/blob/master/modules/base/language-impl/src/main/java/consulo/language/impl/psi/stub/StubBasedPsiElementBase.java) parameterized by the type of the stub interface.
   Provide both a constructor that accepts an `ASTNode` and a constructor that accepts a stub.
-* Create a class that implements `IStubElementType` and is parameterized with the stub interface and the actual PSI element interface ([example](upsource:///plugins/properties/properties-psi-impl/src/com/intellij/lang/properties/parsing/PropertyStubElementType.java)).
+* Create a class that implements [`IStubElementType`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/IStubElementType.java) and is parameterized with the stub interface and the actual PSI element interface.
   Implement the `createPsi()` and `createStub()` methods for creating PSI from a stub and vice versa.
   Implement the `serialize()` and `deserialize()` methods for storing the data in a binary stream.
-* Use the class implementing `IStubElementType` as the element type constant when parsing ([example](upsource:///plugins/properties/properties-psi-impl/src/com/intellij/lang/properties/parsing/PropertiesElementTypes.java)).
-* Make sure all methods in the PSI element interface access the stub data rather than the PSI tree when appropriate ([example: `Property.getKey()` implementation](upsource:///plugins/properties/properties-psi-impl/src/com/intellij/lang/properties/psi/impl/PropertyImpl.java)).
+* Use the class implementing `IStubElementType` as the element type constant when parsing.
+* Make sure all methods in the PSI element interface access the stub data rather than the PSI tree when appropriate.
 
 The following steps need to be performed only once for each language that supports stubs:
 
-* Change the file element type for your language (the element type that you return from `ParserDefinition.getFileNodeType()`) to a class that extends [`IStubFileElementType`](upsource:///platform/core-impl/src/com/intellij/psi/tree/IStubFileElementType.java).
-* In your `plugin.xml`, define the `com.intellij.stubElementTypeHolder` extension and specify the interface which contains the `IElementType` constants used by your language's parser as well as `externalIdPrefix` if possible ([example](upsource:///plugins/properties/src/META-INF/plugin.xml)).
+* Change the file element type for your language (the element type that you return from [`ParserDefinition.getFileNodeType()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/parser/ParserDefinition.java)) to a class that extends [`IStubFileElementType`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/IStubFileElementType.java).
+* Register the stub element type holder by annotating it with `@ExtensionImpl`. The interface which contains the [`IElementType`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/ast/IElementType.java) constants used by your language's parser should be specified, as well as `externalIdPrefix` if possible.
 
 For serializing string data, e.g. element names, in stubs, we recommend to use `StubOutputStream.writeName()` and `StubInputStream.readName()` methods.
 These methods ensure that each unique identifier is stored only once in the data stream.
@@ -62,18 +62,14 @@ When building the stub tree, you can, at the same time, put some data about the 
 Unlike file-based indexes, stub indexes do not support storing custom data as values; the value is always a PSI element.
 Keys in stub indexes are typically strings (such as class names); other data types are also supported if desired.
 
-A stub index is a class which extends [`AbstractStubIndex`](upsource:///platform/indexing-api/src/com/intellij/psi/stubs/AbstractStubIndex.java).
-In the most common case, when the key type is `String`, you use a more specific base class, namely [`StringStubIndexExtension`](upsource:///platform/indexing-api/src/com/intellij/psi/stubs/StringStubIndexExtension.java).
-Stub index implementation classes are registered in the `com.intellij.stubIndex` extension point.
+A stub index is a class which extends [`AbstractStubIndex`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/AbstractStubIndex.java).
+In the most common case, when the key type is `String`, you use a more specific base class, namely [`StringStubIndexExtension`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/StringStubIndexExtension.java).
+Stub index implementation classes are registered by annotating them with `@ExtensionImpl`.
 
-To put data into an index, you implement the method `IStubElementType.indexStub()` ([example: `JavaClassElementType.indexStub()`](upsource:///java/java-psi-impl/src/com/intellij/psi/impl/java/stubs/JavaClassElementType.java)).
-This method accepts an `IndexSink` as a parameter and puts in the index ID and the key for each index in which the element should be stored.
+To put data into an index, you implement the method `IStubElementType.indexStub()`.
+This method accepts an [`IndexSink`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/stub/IndexSink.java) as a parameter and puts in the index ID and the key for each index in which the element should be stored.
 
 To access the data from an index, the following two methods are used:
 
 * `AbstractStubIndex.getAllKeys()` returns the list of all keys in the specified index for the specified project (for example, the list of all class names found in the project).
 * `AbstractStubIndex.get()` returns the collection of PSI elements corresponding to a certain key (for example, classes with the specified short name) in the specified scope.
-
-## Related Forum Discussions
-
-* [Lifecycle of stub creation](https://intellij-support.jetbrains.com/hc/en-us/community/posts/206121959-Lifecycle-of-stub-creation/comments/206143885)

@@ -18,8 +18,7 @@ To deploy a plugin:
 
   ![Jar Saved Notification](deploying_plugin/img/jar_saved_notification.png)
 
-* [Install](https://www.jetbrains.com/help/idea/managing-plugins.html#installing-plugins-from-disk)
-  the newly created archive/jar file from disk.
+* Install the newly created archive/jar file from disk.
   The `editor_basics` code sample builds the plugin archive/jar into the `editor_basics` project folder:
 
   ![Jar File Location](deploying_plugin/img/jar_location.png)

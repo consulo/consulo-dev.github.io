@@ -14,19 +14,19 @@ You must not access the model outside a read or write action for the following s
 
 **Reading** data is allowed from any thread.
 Reading data from the UI thread does not require any special effort.
-However, read operations performed from any other thread need to be wrapped in a read action by using `ApplicationManager.getApplication().runReadAction()` or, shorter, [`ReadAction`](upsource:///platform/core-api/src/com/intellij/openapi/application/ReadAction.java) `run()`/`compute()`.
+However, read operations performed from any other thread need to be wrapped in a read action by using [`ApplicationManager`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ApplicationManager.java)`.getApplication().runReadAction()` or, shorter, [`ReadAction`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ReadAction.java) `run()`/`compute()`.
 The corresponding objects are not guaranteed to survive between several consecutive read actions.
 As a rule of thumb, whenever starting a read action, check if the PSI/VFS/project/module is still valid.
 
-**Writing** data is only allowed from the UI thread, and write operations always need to be wrapped in a write action with `ApplicationManager.getApplication().runWriteAction()` or, shorter, [`WriteAction`](upsource:///platform/core-api/src/com/intellij/openapi/application/WriteAction.java) `run()`/`compute()`.
+**Writing** data is only allowed from the UI thread, and write operations always need to be wrapped in a write action with [`ApplicationManager`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ApplicationManager.java)`.getApplication().runWriteAction()` or, shorter, [`WriteAction`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/WriteAction.java) `run()`/`compute()`.
 Modifying the model is only allowed from write-safe contexts, including user actions and `invokeLater()` calls from them (see the next section).
 You may not modify PSI, VFS, or project model from inside UI renderers or `SwingUtilities.invokeLater()` calls.
 
 
 ## Modality and `invokeLater()`
 
-To pass control from a background thread to the [Event Dispatch Thread](https://docs.oracle.com/javase/tutorial/uiswing/concurrency/dispatch.html) (EDT), instead of the standard `SwingUtilities.invokeLater()`, plugins should use `ApplicationManager.getApplication().invokeLater()`.
-The latter API allows specifying the _modality state_ ([`ModalityState`](upsource:///platform/core-api/src/com/intellij/openapi/application/ModalityState.java)) for the call, i.e., the stack of modal dialogs under which the call is allowed to execute:
+To pass control from a background thread to the [Event Dispatch Thread](https://docs.oracle.com/javase/tutorial/uiswing/concurrency/dispatch.html) (EDT), instead of the standard `SwingUtilities.invokeLater()`, plugins should use [`ApplicationManager`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ApplicationManager.java)`.getApplication().invokeLater()`.
+The latter API allows specifying the _modality state_ ([`ModalityState`](https://github.com/consulo/consulo/blob/master/modules/base/ui-api/src/main/java/consulo/ui/ModalityState.java)) for the call, i.e., the stack of modal dialogs under which the call is allowed to execute:
 
 `ModalityState.NON_MODAL`
 : The operation will be executed after all modal dialogs are closed. If any of the open (unrelated) project displays a per-project modal dialog, the action will be performed after the dialog is closed.
@@ -40,24 +40,24 @@ None specified
 `ModalityState.any()`
 : The operation will be executed as soon as possible regardless of modal dialogs. Please note that modifying PSI, VFS, or project model is prohibited from such runnables.
 
-If a UI thread activity needs to access [file-based index](/basics/indexing_and_psi_stubs.md) (e.g., it's doing any project-wide PSI analysis, resolves references, etc.), please use `DumbService.smartInvokeLater()`.
+If a UI thread activity needs to access [file-based index](/basics/indexing_and_psi_stubs.md) (e.g., it's doing any project-wide PSI analysis, resolves references, etc.), please use [`DumbService`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/DumbService.java)`.smartInvokeLater()`.
 That way, it is run after all possible indexing processes have been completed.
 
 
 ## Background processes and `ProcessCanceledException`
 
-Background progresses are managed by [`ProgressManager`](upsource:///platform/core-api/src/com/intellij/openapi/progress/ProgressManager.java) class,  which has plenty of methods to execute the given code with a modal (dialog), non-modal (visible in the status bar), or invisible progress.
-In all cases, the code is executed on a background thread, which is associated with a [`ProgressIndicator`](upsource:///platform/core-api/src/com/intellij/openapi/progress/ProgressIndicator.java) object.
+Background progresses are managed by [`ProgressManager`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/progress/ProgressManager.java) class, which has plenty of methods to execute the given code with a modal (dialog), non-modal (visible in the status bar), or invisible progress.
+In all cases, the code is executed on a background thread, which is associated with a [`ProgressIndicator`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/progress/ProgressIndicator.java) object.
 The current thread's indicator can be retrieved any time via `ProgressIndicatorProvider.getGlobalProgressIndicator()`.
 
-For visible progresses, threads can use `ProgressIndicator` to notify the user about current status: e.g., set text or visual fraction of the work done.
+For visible progresses, threads can use [`ProgressIndicator`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/progress/ProgressIndicator.java) to notify the user about current status: e.g., set text or visual fraction of the work done.
 
 Progress indicators also provide means to handle cancellation of background processes, either by the user (pressing the _Cancel_ button) or from code (e.g., when the current operation becomes obsolete due to some changes in the project).
 The progress can be marked as canceled by calling `ProgressIndicator.cancel()`.
 The process reacts to this by calling `ProgressIndicator.checkCanceled()` (or `ProgressManager.checkCanceled()` if no indicator instance at hand).
-This call throws a special unchecked [`ProcessCanceledException`](upsource:///platform/util/src/com/intellij/openapi/progress/ProcessCanceledException.java) if the background process has been canceled.
+This call throws a special unchecked [`ProcessCanceledException`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/ProcessCanceledException.java) if the background process has been canceled.
 
-All code working with PSI, or in other kinds of background processes, must be prepared for [`ProcessCanceledException`](upsource:///platform/util/src/com/intellij/openapi/progress/ProcessCanceledException.java) being thrown from any point.
+All code working with PSI, or in other kinds of background processes, must be prepared for `ProcessCanceledException` being thrown from any point.
 This exception should never be logged but rethrown, and it'll be handled in the infrastructure that started the process.
 
 The `checkCanceled()` should be called often enough to guarantee the process's smooth cancellation.
@@ -78,10 +78,10 @@ The next time the background thread calls `checkCanceled()`, a `ProcessCanceledE
 
 There are two recommended ways of doing this:
 
-* If on UI thread, call `ReadAction.nonBlocking()` which returns [`NonBlockingReadAction`](upsource:///platform/core-api/src/com/intellij/openapi/application/NonBlockingReadAction.java)
+* If on UI thread, call [`ReadAction.nonBlocking()`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ReadAction.java) which returns [`NonBlockingReadAction`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/NonBlockingReadAction.java)
 * If already in a background thread, use `ProgressManager.getInstance().runInReadActionWithWriteActionPriority()` in a loop, until it passes or the whole activity becomes obsolete.
 
 In both approaches, always check at the start of each read action, if the objects are still valid, and if the whole operation still makes sense (i.e., not canceled by the user, the project isn't closed, etc.).
-With `ReadAction.nonBlocking()`, use `expireWith()` or `expireWhen()` for that.
+With [`ReadAction.nonBlocking()`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ReadAction.java), use `expireWith()` or `expireWhen()` for that.
 
-If the activity has to access [file-based index](/basics/indexing_and_psi_stubs.md) (e.g., it's doing any project-wide PSI analysis, resolves references, etc.), use `ReadAction.nonBlocking(...).inSmartMode()`.
+If the activity has to access [file-based index](/basics/indexing_and_psi_stubs.md) (e.g., it's doing any project-wide PSI analysis, resolves references, etc.), use [`ReadAction.nonBlocking(...).inSmartMode()`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/ReadAction.java).

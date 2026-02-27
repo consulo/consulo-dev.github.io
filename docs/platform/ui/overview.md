@@ -8,7 +8,7 @@ For default - any plugins don't known about **Swing** or **GWT**
 
 Classes:
 
- * ```consulo.ui.UIAccess``` - class provide access to UI Thread, and allow get current thread status
+ * [`consulo.ui.UIAccess`](https://github.com/consulo/consulo/blob/master/modules/base/ui-api/src/main/java/consulo/ui/UIAccess.java) - class provide access to UI Thread, and allow get current thread status
    * ```#isUIThread()``` - will return true if we inside UI Thread
    * ```#give(Runnable)``` - run task inside UI Thread
    * ```#get()``` - will return UIAccess instance if call inside UI thread, otherwise throw exception

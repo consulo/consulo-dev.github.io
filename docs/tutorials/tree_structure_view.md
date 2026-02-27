@@ -1,10 +1,10 @@
 ---
 title: Tree Structure View
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 This tutorial is meant to illustrate how the project tree structure view appearance can be modified programmatically.
-If you need to know more about basic concepts of a project view in IntelliJ-based IDEs, please refer to [Exploring The Project Structure](https://www.jetbrains.com/idea/help/exploring-the-project-structure.html#d164891e120) of  [IntelliJ IDEA Web Help](https://www.jetbrains.com/idea/help/intellij-idea.html).
+If you need to know more about basic concepts of a project view in Consulo-based IDEs, please refer to the Exploring The Project Structure section of the Consulo documentation.
 
 Series of step below show how to filter out and keep visible only text files and directories in the Project View Panel.
 
@@ -13,21 +13,13 @@ Series of step below show how to filter out and keep visible only text files and
 Create an empty plugin project.
 See [Creating a Plugin Project](/tutorials/build_system/prerequisites.md).
 
-## 1. Register Custom TreeStructure Provider
+## 1. Implement Custom TreeStructureProvider
 
-Add new *treeStructureProvider* extension to the [plugin.xml](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/tree_structure_provider/src/main/resources/META-INF/plugin.xml)
-
-```java
-<extensions defaultExtensionNs="com.intellij">
-  <treeStructureProvider implementation="org.intellij.sdk.treeStructureProvider.TextOnlyTreeStructureProvider"/>
-</extensions>
-```
-
-## 2. Implement Custom TreeStructureProvider
-
-To provide custom Structure View behaviour you need to implement TreeStructureProvider interface.
+To provide custom Structure View behaviour you need to implement the `TreeStructureProvider` interface.
+In Consulo, `TreeStructureProvider` is annotated with `@ExtensionAPI`, so implementations are registered using the `@ExtensionImpl` annotation instead of XML.
 
 ```java
+@ExtensionImpl
 public class TextOnlyTreeStructureProvider implements TreeStructureProvider {
     @NotNull
     @Override
@@ -43,16 +35,52 @@ public class TextOnlyTreeStructureProvider implements TreeStructureProvider {
 }
 ```
 
-## 3. Override modify() Method
+## 2. Override modify() Method
 
 To implement Tree Structure nodes filtering logic, override `modify()` method.
 The example below shows how to filter out all the Project View nodes except those which correspond to text files and directories.
 
 ```java
-{% include /code_samples/tree_structure_provider/src/main/java/org/intellij/sdk/treeStructureProvider/TextOnlyTreeStructureProvider.java %}
+package org.consulo.sdk.treeStructureProvider;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.project.ui.view.TreeStructureProvider;
+import consulo.project.ui.view.ViewSettings;
+import consulo.project.ui.view.internal.node.PsiFileNode;
+import consulo.ui.ex.tree.AbstractTreeNode;
+import consulo.language.plain.PlainTextFileType;
+import consulo.virtualFileSystem.VirtualFile;
+
+import jakarta.annotation.Nonnull;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+@ExtensionImpl
+final class TextOnlyTreeStructureProvider implements TreeStructureProvider {
+
+  @Nonnull
+  @Override
+  public Collection<AbstractTreeNode<?>> modify(@Nonnull AbstractTreeNode<?> parent,
+                                                @Nonnull Collection<AbstractTreeNode<?>> children,
+                                                ViewSettings settings) {
+    ArrayList<AbstractTreeNode<?>> nodes = new ArrayList<>();
+    for (AbstractTreeNode<?> child : children) {
+      if (child instanceof PsiFileNode) {
+        VirtualFile file = ((PsiFileNode) child).getVirtualFile();
+        if (file != null && !file.isDirectory() && !(file.getFileType() instanceof PlainTextFileType)) {
+          continue;
+        }
+      }
+      nodes.add(child);
+    }
+    return nodes;
+  }
+
+}
 ```
 
-## 4. Compile and Run the Plugin
+## 3. Compile and Run the Plugin
 
 Compile and run the code sample from this tutorial.
 Refer to [Running and Debugging a Plugin](/basics/getting_started/running_and_debugging_a_plugin.md).
@@ -62,4 +90,4 @@ After going through the steps described above you can see only text files and di
 ![Text Files](tree_structure_view/img/text_only.png)
 
 
-Check out [plugin source code](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/tree_structure_provider) and build the project to see how TreeStructureView provider works in practice.
+Build the project to see how TreeStructureView provider works in practice.

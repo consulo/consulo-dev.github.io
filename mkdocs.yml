@@ -25,13 +25,12 @@ nav:
   - Architecture:
     - Fundamentals:
         - Overview: platform/fundamentals.md
-#        - Component Model: not_documented_yet.md
         - Disposer and Disposable: basics/disposers.md
         - Threading:
             - Overview: basics/architectural_overview/general_threading_rules.md
-#            - Background Tasks: not_documented_yet.md
+            - Background Tasks: basics/architectural_overview/background_tasks.md
         - Messaging Infrastructure: reference_guide/messaging_infrastructure.md
-#        - Queries and Query Executors: not_documented_yet.md
+        - Logging: basics/ide_infrastructure/logging.md
         - Boot Information:
           - Overview: basics/boot/overview.md
           - Boot Directories: basics/boot/boot.directories.md
@@ -55,6 +54,7 @@ nav:
             - Overview: reference_guide/project_model/project.md
             - Startup Activity: platform/project_model/project/startupactivity.md
         - Module: reference_guide/project_model/module.md
+        - Module Extensions: reference_guide/project_model/module_extenions.md
         - SDK: reference_guide/project_model/sdk.md
         - Library: reference_guide/project_model/library.md
         - External System Integration: reference_guide/frameworks_and_external_apis/external_system_integration.md
@@ -89,6 +89,8 @@ nav:
             - Overview: basics/indexing_and_psi_stubs.md
             - File-Based Indexes: basics/indexing_and_psi_stubs/file_based_indexes.md
             - Stub Indexes: basics/indexing_and_psi_stubs/stub_indexes.md
+            - Dumb Mode: basics/indexing_and_psi_stubs/dumb_mode.md
+            - Gists: basics/indexing_and_psi_stubs/gists.md
         - XML DOM API: reference_guide/frameworks_and_external_apis/xml_dom_api.md
     - Run Configurations:
         - Overview: basics/run_configurations.md
@@ -97,10 +99,6 @@ nav:
         - Run Configurations Tutorial: tutorials/run_configurations.md
     - Version Control Systems:
         - Overview: reference_guide/vcs_integration_for_plugins.md
-#        - Diff: not_documented_yet.md
-#        - Local History: not_documented_yet.md
-#    - Tasks and Contexts: not_documented_yet.md
-#    - Diagrams: not_documented_yet.md
     - User Interface:
       - Overview: platform/ui/overview.md
       - Localization: platform/ui/localization.md
@@ -115,6 +113,7 @@ nav:
           - Editor Components: user_interface_components/editor_components.md
           - List and Tree Controls: user_interface_components/lists_and_trees.md
           - Miscellaneous Swing Components: user_interface_components/misc_swing_components.md
+          - Status Bar Widgets: user_interface_components/status_bar_widgets.md
           - Icons and Images: reference_guide/work_with_icons_and_images.md
           - Color Scheme Management: reference_guide/color_scheme_management.md
     - Update Channels: platform/update_channels.md
@@ -143,8 +142,6 @@ nav:
         - Implementing Parser and PSI: reference_guide/custom_language_support/implementing_parser_and_psi.md
         - Syntax Highlighting and Error Highlighting: reference_guide/custom_language_support/syntax_highlighting_and_error_highlighting.md
         - References and Resolve: reference_guide/custom_language_support/references_and_resolve.md
-        - Symbols: reference_guide/custom_language_support/symbols.md
-        - Declarations and References: reference_guide/custom_language_support/declarations_and_references.md
         - Navigation: reference_guide/custom_language_support/navigation.md
         - Code Completion: reference_guide/custom_language_support/code_completion.md
         - Find Usages: reference_guide/custom_language_support/find_usages.md
@@ -156,42 +153,43 @@ nav:
         - Surround With: reference_guide/custom_language_support/surround_with.md
         - Go to Class and Go to Symbol: reference_guide/custom_language_support/go_to_class_and_go_to_symbol.md
         - Documentation: reference_guide/custom_language_support/documentation.md
+        - Parameter Info: reference_guide/custom_language_support/parameter_info.md
+        - Inlay Hints: reference_guide/custom_language_support/inlay_hints.md
+        - Code Hierarchy: reference_guide/custom_language_support/code_hierarchy.md
+        - Spell Checking: reference_guide/custom_language_support/spell_checking.md
+        - Postfix Completion: reference_guide/custom_language_support/postfix_completion.md
+        - Navigation Bar: reference_guide/custom_language_support/navigation_bar.md
         - Additional Minor Features: reference_guide/custom_language_support/additional_minor_features.md
-#          - Parameter Info: not_documented_yet.md
-#          - Parameter Hints: not_documented_yet.md
         - Editing:
             - Overview: basics/editing.md
-#          - Code Completion: not_documented_yet.md
             - Templates:
                 - Overview: basics/templates.md
                 - Live Templates:
                     - Overview: tutorials/live_templates.md
                     - Adding Live Templates to a Plugin: tutorials/live_templates/template_support.md
                     - Creating New Functions for Live Templates: tutorials/live_templates/new_macros.md
-#                  - Surround Templates: not_documented_yet.md
-#              - File Templates: not_documented_yet.md
-#          - QuickDoc: not_documented_yet.md
+                - File Templates: reference_guide/file_templates.md
             - Intentions: tutorials/code_intentions.md
     - Project View:
         - Overview:  basics/project_view.md
         - Modifying Project View Structure: tutorials/tree_structure_view.md
-#    - Custom Language Support Tutorial:
-#        - Index: tutorials/custom_language_support_tutorial.md
-#        - 1. Prerequisites: tutorials/custom_language_support/prerequisites.md
-#        - 2. Language and File Type: tutorials/custom_language_support/language_and_filetype.md
-#        - 3. Grammar and Parser: tutorials/custom_language_support/grammar_and_parser.md
-#        - 4. Lexer and Parser Definition: tutorials/custom_language_support/lexer_and_parser_definition.md
-#        - 5. Syntax Highlighter and Color Settings Page: tutorials/custom_language_support/syntax_highlighter_and_color_settings_page.md
-#        - 6. PSI Helpers and Utilities: tutorials/custom_language_support/psi_helper_and_utilities.md
-#        - 7. Annotator: tutorials/custom_language_support/annotator.md
-#        - 8. Line Marker Provider: tutorials/custom_language_support/line_marker_provider.md
-#        - 9. Completion Contributor: tutorials/custom_language_support/completion_contributor.md
-#        - 10. Reference Contributor: tutorials/custom_language_support/reference_contributor.md
-#        - 11. Find Usages Provider: tutorials/custom_language_support/find_usages_provider.md
-#        - 12. Folding Builder: tutorials/custom_language_support/folding_builder.md
-#        - 13. Go To Symbol Contributor: tutorials/custom_language_support/go_to_symbol_contributor.md
-#        - 14. Structure View Factory: tutorials/custom_language_support/structure_view_factory.md
-#        - 15. Formatter: tutorials/custom_language_support/formatter.md
-#        - 16. Code Style Settings: tutorials/custom_language_support/code_style_settings.md
-#        - 17. Commenter: tutorials/custom_language_support/commenter.md
-#        - 18. Quick Fix: tutorials/custom_language_support/quick_fix.md
+    - Custom Language Support Tutorial:
+        - Index: tutorials/custom_language_support_tutorial.md
+        - 1. Prerequisites: tutorials/custom_language_support/prerequisites.md
+        - 2. Language and File Type: tutorials/custom_language_support/language_and_filetype.md
+        - 3. Grammar and Parser: tutorials/custom_language_support/grammar_and_parser.md
+        - 4. Lexer and Parser Definition: tutorials/custom_language_support/lexer_and_parser_definition.md
+        - 5. Syntax Highlighter and Color Settings Page: tutorials/custom_language_support/syntax_highlighter_and_color_settings_page.md
+        - 6. PSI Helpers and Utilities: tutorials/custom_language_support/psi_helper_and_utilities.md
+        - 7. Annotator: tutorials/custom_language_support/annotator.md
+        - 8. Line Marker Provider: tutorials/custom_language_support/line_marker_provider.md
+        - 9. Completion Contributor: tutorials/custom_language_support/completion_contributor.md
+        - 10. Reference Contributor: tutorials/custom_language_support/reference_contributor.md
+        - 11. Find Usages Provider: tutorials/custom_language_support/find_usages_provider.md
+        - 12. Folding Builder: tutorials/custom_language_support/folding_builder.md
+        - 13. Go To Symbol Contributor: tutorials/custom_language_support/go_to_symbol_contributor.md
+        - 14. Structure View Factory: tutorials/custom_language_support/structure_view_factory.md
+        - 15. Formatter: tutorials/custom_language_support/formatter.md
+        - 16. Code Style Settings: tutorials/custom_language_support/code_style_settings.md
+        - 17. Commenter: tutorials/custom_language_support/commenter.md
+        - 18. Quick Fix: tutorials/custom_language_support/quick_fix.md

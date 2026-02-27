@@ -1,11 +1,11 @@
 ---
 title: Grouping Actions
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 If an implementation requires several actions, or there are simply too many actions that overload the menu, the actions can be placed into groups.
 This tutorial demonstrates adding an action to an existing group, creating a new action group, and action groups with a variable number of actions.
-The sample code discussed in this tutorial is from the code sample [`action_basics`](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/code_samples/action_basics).
+The sample code discussed in this tutorial is from the `action_basics` code sample. See the Consulo plugin template for examples.
 
 Some content in this tutorial assumes the reader is familiar with the tutorial for [Creating Actions](working_with_custom_actions.md).
 
@@ -17,53 +17,79 @@ In this first example, the action group will be available as a top-level menu it
 The group is based on a default Consulo implementation.
 
 ### Creating Simple Groups
-Grouping can be registered by adding a `<group>` element to the `<actions>` section of a plugin's `plugin.xml` file.
-This example has no `class` attribute in the `<group>` element because the Consulo framework will supply a default implementation class for the group.
-This default implementation is used if a set of actions belonging to the group is static, i.e., does not change at runtime, which is the majority of cases.
-The `id` attribute must be unique, so incorporating the plugin ID or package name is the best practice.
+Groups can be registered by annotating a class with `@ActionImpl` or by using `@ActionImpl` on a `DefaultActionGroup` subclass.
+For simple static groups, the Consulo framework's default `DefaultActionGroup` implementation can be used directly.
+The `id` parameter must be unique, so incorporating the plugin ID or package name is the best practice.
 
-The `popup` attribute determines whether actions in the group are placed in a submenu.
-The `icon` attribute specifies the FQN of an [`Icon`](/reference_guide/work_with_icons_and_images.md) object to be displayed.
-No `compact` attribute is specified, which means this group will support submenus.
-See [Registering Actions in plugin.xml](/basics/action_system.md#registering-actions-in-pluginxml) for more information about these attributes.
+The group's popup behavior, icon, and compact settings are configured through the group class or its `Presentation`.
+See [Registering Actions with @ActionImpl](/basics/action_system.md#registering-actions-with-actionimpl) for more information about these attributes.
 
-```xml
-    <group id="org.intellij.sdk.action.GroupedActions" text="Static Grouped Actions" popup="true" icon="SdkIcons.Sdk_default_icon">
-    </group>
+```java
+@ActionImpl(id = "org.consulo.sdk.action.GroupedActions")
+public class GroupedActions extends DefaultActionGroup {
+    public GroupedActions() {
+        super("Static Grouped Actions", true);
+        getTemplatePresentation().setIcon(SdkIcons.Sdk_default_icon);
+    }
+}
 ```
 
 ### Binding Action Groups to UI Components
-The following sample shows how to use an `<add-to-group>` element to place a custom action group relative to an entry in the **Tools** menu.
-The attribute `relative-to-action` references the action `id` for `PopupDialogAction`, not a native IntelliJ menu entry.
-Rather `PopupDialogAction` is defined in the same [`plugin.xml`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/resources/META-INF/plugin.xml) file.
-This group is placed after the single entry for the action `PopupDialogAction`, as defined in the tutorial [Creating Actions](working_with_custom_actions.md#registering-an-action-with-the-new-action-form).
+The following sample shows how to use the `parents` parameter in `@ActionImpl` to place a custom action group relative to an entry in the **Tools** menu.
+The `relatedToAction` references the action `id` for `PopupDialogAction`, not a native Consulo menu entry.
+This group is placed after the single entry for the action `PopupDialogAction`, as defined in the tutorial [Creating Actions](working_with_custom_actions.md#registering-an-action-with-actionimpl).
 
-```xml
-    <group id="org.intellij.sdk.action.GroupedActions" text="Static Grouped Actions" popup="true" icon="SdkIcons.Sdk_default_icon">
-      <add-to-group group-id="ToolsMenu" anchor="after" relative-to-action="org.intellij.sdk.action.PopupDialogAction"/>
-    </group>
+```java
+@ActionImpl(id = "org.consulo.sdk.action.GroupedActions",
+    parents = @ActionParentRef(
+        value = @ActionRef(id = "ToolsMenu"),
+        anchor = ActionRefAnchor.AFTER,
+        relatedToAction = @ActionRef(id = "org.consulo.sdk.action.PopupDialogAction")
+    ))
+public class GroupedActions extends DefaultActionGroup {
+    public GroupedActions() {
+        super("Static Grouped Actions", true);
+        getTemplatePresentation().setIcon(SdkIcons.Sdk_default_icon);
+    }
+}
 ```
 
 ### Adding a New Action to the Static Grouped Actions
 The `PopupDialogAction` implementation will be reused and registered in the newly created static group.
-The `id` attribute for the reused `PopupDialogAction` implementation is set to a unique value, `org.intellij.sdk.action.GroupPopDialogAction`.
-This value differentiates this new `<action>` entry from the `id` previously used to register this action implementation in the [Creating Actions](working_with_custom_actions.md#registering-an-action-with-the-new-action-form) tutorial.
-A unique `id` supports reuse of action classes in more than one menu or group.
-The action in this group will display the menu text "A Group Action".
+To add a child action to the group, use the `children` parameter on the group's `@ActionImpl`.
+Alternatively, a separate action class with its own `@ActionImpl` can reference the group as its parent.
 
-```xml
-    <group id="org.intellij.sdk.action.GroupedActions" text="Static Grouped Actions" popup="true" icon="SdkIcons.Sdk_default_icon">
-      <add-to-group group-id="ToolsMenu" anchor="after" relative-to-action="org.intellij.sdk.action.PopupDialogAction"/>
-      <action class="org.intellij.sdk.action.PopupDialogAction" id="org.intellij.sdk.action.GroupPopDialogAction"
-              text="A Group Action" description="SDK static grouped action example" icon="SdkIcons.Sdk_default_icon">
-      </action>
-    </group>
+In this example, we create a new action class `GroupPopDialogAction` that extends `PopupDialogAction` and registers it as a child of the group.
+The `id` for this action is set to a unique value, `org.consulo.sdk.action.GroupPopDialogAction`, to differentiate it from the `id` used in the [Creating Actions](working_with_custom_actions.md#registering-an-action-with-actionimpl) tutorial.
+A unique `id` supports reuse of action classes in more than one menu or group.
+
+```java
+@ActionImpl(id = "org.consulo.sdk.action.GroupedActions",
+    parents = @ActionParentRef(
+        value = @ActionRef(id = "ToolsMenu"),
+        anchor = ActionRefAnchor.AFTER,
+        relatedToAction = @ActionRef(id = "org.consulo.sdk.action.PopupDialogAction")
+    ),
+    children = @ActionRef(type = GroupPopDialogAction.class))
+public class GroupedActions extends DefaultActionGroup {
+    public GroupedActions() {
+        super("Static Grouped Actions", true);
+        getTemplatePresentation().setIcon(SdkIcons.Sdk_default_icon);
+    }
+}
+
+@ActionImpl(id = "org.consulo.sdk.action.GroupPopDialogAction")
+public class GroupPopDialogAction extends PopupDialogAction {
+    public GroupPopDialogAction() {
+        super("A Group Action", "SDK static grouped action example", SdkIcons.Sdk_default_icon);
+    }
+}
 ```
 
 After performing the steps described above, the action group and its content will be available in the **Tools** menu.
 The underlying `PopupDialogAction` implementation is reused for two entries in the **Tools** menu:
-* Once for the top menu entry **Tools \| Pop Dialog Action** with the action `id` equal to `org.intellij.sdk.action.PopupDialogAction` as set in the [Creating Actions](/tutorials/action_system/working_with_custom_actions.md#registering-an-action-with-the-new-action-form) tutorial.
-* A second time for the menu entry **Tools \| Static Grouped Actions \| A Group Action** with the action `id` equal to `org.intellij.sdk.action.GroupPopDialogAction`.
+* Once for the top menu entry **Tools \| Pop Dialog Action** with the action `id` equal to `org.consulo.sdk.action.PopupDialogAction` as set in the [Creating Actions](/tutorials/action_system/working_with_custom_actions.md#registering-an-action-with-actionimpl) tutorial.
+* A second time for the menu entry **Tools \| Static Grouped Actions \| A Group Action** with the action `id` equal to `org.consulo.sdk.action.GroupPopDialogAction`.
 
 ![Simple Action Group](img/grouped_action.png){:width="550px"}
 
@@ -74,14 +100,14 @@ The solution is analogous to making a [single action entry dependent on context]
 
 The steps below show how to make a group of actions available and visible if certain conditions are met.
 In this case, the condition is having an instance of an editor is available.
-This condition is needed because the custom action group is added to an IntelliJ menu that is only enabled for editing.
+This condition is needed because the custom action group is added to a Consulo menu that is only enabled for editing.
 
 ### Extending DefaultActionGroup
-The [`DefaultActionGroup`](upsource:///platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java) is an implementation of [`ActionGroup`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionGroup.java).
-The `DefaultActionGroup` class is used to add child actions and separators between them to a group.
+The [`DefaultActionGroup`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/DefaultActionGroup.java) is an implementation of `ActionGroup`.
+The [`DefaultActionGroup`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/DefaultActionGroup.java) class is used to add child actions and separators between them to a group.
 This class is used if a set of actions belonging to the group does not change at runtime.
 
-As an example, extend [`DefaultActionGroup`](upsource:///platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java)  to create the `CustomDefaultActionGroup` class in the `action_basics` code sample:
+As an example, extend [`DefaultActionGroup`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/DefaultActionGroup.java) to create the `CustomDefaultActionGroup` class in the `action_basics` code sample:
 
 ```java
   public class CustomDefaultActionGroup extends DefaultActionGroup {
@@ -93,57 +119,55 @@ As an example, extend [`DefaultActionGroup`](upsource:///platform/platform-api/s
 ```
 
 ### Registering the Custom Action Group
-As in the case with the static action group, the action `<group>` should be declared in the `<actions>` section of the `plugin.xml` file, for example, the [action_basics](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/resources/META-INF/plugin.xml) plugin.
+As in the case with the static action group, the custom group is registered using the `@ActionImpl` annotation.
 For demonstration purposes, this implementation will use localization.
 
-The `<group>` element declaration below shows:
-* An optional resource bundle declaration outside of the `<actions>` section for localizing actions.
-* The presence of the `class` attribute in the `<group>` element tells the Consulo framework to use `CustomDefaultActionGroup` rather than the default implementation.
-* Setting the group's `popup` attribute to allow submenus.
-* The `text` and `description` attributes are omitted in the `<group>` declaration in favor of using the localization resource bundle to define them.
-* There is no `icon` attribute for the group; the `CustomDefaultActionGroup` implementation will [add an icon for the group](#providing-specific-behavior-for-the-custom-group).
-* The `<add-to-group>` element specifies adding the group in the first position of the existing `EditorPopupMenu`.
+The `@ActionImpl` declaration below shows:
+* The annotated class `CustomDefaultActionGroup` is the group implementation, telling the Consulo framework to use it rather than the default `DefaultActionGroup`.
+* The group is configured as a popup (submenu) in its constructor.
+* The `text` and `description` are omitted from the constructor in favor of using the [localize system](/platform/ui/localization.md) to define them.
+* There is no icon set in the annotation; the `CustomDefaultActionGroup` implementation will [add an icon for the group](#providing-specific-behavior-for-the-custom-group).
+* The `parents` parameter specifies adding the group in the first position of the existing `EditorPopupMenu`.
 
-```xml
-  <resource-bundle>messages.BasicActionsBundle</resource-bundle>
-
-  <actions>
-    <group id="org.intellij.sdk.action.CustomDefaultActionGroup"
-           class="org.intellij.sdk.action.CustomDefaultActionGroup"
-           popup="true">
-      <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-    </group>
-  </actions>
+```java
+@ActionImpl(id = "org.consulo.sdk.action.CustomDefaultActionGroup",
+    parents = @ActionParentRef(value = @ActionRef(id = "EditorPopupMenu"), anchor = ActionRefAnchor.FIRST))
+public class CustomDefaultActionGroup extends DefaultActionGroup {
+    public CustomDefaultActionGroup() {
+        super(true); // popup = true
+    }
+}
 ```
 
 ### Adding Actions to the Custom Group
-As in [Static Grouped Actions](#adding-a-new-action-to-the-static-grouped-actions), the `PopupDialogAction` action is added as an `<action>` element in the `<group>` element.
-In the `<action>` element declaration below:
-* The `class` attribute in the `<action>` element has the same FQN to reuse this action implementation.
-* The `id` attribute is unique to distinguish it from other uses of the implementation in the Action System.
-* The `text` and `description` attributes are omitted in the `<action>` declaration; they are instead defined using the localization resource bundle.
-* The SDK icon is declared for use with this action.
+As in [Static Grouped Actions](#adding-a-new-action-to-the-static-grouped-actions), the `PopupDialogAction` action is added as a child of the group using the `children` parameter.
+In the declaration below:
+* The `children` parameter references `CustomGroupedAction.class` to include it in the group.
+* The child action's `id` is unique to distinguish it from other uses of the implementation in the Action System.
+* The `text` and `description` for the child action are defined using the [localize system](/platform/ui/localization.md).
+* The SDK icon is set in the child action class.
 
-```xml
-    <group id="org.intellij.sdk.action.CustomDefaultActionGroup"
-           class="org.intellij.sdk.action.CustomDefaultActionGroup"
-           popup="true" icon="SdkIcons.Sdk_default_icon">
-      <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-      <action id="org.intellij.sdk.action.CustomGroupedAction" class="org.intellij.sdk.action.PopupDialogAction"
-              icon="SdkIcons.Sdk_default_icon"/>
-    </group>
+```java
+@ActionImpl(id = "org.consulo.sdk.action.CustomDefaultActionGroup",
+    parents = @ActionParentRef(value = @ActionRef(id = "EditorPopupMenu"), anchor = ActionRefAnchor.FIRST),
+    children = @ActionRef(type = CustomGroupedAction.class))
+public class CustomDefaultActionGroup extends DefaultActionGroup {
+    public CustomDefaultActionGroup() {
+        super(true); // popup = true
+    }
+}
+
+@ActionImpl(id = "org.consulo.sdk.action.CustomGroupedAction")
+public class CustomGroupedAction extends PopupDialogAction {
+    public CustomGroupedAction() {
+        super(null, null, SdkIcons.Sdk_default_icon);
+        // text and description provided via Localize class
+    }
+}
 ```
 
-Now the translations for the `text` and `description` attributes must be provided in the resource bundle [`BasicActionsBundle.properties`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/resources/messages/BasicActionsBundle.properties) file according to [Localizing Actions and Groups](/basics/action_system.md#localizing-actions-and-groups).
-Note there are two sets of `text` and `description` translations, one for the action and one for the group.
-Conceivably, there could be another set of translations for the action if it used the `<override-text>` attribute.
-
-```properties
-action.org.intellij.sdk.action.CustomGroupedAction.text=A Popup Action[en]
-action.org.intellij.sdk.action.CustomGroupedAction.description=SDK popup grouped action example[en]
-group.org.intellij.sdk.action.CustomDefaultActionGroup.text=Popup Grouped Actions[en]
-group.org.intellij.sdk.action.CustomDefaultActionGroup.description=Custom defaultActionGroup demo[en]
-```
+Now the `text` and `description` values must be provided via the generated Localize class. See [Localization](/platform/ui/localization.md) for details on defining localize entries.
+Note there are two sets of `text` and `description` values, one for the action and one for the group.
 
 ### Providing Specific Behavior for the Custom Group
 Override the `CustomDefaultActionGroup.update()` method to make the group visible only if there's an instance of the editor available.
@@ -170,12 +194,12 @@ The new group will also have an icon:
 
 
 ## Action Groups with Variable Actions Sets
-If a set of actions belonging to a custom group varies depending on the context, the group must extend [`ActionGroup`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionGroup.java).
+If a set of actions belonging to a custom group varies depending on the context, the group must extend `ActionGroup`.
 The set of actions in the `ActionGroup` is dynamically defined.
 
 ### Creating Variable Action Group
 To create a group of actions with a variable number of actions, extend `ActionGroup`.
-For example, as in the `action_basics` class [`DynamicActionGroup`](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/java/org/intellij/sdk/action/DynamicActionGroup.java) code:
+For example, as in the `action_basics` class `DynamicActionGroup` code:
 
 ```java
 public class DynamicActionGroup extends ActionGroup {
@@ -183,21 +207,29 @@ public class DynamicActionGroup extends ActionGroup {
 ```
 
 ### Registering a Variable Action Group
-To register the dynamic menu group, a `<group>` attribute needs to be placed in the `<actions>` section of [`plugin`.xml](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/action_basics/src/main/resources/META-INF/plugin.xml).
+To register the dynamic menu group, annotate the class with `@ActionImpl`.
 When enabled, this group appears at the entry just below the [Static Grouped Actions](#binding-action-groups-to-ui-components) in the **Tools** menu:
 
-```xml
-    <group id="org.intellij.sdk.action.DynamicActionGroup" class="org.intellij.sdk.action.DynamicActionGroup" popup="true"
-            text="Dynamically Grouped Actions" description="SDK dynamically grouped action example" icon="SdkIcons.Sdk_default_icon">
-      <add-to-group group-id="ToolsMenu" anchor="after" relative-to-action="org.intellij.sdk.action.GroupedActions"/>
-    </group>
+```java
+@ActionImpl(id = "org.consulo.sdk.action.DynamicActionGroup",
+    parents = @ActionParentRef(
+        value = @ActionRef(id = "ToolsMenu"),
+        anchor = ActionRefAnchor.AFTER,
+        relatedToAction = @ActionRef(id = "org.consulo.sdk.action.GroupedActions")
+    ))
+public class DynamicActionGroup extends ActionGroup {
+    public DynamicActionGroup() {
+        super("Dynamically Grouped Actions", "SDK dynamically grouped action example", SdkIcons.Sdk_default_icon);
+        setPopup(true);
+    }
+}
 ```
 
-> **WARNING** If a`<group>` element's `class` attribute names a class derived from `ActionGroup`, then any static `<action>` declarations in that group throw an exception.
-For a statically defined group, use `DefaultActionGroup`.
+> **WARNING** If a class derived from `ActionGroup` is annotated with `@ActionImpl`, the `children` parameter must not be used to declare static child actions. Static children will throw an exception.
+For a statically defined group, use [`DefaultActionGroup`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/DefaultActionGroup.java).
 
 ### Adding Child Actions to the Dynamic Group
-To add actions to the `DynamicActionGroup`, a non-empty array of `AnAction` instances should be returned from the `DynamicActionGroup.getChildren()` method.
+To add actions to the `DynamicActionGroup`, a non-empty array of [`AnAction`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java) instances should be returned from the `DynamicActionGroup.getChildren()` method.
 Here again, reuse the `PopupDialogAction` implementation.
 This use case is why `PopupDialogAction` overrides a constructor:
 

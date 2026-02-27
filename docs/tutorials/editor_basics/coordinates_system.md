@@ -14,20 +14,20 @@ The tutorial presents the following sections:
 {:toc}
 
 ## Introduction
-In this tutorial, the [editor_basics](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/editor_basics) code sample is used to explore caret positions.
+In this tutorial, the editor_basics code sample is used to explore caret positions.
 In particular, the **Caret Position** action added by `editor_basics` to the editor context menu is used to retrieve information about the current caret position.
 A keyboard shortcut can also initiate the action.
 
 ![Editor Basics Menu](img/basics.png){:width="600px"}
 
-The source code for the Java class behind the menu action is [EditorAreaIllustration](https://github.com/JetBrains/intellij-sdk-code-samples/blob/master/editor_basics/src/main/java/org/intellij/sdk/editor/EditorAreaIllustration.java).
+The source code for the Java class behind the menu action is `EditorAreaIllustration`.
 The focus of discussion will be the `EditorAreaIllustration.actionPerformed()` method.
 For more information about creating action classes, see the [Actions Tutorial](/tutorials/action_system.md) which covers the topic in depth.
 
 ## Caret Positions from the CaretModel and Caret Objects
-The properties of a caret can be accessed by obtaining an instance of the [`CaretModel`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/editor/CaretModel.java) object.
-As in the [Working with Text](working_with_text.md) tutorial, the `AnActionEvent` is used to get the `Editor` object.
-The `Editor` object provides access to the `CaretModel` object, as shown below:
+The properties of a caret can be accessed by obtaining an instance of the [`CaretModel`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/CaretModel.java) object.
+As in the [Working with Text](working_with_text.md) tutorial, the [`AnActionEvent`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnActionEvent.java) is used to get the [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java) object.
+The [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java) object provides access to the `CaretModel` object, as shown below:
 
 ```java
 public class EditorAreaIllustration extends AnAction {
@@ -41,15 +41,15 @@ public class EditorAreaIllustration extends AnAction {
 ```
 
 ## Editor Coordinate Systems
-When a `Document` is opened, the `Editor` assigns an internal, zero-based coordinate system to lines and columns in the `Document`.
+When a [`Document`](https://github.com/consulo/consulo/blob/master/modules/base/document-api/src/main/java/consulo/document/Document.java) is opened, the [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java) assigns an internal, zero-based coordinate system to lines and columns in the `Document`.
 The first line in a `Document` and the first character in each line are assigned the zero position.
 Every character in a `Document` is assigned an [_Offset_](#caret-offset), which is a zero-based count of the characters from the beginning of the file to that character.
 These [LogicalPosition](#caret-logical-position) coordinates are used to describe the line and column number for a caret position.
 Note that the Logical Position coordinate system is different from the editor UI, which is one-based rather than zero-based.
 
-Logical Position coordinates and other coordinate systems discussed in this tutorial can be used to characterize any location in an `Editor`, not just carets.
-Hints used for code insights are characterized in terms of these coordinates, for example [`HintManager.getHintPosition()`](upsource:///platform/platform-impl/src/com/intellij/codeInsight/hint/HintManagerImpl.java).
-Custom visual elements displayed in an `Editor`, called [`Inlay`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/editor/Inlay.java) objects, are also expressed in terms of these coordinate systems.
+Logical Position coordinates and other coordinate systems discussed in this tutorial can be used to characterize any location in an [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java), not just carets.
+Hints used for code insights are characterized in terms of these coordinates, for example [`HintManager.getHintPosition()`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/hint/HintManager.java).
+Custom visual elements displayed in an [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java), called `Inlay` objects, are also expressed in terms of these coordinate systems.
 
 The diagram below shows the Logical Position coordinate system applied to some example content.
 The character "s" in the red box represents placing the cursor on that character.
@@ -59,17 +59,17 @@ More about caret [Offsets](#caret-offset) is discussed below.
 ![Editor Coordinates](img/editor_coords.png){:width="800px"}
 
 The [Multiple Carets](/reference_guide/multiple_carets.md) documentation covers the subject of more than one caret in an Editor.
-For this tutorial, be aware there may be more than one caret in an `Editor` at any given time.
-Consequently, examples use the _Primary Caret_ in an `Editor`.
-If there is only one caret in an `Editor`, it is the Primary Caret.
-For the case of multiple carets in an `Editor`, the Primary Caret is the one on which query and update methods in the model operate at the moment.
+For this tutorial, be aware there may be more than one caret in an [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java) at any given time.
+Consequently, examples use the _Primary Caret_ in an [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java).
+If there is only one caret in an [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java), it is the Primary Caret.
+For the case of multiple carets in an [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java), the Primary Caret is the one on which query and update methods in the model operate at the moment.
 
 ### Caret Logical Position
 The caret _Logical Position_ is a zero-based, (line and column) position of the caret in the Editor.
-Logical Position information is obtained from the [`LogicalPosition`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/editor/LogicalPosition.java) object for that caret.
+Logical Position information is obtained from the `LogicalPosition` object for that caret.
 
 The Logical Position line number of a caret ignores the effects of settings that change the presentation of a `Document` within the Editor.
-Examples of these settings are [Code (Line) Folding](https://www.jetbrains.com/help/idea/working-with-source-code.html#code_folding) and [Soft Line Wrap](https://www.jetbrains.com/help/idea/using-code-editor.html#f804afd8).
+Examples of these settings are Code (Line) Folding and Soft Line Wrap.
 These effects mean regardless of whether one or more lines in an Editor are folded or soft-wrapped, the caret Logical Position line number will not change.
 
 In the example Java file below, Logical Position line numbers 1-3 are folded into line 0.
@@ -82,11 +82,11 @@ This means that caret Logical Position is not changed by Code Folding:
 However, note that applying Code Folding _does change the reported Visual Position_ of the caret even if the Logical Position stays constant.
 More about [Visual Position](#caret-visual-position) is discussed below.
 However, it's clear combinations of Code Folding and Soft Wrap means that one Logical Position of a caret could map to multiple Visual Positions.
-The `Editor` interface provides methods to work with a caret Logical and Visual Position, such as the method `Editor.logicalToVisualPosition()`.
+The [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java) interface provides methods to work with a caret Logical and Visual Position, such as the method [`Editor.logicalToVisualPosition()`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java).
 
 ### Caret Visual Position
 A caret's _Visual Position_ differs from Logical Position in that it takes into account editor presentation settings such as Code Folding and Soft Line Wrap.
-In doing so, [`VisualPosition`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/editor/VisualPosition.java) counts - zero-based - the lines of a `Document` that can be _displayed_ in an Editor.
+In doing so, `VisualPosition` counts - zero-based - the lines of a `Document` that can be _displayed_ in an Editor.
 Consequently, Visual Positions can't be uniquely mapped to Logical Positions or corresponding lines in the underlying `Document`.
 
 For example, Soft Line Wrap affects the Visual Position of succeeding lines.
@@ -97,7 +97,7 @@ The comments on each line illustrate how the Soft Wrap portion of Logical line t
 
 ![Caret Visual Position with Soft-Wrap](img/vis_pos_soft_wrap.png){:width="800px"}
 
-The Logical and Visual Position objects for a caret are obtained from the [`Caret`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/editor/Caret.java) object, as shown in the code snippet below.
+The Logical and Visual Position objects for a caret are obtained from the `Caret` object, as shown in the code snippet below.
 
 ```java
 public class EditorAreaIllustration extends AnAction {
@@ -128,10 +128,10 @@ The Column Position of a caret is the boundary between two characters.
 A caret can be associated with either a preceding or succeeding character.
 The association is important in bidirectional text, where mapping from Logical Column Position to Visual Column Position is not continuous.
 
-As defined in the [`LogicalPosition`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/editor/LogicalPosition.java) class, if a caret position is associated with a succeeding character it _Leans Forward_.
+As defined in the `LogicalPosition` class, if a caret position is associated with a succeeding character it _Leans Forward_.
 Otherwise, it is associated with the preceding character.
 
-As defined in the [`VisualPosition`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/editor/VisualPosition.java) class, if a caret position is associated with a succeeding character it _Leans Right_.
+As defined in the `VisualPosition` class, if a caret position is associated with a succeeding character it _Leans Right_.
 Otherwise, it is associated with the preceding character.
 
 #### Examples of Caret Lean
@@ -190,7 +190,7 @@ This apparent discrepancy is actually correct because the Offset includes the ne
 
 ## Displaying Caret Positions
 To display the values of caret Logical and Visual positions, and Offset, a
-`Messages.showInfoMessage()` method shows them in the form of notification as the action is performed.
+[`Messages.showInfoMessage()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-awt-api/src/main/java/consulo/ui/ex/awt/Messages.java) method shows them in the form of notification as the action is performed.
 
 ```java
 public class EditorAreaIllustration extends AnAction {

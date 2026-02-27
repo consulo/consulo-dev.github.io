@@ -1,7 +1,7 @@
 ---
 title: 9. Completion Contributor
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 Custom languages provide code completion using one of two approaches: Contributor and Reference-based (see [10. Reference Contributor](reference_contributor.md)) completion.
 
@@ -12,26 +12,52 @@ Custom languages provide code completion using one of two approaches: Contributo
 
 ## 9.1. Define a Completion Contributor
 For this tutorial, the `simple_language_plugin` provides custom completion for values in Simple Language property files.
-Create a completion contributor by subclassing [`CompletionContributor`](upsource:///platform/analysis-api/src/com/intellij/codeInsight/completion/CompletionContributor.java).
+Create a completion contributor by subclassing [`CompletionContributor`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/completion/CompletionContributor.java).
 This rudimentary completion contributor always adds "Hello" to the results set, regardless of context:
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleCompletionContributor.java %}
+package org.consulo.sdk.language;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.completion.*;
+import consulo.language.editor.completion.lookup.LookupElementBuilder;
+import consulo.language.pattern.PlatformPatterns;
+import consulo.language.util.ProcessingContext;
+import org.consulo.sdk.language.psi.SimpleTypes;
+
+import jakarta.annotation.Nonnull;
+
+@ExtensionImpl
+final class SimpleCompletionContributor extends CompletionContributor {
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return SimpleLanguage.INSTANCE;
+  }
+
+  SimpleCompletionContributor() {
+    extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.VALUE),
+        new CompletionProvider() {
+          public void addCompletions(@Nonnull CompletionParameters parameters,
+                                     @Nonnull ProcessingContext context,
+                                     @Nonnull CompletionResultSet resultSet) {
+            resultSet.addElement(LookupElementBuilder.create("Hello"));
+          }
+        }
+    );
+  }
+
+}
 ```
 
 ## 9.2. Register the Completion Contributor
-The `SimpleCompletionContributor` implementation is registered in the plugin configuration file with the Consulo using the `com.intellij.completion.contributor` extension point.
-
-```xml
-  <extensions defaultExtensionNs="com.intellij">
-    <completion.contributor language="Simple"
-            implementationClass="org.intellij.sdk.language.SimpleCompletionContributor"/>
-  </extensions>
-```
+The [`CompletionContributor`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/completion/CompletionContributor.java) base class is annotated with `@ExtensionAPI`. To register the completion contributor with the Consulo, annotate the `SimpleCompletionContributor` implementation class with `@ExtensionImpl`.
 
 ## 9.3. Run the Project
 Run the `simple_language_plugin` in a Development Instance and open the [`test.simple`](/tutorials/custom_language_support/lexer_and_parser_definition.md#run-the-project) file.
-Erase the property "English" and invoke [Basic Code Completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#invoke-basic-completion).
+Erase the property "English" and invoke Basic Code Completion.
 The choice "Hello" is shown:
 
 ![Completion](img/completion.png)

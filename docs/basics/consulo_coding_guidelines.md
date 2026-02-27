@@ -3,12 +3,12 @@ title: Consulo Coding Guidelines
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-If you are writing code that you would like to contribute to the Consulo (either as a patch or as a plugin), following these guidelines will make it easier for the JetBrains development team to review and accept your changes.
+If you are writing code that you would like to contribute to the Consulo (either as a patch or as a plugin), following these guidelines will make it easier for the development team to review and accept your changes.
 
 ## Following the Latest Source Code
 
 If you submit patches, we strongly recommend building your patches against the latest version of the code from the Git repository.
-The easiest way to do so is to clone the JetBrains Git repository, track your work in Git, and create patches using the "git format-patch" command.
+The easiest way to do so is to clone the Consulo Git repository, track your work in Git, and create patches using the "git format-patch" command.
 
 ## General Architectural Principles
 
@@ -16,7 +16,7 @@ Please do your best to follow common Java architectural principles. "Effective J
 
 ## Tests
 
-Functional tests cover most of the existing functionality of IntelliJ IDEA.
+Functional tests cover most of the existing functionality of Consulo.
 If tests cover the area you're modifying, you must run the tests and make sure that your changes do not introduce any new test failures.
 It's also strongly recommended that you provide new functional tests that cover the bugs you fix or the new features that you add.
 
@@ -28,11 +28,11 @@ We're generally pretty lax about code formatting, but at least the following con
 - **my** prefix for instance variables and **our** prefix for class variables
 - new source code files must include a copyright statement with the Apache 2 license and the name of the contributor.
 
-The easiest way to follow our code formatting guidelines is to reformat your code submissions using the shared code style, which is included in the IntelliJ IDEA Community Edition project directory.
+The easiest way to follow our code formatting guidelines is to reformat your code submissions using the shared code style, which is included in the Consulo project directory.
 
 ## Inspections
 
-The IntelliJ IDEA Community Edition project includes a shared inspection profile.
+The Consulo project includes a shared inspection profile.
 We strongly recommend making sure that the code you submit does not contain any warnings highlighted by the inspections configured in that inspection profile.
 
 ## JavaDoc Comments

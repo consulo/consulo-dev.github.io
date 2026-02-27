@@ -3,15 +3,15 @@ title: Disposer and Disposable
 ---
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-The Consulo's [`Disposer`](upsource:///platform/util/src/com/intellij/openapi/util/Disposer.java) facilitates resource cleanup.
+The Consulo's [`Disposer`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java) facilitates resource cleanup.
 If a subsystem keeps a set of resources alive coincident with a parent object's lifetime, the subsystem's resources should be registered with the `Disposer` to be released before or at the same time as the parent object.
 
 The most common resource type managed by `Disposer` is listeners, but there are other possible types:
 * File handles, and database connections,
 * Caches and other significant data structures.
 
-The `Disposer` is a singleton that manages a tree of [`Disposable`](upsource:///platform/util/src/com/intellij/openapi/Disposable.java) instances.
-A `Disposable` is an interface for any object providing a `Disposable.dispose()` method to release heavyweight resources after a specific lifetime.
+The `Disposer` is a singleton that manages a tree of [`Disposable`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java) instances.
+A `Disposable` is an interface for any object providing a [`Disposable.dispose()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java) method to release heavyweight resources after a specific lifetime.
 
 The `Disposer` supports chaining `Disposables` in parent-child relationships.
 
@@ -25,19 +25,19 @@ The most important type of such objects is [services](/basics/plugin_structure/p
 Application-level services are automatically disposed by the platform when the IDE is closed or the plugin providing the service is unloaded.
 Project-level services are disposed when the project is closed, or the plugin is unloaded.
 
-Note that extensions registered in `plugin.xml` are *not* automatically disposed.
+Note that extensions registered via `@ExtensionImpl` are *not* automatically disposed.
 If an extension requires executing some code to dispose it, you need to define a service and to put the code in its `dispose()` method or use it as a parent disposable.
 
 
 ## The Disposer Singleton
-The primary purpose of the [`Disposer`](upsource:///platform/util/src/com/intellij/openapi/util/Disposer.java) singleton is to enforce the rule that _a child `Disposable` never outlives its parent_.
+The primary purpose of the `Disposer` singleton is to enforce the rule that _a child `Disposable` never outlives its parent_.
 
 The `Disposer` organizes `Disposable` objects in a tree of parent-child relationships.
 The tree of `Disposable` objects ensures the `Disposer` releases children of a parent first.
 
 See [The Disposable Interface](#implementing-the-disposable-interface) for more information about creating `Disposable` classes.
 
-Registering a disposable is performed by calling `Disposer.register()`:
+Registering a disposable is performed by calling [`Disposer.register()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java):
 
 ```java
   Disposer.register(parentDisposable, childDisposable);
@@ -53,8 +53,8 @@ Use the following guidelines to choose the correct parent:
 * For resources required for a plugin's entire lifetime, use an application or project level [service](/basics/plugin_structure/plugin_services.md).
 * For resources required while a [dialog](/user_interface_components/dialog_wrapper.md) is displayed, use `DialogWrapper.getDisposable()`.
 * For resources required while a [tool window](/user_interface_components/tool_windows.md) tab is displayed, pass your instance implementing `Disposable` to `Content.setDisposer()`.
-* For resources with a shorter lifetime, create a disposable using `Disposer.newDisposable()` and dispose it manually using `Disposable.dispose()`.
-  Note that it's always best to specify a parent for such a disposable (e.g., a project-level service), so that there is no memory leak if the `Disposable.dispose()` call is not reached because of an exception or a programming error.
+* For resources with a shorter lifetime, create a disposable using [`Disposer.newDisposable()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java) and dispose it manually using [`Disposable.dispose()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java).
+  Note that it's always best to specify a parent for such a disposable (e.g., a project-level service), so that there is no memory leak if the [`Disposable.dispose()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java) call is not reached because of an exception or a programming error.
 
 > **WARNING** Even though `Application` and `Project` implement `Disposable`, they must NEVER be used as parent disposables in plugin code.
 Disposables registered using those objects as parents will not be disposed when the plugin is unloaded, leading to memory leaks.
@@ -87,10 +87,10 @@ Using such methods is always preferable to removing listeners explicitly from th
 To choose the correct parent disposable, use the guidelines from the previous section.
 
 The same rules apply to [message bus](/reference_guide/messaging_infrastructure.md) connections.
-Always pass a parent disposable to `MessageBus.connect()`, and make sure it has the shortest possible lifetime.
+Always pass a parent disposable to [`MessageBus.connect()`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/messagebus/MessageBus.java), and make sure it has the shortest possible lifetime.
 
 ### Determining Disposal Status
-You can use `Disposer.isDisposed()` to check whether a `Disposable` has already been disposed.
+You can use [`Disposer.isDisposed()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java) to check whether a `Disposable` has already been disposed.
 This check is useful, for example, for an asynchronous callback to a  `Disposable` that may be disposed before the callback is executed.
 In such a case, the best strategy is usually to do nothing and return early.
 
@@ -98,7 +98,7 @@ In such a case, the best strategy is usually to do nothing and return early.
 > Once a `Disposable` is released, it should be completely inactive, and there's no reason to refer to it anymore.
 
 ### Ending a Disposable Lifecycle
-A plugin can manually end a `Disposable` lifecycle by calling `Disposer.dispose(Disposable)`.
+A plugin can manually end a `Disposable` lifecycle by calling [`Disposer.dispose(Disposable)`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java).
 This method handles recursively disposing of all the `Disposable` child descendants as well.
 
 ## Implementing the Disposable Interface
@@ -133,8 +133,8 @@ Regardless, it illustrates the basic pattern, which is:
 * The `Foo` disposable is registered as a child of `parentDisposable` in the constructor.
 * The `dispose()` method consolidates the necessary release actions and will be called by the `Disposer`.
 
-> **WARNING** Never call `Disposable.dispose()` directly because it bypasses the parent-child relationships established in `Disposer`.
-> Always call `Disposer.dispose(Disposable)` instead.
+> **WARNING** Never call [`Disposable.dispose()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java) directly because it bypasses the parent-child relationships established in `Disposer`.
+> Always call [`Disposer.dispose(Disposable)`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java) instead.
 
 ## Diagnosing Disposer Leaks
 
@@ -173,9 +173,9 @@ The following snippet represents the sort of "memory leak detected" error encoun
 > **TIP** The first part of the callstack is unrelated to diagnosing the memory leak.
 > Instead, pay attention to the second part of the call stack, after `Caused by: java.lang.Throwable`.
 
-In this specific case, the Consulo ([`CoreProgressManager`](upsource:///platform/core-impl/src/com/intellij/openapi/progress/impl/CoreProgressManager.java)) started a task that contained the `DynamicWizard` code.
+In this specific case, the Consulo (`CoreProgressManager`) started a task that contained the `DynamicWizard` code.
 In turn, that code allocated a `Project` that was never disposed by the time the application exited.
 That is a promising place to start digging.
 
 The above memory leak was ultimately caused by failing to pass a `Project` instance to a function responsible for registering it for disposal.
-Often the fix for a memory leak is as simple as understanding the memory scope of the object being allocated - usually a UI container, project, or application - and making sure a `Disposer.register()` call is made appropriately for it.
+Often the fix for a memory leak is as simple as understanding the memory scope of the object being allocated - usually a UI container, project, or application - and making sure a [`Disposer.register()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java) call is made appropriately for it.

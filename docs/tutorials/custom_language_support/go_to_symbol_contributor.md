@@ -1,7 +1,7 @@
 ---
 title: 13. Go To Symbol Contributor
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 A _Go to Symbol Contributor_ helps the user to navigate to any PSI element by its name.
 
@@ -46,28 +46,66 @@ Right-click on the `Simple.bnf` file and select **Generate Parser Code**.
 
 ```java
 property ::= (KEY? SEPARATOR VALUE?) | KEY {
-  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
-  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
+  mixin="org.consulo.sdk.language.psi.impl.SimpleNamedElementImpl"
+  implements="org.consulo.sdk.language.psi.SimpleNamedElement"
   methods=[getKey getValue getName setName getNameIdentifier getPresentation]
 }
 ```
 
 ## 13.3. Define a Go to Symbol Contributor
-To enable the `simple_language_plugin` to contribute items to **Navigate \| Class..., File..., Symbol...** lists, subclass [`ChooseByNameContributor`](upsource:///platform/lang-api/src/com/intellij/navigation/ChooseByNameContributor.java) to create `SimpleChooseByNameContributor`:
+To enable the `simple_language_plugin` to contribute items to **Navigate \| Class..., File..., Symbol...** lists, subclass `ChooseByNameContributor` to create `SimpleChooseByNameContributor`:
 
 ```java
-{% include /code_samples/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleChooseByNameContributor.java %}
+package org.consulo.sdk.language;
+
+import consulo.annotation.component.ExtensionImpl;
+import consulo.ide.navigation.ChooseByNameContributorEx;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.IdFilter;
+import consulo.navigation.NavigationItem;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import org.consulo.sdk.language.psi.SimpleProperty;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+
+@ExtensionImpl
+final class SimpleChooseByNameContributor implements ChooseByNameContributorEx {
+
+  @Override
+  public void processNames(@Nonnull Predicate<String> processor,
+                           @Nonnull GlobalSearchScope scope,
+                           @Nullable IdFilter filter) {
+    Project project = Objects.requireNonNull(scope.getProject());
+    List<String> propertyKeys = ContainerUtil.map(
+        SimpleUtil.findProperties(project), SimpleProperty::getKey);
+    for (String key : propertyKeys) {
+      if (!processor.test(key)) break;
+    }
+  }
+
+  @Override
+  public void processElementsWithName(@Nonnull String name,
+                                      @Nonnull Predicate<NavigationItem> processor,
+                                      @Nonnull FindSymbolParameters parameters) {
+    List<NavigationItem> properties = ContainerUtil.map(
+        SimpleUtil.findProperties(parameters.getProject(), name),
+        property -> (NavigationItem) property);
+    for (NavigationItem item : properties) {
+      if (!processor.test(item)) break;
+    }
+  }
+
+}
 ```
 
 ## 13.4. Register the Go To Symbol Contributor
-The `SimpleChooseByNameContributor` implementation is registered with the Consulo in the plugin configuration file using the `com.intellij.gotoSymbolContributor` extension point.
-
-```xml
-  <extensions defaultExtensionNs="com.intellij">
-    <gotoSymbolContributor
-            implementation="org.intellij.sdk.language.SimpleChooseByNameContributor"/>
-  </extensions>
-```
+The `SimpleChooseByNameContributor` implementation is registered with the Consulo by annotating the class with `@ExtensionImpl`. The base interface `ChooseByNameContributor` is annotated with `@ExtensionAPI`, so the Consulo discovers the implementation automatically.
 
 ## 13.5. Run the Project
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.

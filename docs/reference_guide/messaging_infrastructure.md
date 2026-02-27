@@ -1,7 +1,7 @@
 ---
 title: Messaging Infrastructure
 ---
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 ## Purpose
 
@@ -48,7 +48,7 @@ Manages all subscriptions for particular client within particular bus.
 * it's possible to specify *default handler* and subscribe to the target topic without explicitly provided callback.
   Connection will use that *default handler* when storing *(topic-handler)* mapping;
 * it's possible to explicitly release acquired resources (*disconnect()* method).
-  Also it can be plugged to standard semi-automatic disposing ([`Disposable`](upsource:///platform/util/src/com/intellij/openapi/Disposable.java));
+  Also it can be plugged to standard semi-automatic disposing ([`Disposable`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java));
 
 ### Putting Altogether
 
@@ -68,7 +68,7 @@ public interface ChangeActionNotifier {
 
 ![Subscribing](img/subscribe.svg)
 
-> **NOTE** If targeting 2019.3 or later, use [declarative registration](/basics/plugin_structure/plugin_listeners.md) if possible.
+> **NOTE** For listener registration, use the `@TopicImpl(ComponentScope.xxx)` annotation approach instead of programmatic subscription where possible. See [Plugin Listeners](/basics/plugin_structure/plugin_listeners.md) for details.
 
 
 ```java
@@ -105,9 +105,9 @@ public void doChange(Context context) {
 
 *Existing resources*
 
-* *MessageBus* instances are available via [`ComponentManager.getMessageBus()`](upsource:///platform/extensions/src/com/intellij/openapi/components/ComponentManager.java)
-  Many standard interfaces implement a message bus, e.g., [`Application`](upsource:///platform/core-api/src/com/intellij/openapi/application/Application.java) and [`Project`](upsource:///platform/core-api/src/com/intellij/openapi/project/Project.java).
-* A number of public topics are used by the *Consulo*, e.g., [`AppTopics`](upsource:///platform/platform-api/src/com/intellij/AppTopics.java), [`ProjectTopics`](upsource:///platform/projectModel-api/src/com/intellij/ProjectTopics.java), etc.
+* *MessageBus* instances are available via [`ComponentManager.getMessageBus()`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/ComponentManager.java)
+  Many standard interfaces implement a message bus, e.g., `Application` and `Project`.
+* A number of public topics are used by the *Consulo*, e.g., `AppTopics`, `ProjectTopics`, etc.
   So, it's possible to subscribe to them in order to receive information about the processing;
 
 ## Broadcasting
@@ -185,8 +185,7 @@ Let's compare that with a manual implementation:
 
 ### Avoid Shared Data Modification from Subscribers
 
-We had a problem in a situation when two subscribers tried to modify the same document
-([IDEA-71701](https://youtrack.jetbrains.com/issue/IDEA-71701)).
+We had a problem in a situation when two subscribers tried to modify the same document.
 
 The thing is that every document change is performed by the following scenario:
 

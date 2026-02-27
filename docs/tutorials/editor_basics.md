@@ -13,13 +13,12 @@ For operations that require access to the PSI please see the [PSI Cookbook](/bas
 
 **See also:**
 The following are referenced in the tutorial:
-* The [editor_basics](https://github.com/JetBrains/intellij-sdk-code-samples/tree/master/editor_basics/) plugin code sample,
-* [editor-ui-api package](upsource:///platform/editor-ui-api),
+* The editor-ui-api package,
 * Those not found in editor-ui-api package:
-  * [`EditorActionManager`](upsource:///platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorActionManager.java),
-  * [`EditorActionHandler`](upsource:///platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorActionHandler.java),
-  * [`TypedActionHandler`](upsource:///platform/platform-api/src/com/intellij/openapi/editor/actionSystem/TypedActionHandler.java),
-  * [`TypedAction`](upsource:///platform/platform-api/src/com/intellij/openapi/editor/actionSystem/TypedAction.java).
+  * `EditorActionManager`,
+  * `EditorActionHandler`,
+  * `TypedActionHandler`,
+  * `TypedAction`.
 
 **Related topics:**
 * [Action System](/tutorials/action_system.md)

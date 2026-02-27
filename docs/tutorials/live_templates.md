@@ -17,7 +17,7 @@ for (int i = [|]; i < []; i++) {
 ```
 
 As the user completes each section of the `for` loop and presses `Tab`, the cursor advances to the next position in the editor.
-For more information about creating Custom Live Templates, refer to the [corresponding documentation](https://www.jetbrains.com/idea/help/creating-and-editing-live-templates.html).
+For more information about creating Custom Live Templates, refer to the corresponding documentation in your IDE settings.
 
 These sections describe how to add Live Templates, and their associated building blocks, to plugins.
  * [Adding Live Templates to a Plugin](live_templates/template_support.md)
