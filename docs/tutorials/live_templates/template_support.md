@@ -77,38 +77,24 @@ It is not always necessary to define your own `TemplateContextType`, as there ar
 Consider reusing one of the many existing template context types that inherit from `TemplateContextType` if you are augmenting language support to an existing area.
 
 ## Completing the Live Template Implementation
-Depending on the version of the Consulo, different steps are used to complete the implementation of the feature.
 
-### Versions 2020.1 and Later
-For 2020.1 and later, follow this section to register the extension points and then proceed to the [Check Plugin](#check-plugin) section.
+### Register Implementations with @ExtensionImpl
 
-#### Register Extension Points
-Using the `consulo.defaultLiveTemplates` and `consulo.liveTemplateContext` extension points, register the implementations with the Consulo.
-The `file` attribute in the `defaultLiveTemplates` element specifies `path/filename` under the `src/main/resources` folder.
+In Consulo, extension point implementations are registered using the `@ExtensionImpl` annotation instead of XML.
 
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <defaultLiveTemplates file="/liveTemplates/Markdown.xml"/>
-    <liveTemplateContext implementation="org.intellij.sdk.liveTemplates.MarkdownContext"/>
-  </extensions>
-```
-
-Now go to the [Check Plugin](#check-plugin) section to test the template.
-
-### Versions 2019.3 and Earlier
-For older versions of the Consulo follow this section to complete the implementation and register the extension points.
-Then proceed to the [Check Plugin](#check-plugin) section.
-
-#### Implement DefaultLiveTemplatesProvider
+#### DefaultLiveTemplatesProvider
 The `MarkdownTemplateProvider` tells the Platform where to find the Live Template settings file.
 Make sure to include the full path to the file, relative to the `src/main/resources` directory, excluding the file extension.
+Add `@ExtensionImpl` to register it with the platform:
 
 ```java
 package org.intellij.sdk.liveTemplates;
 
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.template.DefaultLiveTemplatesProvider;
 import jakarta.annotation.Nullable;
 
+@ExtensionImpl
 public class MarkdownTemplateProvider implements DefaultLiveTemplatesProvider {
   @Override
   public String[] getDefaultLiveTemplateFiles() {
@@ -123,14 +109,14 @@ public class MarkdownTemplateProvider implements DefaultLiveTemplatesProvider {
 }
 ```
 
-#### Register Extension Points
-Using the `consulo.defaultLiveTemplatesProvider` and `consulo.liveTemplateContext` extension points, register the implementations with the Consulo.
+#### TemplateContextType
+Similarly, add `@ExtensionImpl` to the `MarkdownContext` class to register it:
 
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <defaultLiveTemplatesProvider implementation="org.intellij.sdk.liveTemplates.MarkdownTemplateProvider"/>
-    <liveTemplateContext implementation="org.intellij.sdk.liveTemplates.MarkdownContext"/>
-  </extensions>
+```java
+@ExtensionImpl
+public class MarkdownContext extends TemplateContextType {
+    // ... (see implementation above)
+}
 ```
 
 ## Check Plugin

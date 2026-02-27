@@ -44,39 +44,36 @@ Continuing with the example from [Section 2](#2-project-setup) above, the depend
 A project can also specify an optional plugin dependency.
 In this case, the plugin will load even if the plugin it depends on is not installed or enabled, but part of the plugin's functionality will not be available.
 
-Declare additional `optional="true"` and `config-file` attribute pointing to optional plugin descriptor file:
+Declare additional `optional="true"` attribute:
 
 ```xml
-  <depends optional="true" config-file="myPluginId-optionalPluginName.xml">dependency.plugin.id</depends> 
+  <depends optional="true">dependency.plugin.id</depends>
 ```
 
-> **NOTE** Additional plugin descriptor files must follow the naming pattern `myPluginId-$NAME$.xml` resulting in unique filenames to prevent problems with classloaders in tests.
-
 For example, if a plugin adds additional highlighting for Java and Kotlin files, use the following setup.
-The main `plugin.xml` will define an annotator for Java and specify an optional dependency on the Kotlin plugin (`consulo.kotlin`):
+The main `plugin.xml` declares an optional dependency on the Kotlin plugin (`consulo.kotlin`):
 
 _plugin.xml_
 
 ```xml
 <consulo-plugin>
    ...
-   <depends optional="true" config-file="myPluginId-withKotlin.xml">consulo.kotlin</depends>
-
-   <extensions defaultExtensionNs="consulo">
-      <annotator language="JAVA" implementationClass="com.example.MyJavaAnnotator"/>
-   </extensions>
+   <depends optional="true">consulo.kotlin</depends>
 </consulo-plugin>
 ```
 
-Then create a file called `myPluginId-withKotlin.xml`, in the same directory as the main `plugin.xml` file.
-In that file, define an annotator for Kotlin:
+The annotators themselves are registered using the `@ExtensionImpl` annotation on the implementation classes. Place optional-dependency annotators in a separate module that depends on the optional plugin. The platform will discover them automatically via annotation scanning; no separate XML config files are needed.
 
-_myPluginId-withKotlin.xml_
+```java
+@ExtensionImpl
+public class MyJavaAnnotator implements Annotator {
+    // Java-specific highlighting
+}
+```
 
-```xml
-<consulo-plugin>
-   <extensions defaultExtensionNs="consulo">
-      <annotator language="kotlin" implementationClass="com.example.MyKotlinAnnotator"/>
-   </extensions>
-</consulo-plugin>
+```java
+@ExtensionImpl
+public class MyKotlinAnnotator implements Annotator {
+    // Kotlin-specific highlighting, in a module that depends on consulo.kotlin
+}
 ```

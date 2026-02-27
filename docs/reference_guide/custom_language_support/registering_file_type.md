@@ -7,12 +7,10 @@ title: Registering a File Type
 The first step in developing a custom language plugin is registering a file type associated with the language.
 
 The IDE typically determines the type of a file by looking at its file name or extension.
-In 2020.2, support for mapping via _hashbang_ is available via `hashBangs` attribute in `consulo.fileType` extension point.
 
 A custom language file type is a class derived from [`LanguageFileType`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/file/LanguageFileType.java) (`consulo.language.file.LanguageFileType`), which passes a [`Language`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/Language.java) (`consulo.language.Language`) subclass to its base class constructor.
 
-To register a file type, the plugin developer provides a subclass of `FileTypeFactory` (`consulo.virtualFileSystem.fileType.FileTypeFactory`), which is registered via the `consulo.fileTypeFactory` extension point.
-> **NOTE** When targeting 2019.2 or later only, using `consulo.fileType` extension point is preferred to using dedicated `FileTypeFactory`.
+To register a file type, the plugin developer annotates the `LanguageFileType` subclass with `@ExtensionImpl`. The base class `LanguageFileType` is annotated with `@ExtensionAPI(ComponentScope.APPLICATION)`.
 
 **Examples**:
 - `LanguageFileType` subclass in Properties language plugin

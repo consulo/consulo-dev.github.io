@@ -51,12 +51,21 @@ That means that a set of *DataNode*, *Key* and *ProjectDataServices* can be intr
 Consulo provides standard API for that.
 Namely, `ProjectImportBuilder` and `ProjectImportProvider`.
 There are two classes built on *template method* pattern - `AbstractExternalProjectImportBuilder` and `AbstractExternalProjectImportProvider`.
-Concrete implementations are registered in `plugin.xml`.
+Concrete implementations are registered by annotating them with `@ExtensionImpl`.
 
 Here is an example from the gradle integration plugin:
 
-    <projectImportProvider implementation="org.jetbrains.plugins.gradle.service.settings.GradleProjectImportProvider"/>
-    <projectImportBuilder implementation="org.jetbrains.plugins.gradle.service.settings.GradleProjectImportBuilder"/>
+```java
+@ExtensionImpl
+public class GradleProjectImportProvider extends AbstractExternalProjectImportProvider {
+    // ...
+}
+
+@ExtensionImpl
+public class GradleProjectImportBuilder extends AbstractExternalProjectImportBuilder {
+    // ...
+}
+```
 
 Note that `AbstractExternalProjectImportBuilder` is built on top of the 'external system settings' controls.
 
@@ -85,8 +94,8 @@ Then register the instance with `ExternalSystemProjectTracker` to start tracking
 
 ### Icon for Reload Notification
 Since 2020.1, the icon for reload notification can be specified per external system.
-Implement `ExternalSystemIconProvider` and register via `consulo.externalIconProvider` extension point in `plugin.xml`.
-Alternatively, set `reloadIcon` field external system implements `ExternalSystemIconProvider` directly.
+Implement `ExternalSystemIconProvider` and annotate your implementation with `@ExtensionImpl` to register it.
+Alternatively, set `reloadIcon` field if external system implements `ExternalSystemIconProvider` directly.
 
 
 ## Settings

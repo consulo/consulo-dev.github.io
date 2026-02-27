@@ -26,16 +26,16 @@ A `FileViewProvider` instance corresponds to a single [`VirtualFile`](https://gi
 
 ## How do I extend the FileViewProvider?
 
-To create a file type that has multiple interspersing trees for different languages, a plugin must contain an extension to the `fileType.fileViewProviderFactory` extension point.
+To create a file type that has multiple interspersing trees for different languages, a plugin must implement `FileViewProviderFactory` and return your `FileViewProvider` implementation from `createFileViewProvider()` method.
 
-Implement `FileViewProviderFactory` and return your `FileViewProvider` implementation from `createFileViewProvider()` method.
+Register the factory by annotating the implementation class with `@ExtensionImpl`:
 
-Register as follows in `plugin.xml`:
-
-```xml
-<extensions defaultExtensionNs="consulo">
-  <fileType.fileViewProviderFactory filetype="%file_type%" implementationClass="com.plugin.MyFileViewProviderFactory" />
-</extensions>
+```java
+@ExtensionImpl
+public class MyFileViewProviderFactory implements FileViewProviderFactory {
+    @Override
+    public FileViewProvider createFileViewProvider(VirtualFile file, Language language, PsiManager manager, boolean eventSystemEnabled) {
+        return new MyFileViewProvider(manager, file, eventSystemEnabled);
+    }
+}
 ```
-
-Where `%file_type%` refers to the type of the file being created (for example, "JFS").

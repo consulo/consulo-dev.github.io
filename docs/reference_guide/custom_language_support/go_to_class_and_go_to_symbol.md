@@ -5,7 +5,7 @@ title: Go to Class and Go to Symbol
 <!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 A custom language plugin can provide its own items to be included in the lists shown when the user chooses the _Navigate | Class_ or _Navigate | Symbol_ action.
-In order to do so, the plugin must provide implementations for the `ChooseByNameContributor` interface (separate implementations need to be provided for _Class_ and _Symbol_ respectively), and register them in the `consulo.gotoClassContributor` and `consulo.gotoSymbolContributor` extension points.
+In order to do so, the plugin must provide implementations for the `ChooseByNameContributor` interface (separate implementations need to be provided for _Class_ and _Symbol_ respectively), and annotate each implementation with `@ExtensionImpl`.
 
 > **TIP** Please consider implementing `ChooseByNameContributorEx` for better performance.
 

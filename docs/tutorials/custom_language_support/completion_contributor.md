@@ -20,14 +20,7 @@ This rudimentary completion contributor always adds "Hello" to the results set, 
 ```
 
 ## 9.2. Register the Completion Contributor
-The `SimpleCompletionContributor` implementation is registered in the plugin configuration file with the Consulo using the `consulo.completion.contributor` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <completion.contributor language="Simple"
-            implementationClass="org.intellij.sdk.language.SimpleCompletionContributor"/>
-  </extensions>
-```
+The [`CompletionContributor`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/completion/CompletionContributor.java) base class is annotated with `@ExtensionAPI`. To register the completion contributor with the Consulo, annotate the `SimpleCompletionContributor` implementation class with `@ExtensionImpl`.
 
 ## 9.3. Run the Project
 Run the `simple_language_plugin` in a Development Instance and open the [`test.simple`](/tutorials/custom_language_support/lexer_and_parser_definition.md#run-the-project) file.

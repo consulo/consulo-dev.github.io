@@ -37,16 +37,17 @@ The `groupId` parameter of the [`Notification`](https://github.com/consulo/consu
 
 To specify the preferred display type, you need to use [`NotificationGroup`](https://github.com/consulo/consulo/blob/master/modules/base/project-ui-api/src/main/java/consulo/project/ui/notification/NotificationGroup.java) to create notifications.
 
-Please see the following two paragraphs for setup, depending on the target platform version.
+Please see the following paragraph for setup.
 
-##### NotificationGroup (2020.3 and later)
+##### NotificationGroup Registration
 
-`NotificationGroup` is registered in `plugin.xml` using `consulo.notificationGroup` extension point. Use `key` to provide a localized group display name.
+`NotificationGroup` is registered by annotating the implementation class with `@ExtensionImpl`. The base class is annotated with `@ExtensionAPI`, so the platform discovers the registration automatically.
 
-```xml
-<extensions defaultExtensionNs="consulo">
-  <notificationGroup id="Custom Notification Group" displayType="BALLOON" key="notification.group.name"/>
-</extensions>
+```java
+@ExtensionImpl
+public class MyNotificationGroup extends NotificationGroup {
+    // Configure notification group properties (id, displayType, etc.)
+}
 ```
 
 Registered instances can then be obtained via their `id`.
@@ -60,24 +61,6 @@ public class MyNotifier {
     NotificationGroupManager.getInstance().getNotificationGroup("Custom Notification Group")
             .createNotification(content, NotificationType.ERROR)
             .notify(project);
-  }
-
-}
-```
-
-##### NotificationGroup (Pre-2020.3)
-
-`NotificationGroup` is registered in code.
-
-```java
-public class MyNotifier {
-
-  private static final NotificationGroup NOTIFICATION_GROUP =
-          new NotificationGroup("Custom Notification Group", NotificationDisplayType.BALLOON, true);
-
-  public static void notifyError(@Nullable Project project, String content) {
-    NOTIFICATION_GROUP.createNotification(content, NotificationType.ERROR)
-                      .notify(project);
   }
 
 }

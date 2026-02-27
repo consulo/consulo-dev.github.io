@@ -65,7 +65,7 @@ Code formatting can be suppressed per region via special comments.
 
 ### Code Style Settings
 
-To specify the default indent size for the language provided by your plugin, and to allow the user to configure the tab size and indent size, you need to implement the `FileTypeIndentOptionsProvider` interface and to register the implementation in the `consulo.fileTypeIndentOptionsProvider` extension point.
+To specify the default indent size for the language provided by your plugin, and to allow the user to configure the tab size and indent size, you need to implement the `FileTypeIndentOptionsProvider` interface and annotate your implementation with `@ExtensionImpl`. The base interface `FileTypeIndentOptionsProvider` is annotated with `@ExtensionAPI`.
 The return value of `createIndentOptions()` determines the default indent size.
 
 **Example**:

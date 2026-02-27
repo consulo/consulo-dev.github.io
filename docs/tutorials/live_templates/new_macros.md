@@ -48,13 +48,15 @@ The argument to the `titleCase` function is `SELECTION`, which tells the Consulo
 </template>
 ```
 
-## Register Extension Point
-Using the `consulo.liveTemplateMacro` extension point, register the implementation with the Consulo.
+## Register the Macro with @ExtensionImpl
+In Consulo, the `Macro` base class is annotated with `@ExtensionAPI`, so macro implementations are registered using the `@ExtensionImpl` annotation instead of XML.
+Add `@ExtensionImpl` to the `TitleCaseMacro` class:
 
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <liveTemplateMacro implementation="org.intellij.sdk.liveTemplates.TitleCaseMacro"/>
-  </extensions>
+```java
+@ExtensionImpl
+public class TitleCaseMacro extends MacroBase {
+    // ... (see implementation above)
+}
 ```
 
 ## Check Plugin

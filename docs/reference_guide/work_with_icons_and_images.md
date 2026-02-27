@@ -45,21 +45,21 @@ object DemoPluginIcons {
 }
 ```
 
-Use these constants inside `plugin.xml` as well when specifying `icon` attribute for `<action>` or extension points.
-Note that the package name `icons` will be automatically prefixed and must not be added manually.
+Use these constants when referencing icons in your action and extension classes.
 
-```xml
-<actions>
-    <action id="DemoPlugin.DemoAction"
-            icon="DemoPluginIcons.DemoAction" [...] />
-</actions>
+For actions, specify the icon by overriding `getIcon()` or passing it via the constructor, and register the action using the `@ActionImpl` annotation:
 
-<extensions defaultExtensionNs="consulo">
-    <toolWindow id="CustomStructure"
-                icon="DemoPluginIcons.StructureToolWindow" [...] />
-</extensions>
-
+```java
+@ActionImpl(id = "DemoPlugin.DemoAction", parents = @ActionParentRef(@ActionRef(id = "ToolsMenu")))
+public class DemoAction extends AnAction {
+    public DemoAction() {
+        super("Demo Action", "A demo action", DemoPluginIcons.DemoAction);
+    }
+    // ...
+}
 ```
+
+For extensions such as tool windows, annotate the implementation class with `@ExtensionImpl` and reference the icon constant directly in your code.
 
 ## Image Formats
 

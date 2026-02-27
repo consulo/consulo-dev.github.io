@@ -11,7 +11,7 @@ Highlighting from multiple `TextAttributesKey` items can be layered - for exampl
                                                                         
 ## Color Settings
 The mapping of the `TextAttributesKey` to specific attributes used in an editor is defined by the `EditorColorsScheme` class.
-It can be configured by the user by providing an implementation of `ColorSettingPage` registered in `consulo.colorSettingsPage` extension point.
+It can be configured by the user by providing an implementation of `ColorSettingPage` annotated with `@ExtensionImpl`. The base interface `ColorSettingPage` is annotated with `@ExtensionAPI`.
 
 The _Export to HTML_ feature uses the same syntax highlighting mechanism as the editor, so it will work automatically for custom languages, which provide a syntax highlighter.
 
@@ -44,7 +44,7 @@ If a particular sequence of tokens is invalid according to the grammar of the la
 ## Annotator
 
 The third level of highlighting is performed through the [`Annotator`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/annotation/Annotator.java) (`consulo.language.editor.annotation.Annotator`) interface.
-A plugin can register one or more annotators in the `consulo.annotator` extension point, and these annotators are called during the background highlighting pass to process the elements in the custom language's PSI tree.
+A plugin can provide one or more annotators annotated with `@ExtensionImpl` (the base interface `Annotator` is annotated with `@ExtensionAPI`), and these annotators are called during the background highlighting pass to process the elements in the custom language's PSI tree.
 
 Annotators can analyze not only the syntax, but also the semantics using PSI, and thus can provide much more complex syntax and error highlighting logic.
 The annotator can also provide quick fixes to problems it detects.
@@ -80,9 +80,9 @@ In previous versions, call `AnnotationHolder.createInfoAnnotation()` with an emp
 
 ## External Tool
 
-Finally, if the custom language employs external tools for validating files in the language (for example, uses the Xerces library for XML schema validation), it can provide an implementation of the `ExternalAnnotator` interface and register it in `consulo.externalAnnotator` extension point.
+Finally, if the custom language employs external tools for validating files in the language (for example, uses the Xerces library for XML schema validation), it can provide an implementation of the `ExternalAnnotator` interface annotated with `@ExtensionImpl`. The base class `ExternalAnnotator` is annotated with `@ExtensionAPI`.
 
 The `ExternalAnnotator` highlighting has the lowest priority and is invoked only after all other background processing has completed.
 It uses the same `AnnotationHolder` interface for converting the output of the external tool into editor highlighting.
                               
-To skip running specific `ExternalAnnotator` for given file, register `ExternalAnnotatorsFilter` extension in `consulo.daemon.externalAnnotatorsFilter` extension point.
+To skip running specific `ExternalAnnotator` for given file, annotate your `ExternalAnnotatorsFilter` implementation with `@ExtensionImpl`. The base interface `ExternalAnnotatorsFilter` is annotated with `@ExtensionAPI`.

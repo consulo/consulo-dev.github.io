@@ -30,14 +30,7 @@ Here, `SimpleSyntaxHighlighterFactory` subclasses [`SyntaxHighlighterFactory`](h
 ```
 
 ### 5.3. Register the Syntax Highlighter Factory
-Register the factory with the Consulo in the plugin configuration file using the `consulo.lang.syntaxHighlighterFactory` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <lang.syntaxHighlighterFactory language="Simple"
-                implementationClass="org.intellij.sdk.language.SimpleSyntaxHighlighterFactory"/>
-  </extensions>
-```
+The [`SyntaxHighlighterFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/highlight/SyntaxHighlighterFactory.java) base class is annotated with `@ExtensionAPI(ComponentScope.APPLICATION)`. To register the factory with the Consulo, annotate the `SimpleSyntaxHighlighterFactory` implementation class with `@ExtensionImpl`.
 
 ### 5.4. Run the Project
 Open the example Simple Language [properties file ](/tutorials/custom_language_support/lexer_and_parser_definition.md#run-the-project) (`test.simple`) in the IDE Development Instance.
@@ -54,13 +47,7 @@ The `SimpleColorSettingsPage` implements `ColorSettingsPage`.
 ```
 
 ### 5.6. Register the Color Settings Page
-Register the Simple Language color settings page with the Consulo in the plugin configuration file using the `consulo.colorSettingsPage` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <colorSettingsPage implementation="org.intellij.sdk.language.SimpleColorSettingsPage"/>
-  </extensions>
-```
+The `ColorSettingsPage` interface is annotated with `@ExtensionAPI`. To register the Simple Language color settings page with the Consulo, annotate the `SimpleColorSettingsPage` implementation class with `@ExtensionImpl`.
 
 ### 5.7. Run the Project
 In the IDE Development Instance, open the Simple Language highlight settings page: **Preferences/Settings \| Editor \| Color Scheme \| Simple**.

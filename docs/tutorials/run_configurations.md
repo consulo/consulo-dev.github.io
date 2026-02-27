@@ -11,21 +11,13 @@ To get familiar with the concept of a Run Configuration refer to the Run/Debug C
 
 Create an empty plugin project as described in [Creating a Plugin Project](/basics/getting_started.md).
 
-## 1. Register a New ConfigurationType
+## 1. Implement ConfigurationType
 
-Add new `configurationType` extension to the `plugin.xml`
-
-```xml
-<extensions defaultExtensionNs="com.intellij">
-  <configurationType implementation="org.jetbrains.sdk.runConfiguration.DemoRunConfigurationType"/>
-</extensions>
-```
-
-## 2. Implement ConfigurationType
-
-Implement `ConfigurationType` interface registered in the Step 1.
+Implement the `ConfigurationType` interface.
+In Consulo, `ConfigurationType` is annotated with `@ExtensionAPI(ComponentScope.APPLICATION)`, so implementations are registered using the `@ExtensionImpl` annotation instead of XML.
 
 ```java
+@ExtensionImpl
 public class DemoRunConfigurationType implements ConfigurationType {
     @Override
     public String getDisplayName() {
@@ -55,7 +47,7 @@ public class DemoRunConfigurationType implements ConfigurationType {
 }
 ```
 
-## 3. Implement a ConfigurationFactory
+## 2. Implement a ConfigurationFactory
 
 Implement a new `ConfigurationFactory` through which custom run configurations will be created.
 
@@ -80,7 +72,7 @@ public class DemoConfigurationFactory extends ConfigurationFactory {
 
 ```
 
-## 4. Implement a Run Configuration
+## 3. Implement a Run Configuration
 
 To make your changes visible from the UI, implement a new Run Configuration.
 
@@ -112,7 +104,7 @@ public class DemoRunConfiguration extends RunConfigurationBase {
 }
 ```
 
-## 5. Create and Implement Run Configuration UI Form
+## 4. Create and Implement Run Configuration UI Form
 
 Make sure _UI Designer_ plugin is enabled.
 
@@ -122,7 +114,7 @@ Default Run Configuration will be looking like this:
 
 ![Default Run Configuration Look](run_configurations/img/ui_form.png)
 
-## 6. Bind the UI Form
+## 5. Bind the UI Form
 
 The UI Form should be bound with a Java class responsible for handling UI components logic.
 
@@ -154,7 +146,7 @@ public class DemoSettingsEditor extends SettingsEditor<DemoRunConfiguration> {
 }
 ```
 
-## 7. Compile and Run the Plugin
+## 6. Compile and Run the Plugin
 
 Refer to [Running and Debugging a Plugin](/basics/getting_started/running_and_debugging_a_plugin.md).
 

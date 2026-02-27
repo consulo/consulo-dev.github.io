@@ -25,14 +25,17 @@ The `AppSettingsState` class persistently stores the custom Settings.
 It is based on the [Consulo Persistence Model](/basics/persisting_state_of_components.md#using-persistentstatecomponent).
 
 ### Declaring AppSettingsState
-Given a [Light Service](/basics/plugin_structure/plugin_services.md#light-services) is not used, the persistent data class must be declared as a [Service](/basics/plugin_structure/plugin_services.md#declaring-a-service) EP in the `plugin.xml` file.
-If these were Project Settings, the `consulo.projectService` EP would be used.
-However, because these are Application Settings, the `consulo.applicationService` EP is used with the FQN of the implementation class:
+In Consulo, services are registered using annotations instead of XML.
+The service interface or base class is annotated with `@ServiceAPI(ComponentScope.APPLICATION)` (or `ComponentScope.PROJECT` for project-level services), and the implementation class is annotated with `@ServiceImpl`.
 
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <applicationService serviceImplementation="org.intellij.sdk.settings.AppSettingsState"/>
-  </extensions>
+For `AppSettingsState`, the `@ServiceImpl` annotation on the implementation class is sufficient to register it as an application-level service:
+
+```java
+@ServiceImpl
+@State(name = "org.intellij.sdk.settings.AppSettingsState", storages = @Storage("SdkSettingsPlugin.xml"))
+public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
+    // ...
+}
 ```
 
 ### Creating the AppSettingState Implementation
@@ -83,16 +86,10 @@ The rest of the class are simple accessors and mutators to encapsulate the UI co
 The methods of `AppSettingsConfigurable` are called by the Consulo, and `AppSettingsConfigurable` in turn interacts with `AppSettingsComponent` and `AppSettingState`.
 
 ### Declaring the AppSettingsConfigurable
-As described in [Declaring Application Settings](/reference_guide/settings_guide.md#declaring-application-settings), the `consulo.applicationConfigurable` is used as the EP.
-An explanation of this declaration can be found in [Declaring Application Settings](/reference_guide/settings_guide.md#declaring-application-settings):
+In Consulo, `ApplicationConfigurable` is annotated with `@ExtensionAPI(ComponentScope.APPLICATION)`, so implementations are registered using the `@ExtensionImpl` annotation instead of XML.
+An explanation of this pattern can be found in [Declaring Application Settings](/reference_guide/settings_guide.md#declaring-application-settings).
 
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <applicationConfigurable parentId="tools" instance="org.intellij.sdk.settings.AppSettingsConfigurable"
-                             id="org.intellij.sdk.settings.AppSettingsConfigurable"
-                             displayName="SDK: Application Settings Example"/>
-  </extensions>
-```
+The `@ExtensionImpl` annotation on the `Configurable` implementation class registers it with the platform:
 
 
 ### Creating the AppSettingsConfigurable Implementation

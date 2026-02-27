@@ -48,7 +48,7 @@ Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
 
 ## Working with a Custom SDK
 
-To create a custom SDK, provide a class extending [`SdkType`](https://github.com/consulo/consulo/blob/master/modules/base/application-content-api/src/main/java/consulo/content/bundle/SdkType.java), leave `saveAdditionalData()` blank, and register it in the `consulo.sdkType` extension point.
+To create a custom SDK, extend [`SdkType`](https://github.com/consulo/consulo/blob/master/modules/base/application-content-api/src/main/java/consulo/content/bundle/SdkType.java) (which is annotated with `@ExtensionAPI(ComponentScope.APPLICATION)`), leave `saveAdditionalData()` blank, and annotate your subclass with `@ExtensionImpl`.
 
 To make SDK settings persistent, override `setupSdkPaths()` and save settings by `modificator.commitChanges()`:
 

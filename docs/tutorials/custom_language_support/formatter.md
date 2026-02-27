@@ -33,14 +33,7 @@ Create `SimpleFormattingModelBuilder` by subclassing [`FormattingModelBuilder`](
 ```
 
 ## 15.3. Register the Formatter
-The `SimpleFormattingModelBuilder` implementation is registered with the Consulo in the plugin configuration file using the `consulo.lang.formatter` extension point.
-
-```xml
- <extensions defaultExtensionNs="consulo">
-    <lang.formatter language="Simple"
-            implementationClass="org.intellij.sdk.language.SimpleFormattingModelBuilder"/>
-  </extensions>
-```
+The `SimpleFormattingModelBuilder` implementation is registered with the Consulo by annotating the class with `@ExtensionImpl`. The base interface `FormattingModelBuilder` is annotated with `@ExtensionAPI`, so the Consulo discovers the implementation automatically.
 
 ## 15.4. Run the Project
 Add some extra spaces around the `=` separator between `language` and `English`.

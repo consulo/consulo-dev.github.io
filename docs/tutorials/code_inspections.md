@@ -17,7 +17,7 @@ See the Consulo UI Guidelines on naming, writing description, and message texts 
 The `comparing_references_inspection` code sample adds a new inspection to the **Java | Probable Bugs** group in the Inspections list.
 The inspection reports when the `==` or `!=` operator is used between Java expressions of reference types.
 It illustrates the components for a custom inspection plugin:
-* Describing an [inspection](#plugin-configuration-file) in the plugin configuration file.
+* [Registering an inspection](#registering-the-inspection) with the `@ExtensionImpl` annotation.
 * Implementing a [local inspection class](#inspection-implementation-java-class) to inspect Java code in the Consulo-based IDE editor.
 * Creating a [visitor](#visitor-implementation-class) to traverse the PSI tree of the Java file being edited, inspecting for problematic syntax.
 * Implementing a [quick fix](#quick-fix-implementation) class to correct syntax problems by altering the PSI tree as needed.
@@ -47,19 +47,22 @@ The user can apply a quick fix to change `a==b` to `a.equals(b)`, or `a!=b` to `
 
 The details of the `comparing_references_inspection` implementation illustrate the components of an inspection plugin.
 
-### Plugin Configuration File
-The `comparing_references_inspection` is described as a `<localInspection>` extension point in the `comparing_references_inspection` plugin configuration (`plugin.xml`) file.
+### Registering the Inspection
+In Consulo, inspections are registered using the `@ExtensionImpl` annotation on the implementation class instead of XML configuration.
 
-There exist two types of inspection extensions:
-* The `consulo.localInspection` extension point is used for inspections that operate on one file at a time, and also operate "on-the-fly" as the user edits the file.
-* The `consulo.globalInspection` extension point is used for inspections that operate across multiple files, and the associated fix might, for example, refactor code between files.
+There exist two types of inspections:
+* Local inspections (based on `LocalInspectionTool`) operate on one file at a time, and also operate "on-the-fly" as the user edits the file.
+* Global inspections (based on `GlobalInspectionTool`) operate across multiple files, and the associated fix might, for example, refactor code between files.
 
-The minimum inspection description must contain the `implementationClass` attribute.
-As shown in the `comparing_references_inspection` plugin configuration file, other attributes can be defined in the `localInspection` element, either with or without localization.
-In most cases, it is simplest to define the attributes in the plugin configuration file because the underlying parent classes handle most of the class responsibilities based on the configuration file description.
-Note that some attributes are not displayed to the user, so they are never localized.
+Both `LocalInspectionTool` and `GlobalInspectionTool` are annotated with `@ExtensionAPI`, so implementations are registered by adding `@ExtensionImpl` to the inspection class.
+Inspection attributes such as display name, group, and description are provided by overriding methods in the inspection implementation class.
 
-If required, inspections can define all of the attribute information (except `implementationClass`) by overriding methods in the inspection implementation class (not recommended in general).
+```java
+@ExtensionImpl
+public class ComparingReferencesInspection extends AbstractBaseJavaLocalInspectionTool {
+    // ...
+}
+```
 
 ### Inspection Implementation Java Class
 Inspection implementations for Java files, like `ComparingReferencesInspection`, are often based on the Java class `AbstractBaseJavaLocalInspectionTool`.

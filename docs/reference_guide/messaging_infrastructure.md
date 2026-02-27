@@ -68,7 +68,7 @@ public interface ChangeActionNotifier {
 
 ![Subscribing](img/subscribe.svg)
 
-> **NOTE** If targeting 2019.3 or later, use [declarative registration](/basics/plugin_structure/plugin_listeners.md) if possible.
+> **NOTE** For listener registration, use the `@TopicImpl(ComponentScope.xxx)` annotation approach instead of programmatic subscription where possible. See [Plugin Listeners](/basics/plugin_structure/plugin_listeners.md) for details.
 
 
 ```java

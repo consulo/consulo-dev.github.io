@@ -6,12 +6,13 @@ An activity to be executed in background on startup (regardless if some project 
 
 See [`consulo.application.PreloadingActivity`](https://github.com/consulo/consulo/blob/master/modules/base/application-api/src/main/java/consulo/application/internal/PreloadingActivity.java).
 
-To register:
+To register, annotate the implementation class with `@ExtensionImpl`:
 
-```xml
-<extensions defaultExtensionNs="com.intellij">
-  <preloadingActivity implementation="com.example.CatPreloadingActivity"/>
-</extensions>
+```java
+@ExtensionImpl
+public class CatPreloadingActivity extends PreloadingActivity {
+    // ...
+}
 ```
 
 ## Startup Activity
@@ -19,12 +20,13 @@ To register:
 An activity to be executed as part of project opening, under 'Loading Project' dialog.
 Can't be registered by plugins.
 
-To register: [`StartupManager.registerStartupActivity`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/startup/StartupManager.java) or
+To register: [`StartupManager.registerStartupActivity`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/startup/StartupManager.java) or annotate the implementation class with `@ExtensionImpl`:
 
-```xml
-<extensions defaultExtensionNs="com.intellij">
-  <startupActivity implementation="com.example.CatStartupActivity"/>
-</extensions>
+```java
+@ExtensionImpl
+public class CatStartupActivity implements StartupActivity {
+    // ...
+}
 ```
 
 ## Post Startup Activity
@@ -34,12 +36,13 @@ An activity to be executed after project opening.
 If activity implements `DumbAware`, it is executed after project is opened on a background thread with no visible progress indicator and regardless of the current indexing mode.
 Otherwise, it is executed on EDT and when indexes are ready.
 
-To register: [`StartupManager.registerPostStartupActivity`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/startup/StartupManager.java) or
+To register: [`StartupManager.registerPostStartupActivity`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/startup/StartupManager.java) or annotate the implementation class with `@ExtensionImpl`:
 
-```xml
-<extensions defaultExtensionNs="com.intellij">
-  <postStartupActivity implementation="com.example.CatStartupActivity"/>
-</extensions>
+```java
+@ExtensionImpl
+public class CatStartupActivity implements PostStartupActivity {
+    // ...
+}
 ```
 
 See also `backgroundPostStartupActivity` that acts as `postStartupActivity` but is executed with 5 seconds delay after project opening.

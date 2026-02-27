@@ -21,14 +21,7 @@ See the comments in `FindUsagesProvider` for more information.
 ```
 
 ## 11.2. Register the Find Usages Provider
-The `SimpleFindUsagesProvider` implementation is registered with the Consulo in the plugin configuration file using the `consulo.lang.findUsagesProvider` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <lang.findUsagesProvider language="Simple"
-            implementationClass="org.intellij.sdk.language.SimpleFindUsagesProvider"/>
-  </extensions>
-```
+The [`FindUsagesProvider`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/findUsage/FindUsagesProvider.java) interface is annotated with `@ExtensionAPI(ComponentScope.APPLICATION)`. To register the find usages provider with the Consulo, annotate the `SimpleFindUsagesProvider` implementation class with `@ExtensionImpl`.
 
 ## 11.3. Run the Project
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.

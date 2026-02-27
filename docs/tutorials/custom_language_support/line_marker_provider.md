@@ -66,14 +66,7 @@ public class MyCorrectLineMarkerProvider implements LineMarkerProvider {
 ```
 
 ## 8.3. Register the Line Marker Provider
-The `SimpleLineMarkerProvider` implementation is registered with the Consulo in the plugin configuration file using the `consulo.codeInsight.lineMarkerProvider` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <codeInsight.lineMarkerProvider language="JAVA"
-            implementationClass="org.intellij.sdk.language.SimpleLineMarkerProvider"/>
-  </extensions>
-```
+The `SimpleLineMarkerProvider` implementation is registered with the Consulo by annotating the class with `@ExtensionImpl`. The base class `RelatedItemLineMarkerProvider` (which implements `LineMarkerProvider`, annotated with `@ExtensionAPI`) allows the Consulo to discover the implementation automatically.
 
 ## 8.4. Run the Project
 Run the `simple_language_plugin` in a Development Instance and open the [Test file](/tutorials/custom_language_support/annotator.md#run-the-project).

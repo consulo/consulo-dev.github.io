@@ -13,8 +13,8 @@ The _Go to Declaration or Usages_ action is performed in several steps.
 Direct navigation is the navigation from [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java) to another `PsiElement`, 
 such as navigation from `break` keyword to the end of a loop in Java, without showing any popups.
 
-To provide `PsiElement` for direct navigation, implement and register 
-`DirectNavigationProvider`.
+To provide `PsiElement` for direct navigation, implement
+`DirectNavigationProvider` and annotate your implementation with `@ExtensionImpl`.
 
 
 ## Symbol Navigation
@@ -31,8 +31,8 @@ a `TargetPopupPresentation`
 instances (where to go and what to show in the popup).
 
 To provide navigation targets by a `Symbol`, either:
-- implement and register 
-  `SymbolNavigationProvider`;
+- implement
+  `SymbolNavigationProvider` and annotate your implementation with `@ExtensionImpl`;
 - or implement 
   `NavigatableSymbol`
   in the `Symbol`.

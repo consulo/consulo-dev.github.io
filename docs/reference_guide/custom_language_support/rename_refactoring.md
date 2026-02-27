@@ -16,12 +16,12 @@ Thus, surprisingly, the easiest way to get the replacement node is to create a d
 - `setName()` implementation for Properties language plugin
 - [Custom Language Support Tutorial: Reference Contributor](/tutorials/custom_language_support/reference_contributor.md)
 
-To disable renaming for specific elements, implement `consulo.util.lang.function.Condition<T>` for PsiElement of type `T` and register it in `consulo.vetoRenameCondition` extension point.
+To disable renaming for specific elements, implement `consulo.util.lang.function.Condition<T>` for PsiElement of type `T` and annotate your implementation with `@ExtensionImpl`.
 
 ### Name Validation
 [`NamesValidator`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/NamesValidator.java) allows a plugin to check if the name entered by the user in the `Rename` dialog is a valid identifier (and not a keyword) according to the custom language rules.
 If an implementation of this interface is not provided by the plugin, Java rules for validating identifiers are used.
-Implementations of [`NamesValidator`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/NamesValidator.java) are registered in the `consulo.namesValidator` extension point.
+Implementations of [`NamesValidator`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/NamesValidator.java) are annotated with `@ExtensionImpl`.
 
 **Example**:
 `PropertiesNamesValidator` for Properties language plugin

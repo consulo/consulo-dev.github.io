@@ -83,18 +83,17 @@ This section describes the different components which comprise a VCS integration
 ### AbstractVcs
 
 This is the main entry point for a VCS plugin, which is used by the Consulo to retrieve all other services provided by the plugin.
-The recommended way to register an AbstractVcs implementation is to add an extension declaration to plugin.xml, as shown in the following example:
+To register an `AbstractVcs` implementation, annotate your subclass with `@ExtensionImpl`, as shown in the following example:
 
-```xml
-<idea-plugin>
-  ...
-  <extensions defaultExtensionNs="consulo">
-    <vcs name="svn" vcsClass="org.example.svn.SvnVcs"/>
-  </extensions>
-</idea-plugin>
+```java
+@ExtensionImpl
+public class SvnVcs extends AbstractVcs {
+    // getName() must return the unique VCS name, e.g. "svn"
+    // ...
+}
 ```
 
-Here `name` is the unique name of the VCS (this must match the string returned by your implementation of [`AbstractVcs.getName()`](https://github.com/consulo/consulo/blob/master/modules/base/version-control-system-api/src/main/java/consulo/versionControlSystem/AbstractVcs.java)), and *vcsClass* is your implementation class.
+The `getName()` method of your [`AbstractVcs`](https://github.com/consulo/consulo/blob/master/modules/base/version-control-system-api/src/main/java/consulo/versionControlSystem/AbstractVcs.java) implementation must return the unique name of the VCS.
 
 ### ChangeProvider
 

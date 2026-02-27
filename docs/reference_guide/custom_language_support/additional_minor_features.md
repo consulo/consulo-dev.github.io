@@ -6,7 +6,7 @@ title: Additional Minor Features
 
 A number of minor features are listed in the following format:
 
-_EP: `fully.qualified.extensionPointName`_ - Extension Point Name (must be specified in `plugin.xml`)
+_Annotate your implementation with `@ExtensionImpl`._ - Registration approach for the extension point
 
 _`com.extensionPoint.class`_ _description text_ - Extension Point class/interface to provide functionality
 
@@ -14,7 +14,7 @@ _- Sample 1_ - Sample implementation
 
 
 ### Brace Matching
-EP: `consulo.braceMatcher`
+Annotate your implementation with `@ExtensionImpl`.
 
 `PairedBraceMatcher`
 Returns an array of brace pairs (`BracePair`) specifying the characters for the opening and closing braces and the lexer token types for these characters.
@@ -27,7 +27,7 @@ An opening non-structural brace is not matched with a closing one if one of them
 
 
 ### Comment Code
-EP: `consulo.commenter`
+Annotate your implementation with `@ExtensionImpl`.
 
 [`Commenter`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/Commenter.java) (`consulo.language.Commenter`) returns the prefix for the line comment, and the prefix and suffix for the block comment if supported by the language.
 
@@ -36,7 +36,7 @@ EP: `consulo.commenter`
 
 
 ### Code Folding
-EP: `consulo.foldingBuilder`
+Annotate your implementation with `@ExtensionImpl`.
 
 [`FoldingBuilder`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/folding/FoldingBuilder.java) (`consulo.language.editor.folding.FoldingBuilder`) returns the list of foldable text ranges (as an array of [`FoldingDescriptor`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/folding/FoldingDescriptor.java) (`consulo.language.editor.folding.FoldingDescriptor`) objects), the replacement text which is shown for each range when it is folded, and the default state of each folding region (folded or unfolded).
 
@@ -44,30 +44,30 @@ EP: `consulo.foldingBuilder`
 
 
 ### Join Lines
-EP: `consulo.joinLinesHandler`
+Annotate your implementation with `@ExtensionImpl`.
 
 `JoinLinesHandlerDelegate` allows extending support smart/semantic *Edit \| Join Lines* (e.g., String literal split on multiple lines).
 
 
 ### Smart Enter
-EP: `consulo.smartEnterProcessor`
+Annotate your implementation with `@ExtensionImpl`.
 
 `SmartEnterProcessor` handles *Edit \| Complete Statement* (e.g., autocomplete missing semicolon/parentheses).
 
 
 ### Naming Suggestions
-EP: `consulo.nameSuggestionProvider`
+Annotate your implementation with `@ExtensionImpl`.
 
 `NameSuggestionProvider` provides name suggestions for the given element, e.g., for Rename refactoring.
 
 
 ### Semantic Highlight Usages
-EP: `consulo.highlightUsagesHandlerFactory`
+Annotate your implementation with `@ExtensionImpl`.
 
 `HighlightUsagesHandlerFactory` allows highlighting e.g., Exit Points or Exceptions.
 
 ### Parameter Info
-EP: `consulo.codeInsight.parameterInfo`
+Annotate your implementation with `@ExtensionImpl`.
 
 `ParameterInfoHandler` provides support for *View \| Parameter Info*.
 
@@ -79,23 +79,23 @@ EP: n/a
 
 
 ### Context Info
-EP: `consulo.declarationRangeHandler`
+Annotate your implementation with `@ExtensionImpl`.
 
 `DeclarationRangeHandler` provides *View \| Context Info* for custom languages with structure view implementation based on a [`TreeBasedStructureViewBuilder`](https://github.com/consulo/consulo/blob/master/modules/base/file-editor-api/src/main/java/consulo/fileEditor/structureView/TreeBasedStructureViewBuilder.java) (`consulo.fileEditor.structureView.TreeBasedStructureViewBuilder`).
 
 
 ### Spellchecking
-EP: `consulo.spellchecker.support`
+Annotate your implementation with `@ExtensionImpl`.
 
 `SpellcheckingStrategy` provides `Tokenizer` to use for given [`PsiElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java) (return `EMPTY_TOKENIZER` for no spellchecking).
 
 ### Reference Injection
-EP: `consulo.referenceInjector`
+Annotate your implementation with `@ExtensionImpl`.
 
 `ReferenceInjector` allows users to inject pre-defined references (e.g., "Encoding", "File Reference") into `PsiLanguageInjectionHost` elements (Language Injection plugin required).
 
 
 ### Color Preview/Chooser
-EP: `consulo.colorProvider`
+Annotate your implementation with `@ExtensionImpl`.
 
 `ElementColorProvider` renders gutter icon for element containing color information.

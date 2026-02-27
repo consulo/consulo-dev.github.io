@@ -10,7 +10,7 @@ In addition to that, to support _Safe Delete_, a plugin needs to implement two t
 
 *  The
    [`RefactoringSupportProvider`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/RefactoringSupportProvider.java) (`consulo.language.editor.refactoring.RefactoringSupportProvider`)
-   interface, registered in the `consulo.refactoringSupport` extension point, and the `isSafeDeleteAvailable()` method, which checks if the _Safe Delete_ refactoring is available for a specific PSI element
+   interface, with the implementation annotated with `@ExtensionImpl`, and the `isSafeDeleteAvailable()` method, which checks if the _Safe Delete_ refactoring is available for a specific PSI element
 
 *  The
    [`PsiElement.delete()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java)

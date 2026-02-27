@@ -15,10 +15,13 @@ The list of available configuration types is shown when a user opens the _'Edit 
 
 ![Create](/basics/img/create-1.png)
 
-Every type there is represented as an instance of `ConfigurationType` and registered like below:
+Every type there is represented as an instance of `ConfigurationType` and registered by annotating the implementation class with `@ExtensionImpl`:
 
-```xml
-<configurationType implementation="org.example.plugins.MyConfigurationType" />
+```java
+@ExtensionImpl
+public class MyConfigurationType implements ConfigurationType {
+    // ...
+}
 ```
 
 The easiest way to implement this interface is to use the `ConfigurationTypeBase` base class.
@@ -92,7 +95,7 @@ If it is, you return a `RefactoringElementListener` that updates your configurat
 ## Creating Configurations from Context
 
 Many plugins support automatic creation of run configurations from context so that the user can click, for example, on an application or test class and automatically run it using the correct run configuration type.
-To support that, you need to provide an implementation of the `RunConfigurationProducer` interface and to register it as `<runConfigurationProducer>` in your `plugin.xml`.
+To support that, you need to provide an implementation of the `RunConfigurationProducer` interface and register it by annotating the implementation class with `@ExtensionImpl`.
 Note that the previous `RuntimeConfigurationProducer` is a much more confusing version of the same API.
 
 The two main methods that you need to implement are:

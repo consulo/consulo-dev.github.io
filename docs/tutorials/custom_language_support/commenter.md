@@ -17,13 +17,7 @@ The commenter for Simple Language defines the line comment prefix as `#`.
 ```
 
 ## 17.2. Register the Commenter
-The `SimpleCommenter` implementation is registered in the plugin configuration file using the `consulo.lang.commenter` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <lang.commenter language="Simple" implementationClass="org.intellij.sdk.language.SimpleCommenter"/>
-  </extensions>
-```
+The [`Commenter`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/Commenter.java) interface is annotated with `@ExtensionAPI(ComponentScope.APPLICATION)`. To register the commenter with the Consulo, annotate the `SimpleCommenter` implementation class with `@ExtensionImpl`.
 
 ## 17.3. Run the Project
 Open the example Simple Language [properties file ](/tutorials/custom_language_support/lexer_and_parser_definition.md#47-run-the-project) in the IDE Development Instance.

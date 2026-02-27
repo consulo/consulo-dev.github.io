@@ -48,84 +48,75 @@ These methods fully implemented in [Developing the AnAction Methods](#developing
 Before fleshing out those methods, to complete this minimal implementation, `PopupDialogAction` must be registered with the Consulo.
 
 ## Registering a Custom Action
-Actions are registered by declaring them in code or by declaring them in the `<actions>` section of a plugin configuration (`plugin.xml`) file.
-This section describes using IDE tooling - the New Action Form - to add a declaration to the `plugin.xml` file, and then tuning registration attributes manually.
+Actions are registered by annotating the action class with the `@ActionImpl` annotation.
+This section describes how to register `PopupDialogAction` using `@ActionImpl` and configure its registration parameters.
 A more comprehensive explanation of action registration is available in the [Action Registration](/basics/action_system.md#registering-actions) section of this guide.
 
-### Registering an Action with the New Action Form
-Consulo has an embedded inspection that spots unregistered actions.
-Verify the inspection is enabled at **Settings/Preferences \| Editor \| Inspections \| Plugin DevKit \| Code \| Component/Action not registered**.
-Here is an example for this stage of the `PopupDialogAction` class:
+### Registering an Action with @ActionImpl
+To register `PopupDialogAction`, annotate the class with `@ActionImpl`. The annotation parameters specify the action's unique ID and where it appears in the IDE UI.
 
-!["Action never used" inspection](img/action_never_used.png){:width="600px"}
+The key parameters for basic registration are:
+* `id` - Every action must have a unique ID. If the action class is used in only one place in the IDE UI, then the class FQN is a good default for the ID. Using the action class in multiple places requires a different ID for each use.
+* The annotated class itself serves as the implementation class.
+* `parents` - The action group (menu or toolbar) to which the action is added, along with positioning information.
 
-To register `PopupDialogAction` and set up its basic attributes press ***Alt + Shift + Enter***.
-Fill out the **New Action** form to set up the parameters for `PopupDialogAction`:
+In this case, `PopupDialogAction` will be available in the **Tools** menu, placed at the top:
 
-![New Action](img/new_action.png){:width="800px"}
+```java
+@ActionImpl(id = "org.intellij.sdk.action.PopupDialogAction",
+    parents = @ActionParentRef(value = @ActionRef(id = "ToolsMenu"), anchor = ActionRefAnchor.FIRST))
+public class PopupDialogAction extends AnAction {
 
-The fields of the form are:
-* _Action ID_ - Every action must have a unique ID.
-  If the action class is used in only one place in the IDE UI, then the class FQN is a good default for the ID.
-  Using the action class in multiple places requires mangling the ID, such as adding a suffix to the FQN, for each ID.
-* _Class Name_ - The FQN implementation class for the action.
-  If the same action is used in multiple places in the IDE UI, the implementation FQN can be reused with a different _Action ID_.
-* _Name_ - The text to appear in the menu.
-* _Description_ - Hint text to be displayed.
-* _Add to Group_ - The action group - menu or toolbar - to which the action is added.
-  Clicking in the list of groups and typing invokes a search, such as "ToolsMenu."
-* _Anchor_ - Where the menu action should be placed in the **Tools** menu relative to the other actions in that menu.
+    public PopupDialogAction() {
+        super("Pop Dialog Action", "SDK action example", SdkIcons.Sdk_default_icon);
+    }
 
-In this case, `PopupDialogAction` would be available in the **Tools** menu, it would be placed at the top, and would have no shortcuts.
+    @Override
+    public void update(AnActionEvent e) {
+        // Using the event, evaluate the context, and enable or disable the action.
+    }
 
-After finishing the **New Action** form and applying the changes, the `<actions>` section of the plugin's `plugins.xml` file would contain:
-
-```xml
-  <actions>
-    <action id="org.intellij.sdk.action.PopupDialogAction" class="org.intellij.sdk.action.PopupDialogAction"
-          text="Pop Dialog Action" description="SDK action example">
-      <add-to-group group-id="ToolsMenu" anchor="first"/>
-    </action>
-  </actions>
+    @Override
+    public void actionPerformed(@NotNull AnActionEvent e) {
+        // Using the event, implement an action. For example, create and show a dialog.
+    }
+}
 ```
 
-The `<action>` element declares the _Action ID_ (`id`,) _Class Name_ (`class`,) _Name_ (`text`,) and _Description_ from the **New Action** form.
-The `<add-to-group>` element declares where the action will appear and mirrors the names of entries from the form.
+The `@ActionImpl` annotation declares the _Action ID_ (`id`) and the class itself provides the implementation.
+The `@ActionParentRef` declares where the action will appear: in the `ToolsMenu` group, at the first position.
 
-This declaration is adequate, but adding more attributes is discussed in the next section.
+This registration is adequate, but adding more parameters is discussed in the next section.
 
-### Setting Registration Attributes Manually
-An action declaration can be added manually to the `plugin.xml` file.
-An exhaustive list of declaration elements and attributes is presented in [Registering Actions in plugin.xml](/basics/action_system.md#registering-actions-in-pluginxml).
-Attributes are added by selecting them from the **New Action** form, or by editing the registration declaration directly in the plugin.xml file.
+### Configuring Additional @ActionImpl Parameters
+An exhaustive list of `@ActionImpl` parameters is presented in the [@ActionImpl Annotation Reference](/basics/action_system.md#actionimpl-annotation-reference).
 
-The `<action>` declaration for `PopupDialogAction` in the `action_basics` `plugin.xml` file.
-It also contains an attribute for an [`Icon`](/reference_guide/work_with_icons_and_images.md) and encloses elements declaring text overrides, keyboard and mouse shortcuts, and to which menu group the action should be added.
+The full `@ActionImpl` registration for `PopupDialogAction` in the `action_basics` code sample includes an [`Icon`](/reference_guide/work_with_icons_and_images.md), text, description, and shortcut reuse configuration:
 
-The full declaration is:
+```java
+@ActionImpl(id = "org.intellij.sdk.action.PopupDialogAction",
+    parents = @ActionParentRef(value = @ActionRef(id = "ToolsMenu"), anchor = ActionRefAnchor.FIRST))
+public class PopupDialogAction extends AnAction {
 
-```xml
-    <action id="org.intellij.sdk.action.PopupDialogAction" class="org.intellij.sdk.action.PopupDialogAction"
-            text="Action Basics Plugin: Pop Dialog Action" description="SDK action example" icon="SdkIcons.Sdk_default_icon">
-      <override-text place="MainMenu" text="Pop Dialog Action"/>
-      <keyboard-shortcut first-keystroke="control alt A" second-keystroke="C" keymap="$default"/>
-      <mouse-shortcut keystroke="control button3 doubleClick" keymap="$default"/>
-      <add-to-group group-id="ToolsMenu" anchor="first"/>
-    </action>
+    public PopupDialogAction() {
+        super("Action Basics Plugin: Pop Dialog Action", "SDK action example", SdkIcons.Sdk_default_icon);
+    }
+
+    // ... update() and actionPerformed() methods
+}
 ```
 
-#### Using Override-Text for an Action
-By using the `override-text` element introduced in 2020.1 of the Consulo, the action text can be different depending on the context of where the action appears: menu, toolbar, etc.
-The example above uses this element to ensure the shorter text "Pop Dialog Action" is shown anywhere the action appears in the Main Menu structure.
-Otherwise, the default, more explanatory text "Action Basics Plugin: Pop Dialog Action" is shown.
-For more information, see [Setting the Override-Text Element](/basics/action_system.md#setting-the-override-text-element)
+#### Using Override Text for an Action
+The action text can be different depending on the context of where the action appears: menu, toolbar, etc.
+For example, the constructor sets the longer text "Action Basics Plugin: Pop Dialog Action" as the default. Override text such as the shorter "Pop Dialog Action" for the Main Menu context can be configured through localization resource bundles or by customizing the `Presentation` in the `update()` method.
+For more information, see [Setting Override Text](/basics/action_system.md#setting-override-text)
 
 ## Testing the Minimal Custom Action Implementation
 After performing the steps described above, compile and run the plugin to see the newly created action available as a Tools Menu item, which is within the context of the Main Menu:
 
 !["Register action"](img/tools_menu_item_action.png){:width="350px"}
 
-To see the alternate, more verbose text declared by the `override-text` element, use **Help \| Find Action...** and search for "Pop Dialog Action".
+To see the alternate, more verbose text configured via override text, use **Help \| Find Action...** and search for "Pop Dialog Action".
 The search shows the verbose menu text in a context outside of the Main Menu:
 
 !["Override Text Display"](img/find_action.png){:width="500px"}

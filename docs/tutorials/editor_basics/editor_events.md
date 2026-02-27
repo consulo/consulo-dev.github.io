@@ -26,19 +26,14 @@ The `editor_basics` code sample adds an **Editor Add Caret** menu item to the ed
 The source code for the Java action class is `EditorHandlerIllustration`, a subclass of [`AnAction`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java).
 For more information about creating action classes, see the [Actions Tutorial](/tutorials/action_system.md) which covers the topic in depth.
 
-The `EditorHandlerIllustration` action is registered in the _editor_basic_ `plugin.xml` file.
+The `EditorHandlerIllustration` action is registered using the `@ActionImpl` annotation.
 Note that this action class is registered to appear on the Editor context menu.
 
-```xml
-<actions>
-    <action id="EditorBasics.EditorHandlerIllustration"
-            class="org.intellij.sdk.editor.EditorHandlerIllustration"
-            text="Editor Add Caret"
-            description="Adds a second caret below the existing one."
-            icon="SdkIcons.Sdk_default_icon">
-      <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-    </action>
-</action>
+```java
+@ActionImpl(id = "EditorBasics.EditorHandlerIllustration", parents = @ActionParentRef(@ActionRef(id = "EditorPopupMenu")))
+public class EditorHandlerIllustration extends AnAction {
+    // ...
+}
 ```
 
 ### Setting Visibility for the Action Menu Entry

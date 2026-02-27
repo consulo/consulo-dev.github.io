@@ -112,7 +112,7 @@ Subgroups of a group can form submenus of a menu.
 
 Actions can be included in multiple groups, and thus appear in different places within the IDE UI.
 An action must have a unique identifier for each place it appears in the IDE UI.
-See the [Action Declaration Reference](#action-declaration-reference) section for information about how to specify locations in the IDE UI.
+See the [@ActionImpl Annotation Reference](#actionimpl-annotation-reference) section for information about how to specify locations in the IDE UI.
 
 #### Presentation
 A new `Presentation` gets created for every place where the action appears.
@@ -121,7 +121,7 @@ Different presentations for the action are created by copying the Presentation r
 
 #### Compact Attribute
 A group's "compact" attribute specifies whether an action within that group is visible when disabled.
-See [Registering Actions in plugin.xml](#registering-actions-in-pluginxml) for an explanation of how the `compact` attribute is set for a group.
+See [Registering Actions with @ActionImpl](#registering-actions-with-actionimpl) for more information about group registration.
 If the `compact` attribute is `true` for a menu group, an action in the menu only appears if its state is both enabled and visible.
 In contrast, if the `compact` attribute is `false`, an action in the menu appears if its state is disabled but visible.
 Some menus like **Tools** have the `compact` attribute set, so there isn't a way to show an action on the tools menu if it is not enabled.
@@ -138,42 +138,25 @@ All other combinations of `compact`, visibility, and enablement produce N/A for 
 See the [Grouping Actions](/tutorials/action_system/grouping_action.md) tutorial for examples of creating action groups.
 
 ## Registering Actions
-There are two main ways to register an action: either by listing it in the `<actions>` section of a plugin's `plugin.xml` file or through code.
+There are two main ways to register an action: either by annotating the action class with `@ActionImpl` or through code.
 
-### Registering Actions in plugin.xml
-Registering actions in `plugin.xml` is demonstrated in the following reference examples, which document all elements and attributes used in the `<actions>` section and describe each element's meaning.
+### Registering Actions with @ActionImpl
+Actions are registered using the `@ActionImpl` annotation directly on the action class. This annotation-based approach replaces the older XML-based `<actions>` section in `plugin.xml`. The `@ActionImpl` annotation and its related types are used to declare the action's ID, parent groups, child actions, shortcuts, and other metadata.
 
-#### Setting the Override-Text Element
+#### Setting Override Text
 
-Beginning in 2020.1, an alternate version of an action's menu text can be declared for use depending on where an action appears.
-Using the `<override-text>` element, the menu text for an action can be different depending on context: menu location, toolbar, etc.
-This is also available for groups in 2020.3 and later.
+An alternate version of an action's menu text can be provided depending on where an action appears.
+The menu text for an action can be different depending on context: menu location, toolbar, etc.
 
-In the `action` element reference example (below) with `id` attribute `VssIntegration.GarbageCollection`, the default is to use the menu text "Garbage Collector: Collect _Garbage."
-The `add-to-group` element declares the action is added to the Tools Menu.
+For example, an action might have a default text "Garbage Collector: Collect _Garbage" but display a shorter "Collect _Garbage" when shown in the Main Menu.
+A different context, such as searching for the action using **Help \| Find Action...**, displays the default longer text to give the user additional information about the action.
 
-However, the `override-text` element declares that text for `VssIntegration.GarbageCollection` displayed anywhere in the Main Menu system should be the alternate text "Collect _Garbage."
-The Tools Menu is part of the Main Menu, so the displayed menu text is "Collect _Garbage."
-A different context, such as searching for the action using **Help \| Find Action...**,  displays the default text "Garbage Collector: Collect _Garbage" to give the user additional information about the action.
-
-A second `override-text` element uses `place` and `use-text-of-place` attributes to declare the same version of the text used in the Main Menu is also used in the Editor Popup Menu.
-Additional `override-text` elements could be used to specify other places where the Main Menu text should be used.
-
-An example of using `<override-text>` is demonstrated in the [Creating Actions](/tutorials/action_system/working_with_custom_actions.md#using-override-text-for-an-action) tutorial.
+Override text can be configured through localization resource bundles or by overriding the action's `Presentation` in the `update()` method.
                              
-#### Setting the Synonym Element
-_2020.3_
+#### Setting Synonyms
 Users can locate actions via their name by invoking **Help \| Find Action**.
 
-To allow using alternative names in search, add one or more `<synonym>` elements inside `<action>` or `<reference>`:
-
-```xml
-  <action id="MyAction" text="My Action Name" ...>
-    <synonym text="Another Search Term"/> 
-  </action>
-```
-
-To provide a localized synonym, specify `key` instead of `text` attribute.
+To allow using alternative names in search, synonyms can be provided through localization resource bundles or programmatically.
                              
 #### Disabling Search for Group
 _2020.3_
@@ -183,23 +166,11 @@ To exclude a group from appearing in **Help \| Find Action** results (e.g., _New
 Action and group localization use resource bundles containing property files named `*Bundle.properties`, each file consisting of `key=value` pairs.
 The `action_basics` plugin demonstrates using a resource bundle to localize the group and action entries added to the Editor Popup Menu.
 
-When localizing actions and groups, the `text` and `description` attributes are not declared in `plugin.xml`.
-Instead, those attribute values vary depending on the locale and get declared in a resource bundle.
-
-The name and location of the resource bundle must be declared in the `plugin.xml` file.
-In the case of `action_basics`, only a default localization resource bundle (`/resources/messages/BasicActionsBundle.properties`) is provided:
+When localizing actions and groups, text and description are provided via resource bundles rather than hardcoding them in the action constructor.
+The resource bundle name and location must be declared in the `plugin.xml` file:
 
 ```xml
   <resource-bundle>messages.BasicActionsBundle</resource-bundle>
-```
-
-_2020.1_
-If necessary, a dedicated resource bundle to use for actions and groups can be defined on `<actions>`:
-
-```xml
-  <actions resource-bundle="messages.MyActionsBundle">
-    <!-- action/group defined here will use keys from MyActionsBundle.properties -->
-  </actions>
 ```
 
 ##### Actions
@@ -207,8 +178,7 @@ For Actions, the key in property files incorporates the action `id` in this spec
 * `action.<action-id>.text=Translated Action Text`
 * `action.<action-id>.description=Translated Action Description`
 
-_2020.1_
-If `<override-text>` is used for an action `id`, the key includes the `<place>` attribute:
+Place-dependent overrides use this structure:
 * `action.<action-id>.<place>.text=Place-dependent Translated Action Text`
 
 ##### Groups
@@ -216,135 +186,114 @@ For Groups, the `key` in the property files incorporates the group `id` in this 
 * `group.<group-id>.text=Translated Group Text`
 * `group.<group-id>.description=Translated Group Description`
 
-_2020.3_ 
-If `<override-text>` is used for an group `id`, the key includes the `<place>` attribute:
+Place-dependent overrides use this structure:
 * `group.<group-id>.<place>.text=Place-dependent Translated Group Text`
 
 See [Extending DefaultActionGroup](/tutorials/action_system/grouping_action.md#extending-defaultactiongroup) for a tutorial of localizing Actions and Groups.
 
-#### Action Declaration Reference
+#### @ActionImpl Annotation Reference
 The places where actions can appear are defined by constants in [`ActionPlaces`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/ActionPlaces.java).
-Group IDs for the Consulo are defined in `PlatformActions.xml`.
+Group IDs for the Consulo are defined in the platform action definitions.
 
 This, and additional information can also be found by using the Code Completion, Quick Definition, and Quick Documentation features in Consulo.
 
-> **TIP** To lookup existing Action ID (e.g. for use in `relative-to-action`), [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md) can be used.
+> **TIP** To lookup existing Action ID (e.g. for use in `relatedToAction`), [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md) can be used.
 
-```xml
-<!-- Actions -->
-<actions>
-  <!-- The <action> element defines an action to register.
-       The mandatory "id" attribute specifies a unique
-       identifier for the action.
-       The mandatory "class" attribute specifies the
-       FQN of the class implementing the action.
-       The mandatory "text" attribute specifies the default long-version text to be displayed for the
-       action (tooltip for toolbar button or text for menu item).
-       The optional "use-shortcut-of" attribute specifies the ID
-       of the action whose keyboard shortcut this action will use.
-       The optional "description" attribute specifies the text
-       which is displayed in the status bar when the action is focused.
-       The optional "icon" attribute specifies the icon which is
-       displayed on the toolbar button or next to the menu item. -->
-  <action id="VssIntegration.GarbageCollection" class="com.foo.impl.CollectGarbage" text="Garbage Collector: Collect _Garbage"
-                description="Run garbage collector" icon="icons/garbage.png">
-    <!-- The <override-text> element defines an alternate version of the text for the menu action.
-         The mandatory "text" attribute defines the text to be displayed for the action.
-         The mandatory "place" attribute declares where the alternate text should be used. In this example,
-         any time the action is displayed in the IDE Main Menu (and submenus) the override-text
-         version should be used.
-         The second <override-text> element uses the alternate attribute "use-text-of-place" to define
-         a location (EditorPopup) to use the same text as is used in MainMenu. It is a way to specify
-         use of alternate menu text in multiple discrete menu groups. -->
-    <override-text place="MainMenu" text="Collect _Garbage"/>
-    <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
-    <!-- Provide alternative names for searching action by name -->
-    <synonym text="GC"/>
-    <!-- The <add-to-group> node specifies that the action should be added
-         to an existing group. An action can be added to several groups.
-         The mandatory "group-id" attribute specifies the ID of the group
-         to which the action is added.
-         The group must be implemented by an instance of the DefaultActionGroup class.
-         The mandatory "anchor" attribute specifies the position of the
-         action in the relative to other actions. It can have the values
-         "first", "last", "before" and "after".
-         The "relative-to-action" attribute is mandatory if the anchor
-         is set to "before" and "after", and specifies the action before or after which
-         the current action is inserted. -->
-    <add-to-group group-id="ToolsMenu" relative-to-action="GenerateJavadoc" anchor="after"/>
-      <!-- The <keyboard-shortcut> node specifies the keyboard shortcut
-           for the action. An action can have several keyboard shortcuts.
-           The mandatory "first-keystroke" attribute specifies the first
-           keystroke of the action. The keystrokes are specified according
-           to the regular Swing rules.
-           The optional "second-keystroke" attribute specifies the second
-           keystroke of the action.
-           The mandatory "keymap" attribute specifies the keymap for which
-           the action is active. IDs of the standard keymaps are defined as
-           constants in the consulo.ui.ex.keymap.KeymapManager class.
-           The optional "remove" attribute in the second <keyboard-shortcut>
-           element below means the specified shortcut should be removed from
-           the specified action.
-           The optional "replace-all" attribute in the third <keyboard-shortcut>
-           element below means remove all keyboard and mouse shortcuts from the specified
-           action before adding the specified shortcut.  -->
-    <!-- Add the first and second keystrokes to all keymaps  -->
-    <keyboard-shortcut keymap="$default" first-keystroke="control alt G" second-keystroke="C"/>
-    <!-- Except to the "Mac OS X" keymap and its children -->
-    <keyboard-shortcut keymap="Mac OS X" first-keystroke="control alt G" second-keystroke="C" remove="true"/>
-    <!-- The "Mac OS X 10.5+" keymap and its children will have only this keyboard shortcut for this action.  -->
-    <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control alt G" second-keystroke="C" replace-all="true"/>
-    <!-- The <mouse-shortcut> node specifies the mouse shortcut for the
-           action. An action can have several mouse shortcuts.
-           The mandatory "keystroke" attribute specifies the clicks and
-           modifiers for the action. It is defined as a sequence of words
-           separated by spaces:
-           "button1", "button2", "button3" for the mouse buttons;
-           "shift", "control", "meta", "alt", "altGraph" for the modifier keys;
-           "doubleClick" if the action is activated by a double-click of the button.
-           The mandatory "keymap" attribute specifies the keymap for which
-           the action is active. IDs of the standard keymaps are defined as
-           constants in the consulo.ui.ex.keymap.KeymapManager class.
-           The "remove" and "replace-all" attributes can also be used in
-           a <mouse-shortcut> element. See <keyboard-shortcut> for documentation.  -->
-    <mouse-shortcut keymap="$default" keystroke="control button3 doubleClick"/>
-  </action>
-  <!--  This action declares neither a text nor description attribute. If it has
-        a resource bundle declared the text and descriptions will be retrieved
-        based on the action-id incorporated in the key for a translated string -->
-  <action id="sdk.action.PopupDialogAction" class="sdk.action.PopupDialogAction"
-        icon="SdkIcons.Sdk_default_icon">
-  </action>
-  <!-- The <group> element defines an action group. <action>, <group> and
-       <separator> elements defined within it are automatically included in the group.
-       The mandatory "id" attribute specifies a unique identifier for the group.
-       The optional "class" attribute specifies the FQN of
-       the class implementing the group. If not specified,
-       consulo.ui.ex.action.DefaultActionGroup is used.
-       The optional "text" attribute specifies the text of the group (text
-       for the menu item showing the submenu).
-       The optional "description" attribute specifies the text which is displayed
-       in the status bar when the group has focus.
-       The optional "icon" attribute specifies the icon which is displayed on
-       the toolbar button or next to the menu group.
-       The optional "popup" attribute specifies how the group is presented in
-       the menu. If a group has popup="true", actions in it are placed in a
-       submenu; for popup="false", actions are displayed as a section of the
-       same menu delimited by separators.
-       The optional "compact" attribute specifies whether an action within that group is visible when disabled.
-       Setting compact="true" specifies an action in the group isn't visible unless the action is enabled.        -->
-  <group class="com.foo.impl.MyActionGroup" id="TestActionGroup" text="Test Group" description="Group with test actions" icon="icons/testgroup.png" popup="true" compact="true">
-    <action id="VssIntegration.TestAction" class="com.foo.impl.TestAction" text="My Test Action" description="My test action"/>
-    <!-- The <separator> element defines a separator between actions.
-         It can also have an <add-to-group> child element. -->
-    <separator/>
-    <group id="TestActionSubGroup"/>
-    <!-- The <reference> element allows to add an existing action to the group.
-         The mandatory "ref" attribute specifies the ID of the action to add. -->
-    <reference ref="EditorCopy"/>
-    <add-to-group group-id="MainMenu" relative-to-action="HelpMenu" anchor="before"/>
-  </group>
-</actions>
+The `@ActionImpl` annotation is placed on action or group classes to register them with the Consulo framework. Below is the complete reference for all annotation parameters:
+
+**`@ActionImpl` Parameters:**
+* `id` (required) - A unique identifier for the action. Best practice is to base this on the FQN of the implementation class, incorporating the plugin's `<id>`.
+* `parents` - An array of `@ActionParentRef` specifying which groups the action should be added to. An action can be added to several groups.
+* `children` - An array of `@ActionRef` specifying child actions within a group. Used when the annotated class is a `DefaultActionGroup`.
+* `shortcutFrom` - An array of `@ActionRef` specifying actions whose keyboard shortcuts this action will reuse.
+* `profiles` - `ComponentProfiles` specifying the component profiles for the action.
+
+**`@ActionParentRef` Parameters:**
+* `value` (required) - An `@ActionRef` identifying the parent group (by `id` or `type`).
+* `anchor` - An `ActionRefAnchor` value specifying the position relative to other actions. Values: `BEFORE`, `AFTER`, `FIRST`, `LAST`.
+* `relatedToAction` - An `@ActionRef` identifying the action before or after which this action is inserted. Required when `anchor` is `BEFORE` or `AFTER`.
+
+**`@ActionRef` Parameters:**
+* `id` - The string ID of an existing action or group.
+* `type` - The class of an action. Use either `id` or `type`, not both.
+
+##### Registering an Action
+
+```java
+// Register a simple action in the Tools menu, positioned after GenerateJavadoc
+@ActionImpl(id = "VssIntegration.GarbageCollection",
+    parents = @ActionParentRef(
+        value = @ActionRef(id = "ToolsMenu"),
+        anchor = ActionRefAnchor.AFTER,
+        relatedToAction = @ActionRef(id = "GenerateJavadoc")
+    ))
+public class CollectGarbage extends AnAction {
+
+    public CollectGarbage() {
+        super("Garbage Collector: Collect _Garbage", "Run garbage collector", Icons.Garbage);
+    }
+
+    @Override
+    public void update(@NotNull AnActionEvent e) {
+        // ...
+    }
+
+    @Override
+    public void actionPerformed(@NotNull AnActionEvent e) {
+        // ...
+    }
+}
+```
+
+##### Registering an Action Using Localization
+
+When using resource bundles for text and description, they do not need to be specified in the constructor.
+The framework resolves them from the resource bundle using the action `id`:
+
+```java
+@ActionImpl(id = "sdk.action.PopupDialogAction",
+    parents = @ActionParentRef(value = @ActionRef(id = "ToolsMenu"), anchor = ActionRefAnchor.FIRST))
+public class PopupDialogAction extends AnAction {
+    // text and description resolved from resource bundle using:
+    //   action.sdk.action.PopupDialogAction.text=...
+    //   action.sdk.action.PopupDialogAction.description=...
+}
+```
+
+##### Registering an Action Group
+
+Action groups are registered by annotating a `DefaultActionGroup` subclass (or `DefaultActionGroup` itself) with `@ActionImpl`.
+The `children` parameter declares the static child actions within the group:
+
+```java
+// Register a group with child actions, placed before HelpMenu in the MainMenu
+@ActionImpl(id = "TestActionGroup",
+    parents = @ActionParentRef(
+        value = @ActionRef(id = "MainMenu"),
+        anchor = ActionRefAnchor.BEFORE,
+        relatedToAction = @ActionRef(id = "HelpMenu")
+    ),
+    children = {
+        @ActionRef(type = TestAction.class),
+        @ActionRef(type = TestActionSubGroup.class),
+        @ActionRef(id = "EditorCopy")
+    })
+public class MyActionGroup extends DefaultActionGroup {
+    // Group implementation...
+}
+```
+
+##### Reusing Keyboard Shortcuts
+
+To reuse the keyboard shortcuts of another action, use the `shortcutFrom` parameter:
+
+```java
+@ActionImpl(id = "MyAction",
+    parents = @ActionParentRef(value = @ActionRef(id = "ToolsMenu")),
+    shortcutFrom = @ActionRef(id = "AnotherAction"))
+public class MyAction extends AnAction {
+    // This action will use the same keyboard shortcuts as "AnotherAction"
+}
 ```
 
 ### Registering Actions from Code

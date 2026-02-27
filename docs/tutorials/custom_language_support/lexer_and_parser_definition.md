@@ -67,16 +67,7 @@ The Simple Language parser is defined by subclassing [`ParserDefinition`](https:
 ```
 
 ## 4.6. Register the Parser Definition
-Registering the parser definition in the `plugin.xml` file makes it available to the Consulo.
-Use the `consulo.lang.parserDefinition` extension point for registration.
-For example, see `simple_language_plugin/src/main/resources/META-INF/plugin.xml`.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <lang.parserDefinition language="Simple"
-            implementationClass="org.intellij.sdk.language.SimpleParserDefinition"/>
-  </extensions>
-```
+The [`ParserDefinition`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/parser/ParserDefinition.java) interface is annotated with `@ExtensionAPI(ComponentScope.APPLICATION)`. To register the parser definition with the Consulo, annotate the `SimpleParserDefinition` implementation class with `@ExtensionImpl`.
 
 ## 4.7. Run the Project
 With the `simple_language_plugin` loaded in a Development Instance, create a `test.simple` properties file with the following content:

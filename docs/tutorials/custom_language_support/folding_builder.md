@@ -29,14 +29,7 @@ The Consulo uses the value to substitute for the key when the code gets folded.
 ```
 
 ## 12.2. Register the Folding Builder
-The `SimpleFoldingBuilder` implementation is registered with the Consulo in the plugin configuration file using the `consulo.lang.foldingBuilder` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <lang.foldingBuilder language="JAVA"
-            implementationClass="org.intellij.sdk.language.SimpleFoldingBuilder"/>
-  </extensions>
-```
+The `SimpleFoldingBuilder` implementation is registered with the Consulo by annotating the class with `@ExtensionImpl`. The base class `FoldingBuilderEx` is annotated with `@ExtensionAPI`, so the Consulo discovers the implementation automatically.
 
 ## 12.3. Run the Project
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.

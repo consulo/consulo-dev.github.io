@@ -13,21 +13,13 @@ Series of step below show how to filter out and keep visible only text files and
 Create an empty plugin project.
 See [Creating a Plugin Project](/tutorials/build_system/prerequisites.md).
 
-## 1. Register Custom TreeStructure Provider
+## 1. Implement Custom TreeStructureProvider
 
-Add new *treeStructureProvider* extension to the `plugin.xml`
-
-```java
-<extensions defaultExtensionNs="com.intellij">
-  <treeStructureProvider implementation="org.intellij.sdk.treeStructureProvider.TextOnlyTreeStructureProvider"/>
-</extensions>
-```
-
-## 2. Implement Custom TreeStructureProvider
-
-To provide custom Structure View behaviour you need to implement TreeStructureProvider interface.
+To provide custom Structure View behaviour you need to implement the `TreeStructureProvider` interface.
+In Consulo, `TreeStructureProvider` is annotated with `@ExtensionAPI`, so implementations are registered using the `@ExtensionImpl` annotation instead of XML.
 
 ```java
+@ExtensionImpl
 public class TextOnlyTreeStructureProvider implements TreeStructureProvider {
     @NotNull
     @Override
@@ -43,7 +35,7 @@ public class TextOnlyTreeStructureProvider implements TreeStructureProvider {
 }
 ```
 
-## 3. Override modify() Method
+## 2. Override modify() Method
 
 To implement Tree Structure nodes filtering logic, override `modify()` method.
 The example below shows how to filter out all the Project View nodes except those which correspond to text files and directories.
@@ -52,7 +44,7 @@ The example below shows how to filter out all the Project View nodes except thos
 {% include /code_samples/tree_structure_provider/src/main/java/org/intellij/sdk/treeStructureProvider/TextOnlyTreeStructureProvider.java %}
 ```
 
-## 4. Compile and Run the Plugin
+## 3. Compile and Run the Plugin
 
 Compile and run the code sample from this tutorial.
 Refer to [Running and Debugging a Plugin](/basics/getting_started/running_and_debugging_a_plugin.md).

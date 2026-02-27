@@ -8,7 +8,7 @@ The Structure View implementation used for a specific file type can be customize
 If a custom language plugin provides an implementation of the `StructureView` interface, it can completely replace the standard structure view implementation with a custom user interface component.
 However, for most languages, this is not necessary, and the standard `StructureView` implementation provided by *Consulo* can be reused.
 
-The starting point for the structure view is the [`PsiStructureViewFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/structureView/PsiStructureViewFactory.java) interface, which is registered in the `consulo.psiStructureViewFactory` extension point.
+The starting point for the structure view is the [`PsiStructureViewFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/structureView/PsiStructureViewFactory.java) interface, with the implementation annotated with `@ExtensionImpl`.
 
 **Examples:**
 - [`PsiStructureViewFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/structureView/PsiStructureViewFactory.java) for Properties language plugin

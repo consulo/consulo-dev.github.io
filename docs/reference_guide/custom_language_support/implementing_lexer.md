@@ -12,13 +12,13 @@ The IDE invokes the lexer in three main contexts, and the plugin can provide dif
 
 *  Syntax highlighting: The lexer is returned from the implementation of the
    [`SyntaxHighlighterFactory`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/highlight/SyntaxHighlighterFactory.java) (`consulo.language.editor.highlight.SyntaxHighlighterFactory`)
-   interface which is registered in the `consulo.syntaxHighlighterFactory` extension point.
+   interface. The implementation is annotated with `@ExtensionImpl`. The base class `SyntaxHighlighterFactory` is annotated with `@ExtensionAPI`.
 
 *  Building the syntax tree of a file: the lexer is expected to be returned from
    [`ParserDefinition.createLexer(LanguageVersion)`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/parser/ParserDefinition.java),
    and the
    [`ParserDefinition`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/parser/ParserDefinition.java) (`consulo.language.parser.ParserDefinition`)
-   interface is registered in the `consulo.parserDefinition` extension point.
+   interface. The implementation is annotated with `@ExtensionImpl`. The base interface `ParserDefinition` is annotated with `@ExtensionAPI`.
 
 *  Building the index of the words contained in the file:
    if the lexer-based words scanner implementation is used, the lexer is passed to the

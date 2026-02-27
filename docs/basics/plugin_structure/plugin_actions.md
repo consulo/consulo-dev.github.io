@@ -16,4 +16,21 @@ Subgroups of the group can form submenus of a menu.
 
 The user can customize all registered actions via Menus and Toolbars settings.
 
+## Registering Actions
+
+Actions are registered using the `@ActionImpl` annotation.
+The `id` parameter specifies a unique identifier for the action, and the `parents` parameter declares where the action appears in the menu hierarchy using `@ActionParentRef` and `@ActionRef`:
+
+```java
+@ActionImpl(id = "MyAction", parents = @ActionParentRef(@ActionRef(id = "ToolsMenu")))
+public class MyAction extends AnAction {
+    @Override
+    public void actionPerformed(@Nonnull AnActionEvent e) {
+        // action logic
+    }
+}
+```
+
+Action groups can use the `children` parameter of `@ActionImpl` to declare their child actions.
+
 Please see [Action System](/basics/action_system.md) on how to create and register actions in the IDE.

@@ -6,7 +6,6 @@ title: Plugin Configuration File - plugin.xml
 
 The following is a sample plugin configuration file.
 This sample showcases and describes all elements that can be used in the `plugin.xml` file.
-Additional information about configuring `<actions>` is available in the [Actions](/basics/action_system.md#registering-actions) section in Part II.
 
 Limited HTML elements are allowed within `<description>` and `<change-notes>` elements.
 However, content containing HTML elements must be surrounded by `<![CDATA[  ]]>` tags.
@@ -16,14 +15,25 @@ Allowed HTML elements include text formatting, paragraphs, and lists.
 <!-- `url` specifies the URL of the plugin homepage (can be opened from "Plugins" settings dialog) -->
 <consulo-plugin url="https://www.company.com/my-plugin">
 
-  <!-- Plugin name. It should be short and descriptive and in Title Case.
-       Displayed in the "Plugins" settings dialog and the plugin repository Web interface. -->
-  <name>Vss Integration</name>
-
   <!-- Unique identifier of the plugin. It should be FQN.
        It cannot be changed between the plugin versions.
-       If not specified, <name> will be used (not recommended). -->
+       If not specified, <name> will be used (not recommended). Required. -->
   <id>com.company.vssintegration</id>
+
+  <!-- Plugin name. It should be short and descriptive and in Title Case.
+       Displayed in the "Plugins" settings dialog and the plugin repository Web interface. Required. -->
+  <name>Vss Integration</name>
+
+  <!-- Plugin version
+       Recommended format is BRANCH.BUILD.FIX (MAJOR.MINOR.FIX)
+       Displayed in the "Plugins" settings dialog and the plugin repository Web interface. -->
+  <version>1.0.0</version>
+
+  <!-- The vendor of the plugin.
+       The optional "url" attribute specifies the URL of the vendor homepage.
+       The optional "email" attribute specifies the e-mail address of the vendor.
+       Displayed in the "Plugins" settings dialog and the plugin repository Web interface. -->
+  <vendor url="https://www.company.com" email="support@company.com">A Company Inc.</vendor>
 
   <!-- Description of the plugin.
        Should be short and to the point.
@@ -35,116 +45,56 @@ Allowed HTML elements include text formatting, paragraphs, and lists.
        the version of the corresponding language/platform/framework.
        Don't mention the IDE compatibility. E.g., don't say "Adds support to Consulo for..."
        Displayed in the "Plugins" settings dialog and the plugin repository Web interface.
-       Simple HTML elements can be included between <![CDATA[  ]]> tags.  -->
-  <description>Integrates Volume Snapshot Service W10</description>
+       Simple HTML elements can be included between <![CDATA[  ]]> tags. -->
+  <description><![CDATA[
+    Integrates Volume Snapshot Service W10.
+  ]]></description>
 
   <!-- Description of changes in the latest version of the plugin.
        Displayed in the "Plugins" settings dialog and the plugin repository Web interface.
-       Simple HTML elements can be included between <![CDATA[  ]]> tags.  -->
-  <change-notes>Initial release of the plugin.</change-notes>
+       Simple HTML elements can be included between <![CDATA[  ]]> tags. -->
+  <change-notes><![CDATA[
+    Initial release of the plugin.
+  ]]></change-notes>
 
-  <!-- Plugin version
-       Recommended format is BRANCH.BUILD.FIX (MAJOR.MINOR.FIX)
-       Displayed in the "Plugins" settings dialog and the plugin repository Web interface.  -->
-  <version>1.0.0</version>
-
-  <!-- The vendor of the plugin.
-       The optional "url" attribute specifies the URL of the vendor homepage.
-       The optional "email" attribute specifies the e-mail address of the vendor.
-       Displayed in the "Plugins" settings dialog and the plugin repository Web interface. -->
-  <vendor url="https://www.company.com" email="support@company.com">A Company Inc.</vendor>
-
-  <!-- Mandatory dependencies on plugins or modules.
+  <!-- Mandatory dependency on another plugin.
        Include dependencies on other plugins as needed.
-       See "Plugin Dependencies" for more information.  -->
+       See "Plugin Dependencies" for more information. -->
   <depends>com.third.party.plugin</depends>
 
   <!-- Optional dependency on another plugin.
-       If the plugin with the "com.MySecondPlugin" ID is installed, the contents of mysecondplugin.xml
-       (the format of this file conforms to the format of plugin.xml) will be loaded. -->
-  <depends optional="true" config-file="mysecondplugin.xml">com.MySecondPlugin</depends>
+       If the plugin with the "com.MySecondPlugin" ID is installed, the dependency is satisfied.
+       The plugin will still load without it. -->
+  <depends optional="true">com.MySecondPlugin</depends>
 
-  <!-- Minimum and maximum build of IDE compatible with the plugin -->
-  <idea-version since-build="193" until-build="193.*"/>
+  <!-- Tags categorize the plugin in the repository. -->
+  <tags>
+    <tag>vcs</tag>
+  </tags>
 
-  <!-- Plugin's application components / DEPRECATED - do not use in new plugins
-       See plugin_components.md for migration steps
-  -->
-  <application-components>
-    <component>
-      <!-- Component's interface class -->
-      <interface-class>com.foo.Component1Interface</interface-class>
+  <!-- Reference to localization bundle for the plugin. -->
+  <localize>com.company.vssintegration.localize.VssIntegrationLocalize</localize>
 
-      <!-- Component's implementation class -->
-      <implementation-class>com.foo.impl.Component1Impl</implementation-class>
-    </component>
-  </application-components>
+  <!-- Minimum platform version required by the plugin.
+       Replaces the legacy <idea-version> element. -->
+  <platformVersion>3</platformVersion>
 
-  <!-- Plugin's project components / DEPRECATED - do not use in new plugins
-       See plugin_components.md for migration steps
-  -->
-  <project-components>
-    <component>
-      <!-- Interface and implementation classes are the same -->
-      <implementation-class>com.foo.Component2</implementation-class>
+  <!-- Optional security permissions requested by the plugin. -->
+  <permissions>
+    <permission>INTERNET</permission>
+  </permissions>
 
-      <!-- If the "workspace" option is set "true", the component
-           saves its state to the .iws file instead of the .ipr file.
-           Note that the <option> element is used only if the component
-           implements the JDOMExternalizable interface. Otherwise, the
-           use of the <option> element takes no effect.  -->
-      <option name="workspace" value="true" />
-
-      <!-- If the "loadForDefaultProject" tag is present, the project component is instantiated also for the default project. -->
-      <loadForDefaultProject/>
-    </component>
-  </project-components>
-
-  <!-- Plugin's module components / DEPRECATED - do not use in new plugins
-       See plugin_components.md for migration steps
-  -->
-  <module-components>
-    <component>
-      <implementation-class>com.foo.Component3</implementation-class>
-    </component>
-  </module-components>
-
-  <!-- Actions -->
-  <actions>
-    <action id="VssIntegration.GarbageCollection" class="com.foo.impl.CollectGarbage" text="Collect _Garbage" description="Run garbage collector">
-      <keyboard-shortcut first-keystroke="control alt G" second-keystroke="C" keymap="$default"/>
-    </action>
-  </actions>
-
-  <!-- Extension points defined by the plugin.
-       Extension points are registered by a plugin so that other
-       plugins can provide this plugin with certain data.
-  -->
-  <extensionPoints>
-    <extensionPoint name="testExtensionPoint" beanClass="com.foo.impl.MyExtensionBean"/>
-  </extensionPoints>
-
-  <!-- Extensions which the plugin adds to extension points
-       defined by the Consulo or by other plugins.
-       The "defaultExtensionNs" attribute must be set to the
-       ID of the plugin defining the extension point, or to
-       "consulo" if the extension point is defined by the
-       Consulo Platform. The name of the tag within the <extensions>
-       tag matches the name of the extension point, and the
-       "implementation" class specifies the name of the class
-       added to the extension point. -->
-  <extensions defaultExtensionNs="VssIntegration">
-    <testExtensionPoint implementation="com.foo.impl.MyExtensionImpl"/>
-  </extensions>
-
-  <!-- Application-level listeners -->
-  <applicationListeners>
-    <listener class="com.foo.impl.MyListener" topic="consulo.virtualFileSystem.event.BulkFileListener"/>
-  </applicationListeners>
-
-  <!-- Project-level listeners -->
-  <projectListeners>
-    <listener class="com.foo.impl.MyToolwindowListener" topic="consulo.wm.ToolWindowManagerListener"/>
-  </projectListeners>
 </consulo-plugin>
 ```
+
+## Annotation-Based Registration
+
+In Consulo, registration of extensions, services, actions, and listeners is done through annotations rather than XML declarations in `plugin.xml`. The XML elements `<extensions>`, `<extensionPoints>`, `<actions>`, `<application-components>`, `<project-components>`, `<module-components>`, `<applicationListeners>`, and `<projectListeners>` are no longer used.
+
+See the following pages for details:
+
+* [Plugin Extensions](plugin_extensions.md) for `@ExtensionImpl`
+* [Plugin Extension Points](plugin_extension_points.md) for `@ExtensionAPI`
+* [Plugin Services](plugin_services.md) for `@ServiceAPI` / `@ServiceImpl`
+* [Plugin Listeners](plugin_listeners.md) for `@TopicAPI` / `@TopicImpl`
+* [Plugin Actions](plugin_actions.md) for `@ActionImpl`

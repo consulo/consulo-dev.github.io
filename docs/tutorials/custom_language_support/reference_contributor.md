@@ -121,13 +121,7 @@ Contribute a reference to each usage of a property:
 ```
 
 ## 10.7. Register the Reference Contributor
-The `SimpleReferenceContributor` implementation is registered with the Consulo using the `consulo.psi.referenceContributor` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <psi.referenceContributor implementation="org.intellij.sdk.language.SimpleReferenceContributor"/>
-  </extensions>
-```
+The `PsiReferenceContributor` base class is annotated with `@ExtensionAPI`. To register the reference contributor with the Consulo, annotate the `SimpleReferenceContributor` implementation class with `@ExtensionImpl`.
 
 ## 10.8. Run the Project
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.
@@ -149,14 +143,7 @@ As long as an element is a `SimpleProperty` it is allowed to be refactored:
 ```
 
 ## 10.10. Register the Refactoring Support Provider
-The `SimpleRefactoringSupportProvider` implementation is registered with the Consulo in the plugin configuration file using the `consulo.lang.refactoringSupport` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <lang.refactoringSupport language="Simple"
-            implementationClass="org.intellij.sdk.language.SimpleRefactoringSupportProvider"/>
-  </extensions>
-```
+The [`RefactoringSupportProvider`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-refactoring-api/src/main/java/consulo/language/editor/refactoring/RefactoringSupportProvider.java) base class is annotated with `@ExtensionAPI`. To register the refactoring support provider with the Consulo, annotate the `SimpleRefactoringSupportProvider` implementation class with `@ExtensionImpl`.
 
 ## 10.11. Run the Project
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.

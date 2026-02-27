@@ -23,18 +23,15 @@ It may be helpful to open that project in a Consulo-based IDE, build the project
 In this example, we access the [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java) from an action.
 The source code for the Java class in this example is `EditorIllustrationAction`.
 
-To register the action, we must add the corresponding elements to the `<actions>` section of the plugin configuration file `plugin.xml`.
+To register the action, annotate the action class with `@ActionImpl`.
 For more information, refer to the [Registering Actions](/tutorials/action_system/working_with_custom_actions.md#registering-a-custom-action) section of the Actions Tutorial.
 The `EditorIllustrationAction` action is registered in the group `EditorPopupMenu` so it will be available from the context menu when focus is on the editor:
 
-```xml
-    <action id="EditorBasics.EditorIllustrationAction"
-            class="org.intellij.sdk.editor.EditorIllustrationAction"
-            text="Editor Replace Text"
-            description="Replaces selected text with 'Replacement'."
-            icon="SdkIcons.Sdk_default_icon">
-      <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-    </action>
+```java
+@ActionImpl(id = "EditorBasics.EditorIllustrationAction", parents = @ActionParentRef(@ActionRef(id = "EditorPopupMenu")))
+public class EditorIllustrationAction extends AnAction {
+    // ...
+}
 ```
 
 ## Defining the Menu Action's Visibility

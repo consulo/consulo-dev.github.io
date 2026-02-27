@@ -20,24 +20,23 @@ Alternatively, using programmatic setup, the tool window is created to show the 
 
 ### Declarative Setup
 
-The tool window is registered in `plugin.xml` using the `consulo.toolWindow` extension point.
-The extension point attributes specify all the data which is necessary to display the tool window button:
+The tool window is registered by implementing the [`consulo.project.ui.wm.ToolWindowFactory`](https://github.com/consulo/consulo/blob/master/modules/base/project-ui-api/src/main/java/consulo/project/ui/wm/ToolWindowFactory.java) interface and annotating the implementation class with `@ExtensionImpl`.
+The `ToolWindowFactory` base interface is annotated with `@ExtensionAPI(ComponentScope.PROJECT)`.
 
-*  The `id` of the tool window (corresponds to the text displayed on the tool window button)
+Tool window properties such as the id, anchor, icon, and other display attributes are configured through the factory class methods.
 
-*  The `anchor`, meaning the side of the screen on which the tool window is displayed ("left" (default), "right" or "bottom")
-
-*  The `secondary` attribute, specifying whether the tool window is displayed in the primary or the secondary group
-
-*  The `icon` to display on the tool window button (13x13 pixels, see [Working with Icons and Images](/reference_guide/work_with_icons_and_images.md))
-
-In addition to that, specify the `factoryClass` attribute - the name of a class implementing the [`consulo.project.ui.wm.ToolWindowFactory`](https://github.com/consulo/consulo/blob/master/modules/base/project-ui-api/src/main/java/consulo/project/ui/wm/ToolWindowFactory.java) interface.
 When the user clicks on the tool window button, the `createToolWindowContent()` method of the factory class is called, and initializes the UI of the tool window.
 This procedure ensures that unused tool windows don't cause any overhead in startup time or memory usage: if a user does not interact with the tool window, no plugin code will be loaded or executed.
 
-If the tool window of a plugin doesn't need to be displayed for all projects:
-* For versions 2020.1 and later, also implement the `isApplicable(Project)` method.
-* For versions 2019.3 and earlier, also specify the `conditionClass` attribute: the FQN of a class implementing `Condition<Project>`, which can be the same class as the tool window factory implementation.
+```java
+@ExtensionImpl
+public class MyToolWindowFactory implements ToolWindowFactory {
+    // Configure tool window properties via overridden methods
+    // Implement createToolWindowContent() to initialize the UI
+}
+```
+
+If the tool window of a plugin doesn't need to be displayed for all projects, implement the `isApplicable(Project)` method.
 
 Note the condition is evaluated only once when the project is loaded; to show and hide a tool window dynamically while the user is working with the project use the second method for tool window registration.
               
@@ -59,7 +58,7 @@ To manage the contents of a tool window, call [`ToolWindow.getContentManager()`]
 To add a tab (content), first create it by calling [`ContentManager.getFactory().createContent()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/content/ContentManager.java), and then to add it to the tool window using [`ContentManager.addContent()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/content/ContentManager.java).
 
 A plugin can control whether the user is allowed to close tabs either globally or on a per-tab basis.
-The former is done by passing the `canCloseContents` parameter to the `registerToolWindow()` function, or by specifying `canCloseContents="true"` in `plugin.xml`.
+The former is done by passing the `canCloseContents` parameter to the `registerToolWindow()` function.
 The default value is `false`; calling `setClosable(true)` on [`ContentManager`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/content/ContentManager.java) content will be ignored unless `canCloseContents` is explicitly set.
 If closing tabs is enabled in general, a plugin can disable closing of specific tabs by calling [`Content.setCloseable(false)`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/content/Content.java).
 

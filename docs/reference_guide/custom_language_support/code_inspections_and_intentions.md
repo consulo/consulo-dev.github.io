@@ -25,7 +25,7 @@ If none of that is required and the analysis only needs to run in the active edi
 ### Intentions
 
 The code intentions for custom languages also use the standard API for intentions.
-The intention classes need to implement the [`IntentionAction`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/intention/IntentionAction.java) (`consulo.language.editor.intention.IntentionAction`) interface and are registered using the `consulo.intentionAction` extension point.
+The intention classes need to implement the [`IntentionAction`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/intention/IntentionAction.java) (`consulo.language.editor.intention.IntentionAction`) interface and are annotated with `@ExtensionImpl`. The base interface `IntentionAction` is annotated with `@ExtensionAPI`.
 
 **Examples:**
 - [Code Intentions Tutorial](/tutorials/code_intentions.md)

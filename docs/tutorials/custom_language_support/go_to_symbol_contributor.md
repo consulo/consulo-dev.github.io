@@ -60,14 +60,7 @@ To enable the `simple_language_plugin` to contribute items to **Navigate \| Clas
 ```
 
 ## 13.4. Register the Go To Symbol Contributor
-The `SimpleChooseByNameContributor` implementation is registered with the Consulo in the plugin configuration file using the `consulo.gotoSymbolContributor` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <gotoSymbolContributor
-            implementation="org.intellij.sdk.language.SimpleChooseByNameContributor"/>
-  </extensions>
-```
+The `SimpleChooseByNameContributor` implementation is registered with the Consulo by annotating the class with `@ExtensionImpl`. The base interface `ChooseByNameContributor` is annotated with `@ExtensionAPI`, so the Consulo discovers the implementation automatically.
 
 ## 13.5. Run the Project
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.

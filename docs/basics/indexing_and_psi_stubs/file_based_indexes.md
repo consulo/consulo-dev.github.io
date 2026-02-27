@@ -23,7 +23,7 @@ When you access the index, you specify the key you're interested in and get back
 ## Implementing a File-Based Index
 
 Each specific index implementation is a class extending `FileBasedIndexExtension`.
-A file-based index should be registered in the `consulo.fileBasedIndex` extension point.
+`FileBasedIndexExtension` is annotated with `@ExtensionAPI(ComponentScope.APPLICATION)`, so a file-based index is registered by annotating the implementation class with `@ExtensionImpl`.
 
 An implementation of a file-based index consists of the following main parts:
 

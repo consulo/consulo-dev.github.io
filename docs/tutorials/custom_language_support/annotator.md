@@ -43,13 +43,7 @@ Annotate the `simple:key` literal expression, and differentiate between a well-f
 > **TIP** If the above code is copied at this stage of the tutorial, then remove the line below the comment "** Tutorial step 18.3 …" The quick fix class in that line is not defined until later in the tutorial.
 
 ## 7.2. Register the Annotator
-Using the `consulo.annotator` extension point in the plugin configuration file, register the Simple Language annotator class with the Consulo:
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <annotator language="JAVA" implementationClass="org.intellij.sdk.language.SimpleAnnotator"/>
-  </extensions>
-```
+The `SimpleAnnotator` implementation is registered with the Consulo by annotating the class with `@ExtensionImpl`. The base interface `Annotator` is annotated with `@ExtensionAPI`, so the Consulo discovers the implementation automatically.
 
 ## 7.3. Run the Project
 As a test, define the following Java file containing a Simple Language `prefix:value` pair:

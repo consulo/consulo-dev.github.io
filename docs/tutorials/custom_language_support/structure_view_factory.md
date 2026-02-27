@@ -38,14 +38,7 @@ The `SortableTreeElement` represents an item in a smart tree that allows using t
 ```
 
 ## 14.4. Register the Structure View Factory
-The `SimpleStructureViewFactory` implementation is registered with the Consulo in the plugin configuration file using the `consulo.lang.psiStructureViewFactory` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <lang.psiStructureViewFactory language="Simple"
-            implementationClass="org.intellij.sdk.language.SimpleStructureViewFactory"/>
-  </extensions>
-```
+The `SimpleStructureViewFactory` implementation is registered with the Consulo by annotating the class with `@ExtensionImpl`. The base interface `PsiStructureViewFactory` is annotated with `@ExtensionAPI`, so the Consulo discovers the implementation automatically.
 
 ## 14.5. Run the Project
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.

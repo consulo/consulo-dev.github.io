@@ -79,9 +79,9 @@ interface Bar extends consulo.xml.dom.DomElement {
 }
 ```
 
-Next, you should create a `DomFileDescription` object, pass to its constructor the root tag name and root element interface, and register it with extension point `consulo.dom.fileDescription`.
+Next, you should create a `DomFileDescription` subclass, pass to its constructor the root tag name and root element interface, and annotate it with `@ExtensionImpl` to register it.
 
-> **NOTE** Please use extension point `consulo.dom.fileMetaData` instead and specify `rootTagName` and `domVersion`/`stubVersion` in `plugin.xml`.
+> **NOTE** You can also use `DomFileMetaData` instead and annotate your subclass with `@ExtensionImpl`, specifying `rootTagName` and `domVersion`/`stubVersion` as constructor parameters.
 
 You can now get the file element from `DomManager`.
 To get the "239" value, you only have to write the following code:
@@ -352,8 +352,8 @@ To add elements to such mixed collections, you should create "add" methods for e
 The index parameter in the last example means the index in the merged collection, not in the collection of tags named "bar".
 
 ### Dynamic Definition
-You can extend existing DOM model at runtime by implementing `consulo.xml.dom.reflect.DomExtender<T>`.
-Register it in "extenderClass" attribute of EP `consulo.dom.extender`, where "domClass" specifies DOM class `<T>` to be extended. `DomExtensionsRegistrar` provides various methods to register dynamic attributes and children.
+You can extend existing DOM model at runtime by implementing `consulo.xml.dom.reflect.DomExtender<T>` and annotating your subclass with `@ExtensionImpl`.
+The type parameter `<T>` specifies the DOM class to be extended. `DomExtensionsRegistrar` provides various methods to register dynamic attributes and children.
 
 If the contributed elements depend on anything other than plain XML file content (used framework version, libraries in classpath, ...), make sure to return `false` from `DomExtender.supportsStubs()`.
 
@@ -579,7 +579,7 @@ Add the desired methods to your interface, then create an abstract class impleme
 Note that the class should have a constructor with no arguments.
 
 Now you only have to let DOM know that you wish to use this implementation every time you're creating a model element that should implement the necessary interface.
-Simply register it using extension point `consulo.dom.implementation` and DOM will generate at run-time the class that not only implements the needed interface, but also extends your abstract class.
+Simply annotate it with `@ExtensionImpl` and DOM will generate at run-time the class that not only implements the needed interface, but also extends your abstract class.
 
 ### Models Across Multiple Files
 Many frameworks require a set of XML configuration files ("fileset") to work as one model, so resolving/navigation works across all related DOM files.

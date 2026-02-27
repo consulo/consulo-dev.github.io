@@ -28,13 +28,7 @@ Define a code style settings provider for Simple Language by subclassing `CodeSt
 ```
 
 ## 16.3. Register the Code Style Settings Provider
-The `SimpleCodeStyleSettingsProvider` implementation is registered with the Consulo in the plugin configuration file using the `consulo.codeStyleSettingsProvider` extension point.
-
-```xml
-  <extensions defaultExtensionNs="consulo">
-    <codeStyleSettingsProvider implementation="org.intellij.sdk.language.SimpleCodeStyleSettingsProvider"/>
-  </extensions>
-```
+The `SimpleCodeStyleSettingsProvider` implementation is registered with the Consulo by annotating the class with `@ExtensionImpl`. The base class `CodeStyleSettingsProvider` is annotated with `@ExtensionAPI`, so the Consulo discovers the implementation automatically.
 
 ## 16.4. Define the Language Code Style Settings Provider
 Define a code style settings provider for Simple Language by subclassing `LanguageCodeStyleSettingsProvider`, which provides common code style settings for a specific language.
@@ -44,14 +38,7 @@ Define a code style settings provider for Simple Language by subclassing `Langua
 ```
 
 ## 16.5. Register the Language Code Style Settings Provider
-The `SimpleLanguageCodeStyleSettingsProvider` implementation is registered with the Consulo in the plugin configuration file using the `consulo.langCodeStyleSettingsProvider` extension point.
-
-```xml
- <extensions defaultExtensionNs="consulo">
-    <langCodeStyleSettingsProvider
-            implementation="org.intellij.sdk.language.SimpleLanguageCodeStyleSettingsProvider"/>
- </extensions>
-```
+The `SimpleLanguageCodeStyleSettingsProvider` implementation is registered with the Consulo by annotating the class with `@ExtensionImpl`. The base class `LanguageCodeStyleSettingsProvider` is annotated with `@ExtensionAPI`, so the Consulo discovers the implementation automatically.
 
 ## 16.6. Run the Project
 In the IDE Development Instance, open the Simple Language code formatting page: **Preferences/Settings \| Editor \| Code Style \| Simple**.
