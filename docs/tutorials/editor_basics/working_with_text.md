@@ -7,8 +7,6 @@ This tutorial shows how to use actions to access a caret placed in a document op
 Using information about the caret, replace selected text in a document with a string.
 The tutorial presents the following sections:
 
-* bullet list
-{:toc}
 
 ## Introduction
 The approach in this tutorial relies heavily on creating and registering actions.
@@ -17,7 +15,7 @@ To review the fundamentals of creating and registering actions, refer to the [Ac
 Multiple examples are used from the editor_basics plugin code sample from the Consulo SDK.
 It may be helpful to open that project in a Consulo-based IDE, build the project, run it, select some text in the editor, and invoke the **Editor Replace Text** menu item on the editor context menu.
 
-![Editor Basics Menu](img/basics.png){:width="600px"}
+<img src="./img/basics.png" alt="Editor Basics Menu" width="600" />
 
 ## Creating a New Menu Action
 In this example, we access the [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java) from an action.

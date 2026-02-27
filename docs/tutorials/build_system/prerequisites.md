@@ -6,10 +6,11 @@ title: Getting Started with Maven
 Maven is the preferred solution for creating Consulo plugins.
 The `maven-consulo-plugin` handles dependencies, code generation, and packaging.
 
-> **WARNING** When adding additional repositories to your Maven build script, always use HTTPS protocol.
+::: warning
+When adding additional repositories to your Maven build script, always use HTTPS protocol.
+:::
 
-* bullet list
-{:toc}
+
 
 ## Creating a Maven-Based Consulo Plugin
 

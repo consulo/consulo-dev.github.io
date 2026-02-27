@@ -16,17 +16,18 @@ The [Creating Actions](/tutorials/action_system/working_with_custom_actions.md) 
 The [Grouping Actions](/tutorials/action_system/grouping_action.md) tutorial demonstrates three types of groups that can contain actions.
 The rest of this page is an overview of actions as an extension point.
 
-* bullet list
-{:toc}
 
 ## Action Implementation
 An action is a class derived from the abstract class [`AnAction`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java).
 The Consulo calls methods of an action when a user interacts with a menu item or toolbar button.
 
-> **WARNING** Classes based on `AnAction` do not have class fields of any kind.
-> This is because an instance of `AnAction` class exists for the entire lifetime of the application.
-> If the `AnAction` class uses a field to store data that has a shorter lifetime and doesn't clear this data promptly, the data leaks.
-> For example, any `AnAction` data that exists only within the context of a [`Project`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/Project.java) causes the `Project` to be kept in memory after the user has closed it.
+::: warning
+Classes based on `AnAction` do not have class fields of any kind.
+This is because an instance of `AnAction` class exists for the entire lifetime of the application.
+If the `AnAction` class uses a field to store data that has a shorter lifetime and doesn't clear this data promptly, the data leaks.
+For example, any `AnAction` data that exists only within the context of a [`Project`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/Project.java) causes the `Project` to be kept in memory after the user has closed it.
+:::
+
 
 ### Principal Implementation Overrides
 Every Consulo action should override [`AnAction.update()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java) and must override [`AnAction.actionPerformed()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java).
@@ -48,11 +49,17 @@ However, the `update()` and `actionPerformed()` methods are essential to basic o
 The method [`AnAction.update()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java) is periodically called by the Consulo in response to user gestures.
 The `update()` method gives an action to evaluate the current context and enable or disable its functionality.
 
-> **WARNING** The [`AnAction.update()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java) method can be called frequently and on a UI thread.
+::: warning
+The [`AnAction.update()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java) method can be called frequently and on a UI thread.
+:::
+
 This method needs to _execute very quickly_; no real work should be performed in this method.
 For example, checking selection in a tree or a list is considered valid, but working with the file system is not.
 
-> **TIP** If the new state of an action cannot be determined quickly, then evaluation should be performed in the [`AnAction.actionPerformed()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java) method, and notify the user that the action cannot be executed if the context isn't suitable.
+::: tip
+If the new state of an action cannot be determined quickly, then evaluation should be performed in the [`AnAction.actionPerformed()`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java) method, and notify the user that the action cannot be executed if the context isn't suitable.
+:::
+
 
 #### Determining the Action Context
 The `AnActionEvent` object passed to `update()` carries information about the current context for the action.
@@ -82,7 +89,10 @@ Toolbar actions display their respective icons for the disabled state.
 The visibility of a disabled action in a menu depends on whether the host menu (e.g., "ToolsMenu") containing the action has the `compact` attribute set.
 See [Grouping Actions](#grouping-actions) for more information about the `compact` attribute and menu actions' visibility.
 
-> **NOTE** If an action is added to a toolbar, its `update()` can be called if there was any user activity or focus transfer.
+::: info
+If an action is added to a toolbar, its `update()` can be called if there was any user activity or focus transfer.
+:::
+
 If the action's availability changes in the absence of these events, then call [`ActivityTracker.getInstance().inc()`](https://github.com/consulo/consulo/blob/master/modules/base/application-impl/src/main/java/consulo/application/impl/internal/performance/ActivityTracker.java) to notify the action subsystem to update all toolbar actions.
 
 An example of enabling a menu action based on whether a project is open is demonstrated in the `PopupDialogAction.update()` method. See the Consulo plugin template for examples.
@@ -188,7 +198,10 @@ Group IDs for the Consulo are defined in the platform action definitions.
 
 This, and additional information can also be found by using the Code Completion, Quick Definition, and Quick Documentation features in Consulo.
 
-> **TIP** To lookup existing Action ID (e.g. for use in `relatedToAction`), [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md) can be used.
+::: tip
+To lookup existing Action ID (e.g. for use in `relatedToAction`), [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md) can be used.
+:::
+
 
 The `@ActionImpl` annotation is placed on action or group classes to register them with the Consulo framework. Below is the complete reference for all annotation parameters:
 

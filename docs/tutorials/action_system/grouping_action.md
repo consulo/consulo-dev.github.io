@@ -9,8 +9,6 @@ The sample code discussed in this tutorial is from the `action_basics` code samp
 
 Some content in this tutorial assumes the reader is familiar with the tutorial for [Creating Actions](working_with_custom_actions.md).
 
-* bullet list
-{:toc}
 
 ## Simple Action Groups
 In this first example, the action group will be available as a top-level menu item, and actions are represented as drop-down menu items.
@@ -91,7 +89,7 @@ The underlying `PopupDialogAction` implementation is reused for two entries in t
 * Once for the top menu entry **Tools \| Pop Dialog Action** with the action `id` equal to `org.consulo.sdk.action.PopupDialogAction` as set in the [Creating Actions](/tutorials/action_system/working_with_custom_actions.md#registering-an-action-with-actionimpl) tutorial.
 * A second time for the menu entry **Tools \| Static Grouped Actions \| A Group Action** with the action `id` equal to `org.consulo.sdk.action.GroupPopDialogAction`.
 
-![Simple Action Group](img/grouped_action.png){:width="550px"}
+<img src="./img/grouped_action.png" alt="Simple Action Group" width="550" />
 
 
 ## Implementing Custom Action Group Classes
@@ -225,7 +223,10 @@ public class DynamicActionGroup extends ActionGroup {
 }
 ```
 
-> **WARNING** If a class derived from `ActionGroup` is annotated with `@ActionImpl`, the `children` parameter must not be used to declare static child actions. Static children will throw an exception.
+::: warning
+If a class derived from `ActionGroup` is annotated with `@ActionImpl`, the `children` parameter must not be used to declare static child actions. Static children will throw an exception.
+:::
+
 For a statically defined group, use [`DefaultActionGroup`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/DefaultActionGroup.java).
 
 ### Adding Child Actions to the Dynamic Group
@@ -247,4 +248,4 @@ public class DynamicActionGroup extends ActionGroup {
 
 After providing the implementation of `DynamicActionGroup` and making it return a non-empty array of actions, the third position in the **Tools** menu will contain a new group of actions:
 
-![Dynamic Action Group](img/dynamic_action_group.png){:width="600px"}
+<img src="./img/dynamic_action_group.png" alt="Dynamic Action Group" width="600" />

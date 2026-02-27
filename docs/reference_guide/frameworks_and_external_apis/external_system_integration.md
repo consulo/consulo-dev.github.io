@@ -73,14 +73,20 @@ Note that `AbstractExternalProjectImportBuilder` is built on top of the 'externa
 
 It's possible to configure external system integration to automatically refresh project structure when external project's config files are modified.
 
-> **TIP** Since 2020.1, auto-import cannot be disabled by user.
+::: tip
+Since 2020.1, auto-import cannot be disabled by user.
+:::
+
 
 ### Auto-Import for `ExternalSystemManager` implementation
 
 Describe project's settings files to track by having external system `ExternalSystemManager` implement `ExternalSystemAutoImportAware`.
 
-> **NOTE** `ExternalSystemAutoImportAware.getAffectedExternalProjectPath()` is called quite often, that's why it's expected to return control as soon as possible.
-> Helper `CachingExternalSystemAutoImportAware` class might be used for caching, i.e. `ExternalSystemManager` which implements `ExternalSystemAutoImportAware` can have a field like `new CachingExternalSystemAutoImportAware(new MyExternalSystemAutoImportAware())` and delegate `ExternalSystemAutoImportAware.getAffectedExternalProjectPath()` calls to it.
+::: info
+`ExternalSystemAutoImportAware.getAffectedExternalProjectPath()` is called quite often, that's why it's expected to return control as soon as possible.
+Helper `CachingExternalSystemAutoImportAware` class might be used for caching, i.e. `ExternalSystemManager` which implements `ExternalSystemAutoImportAware` can have a field like `new CachingExternalSystemAutoImportAware(new MyExternalSystemAutoImportAware())` and delegate `ExternalSystemAutoImportAware.getAffectedExternalProjectPath()` calls to it.
+:::
+
 
 ### Auto-Import for Standalone External Systems
 
@@ -88,8 +94,11 @@ Some external systems don't have `ExternalSystemManager` (e.g., Maven), but they
 For this, implement `ExternalSystemProjectAware` interface that describes settings files for tracking and an action to reload project model.
 Then register the instance with `ExternalSystemProjectTracker` to start tracking.
 
-> **NOTE** Multiple `ExternalSystemProjectAware` instances can correspond to a single external system.
-> It allows performing project reload differently depending on the set of settings files (project aware per settings file, per module, per external project, etc.).
+::: info
+Multiple `ExternalSystemProjectAware` instances can correspond to a single external system.
+It allows performing project reload differently depending on the set of settings files (project aware per settings file, per module, per external project, etc.).
+:::
+
 
 
 ### Icon for Reload Notification

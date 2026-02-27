@@ -25,7 +25,10 @@ The `@ExtensionImpl` annotation must include a non-empty `id` attribute, which s
 | `isEnabledByDefault()` | `boolean` | Returns `true` if the widget should be created by default (default: `true`). Otherwise, the user must enable it explicitly. |
 | `isConfigurable()` | `boolean` | Returns whether the user should be able to enable or disable the widget (default: `true`). Some widgets are controlled by application-level settings and should not be configurable via the context menu. |
 
-> **NOTE** When the widget's availability changes at runtime, you must explicitly call `StatusBarWidgetsManager.updateWidget(StatusBarWidgetFactory)` to update the status bar.
+::: info
+When the widget's availability changes at runtime, you must explicitly call `StatusBarWidgetsManager.updateWidget(StatusBarWidgetFactory)` to update the status bar.
+:::
+
 
 ## StatusBarWidget
 

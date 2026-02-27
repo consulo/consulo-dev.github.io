@@ -67,8 +67,11 @@ Examples of its usage:
 * `TypedAction`.
 * `XmlGtTypedHandler`.
 
-> **NOTE** `TypedHandlerDelegate` implementations are invoked automatically for each caret.
-> If one wants to implement custom multicaret behaviour on typing, `TypedActionHandler` needs to be provided instead.
+::: info
+`TypedHandlerDelegate` implementations are invoked automatically for each caret.
+If one wants to implement custom multicaret behaviour on typing, `TypedActionHandler` needs to be provided instead.
+:::
+
 
 ## Code Insight Actions
 

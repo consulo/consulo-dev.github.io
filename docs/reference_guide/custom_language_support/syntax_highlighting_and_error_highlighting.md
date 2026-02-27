@@ -19,10 +19,16 @@ The _Export to HTML_ feature uses the same syntax highlighting mechanism as the 
 - `ColorSettingsPage` for Properties language plugin
 - [Custom Language Support Tutorial: Color Settings Page](/tutorials/custom_language_support/syntax_highlighter_and_color_settings_page.md)
 
-> **NOTE** New functionality about Language Defaults and support for additional color schemes are detailed in [Color Scheme Management](/reference_guide/color_scheme_management.md).
+::: info
+New functionality about Language Defaults and support for additional color schemes are detailed in [Color Scheme Management](/reference_guide/color_scheme_management.md).
+:::
 
-> **TIP** To force re-highlighting, use
-> `DaemonCodeAnalyzer.restart()`.
+
+::: tip
+To force re-highlighting, use
+`DaemonCodeAnalyzer.restart()`.
+:::
+
 
 The syntax and error highlighting are performed on multiple levels: Lexer, Parser, and (External) Annotator.
 
@@ -50,7 +56,10 @@ Annotators can analyze not only the syntax, but also the semantics using PSI, an
 The annotator can also provide quick fixes to problems it detects.
 When the file is changed, the annotator is called incrementally to process only changed elements in the PSI tree.
 
-> **NOTE** See also [Code Inspections](code_inspections_and_intentions.md) which offer a more fine-grained control and some additional features.
+::: info
+See also [Code Inspections](code_inspections_and_intentions.md) which offer a more fine-grained control and some additional features.
+:::
+
 
 ### Errors/Warning
 See the Inspections topic in _Consulo UI Guidelines_ on how to write message texts for highlighting/quick fixes.

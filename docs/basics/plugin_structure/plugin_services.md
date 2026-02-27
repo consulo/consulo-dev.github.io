@@ -21,14 +21,20 @@ A service needing a shutdown hook/cleanup routine can implement [`Disposable`](h
 The *Consulo* offers three types of services: _application level_ services (global singleton), _project level_ services, and _module level_ services.
 For the latter two, a separate instance of the service is created for each instance of its corresponding scope, see [Project Model Introduction](/basics/project_structure.md).
 
-> **NOTE** Please consider not using module-level services because it can increase memory usage for projects with many modules.
+::: info
+Please consider not using module-level services because it can increase memory usage for projects with many modules.
+:::
+
 
 #### Constructor
 Consulo uses `@Inject` for constructor injection in services.
 Project/Module level service constructors can receive a [`Project`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/Project.java)/[`Module`](https://github.com/consulo/consulo/blob/master/modules/base/module-api/src/main/java/consulo/module/Module.java) argument via `@Inject`.
 To improve startup performance, avoid any heavy initializations in the constructor.
 
-> **NOTE** Other dependencies should be [acquired only when needed](#retrieving-a-service) in all corresponding methods (see `someServiceMethod()` in [Project Service Sample](#project-service-sample)).
+::: info
+Other dependencies should be [acquired only when needed](#retrieving-a-service) in all corresponding methods (see `someServiceMethod()` in [Project Service Sample](#project-service-sample)).
+:::
+
 
 ## Declaring a Service
 

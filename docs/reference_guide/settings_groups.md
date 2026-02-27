@@ -11,13 +11,14 @@ However, suppose the custom Settings are rich enough to require multiple levels?
 For example, a custom Setting implementation has multiple sub-Settings implementations.
 The `getParentId()` method can create this kind of multilayer Settings hierarchy.
 
-* bullet list
-{:toc}
 
 ## Parent-Child Settings Relationships Using `getParentId()`
 Parent-child relationships in groups of Settings are established by having the child's `getParentId()` method return the `getId()` value of the parent.
 
-> **NOTE** An application configurable can be a parent of a project configurable.
+::: info
+An application configurable can be a parent of a project configurable.
+:::
+
 
 Each Settings implementation is a separate class annotated with `@ExtensionImpl`. The parent-child relationship is defined by the return value of `getParentId()` in the child class, which should match the `getId()` of the parent.
 
@@ -88,8 +89,11 @@ For the child of a parent, the `getId()` return value should follow a compound c
 |:---   |  :---:  |:---  |
 | `getId()` | Y | Compound FQN of implementation based on [`consulo.configurable.Configurable`](https://github.com/consulo/consulo/blob/master/modules/base/configurable-api/src/main/java/consulo/configurable/Configurable.java) in the form: `XX.YY` where:<br>`XX` is the parent Settings component FQN-based id.<br>`YY` is unique to the child among other siblings.  |
 
-> **TIP** All children share the parent's `getId()` as the basis of their own `getId()`.
-> All children have an `getId()` suffix that is unique among their siblings.
+::: tip
+All children share the parent's `getId()` as the basis of their own `getId()`.
+All children have an `getId()` suffix that is unique among their siblings.
+:::
+
 
 ## Implementations for Parent-Child Settings
 Implementations can be based on [`Configurable`](https://github.com/consulo/consulo/blob/master/modules/base/configurable-api/src/main/java/consulo/configurable/Configurable.java), `ConfigurableProvider` or one of their subtypes.

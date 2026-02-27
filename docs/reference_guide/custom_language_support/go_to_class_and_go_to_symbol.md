@@ -7,7 +7,10 @@ title: Go to Class and Go to Symbol
 A custom language plugin can provide its own items to be included in the lists shown when the user chooses the _Navigate | Class_ or _Navigate | Symbol_ action.
 In order to do so, the plugin must provide implementations for the `ChooseByNameContributor` interface (separate implementations need to be provided for _Class_ and _Symbol_ respectively), and annotate each implementation with `@ExtensionImpl`.
 
-> **TIP** Please consider implementing `ChooseByNameContributorEx` for better performance.
+::: tip
+Please consider implementing `ChooseByNameContributorEx` for better performance.
+:::
+
 
 Each contributor needs to be able to return a complete list of names to show in the list for a specified project, which will then be filtered by the IDE according to the text typed by the user in the dialog.
 Using [File-based or Stub indices](/basics/indexing_and_psi_stubs.md) to obtain matching candidates is highly recommended to improve performance.

@@ -68,7 +68,10 @@ if ((n>=0)) {
 ```
 
 ##### Testing the Plugin
-> **NOTE** Please note that running the test requires setting the system property `idea.home.path`. In a Maven project, this can be configured via the `maven-surefire-plugin` configuration in your `pom.xml`.
+::: info
+Please note that running the test requires setting the system property `idea.home.path`. In a Maven project, this can be configured via the `maven-surefire-plugin` configuration in your `pom.xml`.
+:::
+
 
 The sample plugin contains the `ConditionalOperatorConverterTest` Java class and the test data in the `test/testData/` directory.
 To perform the plugin test, run the `ConditionalOperatorConverterTest.testIntention()` method.

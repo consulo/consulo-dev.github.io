@@ -9,8 +9,6 @@ The `SimpleSyntaxHighlighter`, `SimpleSyntaxHighlighterFactory`, and `SimpleColo
 
 **Reference**: [Syntax Highlighting and Error Highlighting](/reference_guide/custom_language_support/syntax_highlighting_and_error_highlighting.md)
 
-* bullet list
-{:toc}
 
 ## 5.1. Define a Syntax Highlighter
 The Simple Language syntax highlighter class extends `SyntaxHighlighterBase`.

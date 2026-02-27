@@ -8,8 +8,6 @@ For the Simple Language, this tutorial adds a quick fix that helps to define an 
 
 **Reference**: [Code Inspections and Intentions](/reference_guide/custom_language_support/code_inspections_and_intentions.md)
 
-* bullet list
-{:toc}
 
 ## 18.1. Update the Element Factory
 The `SimpleElementFactory` is updated to include two new methods to support the user choice of creating a new property for the Simple Language quick fix.
@@ -217,7 +215,7 @@ To test `SimpleCreatePropertyQuickFix`, change `simple:website` to `simple:websi
 The key `website.url` is highlighted by `SimpleAnnotator` as an invalid key, as shown below.
 Choose "Create Property".
 
-![Quick Fix](img/quick_fix.png){:width="800px"}
+<img src="./img/quick_fix.png" alt="Quick Fix" width="800" />
 
 The IDE opens the `test.simple` file and adds `website.url` as a new key.
 Add the new value `example.com` for the new `website.url` key.

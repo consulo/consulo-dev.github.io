@@ -9,8 +9,6 @@ Register the `LanguageFileType` with the Consulo by annotating the implementatio
 
 **Reference**: [Registering a File Type](/reference_guide/custom_language_support/registering_file_type.md)
 
-* bullet item
-{:toc}
 
 ## 2.1. Define the Language
 The language implemented in this tutorial is named "Simple" - note the case of the name.
@@ -104,4 +102,4 @@ The `LanguageFileType` base class is annotated with `@ExtensionAPI`. To register
 Create an empty file with the extension `*.simple`, and Consulo automatically associates it with our language.
 Note the appearance of the Simple Language file icon next to the `test.simple` file in the **Project Tool Window**, and the editor tab for the file.
 
-![File Type Factory](img/file_type_factory.png){:width="800px"}
+<img src="./img/file_type_factory.png" alt="File Type Factory" width="800" />

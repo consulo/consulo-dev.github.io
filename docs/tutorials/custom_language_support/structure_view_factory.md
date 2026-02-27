@@ -8,8 +8,6 @@ Creating a structure view factory allows showing the structure of any file in a 
 
 **Reference**: [Structure View](/reference_guide/custom_language_support/structure_view.md)
 
-* bullet list
-{:toc}
 
 ## 14.1. Define a Structure View Factory
 The structure view factory implements `PsiStructureViewFactory`.

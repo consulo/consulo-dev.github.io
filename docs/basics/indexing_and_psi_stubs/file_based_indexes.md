@@ -38,10 +38,16 @@ An implementation of a file-based index consists of the following main parts:
 
 If you don't need to associate any value with the files (i.e., your value type is `Void`), you can simplify the implementation by using `ScalarIndexExtension` as the base class.
 
-> **WARNING** The data returned by `DataIndexer.map()` must depend only on input data passed to the method, and must not depend on any external files.
-> Otherwise, your index will not be correctly updated when the external data changes, and you will have stale data in your index.
+::: warning
+The data returned by `DataIndexer.map()` must depend only on input data passed to the method, and must not depend on any external files.
+Otherwise, your index will not be correctly updated when the external data changes, and you will have stale data in your index.
+:::
 
-> **NOTE** Please see also `consulo.language.impl.internal.psi.stub.DebugAssertions` on how to enable additional debugging assertions during development to assert correct index implementation.
+
+::: info
+Please see also `consulo.language.impl.internal.psi.stub.DebugAssertions` on how to enable additional debugging assertions during development to assert correct index implementation.
+:::
+
 
 ## Accessing a File-Based Index
 
@@ -51,14 +57,20 @@ The following primary operations are supported:
 
 * `getAllKeys()` and `processAllKeys()` allow obtaining the list of all keys found in files, which are a part of the specified project.
 
-> **NOTE** The returned data is guaranteed to contain all keys found in up-to-date project content, but may also include additional keys not currently found in the project.
+::: info
+The returned data is guaranteed to contain all keys found in up-to-date project content, but may also include additional keys not currently found in the project.
+:::
+
 
 * `getValues()` allows to get all values associated with a specific key but not the files in which they were found.
 * `getContainingFiles()` allows collecting all files in which a particular key was encountered.
 * `processValues()` allows iterating through all files in which a specific key was encountered and accessing the associated values simultaneously.
 
-> **WARNING** Nested index access is forbidden as it might lead to a deadlock.
-> Collect all necessary data from index A first, then process results while accessing index B.
+::: warning
+Nested index access is forbidden as it might lead to a deadlock.
+Collect all necessary data from index A first, then process results while accessing index B.
+:::
+
 
 ## Standard Indexes
 

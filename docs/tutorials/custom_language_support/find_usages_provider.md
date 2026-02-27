@@ -8,8 +8,6 @@ A scanner breaks the text into words and defines the context for each word.
 
 **Reference**: [Find Usages](/reference_guide/custom_language_support/find_usages.md)
 
-* bullet list
-{:toc}
 
 ## 11.1. Define a Find Usages Provider
 The `SimpleFindUsagesProvider` implements [`FindUsagesProvider`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/findUsage/FindUsagesProvider.java).

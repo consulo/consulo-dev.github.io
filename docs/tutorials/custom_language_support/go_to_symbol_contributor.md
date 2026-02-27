@@ -7,8 +7,6 @@ A _Go to Symbol Contributor_ helps the user to navigate to any PSI element by it
 
 **Reference**: [Go to Class and Go to Symbol](/reference_guide/custom_language_support/go_to_class_and_go_to_symbol.md)
 
-* bullet list
-{:toc}
 
 ## 13.1. Define a Helper Method for Generated PSI Elements
 To specify how a PSI element looks like in the **Go To Symbol** popup window, **Structure** tool window, or other components, it should implement `getPresentation()`.
@@ -111,4 +109,4 @@ The `SimpleChooseByNameContributor` implementation is registered with the Consul
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.
 The IDE now supports navigating to a property definition by name pattern via **Navigate \| Symbol** action.
 
-![Go To Symbol](img/go_to_symbol.png){:width="800px"}
+<img src="./img/go_to_symbol.png" alt="Go To Symbol" width="800" />

@@ -8,8 +8,6 @@ The Simple Language grammar must also be defined to generate a parser.
 
 **Reference**: [Implementing a Parser and PSI](/reference_guide/custom_language_support/implementing_parser_and_psi.md)
 
-* bullet item
-{:toc}
 
 ## 3.1. Define a Token Type
 Create `SimpleTokenType` in the `org.consulo.sdk.language.psi` package (see the `simple_language_plugin` code sample) by subclassing `IElementType`.
@@ -97,6 +95,9 @@ Now that the grammar is defined generate a parser with PSI classes via **Generat
 This step generates a parser and PSI elements in the `/src/main/gen` folder of the project.
 Mark this folder as *Generated Sources Root* and make sure everything compiles without errors.
 
-> **TIP** The `maven-consulo-plugin` can be used to automate parser generation as part of the Maven build.
+::: tip
+The `maven-consulo-plugin` can be used to automate parser generation as part of the Maven build.
+:::
 
-![Parser](img/generated_parser.png){:width="800px"}
+
+<img src="./img/generated_parser.png" alt="Parser" width="800" />

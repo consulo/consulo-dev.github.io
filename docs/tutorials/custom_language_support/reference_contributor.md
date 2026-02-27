@@ -6,12 +6,13 @@ title: 10. Reference Contributor
 The references functionality is one of the most important parts in the implementation of custom language support.
 Resolving references means the ability to go from the usage of an element to its declaration, completion, rename refactoring, find usages, etc.
 
-> **NOTE** Every PSI element that can be renamed or referenced needs to implement `PsiNamedElement` interface.
+::: info
+Every PSI element that can be renamed or referenced needs to implement `PsiNamedElement` interface.
+:::
+
 
 **Reference**: [References and Resolve](/reference_guide/custom_language_support/references_and_resolve.md)
 
-* bullet list
-{:toc}
 
 ## 10.1. Define a Named Element Class
 The classes below show how the Simple Language fulfills the need to implement `PsiNamedElement`.
@@ -241,11 +242,11 @@ The `PsiReferenceContributor` base class is annotated with `@ExtensionAPI`. To r
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.
 The IDE now resolves the property and provides completion suggestions:
 
-![Reference Contributor](img/reference_contributor.png){:width="800px"}
+<img src="./img/reference_contributor.png" alt="Reference Contributor" width="800" />
 
 The Rename refactoring functionality is now available from definition and usages.
 
-![Rename](img/rename.png){:width="800px"}
+<img src="./img/rename.png" alt="Rename" width="800" />
 
 ## 10.9. Define a Refactoring Support Provider
 Support for in-place refactoring is specified explicitly in a refactoring support provider.
@@ -288,4 +289,4 @@ The [`RefactoringSupportProvider`](https://github.com/consulo/consulo/blob/maste
 Rebuild the project, and run `simple_language_plugin` in a Development Instance.
 The IDE now supports refactoring suggestions:
 
-![In Place Rename](img/in_place_rename.png){:width="800px"}
+<img src="./img/in_place_rename.png" alt="In Place Rename" width="800" />

@@ -81,7 +81,10 @@ interface Bar extends consulo.xml.dom.DomElement {
 
 Next, you should create a `DomFileDescription` subclass, pass to its constructor the root tag name and root element interface, and annotate it with `@ExtensionImpl` to register it.
 
-> **NOTE** You can also use `DomFileMetaData` instead and annotate your subclass with `@ExtensionImpl`, specifying `rootTagName` and `domVersion`/`stubVersion` as constructor parameters.
+::: info
+You can also use `DomFileMetaData` instead and annotate your subclass with `@ExtensionImpl`, specifying `rootTagName` and `domVersion`/`stubVersion` as constructor parameters.
+:::
+
 
 You can now get the file element from `DomManager`.
 To get the "239" value, you only have to write the following code:
@@ -590,7 +593,10 @@ Usually you will want to add searcher/utility methods to work with your `DomMode
 Example can be found in the Struts 2 plugin.
 
 ### DOM Stubs
-> **NOTE** Please use it sparingly and only for heavily accessed parts in your DOM model, as it increases disk space usage/indexing run time.
+::: info
+Please use it sparingly and only for heavily accessed parts in your DOM model, as it increases disk space usage/indexing run time.
+:::
+
 
 DOM elements can be stubbed, so (costly) access to XML/PSI is not necessary (see [Indexing and PSI Stubs](/basics/indexing_and_psi_stubs.md) for similar feature for custom languages).
 Performance relevant elements, tag or attribute getters can simply be annotated with `@consulo.xml.dom.Stubbed`.

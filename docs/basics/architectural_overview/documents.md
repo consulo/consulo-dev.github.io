@@ -34,7 +34,10 @@ Also, document instances not linked to any virtual files can be created temporar
 Document instances are weakly referenced from [`VirtualFile`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFile.java) instances.
 Thus, an unmodified `Document` instance can be garbage-collected if no one references it, and a new instance is created if the document contents are reaccessed later.
 
-> **WARNING** Storing `Document` references in long-term data structures of a plugin will cause memory leaks.
+::: warning
+Storing `Document` references in long-term data structures of a plugin will cause memory leaks.
+:::
+
 
 ## How do I create a Document?
 

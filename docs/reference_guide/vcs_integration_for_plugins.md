@@ -74,7 +74,10 @@ There are two main kinds of changelists:
   For VCSes which use per-file commit (like CVS), the plugin can use heuristics to group a sequence of individual file commits into a
   `CommittedChangeList`
 
-> **NOTE** The *Unversioned Files*, *Locally Deleted Files*, etc., nodes in the *Changes* view are not actually change lists, and files under those nodes are not represented by `ChangeList` objects.
+::: info
+The *Unversioned Files*, *Locally Deleted Files*, etc., nodes in the *Changes* view are not actually change lists, and files under those nodes are not represented by `ChangeList` objects.
+:::
+
 
 ## Plugin Components
 

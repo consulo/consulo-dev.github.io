@@ -37,6 +37,9 @@ The `ElementDescriptionLocation` passed to the provider in this case will be an 
 **Example:**
 `ElementDescriptionProvider` for Properties language plugin
 
-> **TIP** In cases like function parameters and local variables, consider overriding  [`PsiElement.getUseScope()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java) to return a narrower scope.
-> For instance, you might return just the scope of the nearest function definition.
-> This optimization can significantly reduce the number of files that need to be parsed--and references that need to be resolved--when renaming a function parameter or local variable.
+::: tip
+In cases like function parameters and local variables, consider overriding  [`PsiElement.getUseScope()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java) to return a narrower scope.
+For instance, you might return just the scope of the nearest function definition.
+This optimization can significantly reduce the number of files that need to be parsed--and references that need to be resolved--when renaming a function parameter or local variable.
+:::
+

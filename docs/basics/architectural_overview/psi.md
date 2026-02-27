@@ -10,5 +10,8 @@ The Program Structure Interface, commonly referred to as just PSI, is the layer 
 * [File View Providers](/basics/architectural_overview/file_view_providers.md)
 * [PSI Elements](/basics/architectural_overview/psi_elements.md)
 
-> **TIP** A useful tool for debugging the PSI implementation is the PsiViewer plugin.
-> It can show you the PSI tree structure, the properties of every PSI element, and highlight its text range.
+::: tip
+A useful tool for debugging the PSI implementation is the PsiViewer plugin.
+It can show you the PSI tree structure, the properties of every PSI element, and highlight its text range.
+:::
+

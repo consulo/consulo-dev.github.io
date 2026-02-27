@@ -11,17 +11,18 @@ Previously this page referred to Plugin Logos as _Plugin Icons_.
 **Note:** icons and images used within a plugin have different requirements.
 See [Working with Icons and Images](/reference_guide/work_with_icons_and_images.md) for more information.
 
-* bullet list
-{:toc}
 
 ## Introduction
 Plugin Logos are shown in the [Consulo Plugin Repository](https://plugins.consulo.app).
 They also appear in the Settings/Preferences Plugin Manager UI in Consulo.
 Whether online or in the product UI, a Plugin Logo helps users to identify a plugin more quickly in a list, as shown below:
 
-![Example Product Plugin Preferences Dialog](img/plugin_prefs.png){:width="800px"}
+<img src="./img/plugin_prefs.png" alt="Example Product Plugin Preferences Dialog" width="800" />
                                 
-> **NOTE** Plugin logos are displayed in the "Plugins" settings dialog for installed plugins.
+::: info
+Plugin logos are displayed in the "Plugins" settings dialog for installed plugins.
+:::
+
 
 ## Plugin Logo Requirements
 For a Plugin Logo to be displayed correctly within Consulo, it must:
@@ -42,7 +43,7 @@ Verify that Plugin Logo designs are effective in both sizes and all display cont
 ### Plugin Logo Shape
 Plugin Logo designs should leave at least 2px transparent padding around the perimeter, as shown below:
 
-![36px by 36px is the area where the visible part of the Logo should fit](img/icon_size.png){:width="225px"}
+<img src="./img/icon_size.png" alt="36px by 36px is the area where the visible part of the Logo should fit" width="225" />
 
 Make sure Plugin Logos have the same visual weight as the logos in the examples below.
 The more filled a Plugin Logo design is, the less actual space it needs.
@@ -51,10 +52,10 @@ See more examples of visual weight compensation in the Consulo UI Guidelines for
 For basic shapes, use the following sizes.
 Note the different areas of transparent padding used for each shape:
 
-| ![Square 32px by 32px](img/square_logo.png){:width="225px"} | ![Circle 36px in diameter](img/circle_logo.png){:width="225px"} |
+| <img src="./img/square_logo.png" alt="Square 32px by 32px" width="225" /> | <img src="./img/circle_logo.png" alt="Circle 36px in diameter" width="225" /> |
 |:---:|:---:|
 | _Square logo 32px by 32px_ | _Circular logo 36px in diameter_ |
-| ![Horizontal rectangle 36px by 26px](img/rectangle_horizontal.png){:width="225px"} | ![Vertical rectangle 26px by 36px](img/rectangle_vertical.png){:width="225px"} |
+| <img src="./img/rectangle_horizontal.png" alt="Horizontal rectangle 36px by 26px" width="225" /> | <img src="./img/rectangle_vertical.png" alt="Vertical rectangle 26px by 36px" width="225" /> |
 | _Horizontal rectangular logo 36px by 26px_ | _Vertical rectangular logo 26px by 36px_ |
 
 <br>
@@ -64,7 +65,7 @@ If the plugin's technology already has a logo, use its colors.
 Check the license terms before using the logo.
 If there is no existing logo, or its use is prohibited, create a custom logo based on the Consulo UI Guidelines for Icons.
 
-| ![The YouTrack Plugin Logo uses the YouTrack product logo ](img/yt_logo.png){:height="200px" width="200px"} | ![The Keymap Plugin Logo uses a color from the Action Colors Palette](img/keymap_logo.png){:height="200px" width="200px"} |
+| <img src="./img/yt_logo.png" alt="The YouTrack Plugin Logo uses the YouTrack product logo " height="200" width="200" /> | <img src="./img/keymap_logo.png" alt="The Keymap Plugin Logo uses a color from the Action Colors Palette" height="200" width="200" /> |
 |:---:|:---:|
 | _The YouTrack Plugin Logo uses<br>the YouTrack product logo_ | _The Keymap Plugin Logo uses a color<br>from the Action Colors Palette_ |
 
@@ -73,7 +74,7 @@ If one Plugin Logo design does not work on both light and dark backgrounds, crea
 The examples below illustrate how a Plugin Logo design may work well for a light background but not for a dark background.
 Consequently, a separate Plugin Logo for dark backgrounds is needed.
 
-| ![Plugin Logo on Light UI Theme](img/light_version.png){:width="225px"} | ![Light Plugin Logo on Dark UI Theme](img/dark_bad.png){:width="225px"} | ![Plugin Logo for Dark UI Theme](img/dark_good.png){:width="225px"} |
+| <img src="./img/light_version.png" alt="Plugin Logo on Light UI Theme" width="225" /> | <img src="./img/dark_bad.png" alt="Light Plugin Logo on Dark UI Theme" width="225" /> | <img src="./img/dark_good.png" alt="Plugin Logo for Dark UI Theme" width="225" /> |
 |:---:|:---:|:---:|
 | _The light Plugin Logo design<br>works well on light UI Theme_ | _The light Plugin Logo design does<br>not work well on a dark UI Theme_ | _A separate, dark Plugin Logo design<br>works well on dark UI Theme_ |
 
@@ -95,4 +96,4 @@ To include Plugin Logo files in your distribution file, place the Plugin Logo fi
 Note that this requirement is the same regardless of using DevKit or Maven for developing a plugin.
 For example:
 
-![Plugin Logo Files in META-INF folder](img/resource_directory_structure.png){:width="450px"}
+<img src="./img/resource_directory_structure.png" alt="Plugin Logo Files in META-INF folder" width="450" />

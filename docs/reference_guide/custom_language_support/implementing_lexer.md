@@ -43,8 +43,11 @@ Enabling `--charat` option passes the source data for lexing as a [`CharSequence
 For developing lexers using JFlex, the GrammarKit plugin can be useful.
 It provides syntax highlighting and other useful features for editing JFlex files.
 
-> **NOTE** Lexers, and in particular JFlex-based lexers, need to be created so that they always match the entire contents of the file, without any gaps between tokens, and generate special tokens for characters which are not valid at their location.
-> Lexers must never abort prematurely because of an invalid character.
+::: info
+Lexers, and in particular JFlex-based lexers, need to be created so that they always match the entire contents of the file, without any gaps between tokens, and generate special tokens for characters which are not valid at their location.
+Lexers must never abort prematurely because of an invalid character.
+:::
+
 
 **Example**:
 - [`Lexer`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/lexer/Lexer.java) definition for Properties language plugin

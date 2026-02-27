@@ -15,8 +15,6 @@ A `Disposable` is an interface for any object providing a [`Disposable.dispose()
 
 The `Disposer` supports chaining `Disposables` in parent-child relationships.
 
-* bullet list
-{:toc}
 
 ## Automatically Disposed Objects
 
@@ -56,7 +54,10 @@ Use the following guidelines to choose the correct parent:
 * For resources with a shorter lifetime, create a disposable using [`Disposer.newDisposable()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java) and dispose it manually using [`Disposable.dispose()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java).
   Note that it's always best to specify a parent for such a disposable (e.g., a project-level service), so that there is no memory leak if the [`Disposable.dispose()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java) call is not reached because of an exception or a programming error.
 
-> **WARNING** Even though `Application` and `Project` implement `Disposable`, they must NEVER be used as parent disposables in plugin code.
+::: warning
+Even though `Application` and `Project` implement `Disposable`, they must NEVER be used as parent disposables in plugin code.
+:::
+
 Disposables registered using those objects as parents will not be disposed when the plugin is unloaded, leading to memory leaks.
 
 The `Disposer` API's flexibility means that if the parent instance is chosen unwisely, the child may consume resources for longer than required.
@@ -94,8 +95,11 @@ You can use [`Disposer.isDisposed()`](https://github.com/consulo/consulo/blob/ma
 This check is useful, for example, for an asynchronous callback to a  `Disposable` that may be disposed before the callback is executed.
 In such a case, the best strategy is usually to do nothing and return early.
 
-> **WARNING** Non-disposed objects shouldn't hold onto references to disposed objects, as this constitutes a memory leak.
-> Once a `Disposable` is released, it should be completely inactive, and there's no reason to refer to it anymore.
+::: warning
+Non-disposed objects shouldn't hold onto references to disposed objects, as this constitutes a memory leak.
+Once a `Disposable` is released, it should be completely inactive, and there's no reason to refer to it anymore.
+:::
+
 
 ### Ending a Disposable Lifecycle
 A plugin can manually end a `Disposable` lifecycle by calling [`Disposer.dispose(Disposable)`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java).
@@ -133,8 +137,11 @@ Regardless, it illustrates the basic pattern, which is:
 * The `Foo` disposable is registered as a child of `parentDisposable` in the constructor.
 * The `dispose()` method consolidates the necessary release actions and will be called by the `Disposer`.
 
-> **WARNING** Never call [`Disposable.dispose()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java) directly because it bypasses the parent-child relationships established in `Disposer`.
-> Always call [`Disposer.dispose(Disposable)`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java) instead.
+::: warning
+Never call [`Disposable.dispose()`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposable.java) directly because it bypasses the parent-child relationships established in `Disposer`.
+Always call [`Disposer.dispose(Disposable)`](https://github.com/consulo/consulo/blob/master/modules/base/disposer-api/src/main/java/consulo/disposer/Disposer.java) instead.
+:::
+
 
 ## Diagnosing Disposer Leaks
 
@@ -170,8 +177,11 @@ The following snippet represents the sort of "memory leak detected" error encoun
         …
 ```
 
-> **TIP** The first part of the callstack is unrelated to diagnosing the memory leak.
-> Instead, pay attention to the second part of the call stack, after `Caused by: java.lang.Throwable`.
+::: tip
+The first part of the callstack is unrelated to diagnosing the memory leak.
+Instead, pay attention to the second part of the call stack, after `Caused by: java.lang.Throwable`.
+:::
+
 
 In this specific case, the Consulo (`CoreProgressManager`) started a task that contained the `DynamicWizard` code.
 In turn, that code allocated a `Project` that was never disposed by the time the application exited.

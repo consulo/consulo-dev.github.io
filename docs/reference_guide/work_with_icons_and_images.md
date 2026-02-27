@@ -6,10 +6,16 @@ title: Working with Icons and Images
 Icons and images are used widely by Consulo plugins.
 Plugins need icons mostly for actions, custom components renderers, tool windows, and so on.
 
-> **NOTE** Plugin Icons, which represent a plugin itself, have different requirements than icons and images used within a plugin.
+::: info
+Plugin Icons, which represent a plugin itself, have different requirements than icons and images used within a plugin.
+:::
+
 For more information see the [Plugin Icon](/basics/plugin_structure/plugin_icon_file.md) page.
 
-> **TIP** Plugins should reuse existing platform icons whenever possible, see `PlatformIconGroup` (e.g., `PlatformIconGroup.actionsClose()`).
+::: tip
+Plugins should reuse existing platform icons whenever possible, see `PlatformIconGroup` (e.g., `PlatformIconGroup.actionsClose()`).
+:::
+
 
 ## Icon Library (ICON-LIB) System
 

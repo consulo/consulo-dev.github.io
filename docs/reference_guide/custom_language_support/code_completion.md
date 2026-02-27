@@ -21,7 +21,10 @@ The most common way to implement `getVariants()` is to use the same function for
 
 Implementing the [`CompletionContributor`](https://github.com/consulo/consulo/blob/master/modules/base/language-editor-api/src/main/java/consulo/language/editor/completion/CompletionContributor.java) (`consulo.language.editor.completion.CompletionContributor`) interface gives you the greatest control over the operation of code completion for your language.
 
-> **NOTE** Note that the JavaDoc of that class contains a detailed FAQ for implementing code completion.
+::: info
+Note that the JavaDoc of that class contains a detailed FAQ for implementing code completion.
+:::
+
 
 The core scenario of using `CompletionContributor` consists of calling the `extend()` method and passing in the *pattern* specifying the context in which this completion variant is applicable, as well as a *completion provider* which generates the items to show in the completion list.
 

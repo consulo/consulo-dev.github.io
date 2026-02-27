@@ -8,8 +8,6 @@ The easiest way to create a lexer is to use [JFlex](https://jflex.de/).
 
 **Reference**: [Implementing Lexer](/reference_guide/custom_language_support/implementing_lexer.md)
 
-* bullet item
-{:toc}
 
 ## Required Project Configuration Change
 The previous tutorial step [Grammar and Parser](grammar_and_parser.md), and this page, generate source files in the directory `src/main/gen`.
@@ -94,7 +92,10 @@ Choose the project root directory, for example `code_samples/simple_language_plu
 
 After that, the IDE generates the lexer under the `gen` directory, for example in `simple_language_plugin/src/main/gen/org/consulo/sdk/language/SimpleLexer`.
 
-> **TIP** The `maven-consulo-plugin` can be used to automate parser generation as part of the Maven build.
+::: tip
+The `maven-consulo-plugin` can be used to automate parser generation as part of the Maven build.
+:::
+
 
 See [Implementing Lexer](/reference_guide/custom_language_support/implementing_lexer.md) for more information about using _JFlex_ with the Consulo.
 

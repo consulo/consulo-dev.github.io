@@ -36,7 +36,10 @@ The process of resolving references is distinct from parsing and is not performe
 Moreover, it is not always successful.
 If the code currently open in the IDE does not compile, or in other situations, it's normal for [`PsiReference.resolve()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiReference.java) to return `null` - all code working with references must be prepared to handle that.
 
-> **TIP** Please see also _Cache results of heavy computations_ in [Working with PSI efficiently](/reference_guide/performance/performance.md#working-with-psi-efficiently).
+::: tip
+Please see also _Cache results of heavy computations_ in [Working with PSI efficiently](/reference_guide/performance/performance.md#working-with-psi-efficiently).
+:::
+
 
 ## Contributed References
 

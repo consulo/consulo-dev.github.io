@@ -33,7 +33,10 @@ When using the `DialogWrapper` class for a dialog, follow these steps:
 The `DialogWrapper` class is often used together with GUI Designer forms.
 In this case, bind a GUI Designer form to the class extending `DialogWrapper`, bind the top-level panel of the form to a field and return that field from the `createCenterPanel()` method.
 
-> **TIP** Existing dialogs can be inspected at runtime using [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md), e.g., to locate the underlying implementation of UI components.
+::: tip
+Existing dialogs can be inspected at runtime using [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md), e.g., to locate the underlying implementation of UI components.
+:::
+
 
 To display the dialog, call the `show()` method and then use the `getExitCode()` method to check how the dialog was closed.
 The `showAndGet()` method can be used to combine these two calls.

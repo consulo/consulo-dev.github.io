@@ -13,8 +13,6 @@ The User Interface (UI) for these custom Settings can be added to the IDE Settin
 Settings can affect different levels of scope.
 This document describes adding custom Settings at the Project and Application (or Global, IDE) levels.
 
-* bullet list
-{:toc}
 
 ## Registering Settings
 Custom Settings implementations are registered using the `@ExtensionImpl` annotation on the implementation class.
@@ -138,7 +136,10 @@ Implementations must meet several requirements for constructors.
 
 For a [`Configurable`](https://github.com/consulo/consulo/blob/master/modules/base/configurable-api/src/main/java/consulo/configurable/Configurable.java) implementation correctly registered with `@ExtensionImpl`, the implementation's constructor is not invoked by the Consulo until a user chooses the corresponding Settings `displayName` in the Settings Dialog menu.
 
-> **WARNING** The Consulo may instantiate a [`Configurable`](https://github.com/consulo/consulo/blob/master/modules/base/configurable-api/src/main/java/consulo/configurable/Configurable.java) implementation on a background thread, so creating Swing components in a constructor can degrade UI responsiveness.
+::: warning
+The Consulo may instantiate a [`Configurable`](https://github.com/consulo/consulo/blob/master/modules/base/configurable-api/src/main/java/consulo/configurable/Configurable.java) implementation on a background thread, so creating Swing components in a constructor can degrade UI responsiveness.
+:::
+
 
 #### Consulo Interactions with Configurable
 The instantiation of a generic [`Configurable`](https://github.com/consulo/consulo/blob/master/modules/base/configurable-api/src/main/java/consulo/configurable/Configurable.java) implementation is documented in the interface file.

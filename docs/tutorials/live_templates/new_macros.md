@@ -10,8 +10,6 @@ This tutorial illustrates how to add custom functions to an Consulo plugin and m
 As an example, a function is created to convert a selection to Title Case.
 Refer to the SDK code sample `live_templates`.
 
-* bullet
-{:toc}
 
 ## Implementing a New Function
 Under the hood, the predefined functions for Live Templates are called _macros_.
@@ -104,9 +102,9 @@ Now verify the plugin is working correctly.
 * Highlight the text and enter <kbd>⌥⌘J</kbd> to open the Select Template popup.
   Confirm that the _SDK: Convert to title case_ is available in the popup, and select it.
 
-![Convert to title case](img/invoke_titleCase.png){:width="700px"}
+<img src="./img/invoke_titleCase.png" alt="Convert to title case" width="700" />
 
 Test that the Live Template works by entering <kbd>m</kbd> or <kbd>return</kbd>.
 The text will change to have each word capitalized:
 
-![Converted to title case](img/applied_titleCase.png){:width="700px"}
+<img src="./img/applied_titleCase.png" alt="Converted to title case" width="700" />

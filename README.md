@@ -1,15 +1,37 @@
-# Requirements
+# consulo.dev
 
-   * Python 3+
-   * Also required mkdocs, and mkdocs-material. Installed by:
-     * > pip install mkdocs
-     * > pip install mkdocs-material
-# For testing
+Consulo Plugin Development Documentation, built with [VitePress](https://vitepress.dev/).
 
-Call from terminal
+## Requirements
 
-> mkdocs serve
+* Node.js 20+
 
-# For build static files
+## Setup
 
-> mkdocs build
+```bash
+npm install
+```
+
+## Development
+
+Start a local dev server with hot reload:
+
+```bash
+npm run docs:dev
+```
+
+## Build
+
+Build the static site:
+
+```bash
+npm run docs:build
+```
+
+## Preview
+
+Preview the built site locally:
+
+```bash
+npm run docs:preview
+```

@@ -57,7 +57,10 @@ If one needs to create a file through VFS, use [`VirtualFile.createChildData()`]
 
 ## How do I get notified when VFS changes?
 
-> **NOTE** See [Virtual file system events](/basics/virtual_file_system.md#virtual-file-system-events) for important details.
+::: info
+See [Virtual file system events](/basics/virtual_file_system.md#virtual-file-system-events) for important details.
+:::
+
 
 Implement [`BulkFileListener`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/event/BulkFileListener.java) and subscribe to the [message bus](/reference_guide/messaging_infrastructure.md) topic [`VirtualFileManager.VFS_CHANGES`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/VirtualFileManager.java).
 For example:

@@ -6,7 +6,10 @@ title: Persisting State of Components
 The *Consulo* provides an API that allows components or services to persist their state between restarts of the IDE.
 You can use either a simple API to persist a few values or persist the state of more complicated components using the [`consulo.component.persist.PersistentStateComponent`](https://github.com/consulo/consulo/blob/master/modules/base/component-api/src/main/java/consulo/component/persist/PersistentStateComponent.java) interface.
 
-> **WARNING** If you need to persist sensitive data like passwords, please see [Persisting Sensitive Data](persisting_sensitive_data.md).
+::: warning
+If you need to persist sensitive data like passwords, please see [Persisting Sensitive Data](persisting_sensitive_data.md).
+:::
+
 
 ## Using PropertiesComponent for Simple Non-Roamable Persistence
 
@@ -142,14 +145,20 @@ The simplest ways of specifying the `@Storage` annotation are as follows:
 
 The state is persisted in a separate file by specifying a different setting for the `value` parameter.
 
-> **NOTE** For application-level components, it is strongly recommended to use a custom file, using of `other.xml` is deprecated.
+::: info
+For application-level components, it is strongly recommended to use a custom file, using of `other.xml` is deprecated.
+:::
+
 
 The `roamingType` parameter of the `@Storage` annotation specifies the roaming type when the Settings Repository plugin is used.
 
 ## Customizing the XML Format of Persisted Values
 
-> **NOTE** Please consider using annotation parameters only to achieve backward compatibility.
-> Otherwise, please feel free to file issues about serialization cosmetics.
+::: info
+Please consider using annotation parameters only to achieve backward compatibility.
+Otherwise, please feel free to file issues about serialization cosmetics.
+:::
+
 
 If you want to use the default bean serialization but need to customize the storage format in XML (for example, for compatibility with previous versions of your plugin or externally defined XML formats), you can use the `@Tag`, `@Attribute`, `@Property`, `@MapAnnotation`, `@AbstractCollection` annotations.
 
@@ -171,7 +180,10 @@ Otherwise, the returned state is serialized in XML and stored.
 
 ## Legacy API (JDOMExternalizable)
 
-> **WARNING** `JDOMExternalizable` and `DefaultJDOMExternalizer` are deprecated and removed in Consulo. Use `PersistentStateComponent` instead.
+::: warning
+`JDOMExternalizable` and `DefaultJDOMExternalizer` are deprecated and removed in Consulo. Use `PersistentStateComponent` instead.
+:::
+
 
 Older components used the `JDOMExternalizable` interface for persisting state.
 It uses the `readExternal()` method for reading the state from a JDOM element, and `writeExternal()` to write the state.

@@ -37,7 +37,10 @@ static final TextAttributesKey MY_PREDEFINED_SYMBOL =
 
 The rule is the same: if text attributes can not be found by the `MY_PREDEFINED_SYMBOL` key or are empty, the color scheme manager will search for `MY_KEYWORD` and if not found (empty) will further look for `DEFAULT_KEYWORD`.
 
-> **NOTE** A use of fixed default attributes is _strongly discouraged_.
+::: info
+A use of fixed default attributes is _strongly discouraged_.
+:::
+
 
 If you are unsure which base key to use, it's better to pick the most generic one, for example, `DefaultLanguageHighlighterColors.IDENTIFIER`.
 Remember that using fixed default attributes *will force*  a scheme designer to explicitly set up a color for this element.

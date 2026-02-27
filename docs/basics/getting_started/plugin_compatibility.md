@@ -20,8 +20,6 @@ When authoring a plugin for the Consulo, it is important to understand and decla
 Otherwise, it may not be possible to load or run the plugin in a product because the components on which it depends aren't available.
 
 
-* bullet list
-{:toc}
 
 ## Declaring Plugin Dependencies
 For the purposes of dependencies, a _module_ can be thought of like a built-in plugin that ships as a non-removable part of a product.
@@ -49,7 +47,10 @@ A core set of modules are available in all products based on the Consulo.
 These modules provide a set of shared functionality.
 The following table lists modules that are currently available in all products.
 
-> **NOTE** All plugins should declare a dependency on **`consulo.modules.platform`** to indicate dependence on shared functionality.
+::: info
+All plugins should declare a dependency on **`consulo.modules.platform`** to indicate dependence on shared functionality.
+:::
+
 
 | Module for `<depends>` Element<br>Declaration in `plugin.xml` File | <br>Functionality                                                                                                |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
@@ -101,7 +102,7 @@ In the Project Window, select Project View and scroll to the bottom to see Exter
 Look for the library matching, or similar to the contents of the `<depends>` tags in `plugin.xml`.
 The image below shows the External Libraries for the example plugin project configuration explained in [Configuring pom.xml](/products/dev_alternate_products.md#configuring-pomxml) and [Configuring plugin.xml](/products/dev_alternate_products.md#configuring-pluginxml).
 
-![Example PhpStorm Project Libraries](img/php_prj_libs.png){:width="700px"}
+<img src="./img/php_prj_libs.png" alt="Example PhpStorm Project Libraries" width="700" />
 
 Expand the External Library (as shown) to reveal the JAR files contained in the library.
 Drill down into the JAR files to expose the packages and (decompiled) classes.

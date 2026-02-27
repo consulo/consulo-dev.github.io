@@ -4,7 +4,10 @@ title: Plugin Extension Points
 
 <!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-> **NOTE** See [Plugin Extensions](plugin_extensions.md) for _using_ extension points in your plugin.
+::: info
+See [Plugin Extensions](plugin_extensions.md) for _using_ extension points in your plugin.
+:::
+
 
 By defining _extension points_ in your plugin, you can allow other plugins to extend your plugin's functionality.
 An extension point is declared by annotating an interface or abstract class with `@ExtensionAPI`.

@@ -8,8 +8,6 @@ This section adds annotation functionality to support the Simple Language in the
 
 **Reference**: [Annotator](/reference_guide/custom_language_support/syntax_highlighting_and_error_highlighting.md#annotator)
 
-* bullet list
-{:toc}
 
 ## Required Project Configuration Changes
 Classes defined in this step of the tutorial depend on `consulo.language.psi.PsiLiteralExpression` at runtime.
@@ -37,7 +35,10 @@ Consider a literal string that starts with "simple:" as a prefix of a Simple Lan
 It isn't part of the Simple Language, but it is a useful convention for detecting Simple Language keys embedded as string literals in other languages, like Java.
 Annotate the `simple:key` literal expression, and differentiate between a well-formed vs. an unresolved property.
 
-> **NOTE** The use of new `AnnotationHolder` syntax starting 2020.2, which uses the builder format.
+::: info
+The use of new `AnnotationHolder` syntax, which uses the builder format.
+:::
+
 
 ```java
 package org.consulo.sdk.language;
@@ -108,7 +109,10 @@ final class SimpleAnnotator implements Annotator {
 }
 ```
 
-> **TIP** If the above code is copied at this stage of the tutorial, then remove the line below the comment "** Tutorial step 18.3 …" The quick fix class in that line is not defined until later in the tutorial.
+::: tip
+If the above code is copied at this stage of the tutorial, then remove the line below the comment "** Tutorial step 18.3 …" The quick fix class in that line is not defined until later in the tutorial.
+:::
+
 
 ## 7.2. Register the Annotator
 The `SimpleAnnotator` implementation is registered with the Consulo by annotating the class with `@ExtensionImpl`. The base interface `Annotator` is annotated with `@ExtensionAPI`, so the Consulo discovers the implementation automatically.
@@ -126,10 +130,10 @@ public class Test {
 
 Open this Java file in an IDE Development Instance running the `simple_language_plugin` to check if the IDE resolves a property:
 
-![Annotator](img/annotator.png){:width="800px"}
+<img src="./img/annotator.png" alt="Annotator" width="800" />
 
 If the property is an undefined name, the annotator flags the code with an error.
 
-![Unresolved property](img/unresolved_property.png){:width="800px"}
+<img src="./img/unresolved_property.png" alt="Unresolved property" width="800" />
 
 Try changing the Simple Language [color settings](/tutorials/custom_language_support/syntax_highlighter_and_color_settings_page.md#run-the-project-1) to differentiate the annotation from the default language color settings.

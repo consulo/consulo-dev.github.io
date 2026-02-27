@@ -5,8 +5,6 @@ title: Run Configuration Management
 
 This document describes the primary classes to work with run configurations and everyday use cases.
 
-* Dummy table of contents
-{:toc}
 
 ## Configuration Type
 

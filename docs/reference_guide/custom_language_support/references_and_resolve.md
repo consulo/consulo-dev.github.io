@@ -8,7 +8,10 @@ One of the most important and tricky parts in implementing a custom language PSI
 Resolving references gives users the ability to navigate from a PSI element usage (accessing a variable, calling a method, etc.) to the declaration of that element (the variable's definition, a method declaration, and so on).
 This feature is needed in order to support the _Go to Declaration_ action invoked by **Ctrl-B** and **Ctrl-Click**, and it is a prerequisite for implementing the [Find Usages](find_usages.md) action, the [Rename Refactoring](rename_refactoring.md) and [Code Completion](code_completion.md).
 
-> **NOTE** The _Quick Definition_ action is based on the same mechanism, so it becomes automatically available for all references that can be resolved by the language plugin.
+::: info
+The _Quick Definition_ action is based on the same mechanism, so it becomes automatically available for all references that can be resolved by the language plugin.
+:::
+
 
 All PSI elements which work as references (for which the _Go to Declaration_ action applies) need to implement the
 [`PsiElement.getReference()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java) method and to return a [`PsiReference`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiReference.java) (`consulo.language.psi.PsiReference`) implementation from that method.
@@ -18,10 +21,16 @@ An element can also contain multiple references (for example, a string literal c
 The primary method of the [`PsiReference`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiReference.java) interface is `resolve()`, which returns the element to which the reference points, or `null` if it was not possible to resolve the reference to a valid element (for example, should it point to an undefined class).
 The resolved element should implement the [`PsiNamedElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiNamedElement.java) interface.
 
-> **NOTE** While the referencing element and the referenced element both may have a name, only the element which **introduces** the name (e.g., the definition `int x = 42`) needs to implement the [`PsiNamedElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiNamedElement.java) interface.
-> The referencing element at the point of usage (e.g., the `x` in the expression `x + 1`) should not implement [`PsiNamedElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiNamedElement.java) since it does not _have_ a name.
+::: info
+While the referencing element and the referenced element both may have a name, only the element which **introduces** the name (e.g., the definition `int x = 42`) needs to implement the [`PsiNamedElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiNamedElement.java) interface.
+The referencing element at the point of usage (e.g., the `x` in the expression `x + 1`) should not implement [`PsiNamedElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiNamedElement.java) since it does not _have_ a name.
+:::
 
-> **TIP** In order to enable more advanced Consulo functionality, prefer implementing [`PsiNameIdentifierOwner`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiNameIdentifierOwner.java) over [`PsiNamedElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiNamedElement.java) where possible.
+
+::: tip
+In order to enable more advanced Consulo functionality, prefer implementing [`PsiNameIdentifierOwner`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiNameIdentifierOwner.java) over [`PsiNamedElement`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiNamedElement.java) where possible.
+:::
+
 
 A counterpart to the `resolve()` method is `isReferenceTo()`, which checks if the reference resolves to the specified element.
 The latter method can be implemented by calling `resolve()` and comparing the result with the passed PSI element.
@@ -32,8 +41,11 @@ Still, additional optimizations are possible (for example, performing the tree w
 - Reference to a localize key in the Consulo [localization system](/platform/ui/localization.md)
 - [Custom Language Support Tutorial: Reference Contributor](/tutorials/custom_language_support/reference_contributor.md)
 
-> **TIP** To optimize `getReferences()` performance, consider implementing `HintedReferenceHost` to provide additional hints.
-> Please see also _Cache Results of Heavy Computations_ in [Working with PSI efficiently](/reference_guide/performance/performance.md#working-with-psi-efficiently).
+::: tip
+To optimize `getReferences()` performance, consider implementing `HintedReferenceHost` to provide additional hints.
+Please see also _Cache Results of Heavy Computations_ in [Working with PSI efficiently](/reference_guide/performance/performance.md#working-with-psi-efficiently).
+:::
+
 
 There are a set of interfaces that can be used as a base for implementing resolve support, namely the [`PsiScopeProcessor`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/resolve/PsiScopeProcessor.java) interface and the [`PsiElement.processDeclarations()`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/PsiElement.java) method.
 These interfaces have several extra complexities that are unnecessary for most custom languages (like support for substituting Java generics types).

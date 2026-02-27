@@ -52,7 +52,10 @@ public class MyNotificationGroup extends NotificationGroup {
 
 Registered instances can then be obtained via their `id`.
 
-> **TIP** Code insight is available for parameters expecting notification group `id`.
+::: tip
+Code insight is available for parameters expecting notification group `id`.
+:::
+
 
 ```java
 public class MyNotifier {

@@ -67,7 +67,10 @@ Every element which can be renamed or referenced (a class definition, a method d
 
 Several functions which can be used for implementing and using the PSI can be found in the `consulo.language.psi.util` package, and in particular in the [`PsiTreeUtil`](https://github.com/consulo/consulo/blob/master/modules/base/language-api/src/main/java/consulo/language/psi/util/PsiTreeUtil.java) class.
 
-> **TIP** A useful tool for debugging the PSI implementation is the PsiViewer plugin.
-> It can show you the PSI structure built by your plugin, the properties of every PSI element, and highlight its text range.
+::: tip
+A useful tool for debugging the PSI implementation is the PsiViewer plugin.
+It can show you the PSI structure built by your plugin, the properties of every PSI element, and highlight its text range.
+:::
+
 
 Please see [Indexing and PSI Stubs](/basics/indexing_and_psi_stubs.md) for advanced topics.

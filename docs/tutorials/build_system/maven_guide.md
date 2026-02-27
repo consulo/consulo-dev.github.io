@@ -7,10 +7,11 @@ This page serves as a guide to the Maven-based plugin configuration for _Consulo
 
 The [Getting Started with Maven](prerequisites.md) page provides a tutorial for creating Maven-based Consulo plugins.
 
-> **WARNING** When adding additional repositories to your Maven build script, always use HTTPS protocol.
+::: warning
+When adding additional repositories to your Maven build script, always use HTTPS protocol.
+:::
 
-* bullet list
-{:toc}
+
 
 ## Overview of the Maven Plugin
 The `maven-consulo-plugin` provides Maven goals that enable developing Consulo plugins.

@@ -8,7 +8,10 @@ A plugin may depend on classes from other plugins, either bundled, third-party, 
 This document describes the syntax for declaring plugin dependencies and optional plugin dependencies.
 For more information about dependencies on the Consulo modules, see Part II of this document: [Plugin Compatibility with Consulo Products](/basics/getting_started/plugin_compatibility.md).
 
-> **NOTE** It is impossible to specify the minimum/maximum version for the dependent plugin.
+::: info
+It is impossible to specify the minimum/maximum version for the dependent plugin.
+:::
+
 
 To express dependencies on classes from other plugins or modules, perform the following three required steps:
 
@@ -26,7 +29,10 @@ If the plugin is not bundled with the target IDE, run the (sandbox) [IDE Develop
 ## 2. Project Setup
 Consulo plugins use Maven with `maven-consulo-plugin` for building. Add the dependency plugin as a Maven dependency in your `pom.xml`.
 
-> **WARNING** Do not add the plugin JARs as a library directly: this will fail at runtime because Consulo will load two separate copies of the dependency plugin classes.
+::: warning
+Do not add the plugin JARs as a library directly: this will fail at runtime because Consulo will load two separate copies of the dependency plugin classes.
+:::
+
 
 ## 3. Dependency Declaration in plugin.xml
 If a project depends on another plugin, the dependency must be declared in `plugin.xml`.

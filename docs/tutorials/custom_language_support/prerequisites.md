@@ -7,7 +7,10 @@ title: 1. Prerequisites
 Download and install Consulo from the [official website](https://consulo.io).
 
 ### 1.2. Check out Consulo Source Files
-> **NOTE** While not required, having the full sources of the platform and all bundled plugins available for browsing allows finding related implementations.
+::: info
+While not required, having the full sources of the platform and all bundled plugins available for browsing allows finding related implementations.
+:::
+
 
 Download the Consulo source files from the [Consulo GitHub repository](https://github.com/consulo/consulo).
 

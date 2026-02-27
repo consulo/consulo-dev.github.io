@@ -8,8 +8,6 @@ As discussed in the [_Settings_ Guide](/reference_guide/settings_guide.md), plug
 The IDE displays the Settings in response to a user choosing **Settings/Preferences**.
 Custom Settings are displayed and function just like those native to the IDE.
 
-* bullet list
-{:toc}
 
 ## Overview of a Custom Settings Implementation
 Using the SDK code sample `settings`, this tutorial illustrates the steps to create custom Application-level Settings.
@@ -280,7 +278,7 @@ After performing the steps described above, compile and run the plugin in a Deve
 Open the IDE Settings by selecting **Settings/Preferences \| Tools \| SDK: Application Settings Example**.
 The settings are preloaded with the default values:
 
-!["Settings Defaults"](img/settings_defaults.png){:width="600px"}
+<img src="./img/settings_defaults.png" alt=""Settings Defaults"" width="600" />
 
 Now edit the settings values to "John Doe" and click the checkbox.
 Click on the **OK** button to close the Settings dialog and save the changes.
@@ -289,4 +287,4 @@ Exit the Development Instance.
 Open the file `SdkSettingsPlugin.xml` to see the Settings persistently stored.
 In this demonstration the file resides in `code_samples/settings/build/idea-sandbox/config/options/`, but see [IDE Development Instances](/basics/ide_development_instance.md) for the general Development Instance case.
 
-!["Persisted Settings"](img/settings_persisted.png){:width="600px"}
+<img src="./img/settings_persisted.png" alt=""Persisted Settings"" width="600" />

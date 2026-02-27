@@ -10,8 +10,6 @@ However, the actions of a plugin must first be defined and registered with the C
 
 Using the SDK code sample `action_basics`, this tutorial illustrates the steps to create an action for a plugin.
 
-* bullet list
-{:toc}
 
 ## Creating a Custom Action
 Custom actions extend the abstract class [`AnAction`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java).
@@ -37,9 +35,12 @@ public class PopupDialogAction extends AnAction {
 }
 ```
 
-> **WARNING** [`AnAction`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java) classes do not have class fields of any kind.
-> This restriction prevents memory leaks.
-> For more information about why, see [Action Implementation](/basics/action_system.md#action-implementation).
+::: warning
+[`AnAction`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java) classes do not have class fields of any kind.
+This restriction prevents memory leaks.
+For more information about why, see [Action Implementation](/basics/action_system.md#action-implementation).
+:::
+
 
 At this stage, `update()` implicitly defaults always to enable this action.
 The implementation of `actionPerformed()` does nothing.
@@ -114,12 +115,12 @@ For more information, see [Setting Override Text](/basics/action_system.md#setti
 ## Testing the Minimal Custom Action Implementation
 After performing the steps described above, compile and run the plugin to see the newly created action available as a Tools Menu item, which is within the context of the Main Menu:
 
-!["Register action"](img/tools_menu_item_action.png){:width="350px"}
+<img src="./img/tools_menu_item_action.png" alt=""Register action"" width="350" />
 
 To see the alternate, more verbose text configured via override text, use **Help \| Find Action...** and search for "Pop Dialog Action".
 The search shows the verbose menu text in a context outside of the Main Menu:
 
-!["Override Text Display"](img/find_action.png){:width="500px"}
+<img src="./img/find_action.png" alt=""Override Text Display"" width="500" />
 
 Selecting the action from the menu, keyboard/mouse shortcuts, or Find Action won't do anything at this point because the implementations are empty.
 However, it confirms the new entry appears at **Tools \| Pop Dialog Action** and **Help \| Find Action...**.
@@ -163,8 +164,11 @@ See [Determining the Action Context](/basics/action_system.md#determining-the-ac
 Adding code to `PopupDialogAction.update()` gives finer control of the action's visibility and availability.
 The action's state and(or) presentation can be dynamically changed depending on the context.
 
-> **WARNING** This method needs to _execute very quickly_.
-> For more information about this constraint, see the warning in [Overriding the AnAction.update Method](/basics/action_system.md#overriding-the-anactionupdate-method).
+::: warning
+This method needs to _execute very quickly_.
+For more information about this constraint, see the warning in [Overriding the AnAction.update Method](/basics/action_system.md#overriding-the-anactionupdate-method).
+:::
+
 
 In this example, the `update()` method relies on a [`Project`](https://github.com/consulo/consulo/blob/master/modules/base/project-api/src/main/java/consulo/project/Project.java) object being available.
 This requirement means the user must have at least one project open in the IDE for the `PopupDialogAction` to be available.
@@ -193,4 +197,4 @@ Otherwise, overriding constructors for [`AnAction`](https://github.com/consulo/c
 ## Testing the Custom Action
 After compiling and running the plugin project and invoking the action, the dialog will pop up:
 
-![Action performed](img/action_performed.png){:width="800px"}
+<img src="./img/action_performed.png" alt="Action performed" width="800" />

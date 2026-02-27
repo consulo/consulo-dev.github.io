@@ -24,8 +24,11 @@ If the information is available in the snapshot, the snapshot data is returned.
 The contents of files and the lists of files in directories are stored in the snapshot only if that specific information was accessed.
 Otherwise, only file metadata like name, length, timestamp, attributes are stored.
 
-> **NOTE** This means that the state of the file system and the file contents displayed in the Consulo UI comes from the snapshot, which may not always match the disk's actual contents.
-> For example, in some cases, deleted files can still be visible in the UI for some time before the deletion is picked up by the Consulo.
+::: info
+This means that the state of the file system and the file contents displayed in the Consulo UI comes from the snapshot, which may not always match the disk's actual contents.
+For example, in some cases, deleted files can still be visible in the UI for some time before the deletion is picked up by the Consulo.
+:::
+
 
 The snapshot is updated from disk during _refresh operations_, which generally happen asynchronously.
 All write operations made through the VFS are synchronous - i.e., the contents are saved to disk immediately.
@@ -84,8 +87,11 @@ The most efficient way to listen to VFS events is to implement [`BulkFileListene
 A non-blocking variant [`AsyncFileListener`](https://github.com/consulo/consulo/blob/master/modules/base/virtual-file-system-api/src/main/java/consulo/virtualFileSystem/event/AsyncFileListener.java) is also available in 2019.2 or later.
 See [How do I get notified when VFS changes?](/basics/architectural_overview/virtual_file.md#how-do-i-get-notified-when-vfs-changes) for implementation details.
 
-> **WARNING** VFS listeners are application level and will receive events for changes happening in *all* the projects opened by the user.
-> You may need to filter out events that aren't relevant to your task (e.g., via `ProjectFileIndex.isInContent()`).
+::: warning
+VFS listeners are application level and will receive events for changes happening in *all* the projects opened by the user.
+You may need to filter out events that aren't relevant to your task (e.g., via `ProjectFileIndex.isInContent()`).
+:::
+
 
 VFS events are sent both before and after each change, and you can access the old contents of the file in the before event.
 Note that events caused by a refresh are sent after the changes have already occurred on disk.

@@ -1,6 +1,5 @@
 ---
 title: Plugin Extensions
-redirect_from:
     /basics/plugin_structure/plugin_extensions_and_extension_points.html
 ---
 

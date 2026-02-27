@@ -7,12 +7,16 @@ Once you have configured Maven support, you can automatically build and deploy y
 To automatically deploy a plugin, you need to have _already published the plugin to the plugin repository at least once._
 Please see the guide page for manually [publishing a plugin](../../basics/getting_started/publishing_plugin.md) for the first time.
 
-> **TIP** Please see [Marketing](/appendix/resources/marketing.md) for remarks on how to prepare your plugin for optimal presentation.
+::: tip
+Please see [Marketing](/appendix/resources/marketing.md) for remarks on how to prepare your plugin for optimal presentation.
+:::
 
-> **WARNING** When adding additional repositories to your Maven build script, always use HTTPS protocol.
 
-* bullet list
-{:toc}
+::: warning
+When adding additional repositories to your Maven build script, always use HTTPS protocol.
+:::
+
+
 
 ## Building Distribution
 For manual distribution or local installation, invoke the Maven `package` goal to create the plugin distribution:
@@ -52,7 +56,10 @@ You can also provide credentials via environment variables:
 export CONSULO_PUBLISH_TOKEN='YOUR_HUB_TOKEN_HERE'
 ```
 
-> **NOTE** On macOS systems, environment variables set in `.bash_profile` are only visible to processes you run from bash.
+::: info
+On macOS systems, environment variables set in `.bash_profile` are only visible to processes you run from bash.
+:::
+
 Environment variables visible to all processes need to be defined in [Environment.plist](https://developer.apple.com/library/archive/qa/qa1067/_index.html).
 
 ## Deploying a Plugin with Maven

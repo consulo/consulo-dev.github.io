@@ -68,7 +68,10 @@ public interface ChangeActionNotifier {
 
 ![Subscribing](img/subscribe.svg)
 
-> **NOTE** For listener registration, use the `@TopicImpl(ComponentScope.xxx)` annotation approach instead of programmatic subscription where possible. See [Plugin Listeners](/basics/plugin_structure/plugin_listeners.md) for details.
+::: info
+For listener registration, use the `@TopicImpl(ComponentScope.xxx)` annotation approach instead of programmatic subscription where possible. See [Plugin Listeners](/basics/plugin_structure/plugin_listeners.md) for details.
+:::
+
 
 
 ```java

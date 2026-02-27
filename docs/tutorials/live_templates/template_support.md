@@ -9,8 +9,6 @@ Any Live Template that can be created and exported can be added to a plugin by f
 
 This tutorial uses the SDK code sample `live_templates`.
 
-* bullet
-{:toc}
 
 ## Template Creation
 Get started by creating a new Live Template within the Consulo-based IDE:
@@ -28,7 +26,10 @@ In the *Edit variables* dialog, set the `Expression` for the `LINK` to `complete
 
 There are many other predefined functions that developers should become familiar with before implementing any unique functionality in a plugin.
 
-> **TIP** Consider iteratively testing the Live Template using the current editor and a markdown file to minimize debugging later.
+::: tip
+Consider iteratively testing the Live Template using the current editor and a markdown file to minimize debugging later.
+:::
+
 
 ## Export the Live Template
 Once the Live Template produces the expected result, export the Live Template.
@@ -81,7 +82,10 @@ final class MarkdownContext extends TemplateContextType {
 }
 ```
 
-> **NOTE** Once the `MarkdownContext` is defined, be sure to add the new context type to the previously created Live Template settings file.
+::: info
+Once the `MarkdownContext` is defined, be sure to add the new context type to the previously created Live Template settings file.
+:::
+
 
 Within the `<template>...</template>` elements in the `Markdown.xml` [Live Template definition file](#export-the-live-template), add the following context elements:
 

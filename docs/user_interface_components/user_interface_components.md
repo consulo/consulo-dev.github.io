@@ -6,7 +6,10 @@ title: User Interface Components
 The Consulo includes a large number of custom Swing components.
 Using those components in your plugins will ensure that your plugin looks and works consistently with the UI of the rest of the IDE, and can often reduce the code size compared to using the default Swing components.
 
-> **TIP** Use [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md) to locate the underlying Swing component implementation or to inspect an existing UI at runtime.
+::: tip
+Use [UI Inspector](/reference_guide/internal_actions/internal_ui_inspector.md) to locate the underlying Swing component implementation or to inspect an existing UI at runtime.
+:::
+
 
 Please refer to _Consulo UI Guidelines_ on writing UI-related texts.
 

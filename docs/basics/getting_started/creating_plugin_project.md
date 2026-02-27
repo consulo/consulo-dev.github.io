@@ -1,11 +1,12 @@
 ---
 title: Creating a Plugin Project
-redirect_from:
-  - /basics/getting_started/creating_an_action.html
 ---
 <!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-> **NOTE** For new projects, it is highly recommended to use [Maven](/tutorials/build_system.md).
+::: info
+For new projects, it is highly recommended to use [Maven](/tutorials/build_system.md).
+:::
+
 
 This section explains how you can create a new plugin project from scratch using the New Project wizard.
 Optionally, you can import an existing project or import a project from external models.

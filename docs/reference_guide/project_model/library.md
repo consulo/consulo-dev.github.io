@@ -12,8 +12,6 @@ The Consulo supports three types of libraries:
 
 A particular type of programmatically defined libraries is [Predefined Libraries](#predefined-libraries).
 
-* bullet list
-{:toc}
 
 ## Accessing Libraries and Jars
 The `libraries` package provides functionality for working with project libraries and jars.

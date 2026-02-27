@@ -49,12 +49,18 @@ This will cause the stubs and stub indices to be rebuilt, and will avoid mismatc
 By default, if a PSI element extends `StubBasedPsiElement`, all elements of that type will be stored in the stub tree.
 If you need more precise control over which elements are stored, override `IStubElementType.shouldCreateStub()` and return `false` for elements that should not be included in the stub tree.
 
-> **NOTE** The exclusion is not recursive: if some elements of the element for which you returned false are also stub-based PSI elements, they will be included in the stub tree.
+::: info
+The exclusion is not recursive: if some elements of the element for which you returned false are also stub-based PSI elements, they will be included in the stub tree.
+:::
+
 
 It's essential to ensure that all information stored in the stub tree depends only on the contents of the file for which stubs are being built, and does not depend on any external files.
 Otherwise, the stub tree will not be rebuilt when external dependency changes, and you will have stale and incorrect data in the stub tree.
 
-> **TIP** Please see also [Improving indexing performance](/reference_guide/performance/performance.md#improving-indexing-performance).
+::: tip
+Please see also [Improving indexing performance](/reference_guide/performance/performance.md#improving-indexing-performance).
+:::
+
 
 ## Stub Indexes
 

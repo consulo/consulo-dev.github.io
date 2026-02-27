@@ -9,8 +9,6 @@ The formatter controls spaces, indents, wrap, and alignment.
 
 **Reference**: [Code Formatter](/reference_guide/custom_language_support/code_formatting.md)
 
-* bullet list
-{:toc}
 
 ## 15.1. Define a Block
 The formatting model represents the formatting structure of a file as a tree of `Block` objects, with associated indent, wrap, alignment and spacing settings.

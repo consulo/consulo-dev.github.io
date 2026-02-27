@@ -7,8 +7,6 @@ A folding builder identifies the folding regions in the code.
 In this step of the tutorial, the folding builder is used to identify folding regions and replace the regions with specific text.
 Rather than the usual practice of using a folding builder to collapse a class, method, or comments to fewer lines, the folding builder replaces Simple Language keys with their corresponding values.
 
-* bullet list
-{:toc}
 
 ## 12.1. Define a Folding Builder
 The `SimpleFoldingBuilder` replaces usages of properties with their values by default.
@@ -16,7 +14,10 @@ Start by subclassing `FoldingBuilderEx`
 
 Note that `SimpleFoldingBuilder` also implements `DumbAware`, which means the class is allowed to run in dumb mode, when indices are in background update.
 
-> **NOTE** A folding builder must implement `DumbAware` to function in this tutorial and pass tests.
+::: info
+A folding builder must implement `DumbAware` to function in this tutorial and pass tests.
+:::
+
 
 The `buildFoldRegions()` method searches down a PSI tree from `root` to find all literal expressions containing the [simple prefix](/tutorials/custom_language_support/annotator.md#define-an-annotator) `simple:`.
 The remainder of such a string is expected to contain a Simple Language key, and so the text range is stored as a `FoldingDescriptor`.

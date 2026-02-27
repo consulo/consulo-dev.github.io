@@ -6,7 +6,10 @@ title: Publishing a Plugin
 When your plugin is ready, you can publish it to a plugin repository so that other users can install it.
 You can publish it on the [Consulo Plugin Repository](https://plugins.consulo.app).
 
-> **TIP** Please see [Marketing](/appendix/resources/marketing.md) for remarks on how to prepare your plugin for optimal presentation.
+::: tip
+Please see [Marketing](/appendix/resources/marketing.md) for remarks on how to prepare your plugin for optimal presentation.
+:::
+
 
 ### Publishing to the Consulo Plugin Repository
 To upload your plugin to the [Consulo Plugin Repository](https://plugins.consulo.app), you must log in with your account.

@@ -6,8 +6,6 @@ title: 8. Line Marker Provider
 Line markers help annotate code with icons on the gutter.
 These markers can provide navigation targets to related code.
 
-* bullet list
-{:toc}
 
 ## 8.1. Define a Line Marker Provider
 A line marker provider annotates usages of Simple Language properties within Java code and provides navigation to the definition of these properties.
@@ -87,7 +85,7 @@ The `collectNavigationMarkers()` method should:
   For example, do not return method marker for `PsiMethod`.
   Instead, return it for the `PsiIdentifier` which contains the name of the method.
 
-![Line Marker Location](img/line_marker_location.png){:width="900px"}
+<img src="./img/line_marker_location.png" alt="Line Marker Location" width="900" />
 
 What happens when a `LineMarkerProvider` returns marker information for a `PsiElement` that is a higher node in the PSI tree?
 For example, if `MyWrongLineMarkerProvider()` erroneously returns a `PsiMethod` instead of a `PsiIdentifier` element:

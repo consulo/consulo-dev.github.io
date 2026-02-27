@@ -40,7 +40,10 @@ The interface provides a single method:
 
 - `getFileData(@Nullable Project project, @Nonnull VirtualFile file)` -- returns the calculated or cached data for the given file in the given project. Pass `null` for `project` if the data is project-independent.
 
-> **NOTE** Every call to `getFileData()` involves a disk access. Clients that access gists frequently should implement their own caching layer. The data is calculated on demand when first requested, so requesting data for many files at once can take some time on the first query. If that is unacceptable from a UX perspective, consider using a file-based index instead.
+::: info
+Every call to `getFileData()` involves a disk access. Clients that access gists frequently should implement their own caching layer. The data is calculated on demand when first requested, so requesting data for many files at once can take some time on the first query. If that is unacceptable from a UX perspective, consider using a file-based index instead.
+:::
+
 
 ### Creating a VirtualFileGist
 

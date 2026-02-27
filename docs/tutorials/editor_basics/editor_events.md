@@ -12,15 +12,13 @@ Two classes from the editor_basics code sample are used to illustrate:
 
 The tutorial presents the following sections:
 
-* bullet list
-{:toc}
 
 ## Using an Consulo EditorActionHandler
 In this portion of the tutorial, the editor_basics code sample is used to demonstrate cloning an existing caret.
 A custom action class will use [`EditorActionManager`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/action/EditorActionManager.java) to access a specific [`EditorActionHandler`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/action/EditorActionHandler.java) for caret cloning.
 The `editor_basics` code sample adds an **Editor Add Caret** menu item to the editor context menu:
 
-![Editor Basics Menu](img/basics.png){:width="600px"}
+<img src="./img/basics.png" alt="Editor Basics Menu" width="600" />
 
 ### Creating the Menu Action Class
 The source code for the Java action class is `EditorHandlerIllustration`, a subclass of [`AnAction`](https://github.com/consulo/consulo/blob/master/modules/base/ui-ex-api/src/main/java/consulo/ui/ex/action/AnAction.java).

@@ -10,15 +10,13 @@ Every caret has a set of properties describing its position in one of several co
 This tutorial describes how to access information about the caret(s) in an editor.
 The tutorial presents the following sections:
 
-* bullet list
-{:toc}
 
 ## Introduction
 In this tutorial, the editor_basics code sample is used to explore caret positions.
 In particular, the **Caret Position** action added by `editor_basics` to the editor context menu is used to retrieve information about the current caret position.
 A keyboard shortcut can also initiate the action.
 
-![Editor Basics Menu](img/basics.png){:width="600px"}
+<img src="./img/basics.png" alt="Editor Basics Menu" width="600" />
 
 The source code for the Java class behind the menu action is `EditorAreaIllustration`.
 The focus of discussion will be the `EditorAreaIllustration.actionPerformed()` method.
@@ -56,7 +54,7 @@ The character "s" in the red box represents placing the cursor on that character
 It has the caret position of line 1, column 9, and Offset 28.
 More about caret [Offsets](#caret-offset) is discussed below.
 
-![Editor Coordinates](img/editor_coords.png){:width="800px"}
+<img src="./img/editor_coords.png" alt="Editor Coordinates" width="800" />
 
 The [Multiple Carets](/reference_guide/multiple_carets.md) documentation covers the subject of more than one caret in an Editor.
 For this tutorial, be aware there may be more than one caret in an [`Editor`](https://github.com/consulo/consulo/blob/master/modules/base/code-editor-api/src/main/java/consulo/codeEditor/Editor.java) at any given time.
@@ -77,7 +75,7 @@ The caret - a blue block - is placed on the letter "p" in "public."
 Using the `editor_basics` **Caret Position** action to inspect the caret, it is reported to be at Logical Position (5,0) - which is line 5, character 0 - the first character in the line.
 This means that caret Logical Position is not changed by Code Folding:
 
-![Caret Logical Position with Folding](img/logical_pos_folded.png){:width="800px"}
+<img src="./img/logical_pos_folded.png" alt="Caret Logical Position with Folding" width="800" />
 
 However, note that applying Code Folding _does change the reported Visual Position_ of the caret even if the Logical Position stays constant.
 More about [Visual Position](#caret-visual-position) is discussed below.
@@ -95,7 +93,7 @@ With the caret placed at the same character location as in previous tests, it is
 However, the Visual Position line number has increased by one!
 The comments on each line illustrate how the Soft Wrap portion of Logical line three is evaluated as Visual Position line four, as though it was a separate line.
 
-![Caret Visual Position with Soft-Wrap](img/vis_pos_soft_wrap.png){:width="800px"}
+<img src="./img/vis_pos_soft_wrap.png" alt="Caret Visual Position with Soft-Wrap" width="800" />
 
 The Logical and Visual Position objects for a caret are obtained from the `Caret` object, as shown in the code snippet below.
 
@@ -140,7 +138,7 @@ Note that the text is unidirectional in this example.
 In the Logical Position the caret leans forward, meaning it is associated with the succeeding character in the Logical line.
 For the Visual Position the caret leans right, indicating its association with the succeeding character in the Visual line.
 
-![Caret Column Position - Block Caret](img/caret_col_pos_block.png){:width="800px"}
+<img src="./img/caret_col_pos_block.png" alt="Caret Column Position - Block Caret" width="800" />
 
 <br>
 
@@ -185,7 +183,7 @@ The example below demonstrates the Offset of a caret placed at the first charact
 Note the Offset is 22, which is one greater than the number of visible characters on line zero, and the first character on line one.
 This apparent discrepancy is actually correct because the Offset includes the newline character for line zero.
 
-![Line 2 Caret Offset](img/caret_offset_l2.png){:width="800px"}
+<img src="./img/caret_offset_l2.png" alt="Line 2 Caret Offset" width="800" />
 
 
 ## Displaying Caret Positions

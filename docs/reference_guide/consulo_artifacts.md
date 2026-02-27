@@ -3,7 +3,10 @@ title: Consulo Artifacts Repositories
 ---
 <!-- Copyright 2000-2025 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-> **WARNING** When using additional repositories, make sure to use HTTPS always.
+::: warning
+When using additional repositories, make sure to use HTTPS always.
+:::
+
 
 Consulo maintains public repositories that host artifacts related to the Consulo Platform, such as binaries and source code.
 These repositories make artifacts more accessible for plugin developers.
